@@ -1,6 +1,7 @@
 from enum import Enum
 
 from homeassistant.components.binary_sensor import BinarySensorDeviceClass
+from homeassistant.components.sensor import SensorEntity, SensorDeviceClass # Added to handle sensors
 from homeassistant.const import EntityCategory
 
 DOMAIN = "somfy_protexial"
@@ -78,12 +79,12 @@ BINARY_SENSORS = [
         "icon_on": "mdi:battery-alert",
         "icon_off": "mdi:battery",
         "off_if": "ok",
-        "state_on": "Faible",
-        "state_off": "ok",
+        "state_on": "Vérifier la liste des éléments", # Amended to be clearer
+        "state_off": "OK",
     },
     {
         "id": "alarm",
-        "name": "Mouvement détecté",
+        "name": "Mouvement", # Amended to be clearer
         "device_class": BinarySensorDeviceClass.MOTION,
         "icon_on": "mdi:motion-sensor",
         "icon_off": "mdi:motion-sensor-off",
@@ -93,45 +94,45 @@ BINARY_SENSORS = [
     },
     {
         "id": "door",
-        "name": "Porte ou fenêtre",
+        "name": "Portes ou fenêtres", # Amended to be clearer
         "device_class": BinarySensorDeviceClass.DOOR,
         "icon_on": "mdi:door-open",
         "icon_off": "mdi:door-closed",
         "off_if": "ok",
-        "state_on": "Ouvert",
-        "state_off": "Fermé",
+        "state_on": "Ouvertes", # Amended to be clearer
+        "state_off": "Fermées", # Amended to be clearer
     },
     {
         "id": "box",
-        "name": "Boitier",
+        "name": "Centrale", # Amended to be clearer
         "device_class": BinarySensorDeviceClass.PROBLEM,
         "icon_on": "mdi:alert-circle",
         "icon_off": "mdi:check-circle",
         "off_if": "ok",
-        "state_on": "ko",
-        "state_off": "ok",
+        "state_on": "Problème", # Amended to be clearer
+        "state_off": "OK",
     },
     {
         "id": "radio",
-        "name": "Communication radio",
+        "name": "Comm Centrale <-> Capteurs", # Amended to be clearer
         "device_class": BinarySensorDeviceClass.CONNECTIVITY,
         "entity_category": EntityCategory.DIAGNOSTIC,
         "icon_on": "mdi:access-point",
         "icon_off": "mdi:access-point-off",
         "on_if": "ok",
-        "state_on": "ok",
-        "state_off": "ko",
+        "state_on": "OK",
+        "state_off": "Vérifier la liste des éléments",  # Amended to be clearer
     },
     {
         "id": "gsm",
-        "name": "Communication gsm",
+        "name": "Communication GSM", # Amended to be clearer
         "device_class": BinarySensorDeviceClass.CONNECTIVITY,
         "entity_category": EntityCategory.DIAGNOSTIC,
         "icon_on": "mdi:cellphone",
         "icon_off": "mdi:cellphone-off",
         "on_if": "gsm connect au rseau",  # Filtered: "GSM connecté au réseau"
-        "state_on": "ok",
-        "state_off": "ko",
+        "state_on": "OK", # Amended to be clearer
+        "state_off": "Pas de réseau", # Amended to be clearer
     },
     {
         "id": "camera",
@@ -143,5 +144,21 @@ BINARY_SENSORS = [
         "on_if": "enabled",
         "state_on": "Connectée",
         "state_off": "Non connectée",
+    },
+]
+# Added SENSOR platform for GSM Provider and GSM Signal Strength
+SENSORS = [
+    {
+        "id": "opegsm",
+        "name": "Opérateur GSM",
+        "device_class": SensorDeviceClass.ENUM,
+        "entity_category": EntityCategory.DIAGNOSTIC,
+        "icon": "mdi:signal",
+    },
+    {
+        "id": "recgsm",
+        "name": "Signal GSM (/5)",
+        "entity_category": EntityCategory.DIAGNOSTIC,
+        "icon": "mdi:signal-2g",
     },
 ]

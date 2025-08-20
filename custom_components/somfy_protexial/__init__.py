@@ -46,6 +46,7 @@ PLATFORMS = [
     Platform.BINARY_SENSOR,
     Platform.COVER,
     Platform.LIGHT,
+    Platform.SENSOR, # Added SENSOR platform for GSM Provider and GSM Signal Strength
 ]
 
 
@@ -75,13 +76,28 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     await protexial.init()
 
-    async def _get_status():
+    async def _get_status(): # Amended to handle string data format
+        """Fetch data from API endpoint."""
         try:
-            status = await protexial.get_status()
-            _LOGGER.debug(status)
+            raw_status = await protexial.get_status()
+            _LOGGER.debug("Raw data received (initial format): %s", raw_status)
+            _LOGGER.debug("Type of data received: %s", type(raw_status))
+
+            # If the data is a string, parse it into a dictionary
+            if isinstance(raw_status, str):
+                parsed_status = {}
+                for item in raw_status.split(","):
+                    if ":" in item:
+                        key, value = item.split(":", 1)
+                        parsed_status[key.strip()] = value.strip().replace('"', '')
+                _LOGGER.debug("Parsed data (dictionary format): %s", parsed_status)
+                return parsed_status
+            
+            # If the data is already a dictionary-like object, return it directly
+            return raw_status
+
         except Exception as err:
             raise UpdateFailed(f"Error communicating with API: {err}")
-        return status
 
     coordinator = DataUpdateCoordinator(
         hass,
