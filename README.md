@@ -21,6 +21,11 @@ Modèles testés:
 | Protexial      | `2010 (v8_1)`   | :white_check_mark: |
 | Protexiom      | `2008`          | :white_check_mark: |
 
+Modèles testés pour la liste des éléments et leur status associés :
+| Modèle         | Version         | Statut             |
+| -------------- | --------------- | ------------------ |
+| Protexiom      | `2013 (v10_14)` | :white_check_mark: |
+
 L'intégration permet le pilotage:
 
 - de l'alarme par zones (A, B, C)
@@ -41,9 +46,27 @@ Les entités suivantes sont gérées:
 | `binary_sensor.porte_ou_fenetre`    | Etat d'ouvertue de porte ou fenêtre.                        |
 | `binary_sensor.camera`              | Etat de connexion de la caméra.                             |
 
+
+La liste des éléments crées des entités (sensors) avec des attriburs (attributes)
+| Entité                              | Description                                                                         |
+| ----------------------------------- | ----------------------------------------------------------------------------------- |
+| `binary_sensor.do_ouvt_xxx`         | Attributs batterie, lien avec la centrale, erreur, arrachement, ouvert/fermé, pause |
+| `binary_sensor.do_vitre_ouvt_xxx`   | Attributs batterie, lien avec la centrale, erreur, arrachement, ouvert/fermé, pause |
+| `binary_sensor.do_gar_xxx`          | Attributs batterie, lien avec la centrale, erreur, arrachement, ouvert/fermé, pause |
+| `binary_sensor.dm_image_mvt_xxx`    | Attributs batterie, lien avec la centrale, erreur, arrachement, pause               |
+| `binary_sensor.tr_tel_xxx`          | Attributs batterie, lien avec la centrale, erreur, arrachement, pause               |
+| `binary_sensor.clavier_clv_xxx`     | Attributs batterie, lien avec la centrale, erreur, arrachement, pause               |  
+| `binary_sensor.cl_lcd_clv_xxx`      | Attributs batterie, lien avec la centrale, erreur, arrachement, pause               |  
+| `binary_sensor.sir_ext_xxx`         | Attributs batterie, lien avec la centrale, erreur, arrachement, pause               |  
+| `binary_sensor.sir_int_xxx`         | Attributs batterie, lien avec la centrale, erreur, arrachement, pause               |  
+| `binary_sensor.d_fumee_fumee_xxx`   | Attributs batterie, lien avec la centrale, erreur, pause                            |  
+| `binary_sensor.tc_multi_tlcmd_xxx`  | Attributs lien avec la centrale, pause                                              |
+| `binary_sensor.badge_bdg_axxx   `   | Attributs lien avec la centrale, pause                                              |
+
+
 ## Installation
 
-### Option A: Installation via HACS (recommandé)
+### Option A: Installation via HACS (recommandé)  - EN ATTENTE DE MERJE REQUEST AVEC LE REPOS ORIGINAL
 
 1. Ajouter ce repository GitHub à HACS
    - [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?category=integration&repository=somfy-protexial&owner=the8tre)
