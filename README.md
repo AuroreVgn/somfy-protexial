@@ -66,7 +66,7 @@ La liste des éléments crées des entités (sensors) avec des attriburs (attrib
 
 ## Installation
 
-### Option A: Installation via HACS (recommandé)  - EN ATTENTE DE MERJE REQUEST AVEC LE REPOS ORIGINAL
+### Option A: Installation via HACS (recommandé)  - EN ATTENTE DE MERGE REQUEST AVEC LE REPOS ORIGINAL
 
 1. Ajouter ce repository GitHub à HACS
    - [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?category=integration&repository=somfy-protexial&owner=the8tre)
