@@ -46,7 +46,7 @@ PLATFORMS = [
     Platform.BINARY_SENSOR,
     Platform.COVER,
     Platform.LIGHT,
-    Platform.SENSOR, # Added SENSOR platform for GSM Provider and GSM Signal Strength
+    Platform.SENSOR,  # Added SENSOR platform for GSM Provider and GSM Signal Strength
 ]
 
 
@@ -59,11 +59,6 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         hass.data.setdefault(DOMAIN, {})
 
     session = aiohttp_client.async_create_clientsession(hass)
-    _LOGGER.debug(f"CONF_URL:{entry.data.get(CONF_URL)}")
-    _LOGGER.debug(f"CONF_API_TYPE:{entry.data.get(CONF_API_TYPE)}")
-    _LOGGER.debug(f"CONF_USERNAME:{entry.data.get(CONF_USERNAME)}")
-    _LOGGER.debug(f"CONF_PASSWORD:{entry.data.get(CONF_PASSWORD)}")
-    _LOGGER.debug(f"CONF_CODES:{entry.data.get(CONF_CODES)}")
 
     protexial = SomfyProtexial(
         session=session,
@@ -76,26 +71,19 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     await protexial.init()
 
-    async def _get_status(): # Amended to handle string data format
-        """Fetch data from API endpoint."""
+    async def _get_status():
         try:
-            raw_status = await protexial.get_status()
-            _LOGGER.debug("Raw data received (initial format): %s", raw_status)
-            _LOGGER.debug("Type of data received: %s", type(raw_status))
-
-            # If the data is a string, parse it into a dictionary
-            if isinstance(raw_status, str):
-                parsed_status = {}
-                for item in raw_status.split(","):
-                    if ":" in item:
-                        key, value = item.split(":", 1)
-                        parsed_status[key.strip()] = value.strip().replace('"', '')
-                _LOGGER.debug("Parsed data (dictionary format): %s", parsed_status)
-                return parsed_status
-            
-            # If the data is already a dictionary-like object, return it directly
-            return raw_status
-
+            st = await protexial.get_status()
+            elements = await protexial.get_elements()  # ← AJOUT
+            # convertis Status -> dict si besoin
+            status_dict = {
+                "zoneA": st.zoneA, "zoneB": st.zoneB, "zoneC": st.zoneC,
+                "battery": st.battery, "radio": st.radio, "door": st.door,
+                "alarm": st.alarm, "box": st.box, "gsm": st.gsm,
+                "recgsm": st.recgsm, "opegsm": st.opegsm, "camera": st.camera,
+                "elements": elements,  # ← AJOUT
+            }
+            return status_dict
         except Exception as err:
             raise UpdateFailed(f"Error communicating with API: {err}")
 
@@ -164,14 +152,11 @@ async def async_migrate_entry(hass: HomeAssistant, config_entry: ConfigEntry):
         applyMigration = False
         new = None
         if config_entry.minor_version < 2:
-            # In config version 1.1 only Protexial ApiType was supported
-            # We can safely force the API to ApiType.PROTEXIAL
             new = {**config_entry.data}
             new[CONF_API_TYPE] = ApiType.PROTEXIAL
             applyMigration = True
 
         if config_entry.minor_version < 3:
-            # 1.3 introduces CONF_NIGHT_ZONES and CONF_HOME_ZONES
             new = {**config_entry.data} if new is None else new
 
             currentModes = config_entry.data[CONF_MODES]
