@@ -29,6 +29,7 @@ Modèles testés **pour la liste des éléments** et leur status associés :
 | Modèle         | Version         | Statut             |
 | -------------- | --------------- | ------------------ |
 | Protexiom ?    | `2013 (v10_14)` | :white_check_mark: |
+| Protexiom      | `2013 (v10_15)` | :white_check_mark: |
 
 L'intégration permet le pilotage:
 
