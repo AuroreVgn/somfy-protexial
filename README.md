@@ -87,7 +87,7 @@ L'intégration permet le pilotage:
 
 ### Option B: Installation manuelle - POUR INSTALLER CETTE VERSION
 
-1. Télécharger l'archive de la dernière version disponible: [somfy_protexial.zip](https://github.com/the8tre/somfy-protexial/releases/latest/download/somfy_protexial.zip)
+1. Télécharger l'archive de la dernière version disponible: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.0.0.zip)
 2. Localiser le répertoire contenant le fichier `configuration.yaml` dans votre installation de HA
 3. Si il n'y a pas de répertoire `custom_components` le créer
 4. Créer un répertoire `somfy_protexial` dans `custom_components`
