@@ -86,7 +86,7 @@ L'intégration permet le pilotage:
    - HACS :arrow_right: Intégrations :arrow_right: Somfy Protexial :arrow_right: Télécharger
 3. Redémarrer Home Assistant
 
-### Option B: Installation manuelle - POUR INSTALLER CETTE VERSION
+### Option B: Installation manuelle
 
 1. Télécharger l'archive de la dernière version disponible: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.0.0.zip)
 2. Localiser le répertoire contenant le fichier `configuration.yaml` dans votre installation de HA
