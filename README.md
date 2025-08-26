@@ -40,7 +40,7 @@ L'intégration permet le pilotage:
 #### Les entités suivantes sont gérées (v1.2.4 et v1.2.6)
 | Entité                              | Description                                                 | Version                                                    |
 | ----------------------------------- | ----------------------------------------------------------- |-----------------------------------------------------------|
-| `alarm_control_panel.alarme`        | Support des modes `armed_away`, `armed_home`, `armed_night` || 1.2.4                                                     |
+| `alarm_control_panel.alarme`        | Support des modes `armed_away`, `armed_home`, `armed_night` | 1.2.4                                                     |
 | `cover.volets`                      | Ouverture, fermeture et arrêt. Pas de contrôle de position. | 1.2.4                                                      |
 | `light.lumieres`                    | Allumé ou éteint (état maintenu par l'intégration).         | 1.2.4                                                      |
 | `binary_sensor.batterie`            | Etat aggrégé des batteries des éléments.                    | 1.2.4                                                      |
