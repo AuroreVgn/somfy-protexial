@@ -74,10 +74,10 @@ L'intégration permet le pilotage:
 
 ## Installation
 
-### Option A: Installation via HACS (recommandé) - EN ATTENTE DE MERGE AVEC LE REPOS ORIGINAL
+### Option A: Installation via HACS (recommandé)
 
 1. Ajouter ce repository GitHub à HACS
-   - [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?category=integration&repository=somfy-protexial&owner=the8tre)
+   - [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?category=integration&repository=somfy-protexial&owner=AuroreVgn)
      </br>ou manuellement
    - HACS :arrow_right: Intégrations :arrow_right: Menu '...' :arrow_right: Dépôts personnalisés
    - Dépôt: `https://github.com/the8tre/somfy-protexial`
