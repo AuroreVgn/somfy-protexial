@@ -80,7 +80,7 @@ L'intégration permet le pilotage:
    - [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?category=integration&repository=somfy-protexial&owner=AuroreVgn)
      </br>ou manuellement
    - HACS :arrow_right: Intégrations :arrow_right: Menu '...' :arrow_right: Dépôts personnalisés
-   - Dépôt: `https://github.com/the8tre/somfy-protexial`
+   - Dépôt: `https://github.com/AuroreVgn/somfy-protexial`
    - Catégorie: `Intégration`
 2. Télécharger l'intégration
    - HACS :arrow_right: Intégrations :arrow_right: Somfy Protexial :arrow_right: Télécharger
@@ -97,9 +97,9 @@ L'intégration permet le pilotage:
 
 ## Configuration
 
-- Ajouter l'intégration: [![Open your Home Assistant instance and start setting up a new integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=somfy_protexial) - EN ATTENTE DE MERGE REQUEST AVEC LE REPOS ORIGINAL
+- Ajouter l'intégration: [![Open your Home Assistant instance and start setting up a new integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=somfy_protexial)
   </br>
-  ou manuellement - POUR INSTALLER CETTE VERSION
+  ou manuellement
 - Paramètres :arrow_right: Appareils et services :arrow_right: + Ajouter une intégration :arrow_right: Somfy Protexial
 
 ### 1. Adresse de la centrale
