@@ -144,6 +144,10 @@ Certaines centrales fournissent leur version via cette url : http://192.168.1.23
 
 ⚠️ La centrale ne gérant qu'une seule session utilisateur à la fois il est nécesaire de désactiver temporairement l'intégration si vous voulez pouvoir utiliser l'interface web.
 
+### Utilisation de l'application mobile d'origine
+
+⚠️ L'utilisation de l'application mobile 'Somfy Alarme' reste possible même avec l'intégration active.
+
 ### Re-configuration de l'intégration
 
 L'intégration supporte la re-configuration à partie de l'interface graphique.
