@@ -93,7 +93,7 @@ BINARY_SENSORS = [
         "icon_on": "mdi:motion-sensor",
         "icon_off": "mdi:motion-sensor-off",
         "off_if": "ok",
-        "state_on": "Detecté",
+        "state_on": "Détecté",
         "state_off": "Non détecté",
     },
     {
