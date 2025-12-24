@@ -53,7 +53,7 @@ L'intégration permet le pilotage:
 | `sensor.signal_gsm_5`               | Puissance du signal GSM (/5)                                |[1.2.6](https://github.com/the8tre/somfy-protexial/pull/73) |
 | `sensor.operateur_gsma`             | Opérateur GSM                                               |[1.2.6](https://github.com/the8tre/somfy-protexial/pull/73) |
 
-#### Les entités (sensors) suivants sont créées avec des attributs (attriutes) et représente la liste des éléments de l'alarme (v2.0.0) :
+#### Les entités (sensors) suivants sont créées avec des attributs (attributes) et représente la liste des éléments de l'alarme (v2.0.0) :
 | Entité                              | Description -  Attributs                                                                                 | Version |
 | ----------------------------------- | -------------------------------------------------------------------------------------------------------- | --------|
 | `binary_sensor.do_ouvt_xxx`         | Ouverture de porte - Attributs batterie, lien avec la centrale, erreur, arrachement, ouvert/fermé, pause | 2.0.0   |
