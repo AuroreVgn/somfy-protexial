@@ -143,7 +143,7 @@ Certaines centrales fournissent leur version via cette url : http://192.168.1.23
 
 ### Utilisation de l'interface web d'origine
 
-⚠️ La centrale ne gérant qu'une seule session utilisateur à la fois il est nécesaire de désactiver temporairement l'intégration si vous voulez pouvoir utiliser l'interface web.
+⚠️ **La centrale ne gérant qu'une seule session utilisateur à la fois il est nécesaire de désactiver temporairement l'intégration si vous voulez pouvoir utiliser l'interface web.**
 
 ### Utilisation de l'application mobile d'origine
 
@@ -157,7 +157,7 @@ L'intégration supporte la re-configuration à partie de l'interface graphique.
 Si vous voulez contribuer :  [Contribution guidelines](CONTRIBUTING.md)
 
 ## Credits
-Le code a principalement été repris de [@Ludeeus](https://github.com/ludeeus) [integration_blueprint][integration_blueprint] template
+Le code a principalement été repris de [@Ludeeus](https://github.com/ludeeus) [integration_blueprint][integration_blueprint].
 
 ---
 
