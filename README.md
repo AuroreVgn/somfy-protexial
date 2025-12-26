@@ -58,6 +58,7 @@ L'intégration permet le pilotage:
 | ----------------------------------- | -------------------------------------------------------------------------------------------------------- | --------|
 | `binary_sensor.do_ouvt_xxx`         | Ouverture de porte - Attributs batterie, lien avec la centrale, erreur, arrachement, ouvert/fermé, pause | 2.0.0   |
 | `binary_sensor.do_vitre_ouvt_xxx`   | Ouverture de fenêtre avec détection de bris de vitre - Attributs batterie, lien avec la centrale, erreur, arrachement, ouvert/fermé, pause                    | 2.0.0   |
+| `binary_sensor.do_vitre_ouvt_xxx`   | Détecteur audiosonique de bris de vitres - Attributs batterie, lien avec la centrale, erreur, arrachement, ouvert/fermé, pause                    | 2.0.0   |
 | `binary_sensor.do_gar_xxx`          | Ouverture de porte de garage - Attributs batterie, lien avec la centrale, erreur, arrachement, ouvert/fermé, pause                    | 2.0.0   |
 | `binary_sensor.dm_image_mvt_xxx`    | Détecteur de mouvements avec prise d'imagesAttributs batterie, lien avec la centrale, erreur, arrachement, pause               | 2.0.0   |
 | `binary_sensor.dm_mvt_xxx`          | Détecteur de mouvements - Attributs batterie, lien avec la centrale, erreur, arrachement, pause               | 2.0.0   |
