@@ -11,7 +11,7 @@
 
 ## À propos
 
-🔀 Cette version 2.0.0 est un [Fork](https://github.com/the8tre/somfy-protexial) **de l’intégration originale**.
+🔀 Cette version 2.0.0 est un [Fork](https://github.com/the8tre/somfy-protexial) **de l’intégration originale de [the8tre] (https://github.com/the8tre)**.
 
 Cette intégration gère l'interface avec une centrale d'alarme Somfy Protexial, Protexiom ou Protexial IO.
 
@@ -157,7 +157,7 @@ L'intégration supporte la re-configuration à partie de l'interface graphique.
 Si vous voulez contribuer :  [Contribution guidelines](CONTRIBUTING.md)
 
 ## Credits
-Le code a principalement : [@Ludeeus](https://github.com/ludeeus) [integration_blueprint][integration_blueprint] template
+Le code a principalement été repris de [@Ludeeus](https://github.com/ludeeus) [integration_blueprint][integration_blueprint] template
 
 ---
 
