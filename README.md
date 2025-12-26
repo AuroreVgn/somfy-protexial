@@ -154,10 +154,10 @@ Certaines centrales fournissent leur version via cette url : http://192.168.1.23
 L'intégration supporte la re-configuration à partie de l'interface graphique.
 
 ## Les contributions sont les bienvenues !
-If you want to contribute to this please read the [Contribution guidelines](CONTRIBUTING.md)
+Si vous voulez contribuer :  [Contribution guidelines](CONTRIBUTING.md)
 
 ## Credits
-Code template was mainly taken from [@Ludeeus](https://github.com/ludeeus)'s [integration_blueprint][integration_blueprint] template
+Le code a principalement : [@Ludeeus](https://github.com/ludeeus) [integration_blueprint][integration_blueprint] template
 
 ---
 
