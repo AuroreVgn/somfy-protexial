@@ -8,6 +8,8 @@
 
 ![header](assets/header.png)
 
+## Info
+Depuis la version 2025.2.3, la reconfiguration depuis l'engrenage de la page de l'intégration provoque une erreur 500. Cependant, une configuration initiale (ou une suppression suivi d'un nouvel ajout) fonctionne parfaitement. 
 
 ## À propos
 
