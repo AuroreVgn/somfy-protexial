@@ -26,11 +26,9 @@ HTTP_TIMEOUT = 10
 
 LIST_ELEMENTS = "/fr/u_plistelmt.htm"
 LIST_ELEMENTS_PRINT = "/fr/p_ulistelem.htm"
+LIST_ELEMENTS_NOLANG = "/u_plistelmt.htm"  # variante vue sur d'autres firmwares sans le préfixe de langue
 LIST_ELEMENTS_ALT = "/fr/u_listelmt.htm"  # variante vue sur d'autres firmwares
-LIST_ELEMENTS_NOLANG = (
-    "/u_plistelmt.htm"  # variante vue sur d'autres firmwares sans le préfixe de langue
-)
-
+LIST_ELEMENTS_ALT_NOLANG = "/u_listelmt.htm"  # variante vue sur d'autres firmwares sans le préfixe de langue
 
 class SomfyError(str, Enum):
     WRONG_CODE = "(0x0B00)"
