@@ -107,6 +107,7 @@ L'intégration permet le pilotage:
 ### 1. Adresse de la centrale
 
 - Saisisser l'URL de l'interface web locale de votre centrale: `http://192.168.1.234` ou `http://192.168.1.234:9876`
+  </br>
   <img src="assets/welcome.png"  width="50%"><img src="assets/login_io.jpeg"  width="50%">
 
 ### 2. Identifiants de l'utilisateur
