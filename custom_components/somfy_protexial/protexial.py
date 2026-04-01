@@ -21,6 +21,7 @@ from .const import (
     LIST_ELEMENTS_PRINT,
     LIST_ELEMENTS_ALT,
     LIST_ELEMENTS_NOLANG,
+    LIST_ELEMENTS_ALT_NOLANG
 )
 
 from .protexial_api import ProtexialApi
