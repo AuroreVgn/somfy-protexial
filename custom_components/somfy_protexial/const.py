@@ -1,6 +1,7 @@
 from enum import Enum, auto
 
 from homeassistant.components.binary_sensor import BinarySensorDeviceClass
+
 # Added to handle sensors
 from homeassistant.components.sensor import SensorEntity, SensorDeviceClass
 from homeassistant.const import EntityCategory
@@ -23,10 +24,12 @@ CHALLENGE_REGEX = r"[A-F]{1}[1-5]{1}"
 
 HTTP_TIMEOUT = 10
 
-# DOUBLON AVEC LES FICHIERS xxx_api.py
 LIST_ELEMENTS = "/fr/u_plistelmt.htm"
 LIST_ELEMENTS_PRINT = "/fr/p_ulistelem.htm"
 LIST_ELEMENTS_ALT = "/fr/u_listelmt.htm"  # variante vue sur d'autres firmwares
+LIST_ELEMENTS_NOLANG = (
+    "/u_plistelmt.htm"  # variante vue sur d'autres firmwares sans le préfixe de langue
+)
 
 
 class SomfyError(str, Enum):
@@ -93,7 +96,7 @@ BINARY_SENSORS = [
         "icon_on": "mdi:motion-sensor",
         "icon_off": "mdi:motion-sensor-off",
         "off_if": "ok",
-        "state_on": "Détecté",
+        "state_on": "Detecté",
         "state_off": "Non détecté",
     },
     {

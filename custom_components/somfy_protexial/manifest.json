@@ -2,7 +2,7 @@
   "domain": "somfy_protexial",
   "name": "Somfy Protexial",
   "codeowners": [
-    "@the8tre"
+    "@the8tre", "@AuroreVgn"
   ],
   "config_flow": true,
   "dependencies": [],
@@ -15,5 +15,5 @@
   "requirements": [
     "pyquery==2.0.0"
   ],
-  "version": "2.0.0"
+  "version": "2.0.1-beta"
 }
