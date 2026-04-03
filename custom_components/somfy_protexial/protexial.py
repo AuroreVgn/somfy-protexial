@@ -490,6 +490,7 @@ class SomfyProtexial:
             LIST_ELEMENTS_ALT,
             LIST_ELEMENTS_PRINT,
             LIST_ELEMENTS_NOLANG,
+            LIST_ELEMENTS_ALT_NOLANG,
         ]
 
         html = None
