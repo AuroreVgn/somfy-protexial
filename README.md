@@ -8,10 +8,6 @@
 
 ![header](assets/header.png)
 
-## Info
-Depuis la version 2025.2.3, la reconfiguration depuis l'engrenage de la page de l'intégration provoque une erreur 500. Cependant, une configuration initiale (ou une suppression suivi d'un nouvel ajout) fonctionne parfaitement.
-Cette erreur est corrigée dans la version 2.0.3.
-
 ## À propos
 
 🔀 Cette version 2.0.0 est un [Fork](https://github.com/the8tre/somfy-protexial) **de l’intégration originale de [the8tre](https://github.com/the8tre)**.
@@ -78,18 +74,19 @@ L'intégration permet le pilotage:
 
 ## Installation
 
-### Option A: Installation via HACS (recommandé)
+### Option A : Installation via HACS (recommandé)
 
 1. Ajouter ce repository GitHub à HACS
-   - [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?category=integration&repository=somfy-protexial&owner=AuroreVgn) ou manuellement
-   - HACS :arrow_right: Intégrations :arrow_right: Menu '...' :arrow_right: Dépôts personnalisés
-   - Dépôt: `https://github.com/AuroreVgn/somfy-protexial`
-   - Catégorie: `Intégration`
-2. Télécharger l'intégration
+   - automatiquement [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?category=integration&repository=somfy-protexial&owner=AuroreVgn) <br />
+   - manuellement
+      - HACS :arrow_right: Intégrations :arrow_right: Menu '...' :arrow_right: Dépôts personnalisés
+      - Dépôt: `https://github.com/AuroreVgn/somfy-protexial`
+      - Catégorie: `Intégration`
+3. Télécharger l'intégration
    - HACS :arrow_right: Intégrations :arrow_right: Somfy Protexial :arrow_right: Télécharger
-3. Redémarrer Home Assistant
+4. Redémarrer Home Assistant
 
-### Option B: Installation manuelle
+### Option B : Installation manuelle
 
 1. Télécharger l'archive de la dernière version disponible: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.0.3.zip)
 2. Localiser le répertoire contenant le fichier `configuration.yaml` dans votre installation de HA
@@ -100,9 +97,7 @@ L'intégration permet le pilotage:
 
 ## Configuration
 
-- Ajouter l'intégration: [![Open your Home Assistant instance and start setting up a new integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=somfy_protexial)
-  </br>
-  ou manuellement
+- Ajouter l'intégration [![Open your Home Assistant instance and start setting up a new integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=somfy_protexial) ou manuellement
 - Paramètres :arrow_right: Appareils et services :arrow_right: + Ajouter une intégration :arrow_right: Somfy Protexial
 
 ### 1. Adresse de la centrale
