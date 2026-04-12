@@ -71,18 +71,34 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     await protexial.init()
 
+    last_status = None
+    last_elements = []
+
     async def _get_status():
+        nonlocal last_status, last_elements
         try:
             st = await protexial.get_status()
-            elements = await protexial.get_elements()  # ← AJOUT
-            # convertis Status -> dict si besoin
-            status_dict = {
-                "zoneA": st.zoneA, "zoneB": st.zoneB, "zoneC": st.zoneC,
-                "battery": st.battery, "radio": st.radio, "door": st.door,
-                "alarm": st.alarm, "box": st.box, "gsm": st.gsm,
-                "recgsm": st.recgsm, "opegsm": st.opegsm, "camera": st.camera,
-                "elements": elements,  # ← AJOUT
+            current_status = {
+                "zoneA": st.zoneA,
+                "zoneB": st.zoneB,
+                "zoneC": st.zoneC,
+                "battery": st.battery,
+                "radio": st.radio,
+                "door": st.door,
+                "alarm": st.alarm,
+                "box": st.box,
+                "gsm": st.gsm,
+                "recgsm": st.recgsm,
+                "opegsm": st.opegsm,
+                "camera": st.camera,
             }
+            _LOGGER.debug("new status: %s - old: %s", current_status, last_status)
+            if current_status != last_status:
+                _LOGGER.info("Status changed: %s - old: %s", current_status, last_status)
+                last_status = current_status
+                last_elements = await protexial.get_elements()
+
+            status_dict = {**current_status, "elements": last_elements}
             return status_dict
         except Exception as err:
             raise UpdateFailed(f"Error communicating with API: {err}")
