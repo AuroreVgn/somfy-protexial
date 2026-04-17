@@ -88,6 +88,7 @@ class SomfyProtexial:
         self.session = session
         self.cookie = None
         self.api = self.load_api(self.api_type)
+        self._last_elements_candidate = None
 
     async def __do_call(
         self,
@@ -493,7 +494,14 @@ class SomfyProtexial:
             LIST_ELEMENTS_ALT_NOLANG,
         ]
 
+        if self._last_elements_candidate is not None:
+            candidates = [
+                self._last_elements_candidate,
+                *[candidate for candidate in candidates if candidate != self._last_elements_candidate],
+            ]
+
         html = None
+        found_candidate = None
         for candidate in candidates:
             try:
                 resp = await self.__do_call("get", candidate)
@@ -517,12 +525,14 @@ class SomfyProtexial:
                 if html is None:
                     html = raw.decode("utf-8", errors="ignore")
 
-                # _LOGGER.debug("Elements page used: %s", candidate)
+                found_candidate = candidate
                 break  # success → exit loop
 
             except Exception:
-                # _LOGGER.debug("Failed attempt %s", candidate)
                 continue
+
+        if found_candidate is not None:
+            self._last_elements_candidate = found_candidate
 
         if html is None:
             # _LOGGER.debug("Could not find a valid elements page among: %s", candidates)
