@@ -32,11 +32,14 @@ LIST_ELEMENTS_ALT_NOLANG = "/u_listelmt.htm"  # variante vue sur d'autres firmwa
 
 class SomfyError(str, Enum):
     WRONG_CODE = "(0x0B00)"
-    MAX_LOGIN_ATTEMPS = "(0x0904)"
+    MAX_LOGIN_ATTEMPTS = "(0x0904)"
     WRONG_CREDENTIALS = "(0x0812)"
     SESSION_ALREADY_OPEN = "(0x0902)"
     NOT_AUTHORIZED = "(0x0903)"
     UNKNOWN_PARAMETER = "(0x1003)"
+    WRONG_CODE_ALT = "(0x1101)"
+    WRONG_CREDENTIALS_ALT = "(0x0901)"
+    UNEXPECTED_ERROR = "(0x0000)"
 
 
 class Zone(Enum):
@@ -54,7 +57,7 @@ class ApiType(str, Enum):
     PROTEXIAL = "protexial"
     PROTEXIOM = "protexiom"
     PROTEXIAL_IO = "protexial_io"
-
+    PROTEXIOM_ALT = "protexiom_alt"
 
 class Page(str, Enum):
     LOGIN = "login"

@@ -27,6 +27,7 @@ from .const import (
 from .protexial_api import ProtexialApi
 from .protexial_io_api import ProtexialIOApi
 from .protexiom_api import ProtexiomApi
+from .protexiom_alt_api import ProtexiomAltApi
 from .somfy_exception import SomfyException
 
 _LOGGER: logging.Logger = logging.getLogger(__name__)
@@ -207,15 +208,23 @@ class SomfyProtexial:
                         )
                     raise SomfyException("Too many login retries")
 
-                if code == SomfyError.WRONG_CREDENTIALS:
+                if code in (
+                                SomfyError.WRONG_CREDENTIALS,
+                                SomfyError.WRONG_CREDENTIALS_ALT,
+                            ):
                     raise SomfyException("Login failed: Wrong credentials")
-                if code == SomfyError.MAX_LOGIN_ATTEMPS:
+                if code == SomfyError.MAX_LOGIN_ATTEMPTS:
                     raise SomfyException("Login failed: Max attempt count reached")
-                if code == SomfyError.WRONG_CODE:
+                if code in (
+                                SomfyError.WRONG_CODE,
+                                SomfyError.WRONG_CODE_ALT,
+                            ):
                     raise SomfyException("Login failed: Wrong code")
                 if code == SomfyError.UNKNOWN_PARAMETER:
                     raise SomfyException("Command failed: Unknown parameter")
 
+                if code == SomfyError.UNEXPECTED_ERROR:
+                    raise SomfyException("Unexpected centrale error")
                 _LOGGER.error(preview)
                 raise SomfyException(f"Command failed: Unknown errorCode: {code}")
 
@@ -276,12 +285,15 @@ class SomfyProtexial:
             return ProtexialIOApi()
         elif api_type == ApiType.PROTEXIOM:
             return ProtexiomApi()
+        elif api_type == ApiType.PROTEXIOM_ALT:
+            return ProtexiomAltApi()
         elif api_type is not None:
-            raise SomfyException(f"Unknown api type: {type}")
+            raise SomfyException(f"Unknown api type: {api_type}")
+        return ProtexialApi()
 
     async def guess_and_set_api_type(self):
         """Try different API flavors until login/version pages match, then set api_type."""
-        for api_type in [ApiType.PROTEXIAL_IO, ApiType.PROTEXIAL, ApiType.PROTEXIOM]:
+        for api_type in [ApiType.PROTEXIAL_IO, ApiType.PROTEXIAL, ApiType.PROTEXIOM, ApiType.PROTEXIOM_ALT]:
             self.api = self.load_api(api_type)
             has_version_page = False
             # Some older systems don't have a version page
@@ -477,7 +489,7 @@ class SomfyProtexial:
         """Close cover."""
         form = self.api.get_close_cover_payload()
         response = await self.__do_call("post", Page.PILOTAGE, data=form)
-        print(await response.text(self.api.get_encoding()))
+        _LOGGER.debug(await response.text(self.api.get_encoding()))
 
     async def stop_cover(self):
         """Stop cover movement."""
