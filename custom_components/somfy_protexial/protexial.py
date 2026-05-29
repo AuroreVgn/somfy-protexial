@@ -332,6 +332,11 @@ class SomfyProtexial:
                 response = await self.session.get(
                     self.url + page, headers={}, allow_redirects=False
                 )
+                
+                _LOGGER.debug("Guess response status: %s", response.status)
+                _LOGGER.debug("Guess response headers: %s", response.headers)
+                _LOGGER.debug("Guess response URL: %s", response.real_url)
+                
             if response.status == 200:
                 response_body = await response.text(self.api.get_encoding())
                 _LOGGER.debug(
