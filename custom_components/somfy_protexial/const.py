@@ -164,4 +164,15 @@ SENSORS = [
         "name": "Signal GSM (/5)",
         "icon": "mdi:signal-2g",
     },
+    {
+        # Diagnostic entity mirroring Jeedom's lastCommunication/timeout
+        # info (checkAndUpdateCmdProtexiom()): timestamp of the last poll
+        # that successfully reached the centrale. Lets you spot a centrale
+        # that has stopped responding without having to read the logs.
+        "id": "last_sync",
+        "name": "Dernière synchronisation",
+        "device_class": SensorDeviceClass.TIMESTAMP,
+        "icon": "mdi:clock-check-outline",
+        "entity_category": EntityCategory.DIAGNOSTIC,
+    },
 ]
