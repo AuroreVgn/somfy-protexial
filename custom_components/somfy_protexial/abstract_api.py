@@ -52,3 +52,15 @@ class AbstractApi(ABC):
     @abstractmethod
     def get_stop_cover_payload(self):
         pass
+
+    @abstractmethod
+    def get_reset_battery_err_payload(self):
+        pass
+
+    @abstractmethod
+    def get_reset_alarm_err_payload(self):
+        pass
+
+    @abstractmethod
+    def get_reset_link_err_payload(self):
+        pass

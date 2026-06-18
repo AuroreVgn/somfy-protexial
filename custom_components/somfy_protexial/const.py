@@ -165,3 +165,26 @@ SENSORS = [
         "icon": "mdi:signal-2g",
     },
 ]
+
+# Buttons to acknowledge/reset the 3 "defaut" flags that the centrale never
+# clears on its own (defaut0/battery, defaut1/radio, defaut3/alarm). Each
+# "id" matches one-to-one with a SomfyProtexial.reset_xxx() coroutine name,
+# itself based on the Jeedom plugin's EraseDefault commands
+# (RESET_BATTERY_ERR / RESET_ALARM_ERR / RESET_LINK_ERR).
+BUTTONS = [
+    {
+        "id": "reset_battery_err",
+        "name": "Réinitialiser défaut piles",
+        "icon": "mdi:battery-off-outline",
+    },
+    {
+        "id": "reset_alarm_err",
+        "name": "Réinitialiser défaut alarme",
+        "icon": "mdi:alarm-light-off-outline",
+    },
+    {
+        "id": "reset_link_err",
+        "name": "Réinitialiser défaut liaison radio",
+        "icon": "mdi:access-point-off",
+    },
+]

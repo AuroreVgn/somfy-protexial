@@ -501,6 +501,51 @@ class SomfyProtexial:
         form = self.api.get_stop_cover_payload()
         await self.__do_call("post", Page.PILOTAGE, data=form)
 
+    async def __erase_default(self, form: dict):
+        """POST an EraseDefault command (reset battery/alarm/link default flags).
+
+        Per the Jeedom phpProtexiom client, these commands are posted to the
+        same page as the elements list (u_listelmt.htm), not to u_pilotage.htm.
+        The exact path varies with the centrale firmware/hw version:
+        with the "/fr/" prefix for Protexial/Protexial-IO style centrales
+        (LIST_ELEMENTS_ALT), without it for Protexiom-style ones
+        (LIST_ELEMENTS_ALT_NOLANG). We try the candidate most likely to match
+        first (based on the last successful get_elements() call, if any),
+        then fall back to the other one.
+        """
+        candidates = [LIST_ELEMENTS_ALT, LIST_ELEMENTS_ALT_NOLANG]
+        if self._last_elements_candidate in candidates:
+            candidates = [
+                self._last_elements_candidate,
+                *[c for c in candidates if c != self._last_elements_candidate],
+            ]
+
+        last_exception = None
+        for candidate in candidates:
+            try:
+                await self.__do_call("post", candidate, data=form)
+                return
+            except SomfyException as ex:
+                last_exception = ex
+                continue
+        if last_exception is not None:
+            raise last_exception
+
+    async def reset_battery_err(self):
+        """Acknowledge/reset the battery default flag (defaut0)."""
+        form = self.api.get_reset_battery_err_payload()
+        await self.__erase_default(form)
+
+    async def reset_alarm_err(self):
+        """Acknowledge/reset the alarm default flag (defaut3)."""
+        form = self.api.get_reset_alarm_err_payload()
+        await self.__erase_default(form)
+
+    async def reset_link_err(self):
+        """Acknowledge/reset the radio link default flag (defaut1)."""
+        form = self.api.get_reset_link_err_payload()
+        await self.__erase_default(form)
+
     async def get_elements(self) -> list[dict]:
         """Fetch and parse the elements page, returning a normalized list of dicts."""
         candidates = [
