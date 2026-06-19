@@ -90,6 +90,12 @@ class SomfyProtexial:
         self.cookie = None
         self.api = self.load_api(self.api_type)
         self._last_elements_candidate = None
+        # Last successfully parsed elements list. Used as a fallback when a
+        # poll returns an empty/garbled elements page (the same class of
+        # Somfy session bug already worked around for status.xml), so a
+        # transient bad read doesn't make every door/window sensor flip to
+        # "closed". See get_elements() below.
+        self._last_good_elements: list[dict] = []
 
     async def __do_call(
         self,
@@ -400,8 +406,65 @@ class SomfyProtexial:
         await self.__do_call("get", Page.LOGOUT, retry=False, login=False)
         self.cookie = None
 
-    async def get_status(self):
-        """Fetch and parse status.xml into a Status object."""
+    async def __with_session_retry(self, func, *args, **kwargs):
+        """Last-resort safety net mirroring Jeedom's
+        workaroundSomfySessionTimeoutBug().
+
+        Jeedom's phpProtexiom client wraps pullStatus(), pullElements() and
+        doAction() unconditionally: whatever error comes back from the HTTP
+        layer, it forces a fresh logout/login and retries the call once.
+
+        __do_call() above already retries internally for a few specific,
+        recognized conditions (redirect to the DEFAULT page, the
+        NOT_AUTHORIZED/SESSION_ALREADY_OPEN error codes). But anything else
+        - an HTTP error status, a timeout, a connection error, or an
+        unrecognized Somfy error code - is raised straight away as a
+        SomfyException with no retry, unlike the Jeedom reference plugin.
+
+        This wrapper closes that gap: on any SomfyException coming out of
+        the wrapped call, force a fresh login and retry the whole operation
+        exactly once before giving up.
+        """
+        try:
+            return await func(*args, **kwargs)
+        except SomfyException as ex:
+            _LOGGER.warning(
+                "Request failed (%s); forcing a fresh login and retrying "
+                "once (Jeedom-style session recovery)",
+                ex,
+            )
+            try:
+                await self.logout()
+            except SomfyException as logout_ex:
+                _LOGGER.debug(
+                    "Logout before retry failed (ignored): %s", logout_ex
+                )
+            self.cookie = None
+            await self.__login()
+            return await func(*args, **kwargs)
+
+    async def get_status(self, _retry_on_empty: bool = True):
+        """Fetch and parse status.xml into a Status object.
+
+        Public entry point: delegates to __get_status() wrapped in
+        __with_session_retry() (see above for why a second, coarser retry
+        layer is needed on top of __get_status()'s own empty-tag handling).
+        """
+        return await self.__with_session_retry(
+            self.__get_status, _retry_on_empty
+        )
+
+    async def __get_status(self, _retry_on_empty: bool = True):
+        """Fetch and parse status.xml into a Status object.
+
+        Some Protexial/Protexiom firmwares occasionally answer status.xml
+        with every field empty (instead of returning an HTTP/login error)
+        once a session has been kept open for a while. This is a known
+        Somfy firmware bug (also handled by the Jeedom plugin, which checks
+        the 'ALARM'/defaut3 tag and forces a fresh login when it is empty).
+        We replicate that workaround here: if defaut3 (alarm) comes back
+        empty, force a logout/login cycle and retry once.
+        """
         status_response = await self.__do_call(
             "get", Page.STATUS, login=False, authenticated=False
         )
@@ -435,6 +498,20 @@ class SomfyProtexial:
                     status.opegsm = filteredChildText
                 case "camera":
                     status.camera = filteredChildText
+
+        if _retry_on_empty and not status.alarm:
+            _LOGGER.warning(
+                "Empty status.xml received (known Somfy session bug), "
+                "forcing a fresh login and retrying once"
+            )
+            try:
+                await self.logout()
+            except SomfyException as ex:
+                _LOGGER.debug("Logout before retry failed (ignored): %s", ex)
+            self.cookie = None
+            await self.__login()
+            return await self.__get_status(_retry_on_empty=False)
+
         return status
 
     def filter_ascii(self, value) -> str:
@@ -466,42 +543,67 @@ class SomfyProtexial:
         return challenges
 
     async def arm(self, zone):
-        """Send ARM for the given zone."""
+        """Send ARM for the given zone (wrapped with the session-retry safety net)."""
+        await self.__with_session_retry(self.__arm, zone)
+
+    async def __arm(self, zone):
         form = self.api.get_arm_payload(zone)
         await self.__do_call("post", Page.PILOTAGE, data=form)
 
     async def disarm(self):
-        """Send DISARM."""
+        """Send DISARM (wrapped with the session-retry safety net)."""
+        await self.__with_session_retry(self.__disarm)
+
+    async def __disarm(self):
         form = self.api.get_disarm_payload()
         await self.__do_call("post", Page.PILOTAGE, data=form)
 
     async def turn_light_on(self):
-        """Turn light on."""
+        """Turn light on (wrapped with the session-retry safety net)."""
+        await self.__with_session_retry(self.__turn_light_on)
+
+    async def __turn_light_on(self):
         form = self.api.get_turn_light_on_payload()
         await self.__do_call("post", Page.PILOTAGE, data=form)
 
     async def turn_light_off(self):
-        """Turn light off."""
+        """Turn light off (wrapped with the session-retry safety net)."""
+        await self.__with_session_retry(self.__turn_light_off)
+
+    async def __turn_light_off(self):
         form = self.api.get_turn_light_off_payload()
         await self.__do_call("post", Page.PILOTAGE, data=form)
 
     async def open_cover(self):
-        """Open cover."""
+        """Open cover (wrapped with the session-retry safety net)."""
+        await self.__with_session_retry(self.__open_cover)
+
+    async def __open_cover(self):
         form = self.api.get_open_cover_payload()
         await self.__do_call("post", Page.PILOTAGE, data=form)
 
     async def close_cover(self):
-        """Close cover."""
+        """Close cover (wrapped with the session-retry safety net)."""
+        await self.__with_session_retry(self.__close_cover)
+
+    async def __close_cover(self):
         form = self.api.get_close_cover_payload()
         response = await self.__do_call("post", Page.PILOTAGE, data=form)
         _LOGGER.debug(await response.text(self.api.get_encoding()))
 
     async def stop_cover(self):
-        """Stop cover movement."""
+        """Stop cover movement (wrapped with the session-retry safety net)."""
+        await self.__with_session_retry(self.__stop_cover)
+
+    async def __stop_cover(self):
         form = self.api.get_stop_cover_payload()
         await self.__do_call("post", Page.PILOTAGE, data=form)
 
     async def get_elements(self) -> list[dict]:
+        """Fetch and parse the elements page (wrapped with the session-retry safety net)."""
+        return await self.__with_session_retry(self.__get_elements)
+
+    async def __get_elements(self) -> list[dict]:
         """Fetch and parse the elements page, returning a normalized list of dicts."""
         candidates = [
             LIST_ELEMENTS,
@@ -552,8 +654,15 @@ class SomfyProtexial:
             self._last_elements_candidate = found_candidate
 
         if html is None:
-            # _LOGGER.debug("Could not find a valid elements page among: %s", candidates)
-            return []
+            # Known Somfy session bug (same class as the empty status.xml
+            # case): no candidate page could be fetched/decoded at all.
+            # Keep the previous known-good list instead of returning []
+            # (which would make every door/window sensor report "closed").
+            _LOGGER.warning(
+                "Empty elements page received (known Somfy session bug), "
+                "keeping the last known door/window states"
+            )
+            return self._last_good_elements
 
         # Parse JS arrays
         def extract_array(name: str) -> list[str]:
@@ -578,6 +687,23 @@ class SomfyProtexial:
         item_pause = extract_array("item_pause")
 
         n = min(len(item_label), len(elt_name), len(elt_code))
+
+        # Defensive validation, mirroring the Jeedom reference client
+        # (phpProtexiom.class.php::pullElements(), which rejects the read
+        # entirely - without touching previously stored data - if no
+        # element is found or if any parsed array's length doesn't match).
+        # Here: if nothing was parsed, or the door/window flags are missing
+        # while we do have a previous known-good list, this is the same
+        # transient session-bug pattern as the empty status.xml case - keep
+        # the last known-good elements instead of wiping out every
+        # door/window sensor's state.
+        if n == 0 or (len(elt_porte) == 0 and self._last_good_elements):
+            _LOGGER.warning(
+                "Empty/incomplete elements page received (known Somfy "
+                "session bug), keeping the last known door/window states"
+            )
+            return self._last_good_elements
+
         elements: list[dict] = []
         for i in range(n):
             comm = elt_onde[i] if i < len(elt_onde) else "itemhidden"
@@ -597,4 +723,5 @@ class SomfyProtexial:
             elements.append(el)
 
         # _LOGGER.debug("Extracted elements (count=%d): %s", len(elements), elements[:3])
+        self._last_good_elements = elements
         return elements

@@ -93,8 +93,30 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
                 "camera": st.camera,
             }
             _LOGGER.debug("new status: %s - old: %s", current_status, last_status)
-            if current_status != last_status:
-                _LOGGER.info("Status changed: %s - old: %s", current_status, last_status)
+
+            status_changed = current_status != last_status
+
+            # Same strategy as the Jeedom plugin (protexiom.class.php /
+            # setStatusFromSpBrowser): besides refreshing the per-door/window
+            # element list whenever the global status changes, also force a
+            # refresh on every poll while at least one door/window is
+            # reported open. Without this, a door/window state change can be
+            # missed for several minutes because it doesn't necessarily
+            # change any of the global status.xml fields, so the per-zone
+            # list would otherwise only "catch up" whenever an unrelated
+            # field (GSM signal, etc.) happens to change.
+            #
+            # This costs one extra HTTP GET to the centrale per scan_interval
+            # *only* while something is open - negligible over a wired
+            # connection - and it does not draw on the door/window sensors'
+            # own batteries: they push their state to the centrale over
+            # radio asynchronously, and this call only reads back what the
+            # centrale already knows.
+            door_open = current_status.get("door") != "ok"
+
+            if status_changed or door_open:
+                if status_changed:
+                    _LOGGER.info("Status changed: %s - old: %s", current_status, last_status)
                 last_status = current_status
                 last_elements = await protexial.get_elements()
 
