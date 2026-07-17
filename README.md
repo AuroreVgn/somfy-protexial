@@ -69,7 +69,7 @@ L'intégration permet le pilotage:
 | `binary_sensor.d_fumee_fumee_xxx`   | Détecteur de fumée - Attributs batterie, lien avec la centrale, erreur, pause                            | 2.0.0   |  
 | `binary_sensor.tc_multi_tlcmd_xxx`  | Télécommande multi canaux - Attributs lien avec la centrale, pause                                              | 2.0.0   |
 | `binary_sensor.tc_4_tlcmd_xxx`      | Télécommande alarme multi zones - Attributs lien avec la centrale, pause                                              | 2.0.0   |
-| `binary_sensor.badge_bdg_axxx   `   | Badge - Attributs lien avec la centrale, pause                                              | 2.0.0   |
+| `binary_sensor.badge_bdg_axxx`   | Badge - Attributs lien avec la centrale, pause                                              | 2.0.0   |
 
 
 ## Installation
@@ -128,6 +128,10 @@ Interval de rafraîchissement: de 15 secondes à 1 heure, 60 secondes par défau
 <img src="assets/step3.png"  width="50%">
 
 ## À noter
+
+### Carte Home Assistant
+
+Une [carte](https://github.com/developpeurbox/somfy-protexial-card) a été développé spécialement pour cette intégration.
 
 ### Compatibilité de version
 
