@@ -10,7 +10,7 @@
 
 ## À propos
 
-🔀 Cette version 2.0.0 est un [Fork](https://github.com/the8tre/somfy-protexial) **de l’intégration originale de [the8tre](https://github.com/the8tre)**.
+🔀 Cette version 2.0.x est un [Fork](https://github.com/the8tre/somfy-protexial) **de l’intégration originale de [the8tre](https://github.com/the8tre)**.
 
 Cette intégration gère l'interface avec une centrale d'alarme Somfy Protexial, Protexiom ou Protexial IO.
 
