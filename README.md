@@ -19,16 +19,18 @@ Modèles testés :
 | -------------- | --------------- | ------------------ |
 | Protexial IO   | `2013 (v10_13)` | :white_check_mark: |
 | Protexiom 5000 | `2013 (v10_3)`  | :white_check_mark: |
-| Protexiom      | `2013 (v10_15)` | :white_check_mark: |
-| Protexiom ?    | `2013 (v10_14)` | :white_check_mark: |
+| Protexial      | `2013 (v10_15)` | :white_check_mark: |
+| Protexial      | `2013 (v10_14)` | :white_check_mark: |
 | Protexial      | `2010 (v8_1)`   | :white_check_mark: |
 | Protexiom      | `2008`          | :white_check_mark: |
 
 Modèles testés **pour la liste des éléments** et leur status associés :
 | Modèle         | Version         | Statut             |
 | -------------- | --------------- | ------------------ |
-| Protexiom ?    | `2013 (v10_14)` | :white_check_mark: |
-| Protexiom      | `2013 (v10_15)` | :white_check_mark: |
+| Protexial      | `2013 (v10_14)` | :white_check_mark: |
+| Protexial      | `2013 (v10_15)` | :white_check_mark: |
+
+Attention ! Un modèle non présent ici ne signifie pas que cela ne fonctionnera pas, juste qu'il n'a pas été testé ou ajouté faute de retours.
 
 L'intégration permet le pilotage:
 
