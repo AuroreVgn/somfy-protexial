@@ -21,6 +21,7 @@ from homeassistant.helpers.device_registry import CONNECTION_NETWORK_MAC
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.typing import ConfigType
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
+from homeassistant.util import dt as dt_util
 
 from .const import (
     API,
@@ -99,7 +100,17 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
                 last_status = current_status
                 last_elements = await protexial.get_elements()
 
-            status_dict = {**current_status, "elements": last_elements}
+            # Mirrors Jeedom's lastCommunication/timeout diagnostic (updated
+            # on every successful poll in checkAndUpdateCmdProtexiom()): a
+            # timestamp of the last successful exchange with the centrale,
+            # exposed as a dedicated diagnostic sensor (see const.py SENSORS
+            # "last_sync") so a non-responding centrale can be spotted
+            # without digging through the logs.
+            status_dict = {
+                **current_status,
+                "elements": last_elements,
+                "last_sync": dt_util.utcnow(),
+            }
             return status_dict
         except Exception as err:
             raise UpdateFailed(f"Error communicating with API: {err}")
