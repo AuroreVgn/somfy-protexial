@@ -92,8 +92,7 @@ class ProtexialSensor(CoordinatorEntity, SensorEntity):
         self._icon = sensor.get("icon")
         self._device_class = sensor.get("device_class")
         self._native_value = None
-        self._suggested_display_precision = sensor.get(
-            "suggested_display_precision")
+        self._suggested_display_precision = sensor.get("suggested_display_precision")
         if "entity_category" in sensor:
             self._attr_entity_category = sensor["entity_category"]
         self._attr_suggested_display_precision = sensor.get(
@@ -132,20 +131,28 @@ class ProtexialSensor(CoordinatorEntity, SensorEntity):
             # For these sensors, data comes from status.xml (dictified Status)
             value = (data or {}).get(self._sensor_id)
 
-            # recgsm -> int conversion
+            # recgsm -> convert "k0".."k5" or "0".."5" to int
             if self._sensor_id == "recgsm" and value is not None:
                 try:
+                    value = str(value).strip().lower()
+
+                    if value.startswith("k"):
+                        value = value[1:]
+
                     self._native_value = int(value)
-                except (ValueError, TypeError):
+
+                except ValueError, TypeError:
                     _LOGGER.warning(
-                        "Could not convert value '%s' for sensor '%s' to integer",
+                        "Unexpected GSM signal value '%s' for sensor '%s'",
                         value,
                         self._sensor_id,
                     )
                     self._native_value = None
+
             # opegsm -> strip quotes
             elif self._sensor_id == "opegsm" and value is not None:
                 self._native_value = str(value).replace('"', "").strip()
+
             else:
                 self._native_value = value
 
