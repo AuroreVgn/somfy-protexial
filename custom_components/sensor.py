@@ -131,22 +131,19 @@ class ProtexialSensor(CoordinatorEntity, SensorEntity):
             # For these sensors, data comes from status.xml (dictified Status)
             value = (data or {}).get(self._sensor_id)
 
-            # recgsm -> int conversion
+            # recgsm -> convert "k0".."k5" or "0".."5" to int
             if self._sensor_id == "recgsm" and value is not None:
                 try:
-                    text = str(value).strip()
-                    # Some firmwares send "k0", others "0"
-                    if text.lower().startswith("k"):
-                        text = text[1:]
-                    self._native_value = int(text)
-                    # _LOGGER.info(
-                    #    "SOMFY PROTEXIAL - Value is '%s' for sensor '%s'",
-                    #    value,
-                    #    self._sensor_id,
-                    # )
+                    value = str(value).strip().lower()
+
+                    if value.startswith("k"):
+                        value = value[1:]
+
+                    self._native_value = int(value)
+
                 except ValueError, TypeError:
                     _LOGGER.warning(
-                        "Could not convert value '%s' for sensor '%s' to integer",
+                        "Unexpected GSM signal value '%s' for sensor '%s'",
                         value,
                         self._sensor_id,
                     )
