@@ -160,7 +160,7 @@ class ProtexialAlarm(CoordinatorEntity, AlarmControlPanelEntity):
         if active_zones == self.home_zones:
             return AlarmControlPanelState.ARMED_HOME
 
-        return AlarmControlPanelState.UNKNOWN
+        return None
 
     async def async_alarm_disarm(self, code=None):
         """Disarm the alarm (requires code if configured)."""
