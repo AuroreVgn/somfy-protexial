@@ -19,51 +19,48 @@ Modèles testés :
 | -------------- | --------------- | ------------------ |
 | Protexial IO   | `2013 (v10_13)` | :white_check_mark: |
 | Protexiom 5000 | `2013 (v10_3)`  | :white_check_mark: |
-| Protexial      | `2013 (v10_15)` | :white_check_mark: |
+| Protexial      | `2013 (v10_13)` | :white_check_mark: |
 | Protexial      | `2013 (v10_14)` | :white_check_mark: |
+| Protexial      | `2013 (v10_15)` | :white_check_mark: |
 | Protexial      | `2010 (v7_9)`   | :white_check_mark: |
 | Protexial      | `2010 (v8_1)`   | :white_check_mark: |
-| Protexiom      | `2008`          | :white_check_mark: |
-
-Modèles testés **pour la liste des éléments** et leur status associés :
-| Modèle         | Version         | Statut             |
-| -------------- | --------------- | ------------------ |
-| Protexial      | `2013 (v10_14)` | :white_check_mark: |
-| Protexial      | `2013 (v10_15)` | :white_check_mark: |
-| Protexial      | `2010 (v7_9)`   | :white_check_mark: |
+| Protexiom      | `2008`          | en cours de validation |
 
 Attention ! Un modèle non présent ici ne signifie pas que cela ne fonctionnera pas, juste qu'il n'a pas été testé ou ajouté faute de retours.
 
-L'intégration permet le pilotage:
+L'intégration permet le pilotage :
 
 - de l'alarme par zones (A, B, C)
 - des volets roulants
 - des lumières
 
-#### Les entités suivantes sont gérées (v1.2.4 et v1.2.6)
+L'intégration permet également la réinitialisation des défauts (alarmes, liaisons et piles).
+
+#### Les entités suivantes sont gérées 
 | Entité                              | Description                                                 | Version                                                    |
 | ----------------------------------- | ----------------------------------------------------------- |-----------------------------------------------------------|
 | `alarm_control_panel.alarme`        | Support des modes `armed_away`, `armed_home`, `armed_night` | 1.2.4                                                     |
-| `cover.volets`                      | Ouverture, fermeture et arrêt. Pas de contrôle de position. | 1.2.4                                                      |
-| `light.lumieres`                    | Allumé ou éteint (état maintenu par l'intégration).         | 1.2.4                                                      |
-| `binary_sensor.batterie`            | Etat aggrégé des batteries des éléments.                    | 1.2.4                                                      |
-| `binary_sensor.boitier`             | Etat du boitier.                                            | 1.2.4                                                      |
+| `cover.volets`                      | Ouverture, fermeture et arrêt. Pas de contrôle de position  | 1.2.4                                                      |
+| `light.lumieres`                    | Allumé ou éteint (état maintenu par l'intégration)          | 1.2.4                                                      |
+| `binary_sensor.batterie`            | Etat aggrégé des batteries des éléments                     | 1.2.4                                                      |
+| `binary_sensor.boitier`             | Etat du boitier                                             | 1.2.4                                                      |
 | `binary_sensor.communication_radio` | Etat de la communication radio.                             | 1.2.4                                                      |
-| `binary_sensor.communication_gsm`   | Etat de la communication GSM.                               | 1.2.4                                                      |
-| `binary_sensor.mouvement_detecte`   | Etat de détection de mouvement.                             | 1.2.4                                                      |
-| `binary_sensor.porte_ou_fenetre`    | Etat d'ouvertue de porte ou fenêtre.                        | 1.2.4                                                      |
-| `binary_sensor.camera`              | Etat de connexion de la caméra.                             | 1.2.4                                                      |
-| `sensor.signal_gsm_5`               | Puissance du signal GSM (/5)                                |[1.2.6](https://github.com/the8tre/somfy-protexial/pull/73) |
-| `sensor.operateur_gsma`             | Opérateur GSM                                               |[1.2.6](https://github.com/the8tre/somfy-protexial/pull/73) |
+| `binary_sensor.communication_gsm`   | Etat de la communication GSM                                | 1.2.4                                                      |
+| `binary_sensor.mouvement_detecte`   | Etat de détection de mouvement                              | 1.2.4                                                      |
+| `binary_sensor.porte_ou_fenetre`    | Etat d'ouvertue de porte ou fenêtre                         | 1.2.4                                                      |
+| `binary_sensor.camera`              | Etat de connexion de la caméra                              | 1.2.4                                                      |
+| `sensor.signal_gsm_5`               | Puissance du signal GSM (/5)                                | 1.2.6                                                      |
+| `sensor.operateur_gsma`             | Opérateur GSM                                               | 1.2.6                                                      |
+| `sensor.alarme_derniere_sync`       | Denière synchronisation avec l'alarme                       | 2.0.7                                                      |
 
-#### Les entités (sensors) suivants sont créées avec des attributs (attributes) et représente la liste des éléments de l'alarme (v2.0.0) :
+#### Les entités (sensors) suivants sont créées avec des attributs (attributes) et représente la liste des éléments de l'alarme :
 | Entité                              | Description -  Attributs                                                                                 | Version |
 | ----------------------------------- | -------------------------------------------------------------------------------------------------------- | --------|
 | `binary_sensor.do_ouvt_xxx`         | Ouverture de porte - Attributs batterie, lien avec la centrale, erreur, arrachement, ouvert/fermé, pause | 2.0.0   |
 | `binary_sensor.do_vitre_ouvt_xxx`   | Ouverture de fenêtre avec détection de bris de vitre - Attributs batterie, lien avec la centrale, erreur, arrachement, ouvert/fermé, pause                    | 2.0.0   |
 | `binary_sensor.do_vitre_ouvt_xxx`   | Détecteur audiosonique de bris de vitres - Attributs batterie, lien avec la centrale, erreur, arrachement, ouvert/fermé, pause                    | 2.0.0   |
 | `binary_sensor.do_gar_xxx`          | Ouverture de porte de garage - Attributs batterie, lien avec la centrale, erreur, arrachement, ouvert/fermé, pause                    | 2.0.0   |
-| `binary_sensor.dm_image_mvt_xxx`    | Détecteur de mouvements avec prise d'imagesAttributs batterie, lien avec la centrale, erreur, arrachement, pause               | 2.0.0   |
+| `binary_sensor.dm_image_mvt_xxx`    | Détecteur de mouvements avec prise d'images - Attributs batterie, lien avec la centrale, erreur, arrachement, pause               | 2.0.0   |
 | `binary_sensor.dm_mvt_xxx`          | Détecteur de mouvements - Attributs batterie, lien avec la centrale, erreur, arrachement, pause               | 2.0.0   |
 | `binary_sensor.tr_tel_xxx`          | Centrale - Attributs batterie, lien avec la centrale, erreur, arrachement, pause               | 2.0.0   |
 | `binary_sensor.clavier_clv_xxx`     | Clavier - Attributs batterie, lien avec la centrale, erreur, arrachement, pause               | 2.0.0   |
@@ -75,6 +72,12 @@ L'intégration permet le pilotage:
 | `binary_sensor.tc_4_tlcmd_xxx`      | Télécommande alarme multi zones - Attributs lien avec la centrale, pause                                              | 2.0.0   |
 | `binary_sensor.badge_bdg_axxx`   | Badge - Attributs lien avec la centrale, pause                                              | 2.0.0   |
 
+#### Les boutons suivants sont gérés 
+| Entité                              | Description                                                 | Version                                                    |
+| ----------------------------------- | ----------------------------------------------------------- |-----------------------------------------------------------|
+| `button.reinitialiser_defaut_alarme`|  Réinitialisation des défauts d'alarmes (mouvement, ouverture, arrachement)  | 2.0.7                                                     |
+| `button.reinitialiser_defaut_liaison_radio`| Réinitialisation des défauts de lien entre la centrale et les éléments  | 2.0.7                                                      |
+| `button.reinitialiser_defaut_piles`| Réinitialisation des défauts piles    | 2.0.7                                                      
 
 ## Installation
 
