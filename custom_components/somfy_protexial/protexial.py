@@ -8,6 +8,7 @@ import unicodedata
 from urllib.parse import urlencode
 from xml.etree import ElementTree as ET
 from aiohttp import ClientError, ClientSession
+from openai import api_type
 from pyquery import PyQuery as pq
 
 from .const import (
@@ -21,7 +22,7 @@ from .const import (
     LIST_ELEMENTS_PRINT,
     LIST_ELEMENTS_ALT,
     LIST_ELEMENTS_NOLANG,
-    LIST_ELEMENTS_ALT_NOLANG
+    LIST_ELEMENTS_ALT_NOLANG,
 )
 
 from .protexial_api import ProtexialApi
@@ -215,16 +216,16 @@ class SomfyProtexial:
                     raise SomfyException("Too many login retries")
 
                 if code in (
-                                SomfyError.WRONG_CREDENTIALS,
-                                SomfyError.WRONG_CREDENTIALS_ALT,
-                            ):
+                    SomfyError.WRONG_CREDENTIALS,
+                    SomfyError.WRONG_CREDENTIALS_ALT,
+                ):
                     raise SomfyException("Login failed: Wrong credentials")
                 if code == SomfyError.MAX_LOGIN_ATTEMPTS:
                     raise SomfyException("Login failed: Max attempt count reached")
                 if code in (
-                                SomfyError.WRONG_CODE,
-                                SomfyError.WRONG_CODE_ALT,
-                            ):
+                    SomfyError.WRONG_CODE,
+                    SomfyError.WRONG_CODE_ALT,
+                ):
                     raise SomfyException("Login failed: Wrong code")
                 if code == SomfyError.UNKNOWN_PARAMETER:
                     raise SomfyException("Command failed: Unknown parameter")
@@ -299,7 +300,13 @@ class SomfyProtexial:
 
     async def guess_and_set_api_type(self):
         """Try different API flavors until login/version pages match, then set api_type."""
-        for api_type in [ApiType.PROTEXIAL_IO, ApiType.PROTEXIAL, ApiType.PROTEXIOM, ApiType.PROTEXIOM_ALT]:
+        for api_type in [
+            ApiType.PROTEXIAL_IO,
+            ApiType.PROTEXIAL,
+            ApiType.PROTEXIOM_ALT,
+            ApiType.PROTEXIOM,
+        ]:
+            _LOGGER.warning("Trying API detection: %s", api_type)
             self.api = self.load_api(api_type)
             has_version_page = False
             # Some older systems don't have a version page
@@ -321,13 +328,32 @@ class SomfyProtexial:
                     )
                     # Check if the challenge element is present
                     if challenge_element is not None:
-                        challenge = challenge_element.text()
-                        # Check that the challenge element looks fine
-                        if re.match(CHALLENGE_REGEX, challenge):
+                        challenge_text = challenge_element.text().strip()
+
+                        match = re.search(CHALLENGE_REGEX, challenge_text)
+                        _LOGGER.warning(
+                            "API %s raw challenge='%s'",
+                            api_type,
+                            challenge_text,
+                        )
+                        if match:
+                            challenge = match.group(0)
+
+                            _LOGGER.warning(
+                                "Detected API %s with challenge %s",
+                                api_type,
+                                challenge,
+                            )
+
                             self.api_type = api_type
                             return self.api_type
+
                         else:
-                            _LOGGER.debug(f"Challenge not recognized: {challenge}")
+                            _LOGGER.warning(
+                                "Challenge not recognized for %s: %s",
+                                api_type,
+                                challenge_text,
+                            )
         raise SomfyException("Couldn't detect the centrale type")
 
     async def do_guess_get(self, page) -> str:
@@ -338,11 +364,11 @@ class SomfyProtexial:
                 response = await self.session.get(
                     self.url + page, headers={}, allow_redirects=False
                 )
-                
+
                 _LOGGER.debug("Guess response status: %s", response.status)
                 _LOGGER.debug("Guess response headers: %s", response.headers)
                 _LOGGER.debug("Guess response URL: %s", response.real_url)
-                
+
             if response.status == 200:
                 response_body = await response.text(self.api.get_encoding())
                 _LOGGER.debug(
@@ -436,9 +462,7 @@ class SomfyProtexial:
             try:
                 await self.logout()
             except SomfyException as logout_ex:
-                _LOGGER.debug(
-                    "Logout before retry failed (ignored): %s", logout_ex
-                )
+                _LOGGER.debug("Logout before retry failed (ignored): %s", logout_ex)
             self.cookie = None
             await self.__login()
             return await func(*args, **kwargs)
@@ -450,9 +474,7 @@ class SomfyProtexial:
         __with_session_retry() (see above for why a second, coarser retry
         layer is needed on top of __get_status()'s own empty-tag handling).
         """
-        return await self.__with_session_retry(
-            self.__get_status, _retry_on_empty
-        )
+        return await self.__with_session_retry(self.__get_status, _retry_on_empty)
 
     async def __get_status(self, _retry_on_empty: bool = True):
         """Fetch and parse status.xml into a Status object.
@@ -661,7 +683,11 @@ class SomfyProtexial:
         if self._last_elements_candidate is not None:
             candidates = [
                 self._last_elements_candidate,
-                *[candidate for candidate in candidates if candidate != self._last_elements_candidate],
+                *[
+                    candidate
+                    for candidate in candidates
+                    if candidate != self._last_elements_candidate
+                ],
             ]
 
         html = None

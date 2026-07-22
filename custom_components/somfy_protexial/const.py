@@ -26,9 +26,14 @@ HTTP_TIMEOUT = 10
 
 LIST_ELEMENTS = "/fr/u_plistelmt.htm"
 LIST_ELEMENTS_PRINT = "/fr/p_ulistelem.htm"
-LIST_ELEMENTS_NOLANG = "/u_plistelmt.htm"  # variante vue sur d'autres firmwares sans le préfixe de langue
+LIST_ELEMENTS_NOLANG = (
+    "/u_plistelmt.htm"  # variante vue sur d'autres firmwares sans le préfixe de langue
+)
 LIST_ELEMENTS_ALT = "/fr/u_listelmt.htm"  # variante vue sur d'autres firmwares
-LIST_ELEMENTS_ALT_NOLANG = "/u_listelmt.htm"  # variante vue sur d'autres firmwares sans le préfixe de langue
+LIST_ELEMENTS_ALT_NOLANG = (
+    "/u_listelmt.htm"  # variante vue sur d'autres firmwares sans le préfixe de langue
+)
+
 
 class SomfyError(str, Enum):
     WRONG_CODE = "(0x0B00)"
@@ -58,6 +63,7 @@ class ApiType(str, Enum):
     PROTEXIOM = "protexiom"
     PROTEXIAL_IO = "protexial_io"
     PROTEXIOM_ALT = "protexiom_alt"
+
 
 class Page(str, Enum):
     LOGIN = "login"
