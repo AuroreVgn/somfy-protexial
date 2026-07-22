@@ -12,6 +12,10 @@
 
 🔀 Cette version 2.0.x est un [Fork](https://github.com/the8tre/somfy-protexial) **de l’intégration originale de [the8tre](https://github.com/the8tre)**.
 
+Les principaux objectifs de cette intégration sont d'anticiper : 
+- l'arrêt de la 2G en proposant une alternative fiable sans devoir tout changer pour alerter d'une intrusion (ou autre) directement via Home Assistant et l'application smartphone permettant la mise en place d'alertes critiques (ie. qui notifient même en silencieux).
+- [l'arrêt des serveurs Somfy Protexial/Protexiom](https://forum.hacf.fr/t/integration-custom-centrale-somfy-protexial/23589/223) (même si l'impact est à priori très limité).
+
 Cette intégration gère l'interface avec une centrale d'alarme Somfy Protexial, Protexiom ou Protexial IO.
 
 Modèles testés :
@@ -36,7 +40,7 @@ L'intégration permet le pilotage :
 
 L'intégration permet également la réinitialisation des défauts (alarmes, liaisons et piles).
 
-#### Les entités suivantes sont gérées 
+#### Les entités suivantes sont gérées :
 | Entité                              | Description                                                 | Version                                                    |
 | ----------------------------------- | ----------------------------------------------------------- |-----------------------------------------------------------|
 | `alarm_control_panel.alarme`        | Support des modes `armed_away`, `armed_home`, `armed_night` | 1.2.4                                                     |
@@ -72,11 +76,11 @@ L'intégration permet également la réinitialisation des défauts (alarmes, lia
 | `binary_sensor.tc_4_tlcmd_xxx`      | Télécommande alarme multi zones - Attributs lien avec la centrale, pause                                              | 2.0.0   |
 | `binary_sensor.badge_bdg_axxx`   | Badge - Attributs lien avec la centrale, pause                                              | 2.0.0   |
 
-#### Les boutons suivants sont gérés 
+#### Les boutons suivants sont gérés :
 | Entité                              | Description                                                 | Version                                                    |
 | ----------------------------------- | ----------------------------------------------------------- |-----------------------------------------------------------|
 | `button.reinitialiser_defaut_alarme`|  Réinitialisation des défauts d'alarmes (mouvement, ouverture, arrachement)  | 2.0.7                                                     |
-| `button.reinitialiser_defaut_liaison_radio`| Réinitialisation des défauts de lien entre la centrale et les éléments  | 2.0.7                                                      |
+| `button.reinitialiser_defaut_liaison_radio`| Réinitialisation des défauts de lien entre la centrale et les capteurs  | 2.0.7                                                      |
 | `button.reinitialiser_defaut_piles`| Réinitialisation des défauts piles    | 2.0.7                                                      
 
 ## Installation
@@ -95,7 +99,7 @@ L'intégration permet également la réinitialisation des défauts (alarmes, lia
 
 ### Option B : Installation manuelle
 
-1. Télécharger l'archive de la dernière version disponible: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.0.3.zip)
+1. Télécharger l'archive de la dernière version disponible: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.0.7.zip)
 2. Localiser le répertoire contenant le fichier `configuration.yaml` dans votre installation de HA
 3. Si il n'y a pas de répertoire `custom_components` le créer
 4. Créer un répertoire `somfy_protexial` dans `custom_components`
@@ -130,7 +134,7 @@ Les différents modes d'armement exploitent les zones définies par la configura
 
 Code d'armement: Si vous spécifiez un code celui-ci sera demandé lors de l'armement/désarmement.
 
-Interval de rafraîchissement: de 15 secondes à 1 heure, 60 secondes par défaut.
+Interval de rafraîchissement: de 15 secondes à 1 heure, 60 secondes par défaut (il n'est pas conseillé de mettre moins, sinon l'interface web de l'alarme a tendance à planter).
 
 <img src="assets/step3.png"  width="50%">
 
@@ -142,7 +146,7 @@ Une [carte](https://github.com/developpeurbox/somfy-protexial-card) a été dév
 
 ### Compatibilité de version
 
-La liste visible en haut de cette page n'est pas exhaustive, il est tout à fait possible que cette intégration soit compatible avec d'autres version de centrale Somfy. N'hésitez pas à m'en faire part si c'est le cas !
+La liste visible en haut de cette page n'est pas exhaustive, il est tout à fait possible que cette intégration soit compatible avec d'autres versions de la centrale Somfy. N'hésitez pas à m'en faire part si c'est le cas !
 
 👉🏻Un fil de discussion à ce sujet est disponible ici: [HACF - Intégration Custom: Centrale Somfy Protexial](https://forum.hacf.fr/t/integration-custom-centrale-somfy-protexial/23589/1)
 
