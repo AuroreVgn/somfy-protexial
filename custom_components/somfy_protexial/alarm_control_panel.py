@@ -138,6 +138,19 @@ class ProtexialAlarm(CoordinatorEntity, AlarmControlPanelEntity):
         if active_zones == Zone.NONE.value:
             return AlarmControlPanelState.DISARMED
 
+        # status.xml's "alarm" field (defaut3) is the centrale's own
+        # "Alarme déclenchée" flag (Jeedom's phpProtexiom client names it
+        # ALARM/"Alarm trggered OK/nok_int" and maps a dedicated "alarm"
+        # info cmd to it). While armed, if this flag is not "ok", the siren
+        # is actually sounding - report the dedicated TRIGGERED state
+        # rather than just the armed mode, so dashboards/automations can
+        # react to an active intrusion specifically. (While disarmed this
+        # flag can also reflect mere motion detection - already exposed
+        # separately as the "Mouvement" binary_sensor - so it's only
+        # treated as a real trigger here once a zone is actually armed.)
+        if val("alarm") not in (None, "ok"):
+            return AlarmControlPanelState.TRIGGERED
+
         if active_zones == Zone.ABC.value:
             return AlarmControlPanelState.ARMED_AWAY
 

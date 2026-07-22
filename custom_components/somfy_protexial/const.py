@@ -111,13 +111,18 @@ BINARY_SENSORS = [
         "state_off": "Fermées",  # Amended to be clearer
     },
     {
+        # Jeedom's reference plugin (phpProtexiom.class.php) maps this same
+        # status.xml tag (defaut4) to a dedicated "TAMPERED" info cmd with
+        # device_class SABOTAGE: it is the centrale's box self-protection
+        # (autoprotection) flag, not a generic problem flag. Renamed/
+        # reclassified accordingly (was "Centrale" / PROBLEM).
         "id": "box",
-        "name": "Centrale",  # Amended to be clearer
-        "device_class": BinarySensorDeviceClass.PROBLEM,
-        "icon_on": "mdi:alert-circle",
-        "icon_off": "mdi:check-circle",
+        "name": "Autoprotection",
+        "device_class": BinarySensorDeviceClass.TAMPER,
+        "icon_on": "mdi:shield-alert",
+        "icon_off": "mdi:shield-check",
         "off_if": "ok",
-        "state_on": "Problème",  # Amended to be clearer
+        "state_on": "Boîtier ouvert",
         "state_off": "OK",
     },
     {
