@@ -44,6 +44,7 @@ SCAN_INTERVAL = timedelta(seconds=20)
 PLATFORMS = [
     Platform.ALARM_CONTROL_PANEL,
     Platform.BINARY_SENSOR,
+    Platform.BUTTON,  # Added BUTTON platform for default reset buttons (battery/alarm/link)
     Platform.COVER,
     Platform.LIGHT,
     Platform.SENSOR,  # Added SENSOR platform for GSM Provider and GSM Signal Strength
