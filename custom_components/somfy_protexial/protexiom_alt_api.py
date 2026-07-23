@@ -74,3 +74,12 @@ class ProtexiomAltApi(AbstractApi):
 
     def get_stop_cover_payload(self):
         return {"hidden": "hidden", "action_vol_stop": ""}
+
+    def get_reset_battery_err_payload(self):
+        return {"efface": "Piles"}
+
+    def get_reset_alarm_err_payload(self):
+        return {"efface": "Alarmes"}
+
+    def get_reset_link_err_payload(self):
+        return {"efface": "Liaisons"}
