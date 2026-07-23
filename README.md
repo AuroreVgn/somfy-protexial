@@ -10,11 +10,11 @@
 
 ## À propos
 
-🔀 Cette version 2.0.x est un [Fork](https://github.com/the8tre/somfy-protexial) **de l’intégration originale de [the8tre](https://github.com/the8tre)**.
+🔀 Cette version 2.0.x est un [Fork](https://github.com/the8tre/somfy-protexial) **mis à jour** de l’intégration originale de [the8tre](https://github.com/the8tre).
 
 Les principaux objectifs de cette intégration sont d'anticiper : 
-- l'arrêt de la 2G en proposant une alternative fiable sans devoir tout changer pour alerter d'une intrusion (ou autre) directement via Home Assistant et l'application smartphone permettant la mise en place d'alertes critiques (ie. qui notifient même en silencieux).
-- [l'arrêt des serveurs Somfy Protexial/Protexiom](https://forum.hacf.fr/t/integration-custom-centrale-somfy-protexial/23589/223) (même si l'impact est à priori très limité).
+- l'**arrêt de la 2G** en proposant une alternative fiable sans devoir tout changer pour alerter d'une intrusion (ou autre) directement via Home Assistant et l'application smartphone permettant la mise en place d'alertes critiques (ie. qui notifient même en silencieux).
+- [l'**arrêt des serveurs Somfy Protexial/Protexiom**](https://forum.hacf.fr/t/integration-custom-centrale-somfy-protexial/23589/223) (même si l'impact est à priori très limité).
 
 Cette intégration gère l'interface avec une centrale d'alarme Somfy Protexial, Protexiom ou Protexial IO.
 
@@ -30,29 +30,31 @@ Modèles testés :
 | Protexial      | `2010 (v8_1)`   | :white_check_mark: |
 | Protexial      | `2008`          | 👷 |
 
-Attention ! Un modèle non présent ici ne signifie pas que cela ne fonctionnera pas, juste qu'il n'a pas été testé ou ajouté faute de retours.
+⚠️ Un modèle non présent ici ne signifie pas que cela ne fonctionnera pas, juste qu'il n'a pas été testé ou ajouté faute de retours.
 
-L'intégration permet le pilotage :
+🔎 L'intégration permet la visualisation de l'état de l'alarme et de ces éléments.
 
-- de l'alarme par zones (A, B, C)
-- des volets roulants
-- des lumières
+👉🏻 L'intégration permet le pilotage :
 
-L'intégration permet également la réinitialisation des défauts (alarmes, liaisons et piles).
+- 🚨 de l'alarme par zones (A, B, C)
+- 🪟 des volets roulants
+- 💡des lumières
+
+🔃 L'intégration permet également la réinitialisation des défauts (alarmes, liaisons et piles).
 
 #### Les entités suivantes sont gérées :
 | Entité                              | Description                                                 | Version                                                    |
 | ----------------------------------- | ----------------------------------------------------------- |-----------------------------------------------------------|
 | `alarm_control_panel.alarme`        | Support des modes `armed_away`, `armed_home`, `armed_night` | 1.2.4                                                     |
 | `cover.volets`                      | Ouverture, fermeture et arrêt. Pas de contrôle de position  | 1.2.4                                                      |
-| `light.lumieres`                    | Allumé ou éteint (état maintenu par l'intégration)          | 1.2.4                                                      |
-| `binary_sensor.batterie`            | Etat aggrégé des batteries des éléments                     | 1.2.4                                                      |
-| `binary_sensor.boitier`             | Etat du boitier                                             | 1.2.4                                                      |
-| `binary_sensor.communication_radio` | Etat de la communication radio.                             | 1.2.4                                                      |
-| `binary_sensor.communication_gsm`   | Etat de la communication GSM                                | 1.2.4                                                      |
-| `binary_sensor.mouvement_detecte`   | Etat de détection de mouvement                              | 1.2.4                                                      |
-| `binary_sensor.porte_ou_fenetre`    | Etat d'ouvertue de porte ou fenêtre                         | 1.2.4                                                      |
-| `binary_sensor.camera`              | Etat de connexion de la caméra                              | 1.2.4                                                      |
+| `light.lumieres`                    | Allumé ou éteint (état maintenu par l'intégration : ne permet pas de savoir si les lumières ont été allumées/éteintes avec un autre moyen (télécommande, bouton, autre intégration))          | 1.2.4                                                      |
+| `binary_sensor.batterie`            | État aggrégé des batteries des éléments                     | 1.2.4                                                      |
+| `binary_sensor.boitier`             | État du boîtier                                             | 1.2.4                                                      |
+| `binary_sensor.communication_radio` | État de la communication radio.                             | 1.2.4                                                      |
+| `binary_sensor.communication_gsm`   | État de la communication GSM                                | 1.2.4                                                      |
+| `binary_sensor.mouvement_detecte`   | État de détection de mouvement                              | 1.2.4                                                      |
+| `binary_sensor.porte_ou_fenetre`    | État d'ouvertue de porte ou fenêtre                         | 1.2.4                                                      |
+| `binary_sensor.camera`              | État de connexion de la caméra                              | 1.2.4                                                      |
 | `sensor.signal_gsm_5`               | Puissance du signal GSM (/5)                                | 1.2.6                                                      |
 | `sensor.operateur_gsma`             | Opérateur GSM                                               | 1.2.6                                                      |
 | `sensor.alarme_derniere_sync`       | Denière synchronisation avec l'alarme                       | 2.0.7                                                      |
@@ -75,6 +77,14 @@ L'intégration permet également la réinitialisation des défauts (alarmes, lia
 | `binary_sensor.tc_multi_tlcmd_xxx`  | Télécommande multi canaux - Attributs lien avec la centrale, pause                                              | 2.0.0   |
 | `binary_sensor.tc_4_tlcmd_xxx`      | Télécommande alarme multi zones - Attributs lien avec la centrale, pause                                              | 2.0.0   |
 | `binary_sensor.badge_bdg_axxx`   | Badge - Attributs lien avec la centrale, pause                                              | 2.0.0   |
+
+Les attributs sont visibles dans le menus "Détails"
+
+<img width="160" height="243" alt="image" src="https://github.com/user-attachments/assets/1fd0de09-5f3e-4dc0-b147-bb55593adf45" />
+
+
+<img width="526" height="301" alt="image" src="https://github.com/user-attachments/assets/50ad793d-bddc-44b5-915a-b569b7cb5050" />
+
 
 #### Les boutons suivants sont gérés :
 | Entité                              | Description                                                 | Version                                                    |
@@ -119,7 +129,7 @@ L'intégration permet également la réinitialisation des défauts (alarmes, lia
 
 ### 2. Identifiants de l'utilisateur
 
-- Utilisateur : `"u"`, conserver la valeur pré-remplie
+- Utilisateur : `"u"`, **conserver la valeur pré-remplie**
 - Mot de passe : Saisir le mot de passe habituellement utilisé
 - Code : Saisir le code de la carte d'authentification correspondant au challenge demandé
   <img src="assets/step2.png"  width="50%">
@@ -128,19 +138,19 @@ L'intégration permet également la réinitialisation des défauts (alarmes, lia
 
 Les différents modes d'armement exploitent les zones définies par la configuration de la centrale Somfy:
 
-- Armement en absence (toujours configuré) : Zones A+B+C
-- Armement pour la nuit (optionnel) : Zones au choix (A, B, C, A+B, B+C, A+C)
-- Armement en présence (optionnel) : Zones au choix (A, B, C, A+B, B+C, A+C)
+- Armement en absence (toujours configuré) : zones A+B+C
+- Armement pour la nuit (optionnel) : zones au choix (A, B, C, A+B, B+C, A+C)
+- Armement en présence (optionnel) : zones au choix (A, B, C, A+B, B+C, A+C)
 
-Code d'armement: Si vous spécifiez un code celui-ci sera demandé lors de l'armement/désarmement.
+Code d'armement : si vous spécifiez un code celui-ci sera demandé lors de l'armement/désarmement.
 
-Interval de rafraîchissement: de 15 secondes à 1 heure, 60 secondes par défaut (il n'est pas conseillé de mettre moins, sinon l'interface web de l'alarme a tendance à planter).
+Interval de rafraîchissement : de 15 secondes à 1 heure, 60 secondes par défaut (il n'est pas conseillé de mettre moins, sinon l'interface web de l'alarme a tendance à planter).
 
 <img src="assets/step3.png"  width="50%">
 
 ## À noter
 
-### Carte Home Assistant
+### Carte Lovelace pour Home Assistant
 
 Une [carte](https://github.com/developpeurbox/somfy-protexial-card) a été développé spécialement pour cette intégration.
 
@@ -151,9 +161,9 @@ La liste visible en haut de cette page n'est pas exhaustive, il est tout à fait
 👉🏻Un fil de discussion à ce sujet est disponible ici: [HACF - Intégration Custom: Centrale Somfy Protexial](https://forum.hacf.fr/t/integration-custom-centrale-somfy-protexial/23589/1)
 
 L'année de l'interface de votre centrale apparait en bas des pages:</br>
-<img src="assets/version.png"  width="40%">
+<img src="assets/version.png"  width="30%">
 
-Certaines centrales fournissent leur version via cette url : http://192.168.1.234/cfg/vers ou http://192.168.1.234:9876/cfg/vers
+Certaines centrales fournissent leur version via cette URL : *http://192.168.1.234/cfg/vers* ou *http://192.168.1.234:9876/cfg/vers*
 
 ### Utilisation de l'interface web d'origine
 
