@@ -201,6 +201,12 @@ class SomfyProtexial:
                             login=False,
                             authenticated=False,
                         )
+                        _LOGGER.error(
+                            "Somfy ERROR received for request: %s %s (code=%s)",
+                            method,
+                            full_path,
+                            code,
+                        )
                         self.cookie = None
                         if login:
                             await self.__login()
@@ -230,9 +236,6 @@ class SomfyProtexial:
                     raise SomfyException("Login failed: Wrong code")
                 if code == SomfyError.UNKNOWN_PARAMETER:
                     raise SomfyException("Command failed: Unknown parameter")
-
-                if code == SomfyError.INSUFFICIENT_PERMISSIONS:
-                    raise SomfyException("Insufficient access rights")
 
                 if code == SomfyError.UNEXPECTED_ERROR:
                     raise SomfyException("Unexpected centrale error")
