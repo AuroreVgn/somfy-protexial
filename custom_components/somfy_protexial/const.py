@@ -20,7 +20,7 @@ API = "api"
 COORDINATOR = "coordinator"
 DEVICE_INFO = "device_info"
 
-CHALLENGE_REGEX = r"[A-F]{1}[1-5]{1}"
+CHALLENGE_REGEX = r"\b[A-F][1-5]\b"
 
 HTTP_TIMEOUT = 10
 
@@ -44,6 +44,8 @@ class SomfyError(str, Enum):
     UNKNOWN_PARAMETER = "(0x1003)"
     WRONG_CODE_ALT = "(0x1101)"
     WRONG_CREDENTIALS_ALT = "(0x0901)"
+    WRONG_CREDENTIALS_2_ALT = "(0x0810)"
+    INSUFFICIENT_PERMISSIONS_ALT = "(0x0903)"
     UNEXPECTED_ERROR = "(0x0000)"
 
 

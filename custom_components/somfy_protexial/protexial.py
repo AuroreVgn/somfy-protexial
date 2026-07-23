@@ -218,6 +218,7 @@ class SomfyProtexial:
                 if code in (
                     SomfyError.WRONG_CREDENTIALS,
                     SomfyError.WRONG_CREDENTIALS_ALT,
+                    SomfyError.WRONG_CREDENTIALS_2_ALT,
                 ):
                     raise SomfyException("Login failed: Wrong credentials")
                 if code == SomfyError.MAX_LOGIN_ATTEMPTS:
@@ -230,9 +231,13 @@ class SomfyProtexial:
                 if code == SomfyError.UNKNOWN_PARAMETER:
                     raise SomfyException("Command failed: Unknown parameter")
 
+                if code == SomfyError.INSUFFICIENT_PERMISSIONS:
+                    raise SomfyException("Insufficient access rights")
+
                 if code == SomfyError.UNEXPECTED_ERROR:
                     raise SomfyException("Unexpected centrale error")
                 _LOGGER.error(preview)
+
                 raise SomfyException(f"Command failed: Unknown errorCode: {code}")
 
             # Normal success
@@ -405,10 +410,26 @@ class SomfyProtexial:
         login_response = await self.__do_call("get", Page.LOGIN, login=False)
         dom = pq(await login_response.text(self.api.get_encoding()))
         challenge_element = dom(self.api.get_selector(Selector.LOGIN_CHALLENGE))
-        if challenge_element:
-            return challenge_element.text()
-        else:
+
+        if not challenge_element:
             raise SomfyException("Challenge not found")
+
+        challenge_text = challenge_element.text().strip()
+
+        # Extract challenge coordinate (e.g. A1, D5, E2...) even if the page
+        # contains additional text such as "Code d'authentification E5".
+        match = re.search(CHALLENGE_REGEX, challenge_text)
+
+        if match:
+            challenge = match.group(0)
+            _LOGGER.debug(
+                "Challenge detected: %s (raw='%s')", challenge, challenge_text
+            )
+            return challenge
+
+        raise SomfyException(
+            f"Challenge not recognized (raw value: '{challenge_text}')"
+        )
 
     async def __login(self, username=None, password=None, code=None):
         """Perform login and store the session cookie."""
