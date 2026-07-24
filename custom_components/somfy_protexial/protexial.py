@@ -317,51 +317,59 @@ class SomfyProtexial:
             _LOGGER.warning("Trying API detection: %s", api_type)
             self.api = self.load_api(api_type)
             has_version_page = False
-            # Some older systems don't have a version page
-            versionPage = self.api.get_page(Page.VERSION)
-            if versionPage is not None:
-                has_version_page = True
-                version_body = await self.do_guess_get(versionPage)
+            try:
+                # Some older systems don't have a version page
+                versionPage = self.api.get_page(Page.VERSION)
+                if versionPage is not None:
+                    has_version_page = True
+                    version_body = await self.do_guess_get(versionPage)
 
-            # Either the system doesn't have a version page, or the page was successfully retrieved
-            if not has_version_page or version_body is not None:
-                # Now check the login page
-                loginPage = self.api.get_page(Page.LOGIN)
-                login_body = await self.do_guess_get(loginPage)
-                if login_body is not None:
-                    # The system has a login page
-                    dom = pq(login_body)
-                    challenge_element = dom(
-                        self.api.get_selector(Selector.LOGIN_CHALLENGE)
-                    )
-                    # Check if the challenge element is present
-                    if challenge_element is not None:
-                        challenge_text = challenge_element.text().strip()
-
-                        match = re.search(CHALLENGE_REGEX, challenge_text)
-                        _LOGGER.warning(
-                            "API %s raw challenge='%s'",
-                            api_type,
-                            challenge_text,
+                # Either the system doesn't have a version page, or the page was successfully retrieved
+                if not has_version_page or version_body is not None:
+                    # Now check the login page
+                    loginPage = self.api.get_page(Page.LOGIN)
+                    login_body = await self.do_guess_get(loginPage)
+                    if login_body is not None:
+                        # The system has a login page
+                        dom = pq(login_body)
+                        challenge_element = dom(
+                            self.api.get_selector(Selector.LOGIN_CHALLENGE)
                         )
-                        if match:
-                            challenge = match.group(0)
+                        # Check if the challenge element is present
+                        if challenge_element is not None:
+                            challenge_text = challenge_element.text().strip()
 
+                            match = re.search(CHALLENGE_REGEX, challenge_text)
                             _LOGGER.warning(
-                                "Detected API %s with challenge %s",
-                                api_type,
-                                challenge,
-                            )
-
-                            self.api_type = api_type
-                            return self.api_type
-
-                        else:
-                            _LOGGER.warning(
-                                "Challenge not recognized for %s: %s",
+                                "API %s raw challenge='%s'",
                                 api_type,
                                 challenge_text,
                             )
+                            if match:
+                                challenge = match.group(0)
+
+                                _LOGGER.warning(
+                                    "Detected API %s with challenge %s",
+                                    api_type,
+                                    challenge,
+                                )
+
+                                self.api_type = api_type
+                                return self.api_type
+
+                            else:
+                                _LOGGER.warning(
+                                    "Challenge not recognized for %s: %s",
+                                    api_type,
+                                    challenge_text,
+                                )
+            except SomfyException as exception:
+                # A single candidate failing to respond (redirect, timeout,
+                # connection error...) doesn't mean none of the others will
+                # work. Keep trying every hardware version regardless of
+                # individual failures, and only give up once all were tried.
+                _LOGGER.debug(f"Candidate api type {api_type} failed: {exception}")
+                continue
         raise SomfyException("Couldn't detect the centrale type")
 
     async def do_guess_get(self, page) -> str:
