@@ -150,9 +150,13 @@ Interval de rafraîchissement : de 15 secondes à 1 heure, 60 secondes par défa
 
 ## À noter
 
-### Carte Lovelace pour Home Assistant
+### Carte Lovelace pour Home Assistant (statut et pilotage)
 
 Une [carte](https://github.com/developpeurbox/somfy-protexial-card) a été développé spécialement pour cette intégration.
+
+### Carte Mushroom Template (détails par éléments)
+
+
 
 ### Compatibilité de version
 
