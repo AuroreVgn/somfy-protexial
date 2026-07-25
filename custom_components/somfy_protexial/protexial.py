@@ -47,26 +47,83 @@ def _fix_mojibake(text: str) -> str:
 class Status:
     """Container for parsed status.xml values."""
 
-    zoneA = "off"
-    zoneB = "off"
-    zoneC = "off"
-    battery = "ok"
-    radio = "ok"
-    door = "ok"
-    alarm = "ok"
-    box = "ok"
-    gsm = "gsm connect au rseau"
-    recgsm = "4"
-    opegsm = "orange"
-    camera = "disabled"
+    def __init__(self):
+        # Zones
+        self.zoneA = "off"
+        self.zoneB = "off"
+        self.zoneC = "off"
+
+        # Default states
+        self.battery = "ok"
+        self.radio = "ok"
+        self.door = "ok"
+        self.alarm = "ok"
+        self.box = "ok"
+
+        # GSM information
+        self.gsm = "gsm connect au reseau"
+        self.recgsm = "4"
+        self.opegsm = "orange"
+
+        # Camera
+        self.camera = "disabled"
 
     def __getitem__(self, key):
         """Allow dict-like access (status['zoneA'])."""
         return getattr(self, key)
 
+    def __repr__(self):
+        """Debug representation."""
+        return (
+            "Status("
+            f"zoneA={self.zoneA!r}, "
+            f"zoneB={self.zoneB!r}, "
+            f"zoneC={self.zoneC!r}, "
+            f"battery={self.battery!r}, "
+            f"radio={self.radio!r}, "
+            f"door={self.door!r}, "
+            f"alarm={self.alarm!r}, "
+            f"box={self.box!r}, "
+            f"gsm={self.gsm!r}, "
+            f"recgsm={self.recgsm!r}, "
+            f"opegsm={self.opegsm!r}, "
+            f"camera={self.camera!r}"
+            ")"
+        )
+
     def __str__(self):
         """Readable dump of the status values."""
-        return f"zoneA:{self.zoneA}, zoneB:{self.zoneB}, zoneC:{self.zoneC}, battery:{self.battery}, radio:{self.radio}, door:{self.door}, alarm:{self.alarm}, box:{self.box}, gsm:{self.gsm}, recgsm:{self.recgsm}, opegsm:{self.opegsm}, camera:{self.camera}"
+        return (
+            f"zoneA:{self.zoneA}, "
+            f"zoneB:{self.zoneB}, "
+            f"zoneC:{self.zoneC}, "
+            f"battery:{self.battery}, "
+            f"radio:{self.radio}, "
+            f"door:{self.door}, "
+            f"alarm:{self.alarm}, "
+            f"box:{self.box}, "
+            f"gsm:{self.gsm}, "
+            f"recgsm:{self.recgsm}, "
+            f"opegsm:{self.opegsm}, "
+            f"camera:{self.camera}"
+        )
+
+    def as_dict(self):
+        """Return status as a dictionary."""
+        return {
+            "zoneA": self.zoneA,
+            "zoneB": self.zoneB,
+            "zoneC": self.zoneC,
+            "battery": self.battery,
+            "radio": self.radio,
+            "door": self.door,
+            "alarm": self.alarm,
+            "box": self.box,
+            "gsm": self.gsm,
+            "recgsm": self.recgsm,
+            "opegsm": self.opegsm,
+            "camera": self.camera,
+        }
 
 
 class SomfyProtexial:
@@ -121,6 +178,7 @@ class SomfyProtexial:
 
         try:
             if self.cookie and authenticated:
+                _LOGGER.debug("Using cookie: %s", self.cookie)
                 headers["Cookie"] = self.cookie
             payload = None
             if data is not None:
@@ -449,12 +507,36 @@ class SomfyProtexial:
         login_response = await self.__do_call(
             "post", Page.LOGIN, data=form, retry=False, login=False
         )
-        self.cookie = login_response.headers.get("SET-COOKIE")
+        cookie = login_response.headers.get("SET-COOKIE")
+        if cookie:
+            self.cookie = cookie.split(";")[0]
+        else:
+            self.cookie = None
+
+        _LOGGER.debug("Stored cookie: %s", self.cookie)
+
+    def set_credentials(self, username, password, codes):
+        self.username = username
+        self.password = password
+        self.codes = codes
 
     async def logout(self):
         """Logout and clear session cookie."""
         await self.__do_call("get", Page.LOGOUT, retry=False, login=False)
         self.cookie = None
+
+    async def get_status(self) -> Status:
+        page_is_authenticated = self.api.is_page_authenticated(Page.STATUS)
+        _LOGGER.warning(
+            "AUTH CHECK: Page.STATUS=%s authenticated=%s",
+            self.api.get_page(Page.STATUS),
+            self.api.is_page_authenticated(Page.STATUS),
+        )
+        _LOGGER.warning(
+            "GET STATUS PARSER auth=%s",
+            page_is_authenticated,
+        )
+        return await self.__get_status(page_is_authenticated)
 
     async def __with_session_retry(self, func, *args, **kwargs):
         """Last-resort safety net mirroring Jeedom's
@@ -491,16 +573,9 @@ class SomfyProtexial:
             await self.__login()
             return await func(*args, **kwargs)
 
-    async def get_status(self, _retry_on_empty: bool = True):
-        """Fetch and parse status.xml into a Status object.
-
-        Public entry point: delegates to __get_status() wrapped in
-        __with_session_retry() (see above for why a second, coarser retry
-        layer is needed on top of __get_status()'s own empty-tag handling).
-        """
-        return await self.__with_session_retry(self.__get_status, _retry_on_empty)
-
-    async def __get_status(self, _retry_on_empty: bool = True):
+    async def __get_status(
+        self, page_is_authenticated: bool, _retry_on_empty: bool = True
+    ):
         """Fetch and parse status.xml into a Status object.
 
         Some Protexial/Protexiom firmwares occasionally answer status.xml
@@ -512,13 +587,24 @@ class SomfyProtexial:
         empty, force a logout/login cycle and retry once.
         """
         status_response = await self.__do_call(
-            "get", Page.STATUS, login=False, authenticated=False
+            "get",
+            Page.STATUS,
+            login=page_is_authenticated,
+            authenticated=page_is_authenticated,
         )
         content = await status_response.text(self.api.get_encoding())
+        _LOGGER.warning("STATUS XML RECEIVED:\n%s", content)
         response = ET.fromstring(content)
+        _LOGGER.warning("XML PARSED OK")
         status = Status()
+        _LOGGER.warning("STATUS OBJECT CREATED: %s", status.__dict__)
         for child in response:
             filteredChildText = self.filter_ascii(child.text)
+            _LOGGER.warning(
+                "XML FIELD: %s=%s",
+                child.tag,
+                filteredChildText,
+            )
             match child.tag:
                 case "defaut0":
                     status.battery = filteredChildText
@@ -556,8 +642,16 @@ class SomfyProtexial:
                 _LOGGER.debug("Logout before retry failed (ignored): %s", ex)
             self.cookie = None
             await self.__login()
-            return await self.__get_status(_retry_on_empty=False)
-
+            page_is_authenticated = self.api.is_page_authenticated(Page.STATUS)
+            return await self.__get_status(page_is_authenticated, _retry_on_empty=False)
+        _LOGGER.warning(
+            "STATUS OBJECT: battery=%s zoneA=%s zoneB=%s gsm=%s",
+            status.battery,
+            status.zoneA,
+            status.zoneB,
+            status.gsm,
+        )
+        _LOGGER.warning("STATUS BEFORE RETURN: %s", status.__dict__)
         return status
 
     def filter_ascii(self, value) -> str:
@@ -695,6 +789,7 @@ class SomfyProtexial:
         return await self.__with_session_retry(self.__get_elements)
 
     async def __get_elements(self) -> list[dict]:
+        _LOGGER.debug("ENTER get_elements()")
         """Fetch and parse the elements page, returning a normalized list of dicts."""
         candidates = [
             LIST_ELEMENTS,
@@ -815,6 +910,7 @@ class SomfyProtexial:
                 "house": elt_maison[i] if i < len(elt_maison) else "",
                 "pause": item_pause[i] if i < len(item_pause) else "",
             }
+            _LOGGER.debug("EXIT get_elements(): %s", elements)
             elements.append(el)
 
         # _LOGGER.debug("Extracted elements (count=%d): %s", len(elements), elements[:3])

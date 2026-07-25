@@ -264,13 +264,12 @@ class ProtexialOptionsFlowHandler(config_entries.OptionsFlow):
 
     def __init__(self, config_entry: config_entries.ConfigEntry) -> None:
         """Store config entry for options flow."""
-        self._config_entry = config_entry
+        self.config_entry = config_entry
 
     async def async_step_init(
         self, user_input: dict[str, Any] | None = None
     ) -> FlowResult:
         errors = {}
-
         if user_input is not None:
             arm_code = (
                 user_input[CONF_ARM_CODE] if CONF_ARM_CODE in user_input else None
@@ -287,24 +286,24 @@ class ProtexialOptionsFlowHandler(config_entries.OptionsFlow):
                 night_zones = int(user_input[CONF_NIGHT_ZONES])
                 home_zones = int(user_input[CONF_HOME_ZONES])
                 newData = {
-                    CONF_URL: self._config_entry.data[CONF_URL],
-                    CONF_API_TYPE: self._config_entry.data[CONF_API_TYPE],
-                    CONF_USERNAME: self._config_entry.data[CONF_USERNAME],
-                    CONF_PASSWORD: self._config_entry.data[CONF_PASSWORD],
-                    CONF_CODES: self._config_entry.data[CONF_CODES],
+                    CONF_URL: self.config_entry.data[CONF_URL],
+                    CONF_API_TYPE: self.config_entry.data[CONF_API_TYPE],
+                    CONF_USERNAME: self.config_entry.data[CONF_USERNAME],
+                    CONF_PASSWORD: self.config_entry.data[CONF_PASSWORD],
+                    CONF_CODES: self.config_entry.data[CONF_CODES],
                     CONF_NIGHT_ZONES: night_zones,
                     CONF_HOME_ZONES: home_zones,
                     CONF_ARM_CODE: arm_code,
                     CONF_SCAN_INTERVAL: user_input[CONF_SCAN_INTERVAL],
-                    ATTR_SW_VERSION: self._config_entry.data[ATTR_SW_VERSION],
+                    ATTR_SW_VERSION: self.config_entry.data[ATTR_SW_VERSION],
                 }
                 self.hass.config_entries.async_update_entry(
-                    self._config_entry, data=newData, options=self._config_entry.options
+                    self.config_entry, data=newData, options=self.config_entry.options
                 )
                 return self.async_create_entry(title="", data={})
 
-        current_night_zones = str(self._config_entry.data[CONF_NIGHT_ZONES])
-        current_home_zones = str(self._config_entry.data[CONF_HOME_ZONES])
+        current_night_zones = str(self.config_entry.data[CONF_NIGHT_ZONES])
+        current_home_zones = str(self.config_entry.data[CONF_HOME_ZONES])
 
         return self.async_show_form(
             step_id="init",
@@ -336,7 +335,7 @@ class ProtexialOptionsFlowHandler(config_entries.OptionsFlow):
                     ),
                     vol.Required(
                         CONF_SCAN_INTERVAL,
-                        default=self._config_entry.data[CONF_SCAN_INTERVAL],
+                        default=self.config_entry.data[CONF_SCAN_INTERVAL],
                     ): NumberSelector(
                         NumberSelectorConfig(
                             mode=NumberSelectorMode.BOX, min=15, max=3600, step=1

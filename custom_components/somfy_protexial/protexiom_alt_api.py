@@ -28,8 +28,15 @@ class ProtexiomAltApi(AbstractApi):
         return True
 
     def is_page_authenticated(self, page) -> bool:
+        """
+        Protexiom/Protexial variants:
+        - old firmware accepts status.xml directly after login
+        - newer firmware uses authenticated page list
+        """
+
         if page == Page.STATUS:
             return True
+
         return super().is_page_authenticated(page)
 
     def get_login_payload(self, username, password, code):
