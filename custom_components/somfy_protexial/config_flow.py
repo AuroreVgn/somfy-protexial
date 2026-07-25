@@ -134,8 +134,12 @@ class ProtexialConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 _LOGGER.error(e)
                 errors["base"] = "auth"
 
+            if challenge is None:
+                challenge = await self.protexial.get_challenge()
+
         return self.async_show_form(
             step_id="user_login",
+            description_placeholders={"challenge": challenge},
             data_schema=vol.Schema(
                 {
                     vol.Required(CONF_PASSWORD): cv.string,

@@ -15,6 +15,13 @@
           "code": "Code"
         }
       },
+        "user_login": {
+        "description": "Saisissez le code pour le challenge {challenge}",
+        "data": {
+          "password": "Mot de passe",
+          "code": "Code"
+        }
+      },
       "config": {
         "description": "Choisissez d'autres modes optionnels d'armement en plus de 'Armer en absence (Zones A+B+C)'",
         "data": {

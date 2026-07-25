@@ -16,6 +16,13 @@
           "code": "Code"
         }
       },
+        "user_login": {
+        "description": "Provide code for challenge {challenge}",
+        "data": {
+          "password": "Password",
+          "code": "Code"
+        }
+      },
       "config": {
         "description": "Choose other optional arm modes in addition to 'Arm away (Zones A+B+C)'",
         "data": {

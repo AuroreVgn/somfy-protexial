@@ -475,22 +475,23 @@ class SomfyProtexial:
         if not challenge_element:
             raise SomfyException("Challenge not found")
 
-        challenge_text = challenge_element.text().strip()
+        raw_challenge = challenge_element.text()
 
         # Extract challenge coordinate (e.g. A1, D5, E2...) even if the page
         # contains additional text such as "Code d'authentification E5".
-        match = re.search(CHALLENGE_REGEX, challenge_text)
+        match = re.search(CHALLENGE_REGEX, raw_challenge)
+
+        _LOGGER.debug("Raw login challenge: %s", raw_challenge)
 
         if match:
             challenge = match.group(0)
-            _LOGGER.debug(
-                "Challenge detected: %s (raw='%s')", challenge, challenge_text
-            )
+            _LOGGER.debug("Challenge detected: %s (raw='%s')", challenge, raw_challenge)
             return challenge
+        return raw_challenge
 
-        raise SomfyException(
-            f"Challenge not recognized (raw value: '{challenge_text}')"
-        )
+        # raise SomfyException(
+        #    f"Challenge not recognized (raw value: '{challenge}')"
+        # )
 
     async def __login(self, username=None, password=None, code=None):
         """Perform login and store the session cookie."""
