@@ -156,6 +156,9 @@ Une [carte](https://github.com/developpeurbox/somfy-protexial-card) a été dév
 
 ### Carte Mushroom Template (détails par éléments)
 
+Un template pour créer chaque éléments avec leur attributs (piles, liaison, ...) est disponible [ici](https://github.com/AuroreVgn/somfy-protexial/blob/main/assets/Template%20Home%20Assistant).
+
+<img width="485" height="127" alt="image" src="https://github.com/user-attachments/assets/d4f385c0-0171-4968-b369-c4cb86d8409e" />
 
 
 ### Compatibilité de version
