@@ -14,6 +14,7 @@
   ],
   "requirements": [
     "pyquery==2.0.0"
+    "cssselect<1. 5"
   ],
-  "version": "2.0.8-beta5"
+  "version": "2.0.8"
 }
