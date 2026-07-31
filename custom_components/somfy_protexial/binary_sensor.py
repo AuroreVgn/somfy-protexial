@@ -48,6 +48,21 @@ FIELD_CONFIG = {
     "pause": {"class": BinarySensorDeviceClass.RUNNING, "icon": "mdi:pause-circle"},
 }
 
+# Mapping of default icons to alert icons for aggregate sensors
+_ALERT_ICONS = {
+    "mdi:window-closed-variant": "mdi:window-open-variant",
+    "mdi:door-closed": "mdi:door",
+    "mdi:garage-variant": "mdi:garage-open-variant",
+    "mdi:motion-sensor-off": "mdi:motion-sensor",
+    "mdi:smoke-detector-variant": "mdi:smoke-detector-variant-alert",
+    "mdi:home-sound-out'": "mdi:home-sound-out-outline",
+    "mdi:bullhorn": "mdi:bullhorn-outline",
+    "mdi:dialpad": "mdi:alerte-circle",
+    "mdi:remote": "mdi:remote-off",
+    "mdi:key-variant": "mdi:key-alert",
+    "mdi:alpha-s-box": "mdi:alpha-s-box-outline",
+}
+
 
 # Default icon for an element
 def _get_element_icon(element: dict) -> str:
@@ -68,7 +83,7 @@ def _get_element_icon(element: dict) -> str:
         return "mdi:garage-variant"
 
     if "dm" in element_type:
-        return "mdi:motion-sensor"
+        return "mdi:motion-sensor-off"
 
     if "fum" in element_type:
         return "mdi:smoke-detector-variant"
@@ -234,9 +249,10 @@ class ProtexialBinarySensor(CoordinatorEntity, BinarySensorEntity):
         return self.sensor["name"]
 
     @property
-    def icon(self):
-        """Return a dynamic icon based on state."""
-        return self.sensor["icon_on"] if self.is_on else self.sensor["icon_off"]
+    def icon(self) -> str | None:
+        """Return the icon according to the current state."""
+
+        return self.sensor.get("icon_on") if self.is_on else self.sensor.get("icon_off")
 
     @property
     def is_on(self) -> bool:
@@ -360,7 +376,7 @@ class SomfyElementAggregateBinarySensor(CoordinatorEntity, BinarySensorEntity):
         self._attr_name = f"{self._label} - {self._name_part}"
         self._attr_device_class = BinarySensorDeviceClass.PROBLEM
         self._attr_entity_category = EntityCategory.DIAGNOSTIC
-        # self._attr_icon = _get_element_icon(element)
+        self._attr_icon = _get_element_icon(element)
         self._icon = _get_element_icon(element)
 
         self._fields = _fields_for_label(self._label) or []
@@ -369,7 +385,9 @@ class SomfyElementAggregateBinarySensor(CoordinatorEntity, BinarySensorEntity):
 
     @property
     def icon(self):
-        """Return a static icon for the aggregate diagnostic sensor."""
+        """Return a dynamic icon based on the current state."""
+        if self.is_on:
+            return _ALERT_ICONS.get(self._icon, "mdi:alert-circle")
         return self._icon
 
     def _normalize_flag(self, field: str, raw: str | None) -> bool | None:
