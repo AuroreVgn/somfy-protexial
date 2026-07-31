@@ -372,7 +372,7 @@ class SomfyProtexial:
             ApiType.PROTEXIOM_ALT,
             ApiType.PROTEXIOM,
         ]:
-            _LOGGER.warning("Trying API detection: %s", api_type)
+            _LOGGER.debug("Trying API detection: %s", api_type)
             self.api = self.load_api(api_type)
             has_version_page = False
             # Some older systems don't have a version page
@@ -397,7 +397,7 @@ class SomfyProtexial:
                         challenge_text = challenge_element.text().strip()
 
                         match = re.search(CHALLENGE_REGEX, challenge_text)
-                        _LOGGER.warning(
+                        _LOGGER.debug(
                             "API %s raw challenge='%s'",
                             api_type,
                             challenge_text,
@@ -405,7 +405,7 @@ class SomfyProtexial:
                         if match:
                             challenge = match.group(0)
 
-                            _LOGGER.warning(
+                            _LOGGER.debug(
                                 "Detected API %s with challenge %s",
                                 api_type,
                                 challenge,
@@ -415,7 +415,7 @@ class SomfyProtexial:
                             return self.api_type
 
                         else:
-                            _LOGGER.warning(
+                            _LOGGER.debug(
                                 "Challenge not recognized for %s: %s",
                                 api_type,
                                 challenge_text,
@@ -528,12 +528,12 @@ class SomfyProtexial:
 
     async def get_status(self) -> Status:
         page_is_authenticated = self.api.is_page_authenticated(Page.STATUS)
-        _LOGGER.warning(
+        _LOGGER.debug(
             "AUTH CHECK: Page.STATUS=%s authenticated=%s",
             self.api.get_page(Page.STATUS),
             self.api.is_page_authenticated(Page.STATUS),
         )
-        _LOGGER.warning(
+        _LOGGER.debug(
             "GET STATUS PARSER auth=%s",
             page_is_authenticated,
         )
@@ -594,14 +594,14 @@ class SomfyProtexial:
             authenticated=page_is_authenticated,
         )
         content = await status_response.text(self.api.get_encoding())
-        _LOGGER.warning("STATUS XML RECEIVED:\n%s", content)
+        _LOGGER.debug("STATUS XML RECEIVED:\n%s", content)
         response = ET.fromstring(content)
-        _LOGGER.warning("XML PARSED OK")
+        _LOGGER.debug("XML PARSED OK")
         status = Status()
-        _LOGGER.warning("STATUS OBJECT CREATED: %s", status.__dict__)
+        _LOGGER.debug("STATUS OBJECT CREATED: %s", status.__dict__)
         for child in response:
             filteredChildText = self.filter_ascii(child.text)
-            _LOGGER.warning(
+            _LOGGER.debug(
                 "XML FIELD: %s=%s",
                 child.tag,
                 filteredChildText,
@@ -645,14 +645,14 @@ class SomfyProtexial:
             await self.__login()
             page_is_authenticated = self.api.is_page_authenticated(Page.STATUS)
             return await self.__get_status(page_is_authenticated, _retry_on_empty=False)
-        _LOGGER.warning(
+        _LOGGER.debug(
             "STATUS OBJECT: battery=%s zoneA=%s zoneB=%s gsm=%s",
             status.battery,
             status.zoneA,
             status.zoneB,
             status.gsm,
         )
-        _LOGGER.warning("STATUS BEFORE RETURN: %s", status.__dict__)
+        _LOGGER.debug("STATUS BEFORE RETURN: %s", status.__dict__)
         return status
 
     def filter_ascii(self, value) -> str:

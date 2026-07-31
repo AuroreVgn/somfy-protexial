@@ -49,6 +49,51 @@ FIELD_CONFIG = {
 }
 
 
+# Default icon for an element
+def _get_element_icon(element: dict) -> str:
+    """Return the appropriate icon for a Somfy element."""
+
+    label = (element.get("label") or "").lower()
+    name = (element.get("name") or "").lower()
+
+    element_type = f"{label} {name}"
+
+    if "vitre" in element_type:
+        return "mdi:window-closed-variant"
+
+    if "ouvt" in element_type:
+        return "mdi:door-closed"
+
+    if "do gar" in element_type:
+        return "mdi:garage-variant"
+
+    if "dm" in element_type:
+        return "mdi:motion-sensor"
+
+    if "fum" in element_type:
+        return "mdi:smoke-detector-variant"
+
+    if "sir ext" in element_type:
+        return "mdi:home-sound-out"
+
+    if "sir" in element_type:
+        return "mdi:bullhorn"
+
+    if "clavier" in element_type or "cl lcd" in element_type:
+        return "mdi:dialpad"
+
+    if "tc" in element_type:
+        return "mdi:remote"
+
+    if "badge" in element_type:
+        return "mdi:key-variant"
+
+    if "tr" in element_type:
+        return "mdi:alpha-s-box"
+
+    return "mdi:shield-check"
+
+
 def _fields_for_label(label: str) -> Optional[list[str]]:
     """Return the list of flags to expose for a given element label (prefix match)."""
     lab = (label or "").strip().lower()
@@ -70,17 +115,18 @@ def get_raw_flag(field: str, el: dict) -> str:
     """Return the raw value for a given flag, tolerating multiple key names."""
     key_map = {
         "battery": ["battery", "elt_pile", "pile"],
-        "comm":    ["comm", "elt_onde", "onde"],
-        "house":   ["house", "elt_maison", "maison"],
-        "tamper":  ["tamper", "elt_as", "as"],
-        "door":    ["door", "elt_porte", "porte"],
-        "pause":   ["pause", "item_pause"],
+        "comm": ["comm", "elt_onde", "onde"],
+        "house": ["house", "elt_maison", "maison"],
+        "tamper": ["tamper", "elt_as", "as"],
+        "door": ["door", "elt_porte", "porte"],
+        "pause": ["pause", "item_pause"],
     }
     keys = key_map.get(field)
     if not keys:
         # Unknown flag → avoid crashing
         _LOGGER.debug(
-            "get_raw_flag: unknown field '%s' for element %s", field, el.get("name"))
+            "get_raw_flag: unknown field '%s' for element %s", field, el.get("name")
+        )
         return ""
 
     for k in keys:
@@ -104,7 +150,7 @@ def is_on(self) -> bool:
     fields = getattr(self, "_fields", [])
     for field in fields:
         val = self._normalize_flag(field, el.get(field))
-        if val is False:   # False = problem detected
+        if val is False:  # False = problem detected
             return True
     return False
 
@@ -147,9 +193,7 @@ async def async_setup_entry(
     elements = (coordinator.data or {}).get("elements", [])
     for el in elements:
         # 1) Aggregated sensor (single binary per element)
-        sensors.append(
-            SomfyElementAggregateBinarySensor(coordinator, el, device_info)
-        )
+        sensors.append(SomfyElementAggregateBinarySensor(coordinator, el, device_info))
 
         # 2) Detailed sensors (disabled by design, keep commented)
         fields = _fields_for_label(el.get("label"))
@@ -239,7 +283,8 @@ class SomfyElementBinarySensor(CoordinatorEntity, BinarySensorEntity):
             "door": "ouverture",
         }.get(self._field, self._field)
         self._attr_name = f"{self._label} - {self._name_part} ({human_field})".strip(
-            " -")
+            " -"
+        )
         self._attr_device_class = cfg.get("class")
         self._icon = cfg.get("icon")
 
@@ -315,7 +360,8 @@ class SomfyElementAggregateBinarySensor(CoordinatorEntity, BinarySensorEntity):
         self._attr_name = f"{self._label} - {self._name_part}"
         self._attr_device_class = BinarySensorDeviceClass.PROBLEM
         self._attr_entity_category = EntityCategory.DIAGNOSTIC
-        self._icon = "mdi:shield-alert"
+        # self._attr_icon = _get_element_icon(element)
+        self._icon = _get_element_icon(element)
 
         self._fields = _fields_for_label(self._label) or []
         if "pause" in element and "pause" not in self._fields:
@@ -382,12 +428,12 @@ class SomfyElementAggregateBinarySensor(CoordinatorEntity, BinarySensorEntity):
     def _raw(self, el: dict, field: str) -> str:
         """Return the raw flag value for a field (with aliases)."""
         aliases = {
-            "elt_pile":  ["battery", "elt_pile", "pile"],
-            "elt_onde":  ["comm", "elt_onde", "onde"],
+            "elt_pile": ["battery", "elt_pile", "pile"],
+            "elt_onde": ["comm", "elt_onde", "onde"],
             "elt_maison": ["house", "elt_maison", "maison"],
-            "elt_as":    ["tamper", "elt_as", "as"],
+            "elt_as": ["tamper", "elt_as", "as"],
             "elt_porte": ["door", "elt_porte", "porte"],
-            "pause":     ["pause"],
+            "pause": ["pause"],
         }.get(field, [field])
 
         for k in aliases:

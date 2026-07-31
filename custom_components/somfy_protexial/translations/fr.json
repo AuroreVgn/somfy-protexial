@@ -15,6 +15,13 @@
           "code": "Code"
         }
       },
+        "admin_login": {
+        "description": "Saisissez le code correspondant au challenge {challenge}",
+        "data": {
+          "password": "Mot de passe",
+          "code": "Code challenge"
+        }
+      },
         "user_login": {
         "description": "Saisissez le code pour le challenge {challenge}",
         "data": {

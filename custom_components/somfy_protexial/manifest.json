@@ -1,6 +1,6 @@
 {
   "domain": "somfy_protexial",
-  "name": "Somfy Protexial",
+  "name": "Somfy Protexial & Protexiom",
   "codeowners": [
     "@the8tre", "@AuroreVgn"
   ],
@@ -16,5 +16,5 @@
     "pyquery==2.0.0",
     "cssselect<1.5"
   ],
-  "version": "2.0.8"
+  "version": "2.0.9"
 }

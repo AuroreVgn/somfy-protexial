@@ -16,6 +16,13 @@
           "code": "Code"
         }
       },
+      "admin_login": {
+        "description": "Provide code for challenge {challenge}",
+        "data": {
+          "password": "Password",
+          "code": "Code challenge"
+        }
+      },
         "user_login": {
         "description": "Provide code for challenge {challenge}",
         "data": {
