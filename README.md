@@ -8,6 +8,9 @@
 
 ![header](assets/header.png)
 
+## Other languages
+[English](README.en.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Italiano](README.it.md) | [Nederlands](README.nl.md) | [Português](README.pt.md)
+
 ## À propos
 
 🔀 Cette version 2.0.x est un [Fork](https://github.com/the8tre/somfy-protexial) **mis à jour** de l’intégration originale de [the8tre](https://github.com/the8tre).
@@ -28,7 +31,7 @@ Modèles testés :
 | Protexial      | `2013 (v10_15)` | :white_check_mark: |
 | Protexial      | `2010 (v7_9)`   | :white_check_mark: |
 | Protexial      | `2010 (v8_1)`   | :white_check_mark: |
-| Protexial      | `2008`          | 👷 |
+| Protexial      | `2008`          | :white_check_mark: |
 
 ⚠️ Un modèle non présent ici ne signifie pas que cela ne fonctionnera pas, juste qu'il n'a pas été testé ou ajouté faute de retours.
 
