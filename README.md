@@ -163,6 +163,12 @@ Un template pour créer chaque éléments avec leur attributs (piles, liaison, .
 
 <img width="485" height="127" alt="image" src="https://github.com/user-attachments/assets/d4f385c0-0171-4968-b369-c4cb86d8409e" />
 
+### Carte Lovelace pour Home Assistant uniquement pour la batterie et la détection d'ouverture
+
+Une version simplifiée de la carte permettant de suivre uniquement l'ouverture et la batterie d'un détecteur est disponible [ici](https://forum.hacf.fr/t/integration-custom-centrale-somfy-protexial/23589/295).
+
+### Problématique de sur-consommation de piles pour la centrale
+Une solution a été proposé [ici](https://forum.hacf.fr/t/integration-custom-centrale-somfy-protexial/23589/188) et [là](https://forum.hacf.fr/t/integration-custom-centrale-somfy-protexial/23589/191).
 
 ### Compatibilité de version
 
