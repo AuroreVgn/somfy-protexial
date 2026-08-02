@@ -5,6 +5,7 @@ from typing import Any, Iterable
 from homeassistant.components.sensor import (
     SensorEntity,
     SensorDeviceClass,
+    SensorEntityDescription,
 )
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
@@ -47,7 +48,15 @@ async def async_setup_entry(
 
     # 1) Predefined sensors in SENSORS (GSM provider, signal, etc.)
     for sensor in SENSORS:
-        entities.append(ProtexialSensor(device_info, coordinator, sensor))
+        description = SensorEntityDescription(
+            key=sensor["id"],
+            translation_key=sensor["translation_key"],
+            device_class=sensor.get("device_class"),
+            icon=sensor.get("icon"),
+            entity_category=sensor.get("entity_category"),
+            suggested_display_precision=sensor.get("suggested_display_precision"),
+        )
+        entities.append(ProtexialSensor(device_info, coordinator, description))
 
     # 2) Per-element zone sensors (ENUM) from u_plistelmt.htm (kept commented by design)
     elements = (coordinator.data or {}).get("elements", [])
@@ -79,82 +88,50 @@ async def async_setup_entry(
 
 # ---------- Existing sensors (GSM, etc.) ----------
 class ProtexialSensor(CoordinatorEntity, SensorEntity):
-    """Representation of a Protexial sensor (e.g., GSM operator, RecGSM)."""
+    """Representation of a translated Protexial sensor."""
 
-    def __init__(self, device_info, coordinator, sensor: Any) -> None:
-        """Build the entity using static sensor metadata and the coordinator."""
+    _attr_has_entity_name = True
+
+    def __init__(
+        self,
+        device_info,
+        coordinator,
+        description: SensorEntityDescription,
+    ) -> None:
+        """Initialize the entity from its native description."""
         super().__init__(coordinator)
-        self._attr_id = f"{DOMAIN}_{sensor['id']}"
-        self._attr_unique_id = f"{DOMAIN}_{sensor['id']}"
+        self.entity_description = description
+        self._attr_translation_key = description.translation_key
+        self._attr_unique_id = f"{DOMAIN}_{description.key}"
         self._attr_device_info = device_info
-        self._sensor_id = sensor["id"]
-        self._name = sensor["name"]
-        self._icon = sensor.get("icon")
-        self._device_class = sensor.get("device_class")
         self._native_value = None
-        self._suggested_display_precision = sensor.get("suggested_display_precision")
-        if "entity_category" in sensor:
-            self._attr_entity_category = sensor["entity_category"]
-        self._attr_suggested_display_precision = sensor.get(
-            "suggested_display_precision"
-        )
-
-    @property
-    def name(self):
-        """Entity name."""
-        return self._name
-
-    @property
-    def icon(self):
-        """Entity icon."""
-        return self._icon
-
-    @property
-    def device_class(self):
-        """Device class (if any)."""
-        return self._device_class
 
     @property
     def native_value(self):
-        """Native value exposed to HA."""
+        """Return the native value exposed to Home Assistant."""
         return self._native_value
-
-    @property
-    def suggested_display_precision(self):
-        """Suggested display precision for numeric sensors."""
-        return self._suggested_display_precision
 
     def _handle_coordinator_update(self) -> None:
         """Handle updated coordinator data."""
-        data = self.coordinator.data
-        if data:
-            # For these sensors, data comes from status.xml (dictified Status)
-            value = (data or {}).get(self._sensor_id)
+        value = (self.coordinator.data or {}).get(self.entity_description.key)
 
-            # recgsm -> convert "k0".."k5" or "0".."5" to int
-            if self._sensor_id == "recgsm" and value is not None:
-                try:
-                    value = str(value).strip().lower()
-
-                    if value.startswith("k"):
-                        value = value[1:]
-
-                    self._native_value = int(value)
-
-                except ValueError, TypeError:
-                    _LOGGER.warning(
-                        "Unexpected GSM signal value '%s' for sensor '%s'",
-                        value,
-                        self._sensor_id,
-                    )
-                    self._native_value = None
-
-            # opegsm -> strip quotes
-            elif self._sensor_id == "opegsm" and value is not None:
-                self._native_value = str(value).replace('"', "").strip()
-
-            else:
-                self._native_value = value
+        if self.entity_description.key == "recgsm" and value is not None:
+            try:
+                normalized = str(value).strip().lower()
+                if normalized.startswith("k"):
+                    normalized = normalized[1:]
+                self._native_value = int(normalized)
+            except (ValueError, TypeError):
+                _LOGGER.warning(
+                    "Unexpected GSM signal value '%s' for sensor '%s'",
+                    value,
+                    self.entity_description.key,
+                )
+                self._native_value = None
+        elif self.entity_description.key == "opegsm" and value is not None:
+            self._native_value = str(value).replace('"', "").strip()
+        else:
+            self._native_value = value
 
         self.async_write_ha_state()
 

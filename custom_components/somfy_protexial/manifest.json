@@ -2,7 +2,8 @@
   "domain": "somfy_protexial",
   "name": "Somfy Protexial & Protexiom",
   "codeowners": [
-    "@the8tre", "@AuroreVgn"
+    "@the8tre",
+    "@AuroreVgn"
   ],
   "config_flow": true,
   "dependencies": [],

@@ -25,7 +25,6 @@ from .const import (
 )
 from .helper import int_to_zones
 
-DEFAULT_ALARM_NAME = "Alarme"
 ACTIVATION_ALARM_CODE = None
 ALARM_STATE = None
 
@@ -55,6 +54,10 @@ async def async_setup_entry(
 class ProtexialAlarm(CoordinatorEntity, AlarmControlPanelEntity):
     """Alarm control panel that mirrors the centrale's arming state."""
 
+    _attr_has_entity_name = True
+    _attr_translation_key = "alarm"
+    _attr_icon = "mdi:shield-home"
+
     def __init__(
         self, device_info, coordinator, api, night_zones, home_zones, arm_code
     ) -> None:
@@ -74,15 +77,6 @@ class ProtexialAlarm(CoordinatorEntity, AlarmControlPanelEntity):
         self.arm_code = arm_code
         self._changed_by = None
 
-    @property
-    def name(self):
-        """Return the entity name."""
-        return DEFAULT_ALARM_NAME
-
-    @property
-    def icon(self):
-        """Return the icon to display."""
-        return "mdi:shield-home"
 
     @property
     def supported_features(self) -> int:

@@ -3,7 +3,7 @@ from enum import Enum, auto
 from homeassistant.components.binary_sensor import BinarySensorDeviceClass
 
 # Added to handle sensors
-from homeassistant.components.sensor import SensorEntity, SensorDeviceClass
+from homeassistant.components.sensor import SensorDeviceClass
 from homeassistant.const import EntityCategory
 
 DOMAIN = "somfy_protexial"
@@ -89,33 +89,27 @@ class Selector(str, Enum):
 BINARY_SENSORS = [
     {
         "id": "battery",
-        "name": "Batterie",
+        "translation_key": "battery",
         "device_class": BinarySensorDeviceClass.BATTERY,
         "icon_on": "mdi:battery-alert",
         "icon_off": "mdi:battery",
         "off_if": "ok",
-        "state_on": "Vérifier la liste des éléments",  # Amended to be clearer
-        "state_off": "OK",
     },
     {
         "id": "alarm",
-        "name": "Mouvement",  # Amended to be clearer
+        "translation_key": "alarm",
         "device_class": BinarySensorDeviceClass.MOTION,
         "icon_on": "mdi:motion-sensor",
         "icon_off": "mdi:motion-sensor-off",
         "off_if": "ok",
-        "state_on": "Detecté",
-        "state_off": "Non détecté",
     },
     {
         "id": "door",
-        "name": "Portes ou fenêtres",  # Amended to be clearer
+        "translation_key": "door",
         "device_class": BinarySensorDeviceClass.DOOR,
         "icon_on": "mdi:door-open",
         "icon_off": "mdi:door-closed",
         "off_if": "ok",
-        "state_on": "Ouvertes",  # Amended to be clearer
-        "state_off": "Fermées",  # Amended to be clearer
     },
     {
         # Jeedom's reference plugin (phpProtexiom.class.php) maps this same
@@ -124,56 +118,48 @@ BINARY_SENSORS = [
         # (autoprotection) flag, not a generic problem flag. Renamed/
         # reclassified accordingly (was "Centrale" / PROBLEM).
         "id": "box",
-        "name": "Autoprotection",
+        "translation_key": "box",
         "device_class": BinarySensorDeviceClass.TAMPER,
         "icon_on": "mdi:shield-alert",
         "icon_off": "mdi:shield-check",
         "off_if": "ok",
-        "state_on": "Boîtier ouvert",
-        "state_off": "OK",
     },
     {
         "id": "radio",
-        "name": "Comm Centrale <-> Capteurs",  # Amended to be clearer
+        "translation_key": "radio",
         "device_class": BinarySensorDeviceClass.CONNECTIVITY,
         "icon_on": "mdi:access-point",
         "icon_off": "mdi:access-point-off",
         "on_if": "ok",
-        "state_on": "OK",
-        "state_off": "Vérifier la liste des éléments",  # Amended to be clearer
     },
     {
         "id": "gsm",
-        "name": "Communication GSM",  # Amended to be clearer
+        "translation_key": "gsm",
         "device_class": BinarySensorDeviceClass.CONNECTIVITY,
         "icon_on": "mdi:cellphone",
         "icon_off": "mdi:cellphone-off",
         "on_if": "gsm connect au rseau",  # Filtered: "GSM connecté au réseau"
-        "state_on": "OK",  # Amended to be clearer
-        "state_off": "Pas de réseau",  # Amended to be clearer
     },
     {
         "id": "camera",
-        "name": "Caméra",
+        "translation_key": "camera",
         "device_class": BinarySensorDeviceClass.CONNECTIVITY,
-        "icon_on": "mdi:webcam",
-        "icon_off": "mdi:webcam-off",
+        "icon_on": "mdi:cctv",
+        "icon_off": "mdi:cctv-off",
         "on_if": "enabled",
-        "state_on": "Connectée",
-        "state_off": "Non connectée",
     },
 ]
 # Added SENSOR platform for GSM Provider and GSM Signal Strength
 SENSORS = [
     {
         "id": "opegsm",
-        "name": "Opérateur GSM",
+        "translation_key": "opegsm",
         "device_class": SensorDeviceClass.ENUM,
         "icon": "mdi:signal",
     },
     {
         "id": "recgsm",
-        "name": "Signal GSM (/5)",
+        "translation_key": "recgsm",
         "icon": "mdi:signal-2g",
     },
     {
@@ -182,7 +168,7 @@ SENSORS = [
         # that successfully reached the centrale. Lets you spot a centrale
         # that has stopped responding without having to read the logs.
         "id": "last_sync",
-        "name": "Dernière synchronisation",
+        "translation_key": "last_sync",
         "device_class": SensorDeviceClass.TIMESTAMP,
         "icon": "mdi:clock-check-outline",
         "entity_category": EntityCategory.DIAGNOSTIC,
@@ -197,17 +183,17 @@ SENSORS = [
 BUTTONS = [
     {
         "id": "reset_battery_err",
-        "name": "Réinitialiser défaut piles",
+        "translation_key": "reset_battery_err",
         "icon": "mdi:battery-off-outline",
     },
     {
         "id": "reset_alarm_err",
-        "name": "Réinitialiser défaut alarme",
+        "translation_key": "reset_alarm_err",
         "icon": "mdi:alarm-light-off-outline",
     },
     {
         "id": "reset_link_err",
-        "name": "Réinitialiser défaut liaison radio",
+        "translation_key": "reset_link_err",
         "icon": "mdi:access-point-off",
     },
 ]

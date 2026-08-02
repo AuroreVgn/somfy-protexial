@@ -4,6 +4,7 @@ from typing import Any, Optional
 from homeassistant.components.binary_sensor import (
     BinarySensorDeviceClass,
     BinarySensorEntity,
+    BinarySensorEntityDescription,
 )
 
 from homeassistant.config_entries import ConfigEntry
@@ -48,24 +49,9 @@ FIELD_CONFIG = {
     "pause": {"class": BinarySensorDeviceClass.RUNNING, "icon": "mdi:pause-circle"},
 }
 
-# Mapping of default icons to alert icons for aggregate sensors
-_ALERT_ICONS = {
-    "mdi:window-closed-variant": "mdi:window-open-variant",
-    "mdi:door-closed": "mdi:door",
-    "mdi:garage-variant": "mdi:garage-open-variant",
-    "mdi:motion-sensor-off": "mdi:motion-sensor",
-    "mdi:smoke-detector-variant": "mdi:smoke-detector-variant-alert",
-    "mdi:home-sound-out'": "mdi:home-sound-out-outline",
-    "mdi:bullhorn": "mdi:bullhorn-outline",
-    "mdi:dialpad": "mdi:alerte-circle",
-    "mdi:remote": "mdi:remote-off",
-    "mdi:key-variant": "mdi:key-alert",
-    "mdi:alpha-s-box": "mdi:alpha-s-box-outline",
-}
-
 
 # Default icon for an element
-def _get_element_icon(element: dict) -> str:
+def _get_element_icon(element: dict, problem: bool = False) -> str:
     """Return the appropriate icon for a Somfy element."""
 
     label = (element.get("label") or "").lower()
@@ -74,39 +60,43 @@ def _get_element_icon(element: dict) -> str:
     element_type = f"{label} {name}"
 
     if "vitre" in element_type:
-        return "mdi:window-closed-variant"
+        return "mdi:window-open-variant" if problem else "mdi:window-closed-variant"
 
     if "ouvt" in element_type:
-        return "mdi:door-closed"
+        return "mdi:door-open" if problem else "mdi:door-closed"
 
     if "do gar" in element_type:
-        return "mdi:garage-variant"
+        return "mdi:garage-open-variant" if problem else "mdi:garage-variant"
 
     if "dm" in element_type:
-        return "mdi:motion-sensor-off"
+        return "mdi:motion-sensor-off" if problem else "mdi:motion-sensor"
 
     if "fum" in element_type:
-        return "mdi:smoke-detector-variant"
+        return (
+            "mdi:smoke-detector-variant-alert"
+            if problem
+            else "mdi:smoke-detector-variant"
+        )
 
     if "sir ext" in element_type:
-        return "mdi:home-sound-out"
+        return "mdi:home-sound-out-outline" if problem else "mdi:home-sound-out"
 
     if "sir" in element_type:
-        return "mdi:bullhorn"
+        return "mdi:bullhorn-outline" if problem else "mdi:bullhorn"
 
     if "clavier" in element_type or "cl lcd" in element_type:
-        return "mdi:dialpad"
+        return "mdi:keyboard-off-outline" if problem else "mdi:dialpad"
 
     if "tc" in element_type:
-        return "mdi:remote"
+        return "mdi:remote-off" if problem else "mdi:remote"
 
     if "badge" in element_type:
-        return "mdi:key-variant"
+        return "mdi:key-alert" if problem else "mdi:key-variant"
 
     if "tr" in element_type:
-        return "mdi:alpha-s-box"
+        return "mdi:alpha-s-box-outline" if problem else "mdi:alpha-s-box"
 
-    return "mdi:shield-check"
+    return "mdi:alert-rhombus-outline" if problem else "mdi:help-rhombus"
 
 
 def _fields_for_label(label: str) -> Optional[list[str]]:
@@ -202,7 +192,15 @@ async def async_setup_entry(
 
     # Static binary sensors from status.xml
     for sensor in BINARY_SENSORS:
-        sensors.append(ProtexialBinarySensor(device_info, coordinator, sensor))
+        description = BinarySensorEntityDescription(
+            key=sensor["id"],
+            translation_key=sensor["translation_key"],
+            device_class=sensor.get("device_class"),
+            entity_category=sensor.get("entity_category"),
+        )
+        sensors.append(
+            ProtexialBinarySensor(device_info, coordinator, description, sensor)
+        )
 
     # Dynamic binary sensors (u_plistelmt.htm): one aggregate per element
     elements = (coordinator.data or {}).get("elements", [])
@@ -230,48 +228,34 @@ async def async_setup_entry(
 
 
 class ProtexialBinarySensor(CoordinatorEntity, BinarySensorEntity):
-    """Binary sensor backed by status.xml (predefined in BINARY_SENSORS)."""
+    """Binary sensor backed by status.xml."""
 
-    def __init__(self, device_info, coordinator, sensor: Any) -> None:
-        """Build the entity using static sensor metadata and the coordinator."""
+    _attr_has_entity_name = True
+
+    def __init__(
+        self,
+        device_info,
+        coordinator,
+        description: BinarySensorEntityDescription,
+        sensor: dict[str, Any],
+    ) -> None:
+        """Initialize a translated static binary sensor."""
         super().__init__(coordinator)
-        self._attr_id = f"{DOMAIN}_sensor_{sensor['id']}"
-        self._attr_unique_id = f"{DOMAIN}_sensor_{sensor['id']}"
+        self.entity_description = description
+        self._attr_translation_key = description.translation_key
+        self._attr_unique_id = f"{DOMAIN}_sensor_{description.key}"
         self._attr_device_info = device_info
-        if "entity_category" in sensor:
-            self._attr_entity_category = sensor["entity_category"]
-        self.coordinator = coordinator
         self.sensor = sensor
 
     @property
-    def name(self):
-        """Return the entity name."""
-        return self.sensor["name"]
-
-    @property
     def icon(self) -> str | None:
-        """Return the icon according to the current state."""
-
+        """Return a dynamic icon based on state."""
         return self.sensor.get("icon_on") if self.is_on else self.sensor.get("icon_off")
 
     @property
     def is_on(self) -> bool:
         """Return True if the underlying status value represents 'on'."""
-        return self.__getCurrentState()
-
-    @property
-    def state(self):
-        """Return a string state for display."""
-        return self.sensor["state_on"] if self.is_on else self.sensor["state_off"]
-
-    @property
-    def device_class(self) -> BinarySensorDeviceClass | None:
-        """Return device class if provided."""
-        return self.sensor.get("device_class")
-
-    def __getCurrentState(self) -> bool:
-        """Interpret the coordinator's status dict for this sensor."""
-        value = self.coordinator.data[self.sensor["id"]]
+        value = (self.coordinator.data or {}).get(self.entity_description.key)
         if "on_if" in self.sensor:
             return value == self.sensor["on_if"]
         return value != self.sensor["off_if"]
@@ -374,21 +358,24 @@ class SomfyElementAggregateBinarySensor(CoordinatorEntity, BinarySensorEntity):
         self._attr_unique_id = f"{DOMAIN}_elt_{self._code}_aggregate"
         self._attr_device_info = device_info
         self._attr_name = f"{self._label} - {self._name_part}"
+        self._attr_translation_key = "element_aggregate"
         self._attr_device_class = BinarySensorDeviceClass.PROBLEM
         self._attr_entity_category = EntityCategory.DIAGNOSTIC
-        self._attr_icon = _get_element_icon(element)
-        self._icon = _get_element_icon(element)
+        # self._attr_icon = _get_element_icon(element)
+        # self._icon = _get_element_icon(element)
+        self._icon_on = _get_element_icon(element, problem=True)
+        self._icon_off = _get_element_icon(element, problem=False)
 
         self._fields = _fields_for_label(self._label) or []
         if "pause" in element and "pause" not in self._fields:
             self._fields.append("pause")
 
     @property
-    def icon(self):
-        """Return a dynamic icon based on the current state."""
+    def icon(self) -> str | None:
+        """Return the icon according to the aggregate state."""
         if self.is_on:
-            return _ALERT_ICONS.get(self._icon, "mdi:alert-circle")
-        return self._icon
+            return self._icon_on
+        return self._icon_off
 
     def _normalize_flag(self, field: str, raw: str | None) -> bool | None:
         """Convert a raw flag into boolean (True=OK, False=not OK)."""

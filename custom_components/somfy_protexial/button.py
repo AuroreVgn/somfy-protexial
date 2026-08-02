@@ -7,9 +7,7 @@
 # RESET_LINK_ERR in phpProtexiom.class.php), which POST a small form to the
 # elements list page (u_listelmt.htm).
 import logging
-from typing import Any
-
-from homeassistant.components.button import ButtonEntity
+from homeassistant.components.button import ButtonEntity, ButtonEntityDescription
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import EntityCategory
 from homeassistant.core import HomeAssistant
@@ -30,9 +28,15 @@ async def async_setup_entry(
     protexial = hass.data[DOMAIN][config_entry.entry_id][API]
     device_info = hass.data[DOMAIN][config_entry.entry_id][DEVICE_INFO]
 
-    entities = [
-        ProtexialResetButton(device_info, protexial, button) for button in BUTTONS
-    ]
+    entities = []
+    for button in BUTTONS:
+        description = ButtonEntityDescription(
+            key=button["id"],
+            translation_key=button["translation_key"],
+            icon=button.get("icon"),
+            entity_category=EntityCategory.CONFIG,
+        )
+        entities.append(ProtexialResetButton(device_info, protexial, description))
 
     if entities:
         async_add_entities(entities)
@@ -43,16 +47,18 @@ async def async_setup_entry(
 class ProtexialResetButton(ButtonEntity):
     """Button that acknowledges/resets one of the centrale's default flags."""
 
-    _attr_entity_category = EntityCategory.CONFIG
+    _attr_has_entity_name = True
 
-    def __init__(self, device_info, protexial, button: Any) -> None:
-        """Build the entity using static button metadata."""
+    def __init__(
+        self, device_info, protexial, description: ButtonEntityDescription
+    ) -> None:
+        """Initialize a translated reset button."""
+        self.entity_description = description
+        self._attr_translation_key = description.translation_key
         self._protexial = protexial
-        self._button_id = button["id"]
+        self._button_id = description.key
         self._attr_unique_id = f"{DOMAIN}_{self._button_id}"
         self._attr_device_info = device_info
-        self._attr_name = button["name"]
-        self._attr_icon = button.get("icon")
 
     async def async_press(self) -> None:
         """Call the matching reset_xxx() coroutine on the API client."""
