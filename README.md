@@ -1,3 +1,8 @@
+
+> [!CAUTION]
+> THIS INTEGRATION WON'T BE UPDATED AFTER SEPTEMBER 2026, USE [AuroreVgn/somfy-protexial](https://github.com/aurorevgn/somfy-protexial) INSTEAD.  
+> CETTE INTEGRATION NE SERA PLUS MAINTENUE APRÈS SEPTEMBRE 2026, UTILISER [AuroreVgn/somfy-protexial](https://github.com/aurorevgn/somfy-protexial) À LA PLACE.  
+
 # Somfy Protexial / Protexiom / Protexial IO
 
 [![GitHub Release][releases-shield]][releases]
