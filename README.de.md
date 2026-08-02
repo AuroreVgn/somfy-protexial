@@ -1,126 +1,225 @@
 # Somfy Protexial / Protexiom / Protexial IO
 
-[Français](README.md) | [English](README.en.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Italiano](README.it.md) | [Nederlands](README.nl.md) | [Português](README.pt.md)
+[![GitHub Release][releases-shield]][releases]
+[![License][license-shield]](LICENSE)
+
+[![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg?style=flat-square)](https://github.com/hacs/integration)
+[![Maintainers](https://img.shields.io/badge/maintainers-@AuroreVgn%20|%20@the8tre-blue.svg?style=flat-square)](#)
+
+![header](assets/header.png)
+
+## Weitere Sprachen
+
+[English](README.en.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Italiano](README.it.md) | [Nederlands](README.nl.md) | [Português](README.pt.md)
 
 ## Über diese Integration
 
-Diese Integration ermöglicht Home Assistant die Kommunikation mit einer Somfy-Protexial-, Protexiom- oder Protexial-IO-Alarmzentrale.
+🔀 Diese Version 2.0.x ist ein **aktualisierter Fork** der ursprünglichen Integration von [the8tre](https://github.com/the8tre), verfügbar [hier](https://github.com/the8tre/somfy-protexial).
+
+Die Hauptziele dieser Integration sind:
+
+- das **Abschalten des 2G-Netzes** zu antizipieren, indem eine zuverlässige Alternative bereitgestellt wird, ohne die gesamte Alarmanlage austauschen zu müssen. Benachrichtigungen über Einbrüche (oder andere Ereignisse) können direkt über Home Assistant und die Smartphone-App versendet werden, einschließlich kritischer Benachrichtigungen (die auch im Lautlos-Modus ausgelöst werden).
+- das [**Abschalten der Somfy Protexial-/Protexiom-Server**](https://forum.hacf.fr/t/integration-custom-centrale-somfy-protexial/23589/223) zu berücksichtigen (auch wenn die Auswirkungen voraussichtlich sehr gering sein werden).
+
+Diese Integration ermöglicht die Anbindung einer Somfy Protexial-, Protexiom- oder Protexial IO-Alarmzentrale an Home Assistant.
 
 ### Getestete Modelle
 
 | Modell | Version | Status |
-|---|---:|:---:|
-| Protexial IO | `2013 (v10_13)` | ✅ |
-| Protexiom 5000 | `2013 (v10_3)` | ✅ |
-| Protexiom | `2013 (v10_15)` | ✅ |
-| Protexial | `2010 (v8_1)` | ✅ |
-| Protexiom | `2008` | ✅ |
+| -------------- | --------------- | ------------------ |
+| Protexial IO | `2013 (v10_13)` | :white_check_mark: |
+| Protexiom 5000 | `2013 (v10_3)` | :white_check_mark: |
+| Protexial | `2013 (v10_13)` | :white_check_mark: |
+| Protexial | `2013 (v10_14)` | :white_check_mark: |
+| Protexial | `2013 (v10_15)` | :white_check_mark: |
+| Protexial | `2010 (v7_9)` | :white_check_mark: |
+| Protexial | `2010 (v8_1)` | :white_check_mark: |
+| Protexial | `2008` | :white_check_mark: |
 
-Diese Liste ist nicht vollständig. Die Integration kann auch mit weiteren Versionen von Somfy-Alarmzentralen funktionieren.
+⚠️ Dass ein Modell hier nicht aufgeführt ist, bedeutet **nicht**, dass es nicht unterstützt wird. Es wurde möglicherweise lediglich noch nicht getestet oder gemeldet.
 
-### Unterstützte Funktionen
+🔎 Die Integration ermöglicht die Anzeige des Alarmstatus sowie des Status aller Alarmkomponenten.
 
-- Alarmsteuerung über die Zonen A, B und C
-- Steuerung von Rollläden
-- Steuerung von Beleuchtung
-- Auslesen des allgemeinen Zentralenstatus
-- Auslesen von Fehlern und Zuständen der Somfy-Komponenten
+👉🏻 Folgende Funktionen können gesteuert werden:
 
-### Wichtigste Entitäten
+- 🚨 Alarm nach Zonen (A, B, C)
+- 🪟 Rollläden
+- 💡 Beleuchtung
 
-| Entität | Beschreibung |
-|---|---|
-| `alarm_control_panel` | Modi `armed_away`, `armed_home`, `armed_night` und Unscharfschaltung |
-| `cover` | Öffnen, Schließen und Stoppen der Rollläden, ohne Positionssteuerung |
-| `light` | Beleuchtung ein- und ausschalten |
-| `binary_sensor` | Batterie, Bewegung, Öffnung, Sabotage, Funk, GSM, Kamera und zusammengefasste Gerätezustände |
-| `sensor` | GSM-Anbieter, GSM-Signalqualität und letzte Synchronisierung |
-| `button` | Zurücksetzen von Batterie-, Alarm- und Funkverbindungsfehlern |
+🔃 Darüber hinaus können Alarm-, Funkverbindungs- und Batteriestörungen zurückgesetzt werden.
+
+#### Unterstützte Entitäten
+
+| Entität | Beschreibung | Version |
+| ----------------------------------- | ----------------------------------------------------------- |-----------------------------------------------------------|
+| `alarm_control_panel.alarme` | Unterstützt die Modi `armed_away`, `armed_home` und `armed_night` | 1.2.4 |
+| `cover.volets` | Öffnen, Schließen und Stoppen. Keine Positionssteuerung. | 1.2.4 |
+| `light.lumieres` | Ein/Aus (der Status wird von der Integration verwaltet. Es kann nicht erkannt werden, ob das Licht über eine Fernbedienung, einen Schalter oder eine andere Integration geschaltet wurde.) | 1.2.4 |
+| `binary_sensor.batterie` | Zusammengefasster Batteriestatus | 1.2.4 |
+| `binary_sensor.boitier` | Status der Alarmzentrale | 1.2.4 |
+| `binary_sensor.communication_radio` | Status der Funkverbindung | 1.2.4 |
+| `binary_sensor.communication_gsm` | Status der GSM-Verbindung | 1.2.4 |
+| `binary_sensor.mouvement_detecte` | Status der Bewegungserkennung | 1.2.4 |
+| `binary_sensor.porte_ou_fenetre` | Status von Türen und Fenstern | 1.2.4 |
+| `binary_sensor.camera` | Status der Kameraverbindung | 1.2.4 |
+| `sensor.signal_gsm_5` | GSM-Signalstärke (/5) | 1.2.6 |
+| `sensor.operateur_gsma` | GSM-Netzbetreiber | 1.2.6 |
+| `sensor.alarme_derniere_sync` | Letzte Synchronisierung mit der Alarmzentrale | 2.0.7 |
+
+#### Für jedes Alarmgerät werden folgende Binary Sensoren mit Attributen erstellt:
+
+| Entität | Beschreibung – Attribute | Version |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------- | --------|
+| `binary_sensor.do_ouvt_xxx` | Türkontakt – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, offen/geschlossen, pausiert | 2.0.0 |
+| `binary_sensor.do_vitre_ouvt_xxx` | Fensterkontakt mit Glasbrucherkennung – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, offen/geschlossen, pausiert | 2.0.0 |
+| `binary_sensor.do_vitre_ouvt_xxx` | Akustischer Glasbruchmelder – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, offen/geschlossen, pausiert | 2.0.0 |
+| `binary_sensor.do_gar_xxx` | Garagentorkontakt – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, offen/geschlossen, pausiert | 2.0.0 |
+| `binary_sensor.dm_image_mvt_xxx` | Bewegungsmelder mit Bildaufnahme – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 |
+| `binary_sensor.dm_mvt_xxx` | Bewegungsmelder – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 |
+| `binary_sensor.tr_tel_xxx` | Alarmzentrale – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 |
+| `binary_sensor.clavier_clv_xxx` | Tastatur – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 |
+| `binary_sensor.cl_lcd_clv_xxx` | LCD-Tastatur – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 |
+| `binary_sensor.sir_ext_xxx` | Außensirene – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 |
+| `binary_sensor.sir_int_xxx` | Innensirene – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 |
+| `binary_sensor.d_fumee_fumee_xxx` | Rauchmelder – Batterie, Verbindung zur Zentrale, Fehler, pausiert | 2.0.0 |
+| `binary_sensor.tc_multi_tlcmd_xxx` | Mehrkanal-Fernbedienung – Verbindung zur Zentrale, pausiert | 2.0.0 |
+| `binary_sensor.tc_4_tlcmd_xxx` | Mehrzonen-Fernbedienung – Verbindung zur Zentrale, pausiert | 2.0.0 |
+| `binary_sensor.badge_bdg_axxx` | RFID-Badge – Verbindung zur Zentrale, pausiert | 2.0.0 |
+
+Die Attribute sind im Menü **„Details“** sichtbar.
+
+<img width="160" height="243" alt="image" src="https://github.com/user-attachments/assets/1fd0de09-5f3e-4dc0-b147-bb55593adf45" />
+
+<img width="526" height="301" alt="image" src="https://github.com/user-attachments/assets/50ad793d-bddc-44b5-915a-b569b7cb5050" />
+
+#### Unterstützte Schaltflächen
+
+| Entität | Beschreibung | Version |
+| ----------------------------------- | ----------------------------------------------------------- |-----------------------------------------------------------|
+| `button.reinitialiser_defaut_alarme` | Alarmstörungen zurücksetzen (Bewegung, Öffnung, Sabotage) | 2.0.7 |
+| `button.reinitialiser_defaut_liaison_radio` | Funkverbindungsfehler zwischen Zentrale und Sensoren zurücksetzen | 2.0.7 |
+| `button.reinitialiser_defaut_piles` | Batteriestörungen zurücksetzen | 2.0.7 |
 
 ## Installation
 
-### Option A — Installation über HACS (empfohlen)
+### Option A: Installation über HACS (empfohlen)
 
-1. Öffnen Sie in HACS **Integrationen**.
-2. Öffnen Sie das Menü **⋮** und danach **Benutzerdefinierte Repositories**.
-3. Fügen Sie `https://github.com/AuroreVgn/somfy-protexial` hinzu.
-4. Wählen Sie die Kategorie **Integration**.
-5. Suchen Sie nach **Somfy Protexial** und laden Sie die Integration herunter.
-6. Starten Sie Home Assistant neu.
+1. Dieses GitHub-Repository zu HACS hinzufügen
+   - Automatisch: [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?category=integration&repository=somfy-protexial&owner=AuroreVgn) <br />
+   - Manuell:
+      - HACS → Integrationen → Menü „...“ → Benutzerdefinierte Repositories
+      - Repository: `https://github.com/AuroreVgn/somfy-protexial`
+      - Kategorie: `Integration`
+3. Die Integration herunterladen
+   - HACS → Integrationen → Somfy Protexial → Herunterladen
+4. Home Assistant neu starten
 
-### Option B — Manuelle Installation
+### Option B: Manuelle Installation
 
-1. Laden Sie das Archiv der neuesten verfügbaren Version herunter.
-2. Suchen Sie das Verzeichnis mit `configuration.yaml`.
-3. Erstellen Sie `custom_components`, falls das Verzeichnis noch nicht existiert.
-4. Erstellen Sie `custom_components/somfy_protexial`.
-5. Entpacken Sie die Integrationsdateien in dieses Verzeichnis.
+1. Das Archiv der neuesten Version herunterladen: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.0.11.zip)
+2. Das Verzeichnis suchen, das die Datei `configuration.yaml` Ihrer Home-Assistant-Installation enthält.
+3. Falls das Verzeichnis `custom_components` nicht existiert, erstellen Sie es.
+4. Erstellen Sie darin ein Verzeichnis `somfy_protexial`.
+5. Entpacken Sie den Inhalt von `somfy_protexial.zip` in dieses Verzeichnis.
 6. Starten Sie Home Assistant neu.
 
 ## Konfiguration
 
-Öffnen Sie in Home Assistant:
-
-**Einstellungen → Geräte & Dienste → Integration hinzufügen → Somfy Protexial**
+- Fügen Sie die Integration hinzu: [![Open your Home Assistant instance and start setting up a new integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=somfy_protexial) oder manuell.
+- Einstellungen → Geräte & Dienste → + Integration hinzufügen → Somfy Protexial
 
 ### 1. Adresse der Alarmzentrale
 
-Geben Sie die lokale URL der Weboberfläche ein, zum Beispiel:
+- Geben Sie die URL der lokalen Weboberfläche Ihrer Alarmzentrale ein:
+  `http://192.168.1.234` oder `http://192.168.1.234:9876`
 
-```text
-http://192.168.1.234
-```
+</br>
 
-Verwendet die Zentrale einen besonderen Port, fügen Sie ihn der URL hinzu.
+<img src="assets/welcome.png" width="50%"><img src="assets/login_io.jpeg" width="50%">
 
-### 2. Authentifizierung
+### 2. Benutzeranmeldung
 
-Je nach Generation der Zentrale kann der Einrichtungsdialog Folgendes verlangen:
+- Benutzername: `"u"` (**den vorausgefüllten Wert beibehalten**)
+- Passwort: Geben Sie Ihr gewohntes Passwort ein.
+- Authentifizierungscode: Geben Sie den Code Ihrer Authentifizierungskarte entsprechend der angezeigten Challenge ein.
 
-- das Passwort des Benutzerkontos;
-- den zur Authentifizierungskarte passenden Challenge-Code;
-- bei einigen älteren Protexiom-Zentralen zunächst einen Administrator-Schritt und anschließend das Benutzerpasswort.
+<img src="assets/step2.png" width="50%">
 
 ### 3. Zusätzliche Konfiguration
 
-Die Scharfschaltmodi verwenden die in der Somfy-Zentrale eingerichteten Zonen:
+Die verschiedenen Scharfschaltungsmodi basieren auf den in der Somfy-Zentrale konfigurierten Bereichen:
 
-- **Abwesend**: Zonen A + B + C;
-- **Nacht**: optionale Zonenkombination;
-- **Anwesend**: optionale Zonenkombination.
+- Abwesenheitsmodus (immer verfügbar): Bereiche A+B+C
+- Nachtmodus (optional): frei wählbare Kombination aus A, B, C, A+B, B+C oder A+C
+- Anwesenheitsmodus (optional): frei wählbare Kombination aus A, B, C, A+B, B+C oder A+C
 
-Ein Scharfschaltcode kann festgelegt werden. Er wird dann beim Scharf- oder Unscharfschalten verlangt.
+**Code für Scharf-/Unscharfschaltung**
 
-Das Abfrageintervall kann zwischen 15 Sekunden und 1 Stunde eingestellt werden. Standardwert sind 60 Sekunden.
+Wenn Sie einen Code festlegen, wird dieser beim Scharf- und Unscharfschalten abgefragt.
 
-## Wichtige Hinweise
+**Aktualisierungsintervall**
 
-### Kompatibilität
+Von **15 Sekunden** bis **1 Stunde**. Standardwert: **60 Sekunden**.
 
-Die Liste der getesteten Modelle ist nicht vollständig. Erfolgreiche Tests mit einer anderen Version können in den Issues des Repositories oder im [HACF-Diskussionsthread](https://forum.hacf.fr/t/integration-custom-centrale-somfy-protexial/23589) gemeldet werden.
+Ein kürzeres Intervall wird nicht empfohlen, da die Weboberfläche der Alarmzentrale dadurch instabil werden kann.
 
-Das Jahr der Oberfläche wird normalerweise unten auf den Seiten der Zentrale angezeigt. Einige Zentralen stellen ihre Version auch unter folgender Adresse bereit:
+<img src="assets/step3.png" width="50%">
 
-```text
-http://ADRESSE_DER_ZENTRALE/cfg/vers
-```
+## Hinweise
 
-### Verwendung der ursprünglichen Somfy-Weboberfläche
+### Lovelace-Karte für Home Assistant (Status & Steuerung)
 
-Die Zentrale unterstützt normalerweise nur eine Benutzersitzung gleichzeitig. Deaktivieren oder laden Sie die Integration vorübergehend neu, bevor Sie die ursprüngliche Weboberfläche verwenden, falls die Verbindung abgelehnt wird.
+Für diese Integration wurde eine spezielle [Lovelace-Karte](https://github.com/developpeurbox/somfy-protexial-card) entwickelt.
 
-### Neukonfiguration
+### Mushroom-Template-Karte (Gerätedetails)
 
-Die Integration kann über die Home-Assistant-Oberfläche neu konfiguriert werden.
+Ein Home-Assistant-Template zur Darstellung aller Alarmkomponenten einschließlich ihrer Attribute (Batterie, Funkverbindung usw.) ist [hier](https://github.com/AuroreVgn/somfy-protexial/blob/main/assets/Template%20Home%20Assistant) verfügbar.
 
-## Beiträge
+<img width="485" height="127" alt="image" src="https://github.com/user-attachments/assets/d4f385c0-0171-4968-b369-c4cb86d8409e" />
 
-Beiträge, Fehlerberichte und Kompatibilitätsrückmeldungen sind willkommen. Lesen Sie vor Änderungen [CONTRIBUTING.md](CONTRIBUTING.md).
+### Versionskompatibilität
+
+Die oben aufgeführte Kompatibilitätsliste ist **nicht vollständig**. Diese Integration kann durchaus mit weiteren Versionen von Somfy-Alarmzentralen funktionieren. Wenn Sie eine andere Version erfolgreich getestet haben, freue ich mich über eine Rückmeldung.
+
+Das Baujahr bzw. die Generation der Weboberfläche Ihrer Alarmzentrale wird am unteren Rand der Seiten angezeigt:
+
+<img src="assets/version.png" width="30%">
+
+Einige Zentralen stellen ihre Firmware-Version außerdem unter folgender URL bereit:
+
+*http://192.168.1.234/cfg/vers*
+
+oder
+
+*http://192.168.1.234:9876/cfg/vers*
+
+### Verwendung der originalen Weboberfläche
+
+⚠️ **Die Alarmzentrale unterstützt immer nur eine aktive Benutzersitzung gleichzeitig. Wenn Sie die originale Weboberfläche verwenden möchten, müssen Sie die Integration vorübergehend deaktivieren.**
+
+### Verwendung der originalen mobilen App
+
+⚠️ Die offizielle **Somfy Alarme**-App kann auch bei aktiver Integration weiterhin verwendet werden.
+
+### Neukonfiguration der Integration
+
+Die Integration unterstützt eine vollständige Neukonfiguration direkt über die grafische Benutzeroberfläche von Home Assistant.
+
+## Beiträge sind willkommen!
+
+Wenn Sie zur Weiterentwicklung beitragen möchten, lesen Sie bitte die [Contribution guidelines](CONTRIBUTING.md).
 
 ## Danksagung
 
-Der ursprüngliche Code basiert teilweise auf Ludeeus’ Vorlage `integration_blueprint`.
+Diese Integration basiert größtenteils auf der Arbeit von [@Ludeeus](https://github.com/ludeeus) und dem Projekt [integration_blueprint][integration_blueprint].
 
-## Lizenz
+---
 
-Dieses Projekt wird unter der MIT-Lizenz veröffentlicht. Siehe [LICENSE](LICENSE).
+[integration_blueprint]: https://github.com/custom-components/integration_blueprint
+[hacs]: https://hacs.xyz
+[hacsbadge]: https://img.shields.io/badge/HACS-Custom-orange.svg?style=flat-square
+[license-shield]: https://img.shields.io/github/license/the8tre/somfy-protexial.svg?style=flat-square
+[maintenance-shield]: https://img.shields.io/badge/maintainer-%40the8tre-blue.svg?style=flat-square
+[releases-shield]: https://img.shields.io/github/v/release/AuroreVgn/somfy-protexial.svg?style=flat-square
+[releases]: https://github.com/AuroreVgn/somfy-protexial/releases
+[user_profile]: https://github.com/AuroreVgn
