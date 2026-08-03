@@ -13,7 +13,7 @@
 
 ## À propos
 
-🔀 Cette version 2.0.x est un [Fork](https://github.com/the8tre/somfy-protexial) **mis à jour** de l’intégration originale de [the8tre](https://github.com/the8tre).
+🔀 Cette version 2.0.x est un [Fork](https://github.com/the8tre/somfy-protexial) **mis à jour** de l’intégration originale de [the8tre](https://github.com/the8tre) désormais archivée.
 
 Les principaux objectifs de cette intégration sont d'anticiper : 
 - l'**arrêt de la 2G** en proposant une alternative fiable sans devoir tout changer pour alerter d'une intrusion (ou autre) directement via Home Assistant et l'application smartphone permettant la mise en place d'alertes critiques (ie. qui notifient même en silencieux).
@@ -112,7 +112,7 @@ Les attributs sont visibles dans le menus "Détails"
 
 ### Option B : Installation manuelle
 
-1. Télécharger l'archive de la dernière version disponible: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.0.11.zip)
+1. Télécharger l'archive de la dernière version disponible: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.0.12.zip)
 2. Localiser le répertoire contenant le fichier `configuration.yaml` dans votre installation de HA
 3. Si il n'y a pas de répertoire `custom_components` le créer
 4. Créer un répertoire `somfy_protexial` dans `custom_components`
@@ -147,7 +147,7 @@ Les différents modes d'armement exploitent les zones définies par la configura
 
 Code d'armement : si vous spécifiez un code celui-ci sera demandé lors de l'armement/désarmement.
 
-Interval de rafraîchissement : de 15 secondes à 1 heure, 60 secondes par défaut (il n'est pas conseillé de mettre moins, sinon l'interface web de l'alarme a tendance à planter).
+Interval de rafraîchissement : de 15 secondes à 24 heures, 60 secondes par défaut (il n'est pas conseillé de mettre moins, sinon l'interface web de l'alarme a tendance à planter).
 
 <img src="assets/step3.png"  width="50%">
 
