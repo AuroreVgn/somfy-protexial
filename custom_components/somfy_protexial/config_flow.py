@@ -247,7 +247,7 @@ class ProtexialConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     ),
                     vol.Required(CONF_SCAN_INTERVAL, default=60): NumberSelector(
                         NumberSelectorConfig(
-                            mode=NumberSelectorMode.BOX, min=15, max=3600, step=1
+                            mode=NumberSelectorMode.BOX, min=15, max=86400, step=1
                         )
                     ),
                 }
