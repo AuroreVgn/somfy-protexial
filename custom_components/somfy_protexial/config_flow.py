@@ -342,7 +342,7 @@ class ProtexialOptionsFlowHandler(config_entries.OptionsFlow):
                         default=self.config_entry.data[CONF_SCAN_INTERVAL],
                     ): NumberSelector(
                         NumberSelectorConfig(
-                            mode=NumberSelectorMode.BOX, min=15, max=3600, step=1
+                            mode=NumberSelectorMode.BOX, min=15, max=86400, step=1
                         )
                     ),
                 }
