@@ -14,7 +14,7 @@
 
 ## About
 
-🔀 This 2.0.x version is an **updated fork** of the original integration by [the8tre](https://github.com/the8tre), available [here](https://github.com/the8tre/somfy-protexial).
+🔀 This 2.0.x version is an **updated fork** of the original integration by [the8tre](https://github.com/the8tre).
 
 The main objectives of this integration are to anticipate:
 
@@ -157,7 +157,7 @@ The available arming modes are based on the zones configured in your Somfy alarm
 If you specify a code, it will be required whenever the alarm is armed or disarmed.
 
 **Refresh interval:**  
-From **15 seconds** to **1 hour**. The default value is **60 seconds**.
+From **15 seconds** to **24 hours**. The default value is **60 seconds**.
 
 Using a shorter interval is not recommended, as it may cause the alarm's web interface to become unstable.
 
