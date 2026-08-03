@@ -14,7 +14,7 @@
 
 ## Acerca de
 
-🔀 Esta versión 2.0.x es un **fork actualizado** de la integración original de [the8tre](https://github.com/the8tre), disponible [aquí](https://github.com/the8tre/somfy-protexial).
+🔀 Esta versión 2.0.x es un **fork actualizado** de la integración original de [the8tre](https://github.com/the8tre).
 
 Los principales objetivos de esta integración son anticiparse a:
 
@@ -116,7 +116,7 @@ Los atributos pueden consultarse en el menú **"Detalles"**.
 
 ### Opción B: Instalación manual
 
-1. Descargue el archivo de la última versión disponible: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.0.11.zip)
+1. Descargue el archivo de la última versión disponible: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.0.12.zip)
 2. Localice el directorio que contiene el archivo `configuration.yaml` de su instalación de Home Assistant.
 3. Si no existe el directorio `custom_components`, créelo.
 4. Cree un directorio `somfy_protexial` dentro de `custom_components`.
@@ -159,7 +159,7 @@ Si especifica un código, este se solicitará cada vez que arme o desarme la ala
 
 **Intervalo de actualización**
 
-Desde **15 segundos** hasta **1 hora**. El valor predeterminado es **60 segundos**.
+Desde **15 segundos** hasta **24 horas**. El valor predeterminado es **60 segundos**.
 
 No se recomienda utilizar un intervalo inferior, ya que la interfaz web de la central puede volverse inestable.
 
