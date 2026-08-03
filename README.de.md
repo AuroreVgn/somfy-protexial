@@ -116,7 +116,7 @@ Die Attribute sind im Menü **„Details“** sichtbar.
 
 ### Option B: Manuelle Installation
 
-1. Das Archiv der neuesten Version herunterladen: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.0.11.zip)
+1. Das Archiv der neuesten Version herunterladen: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.0.12.zip)
 2. Das Verzeichnis suchen, das die Datei `configuration.yaml` Ihrer Home-Assistant-Installation enthält.
 3. Falls das Verzeichnis `custom_components` nicht existiert, erstellen Sie es.
 4. Erstellen Sie darin ein Verzeichnis `somfy_protexial`.
@@ -159,7 +159,7 @@ Wenn Sie einen Code festlegen, wird dieser beim Scharf- und Unscharfschalten abg
 
 **Aktualisierungsintervall**
 
-Von **15 Sekunden** bis **1 Stunde**. Standardwert: **60 Sekunden**.
+Von **15 Sekunden** bis **24 Stunden**. Standardwert: **60 Sekunden**.
 
 Ein kürzeres Intervall wird nicht empfohlen, da die Weboberfläche der Alarmzentrale dadurch instabil werden kann.
 
