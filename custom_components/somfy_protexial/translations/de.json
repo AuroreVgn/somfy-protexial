@@ -36,7 +36,7 @@
           "night_zones": "Nachtzone(n) scharf",
           "home_zones": "Anwesend-Zone(n) scharf",
           "arm_code": "Optionaler 4-stelliger Scharfschaltungscode",
-          "scan_interval": "Abfrageintervall (Sekunden)"
+          "scan_interval": "Aktualisierungsintervall in Sekunden — 0 deaktiviert die automatische Aktualisierung"
         }
       }
     },
@@ -95,6 +95,9 @@
       }
     },
     "button": {
+      "refresh": {
+        "name": "Daten aktualisieren"
+      },
       "reset_battery_err": {
         "name": "Batteriefehler zurücksetzen"
       },

@@ -36,7 +36,7 @@
           "night_zones": "Inserisci zona/e notte",
           "home_zones": "Inserisci zona/e casa",
           "arm_code": "Codice di inserimento opzionale di 4 cifre",
-          "scan_interval": "Intervallo di scansione (secondi)"
+          "scan_interval": "Intervallo di aggiornamento in secondi — 0 disabilita l'aggiornamento automatico"
         }
       }
     },
@@ -95,6 +95,9 @@
       }
     },
     "button": {
+      "refresh": {
+        "name": "Aggiorna dati"
+      },
       "reset_battery_err": {
         "name": "Reimposta errore batterie"
       },

@@ -36,7 +36,7 @@
           "night_zones": "Arm night zone(s)",
           "home_zones": "Arm home zone(s)",
           "arm_code": "Optional 4 digits arm code",
-          "scan_interval": "Scan interval (seconds)"
+          "scan_interval": "Refresh interval in seconds — 0 disables automatic refresh"
         }
       }
     },
@@ -95,6 +95,9 @@
       }
     },
     "button": {
+      "refresh": {
+        "name": "Refresh data"
+      },
       "reset_battery_err": {
         "name": "Reset Battery Error"
       },

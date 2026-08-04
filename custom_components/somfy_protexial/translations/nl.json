@@ -36,7 +36,7 @@
           "night_zones": "Nachtzone(s) inschakelen",
           "home_zones": "Thuiszone(s) inschakelen",
           "arm_code": "Optionele 4-cijferige inschakelcode",
-          "scan_interval": "Scaninterval (seconden)"
+          "scan_interval": "Vernieuwingsinterval in seconden — 0 schakelt automatische vernieuwing uit"
         }
       }
     },
@@ -95,6 +95,9 @@
       }
     },
     "button": {
+      "refresh": {
+        "name": "Gegevens vernieuwen"
+      },
       "reset_battery_err": {
         "name": "Batterijfout resetten"
       },

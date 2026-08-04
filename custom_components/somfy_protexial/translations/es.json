@@ -36,7 +36,7 @@
           "night_zones": "Armar zona(s) nocturna(s)",
           "home_zones": "Armar zona(s) en casa",
           "arm_code": "Código de armado opcional de 4 dígitos",
-          "scan_interval": "Intervalo de consulta (segundos)"
+          "scan_interval": "Intervalo de actualización en segundos — 0 desactiva la actualización automática"
         }
       }
     },
@@ -95,6 +95,9 @@
       }
     },
     "button": {
+      "refresh": {
+        "name": "Actualizar datos"
+      },
       "reset_battery_err": {
         "name": "Restablecer fallo de baterías"
       },

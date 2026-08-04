@@ -137,12 +137,17 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         except Exception as err:
             raise UpdateFailed(f"Error communicating with API: {err}")
 
+    scan_interval = int(entry.data.get(CONF_SCAN_INTERVAL, 60))
+    update_interval = (
+        None if scan_interval == 0 else timedelta(seconds=scan_interval)
+    )
+
     coordinator = DataUpdateCoordinator(
         hass,
         _LOGGER,
         name="Somfy Protexial status update",
         update_method=_get_status,
-        update_interval=timedelta(seconds=entry.data.get(CONF_SCAN_INTERVAL)),
+        update_interval=update_interval,
     )
 
     device_registry = dr.async_get(hass)

@@ -36,7 +36,7 @@
           "night_zones": "Ativar zona(s) noturna(s)",
           "home_zones": "Ativar zona(s) em casa",
           "arm_code": "Código de ativação opcional de 4 dígitos",
-          "scan_interval": "Intervalo de consulta (segundos)"
+          "scan_interval": "Intervalo de atualização em segundos — 0 desativa a atualização automática"
         }
       }
     },
@@ -95,6 +95,9 @@
       }
     },
     "button": {
+      "refresh": {
+        "name": "Atualizar dados"
+      },
       "reset_battery_err": {
         "name": "Repor erro das pilhas"
       },

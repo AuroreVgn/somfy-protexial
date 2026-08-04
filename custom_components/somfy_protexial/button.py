@@ -13,7 +13,7 @@ from homeassistant.const import EntityCategory
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-from .const import API, BUTTONS, DEVICE_INFO, DOMAIN
+from .const import API, BUTTONS, COORDINATOR, DEVICE_INFO, DOMAIN
 from .somfy_exception import SomfyException
 
 _LOGGER = logging.getLogger(__name__)
@@ -26,9 +26,16 @@ async def async_setup_entry(
 ) -> None:
     """Set up the button platform (default reset buttons)."""
     protexial = hass.data[DOMAIN][config_entry.entry_id][API]
+    coordinator = hass.data[DOMAIN][config_entry.entry_id][COORDINATOR]
     device_info = hass.data[DOMAIN][config_entry.entry_id][DEVICE_INFO]
 
-    entities = []
+    entities = [
+        ProtexialRefreshButton(
+            device_info=device_info,
+            coordinator=coordinator,
+            entry_id=config_entry.entry_id,
+        )
+    ]
     for button in BUTTONS:
         description = ButtonEntityDescription(
             key=button["id"],
@@ -42,6 +49,25 @@ async def async_setup_entry(
         async_add_entities(entities)
     else:
         _LOGGER.debug("No buttons to add.")
+
+
+class ProtexialRefreshButton(ButtonEntity):
+    """Button that manually refreshes all coordinator-backed entities."""
+
+    _attr_has_entity_name = True
+    _attr_translation_key = "refresh"
+    _attr_icon = "mdi:refresh"
+    _attr_entity_category = EntityCategory.CONFIG
+
+    def __init__(self, device_info, coordinator, entry_id: str) -> None:
+        """Initialize the manual refresh button."""
+        self.coordinator = coordinator
+        self._attr_unique_id = f"{entry_id}_refresh"
+        self._attr_device_info = device_info
+
+    async def async_press(self) -> None:
+        """Request an immediate refresh from the coordinator."""
+        await self.coordinator.async_request_refresh()
 
 
 class ProtexialResetButton(ButtonEntity):
