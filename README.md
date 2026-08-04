@@ -94,7 +94,8 @@ Les attributs sont visibles dans le menus "Détails"
 | ----------------------------------- | ----------------------------------------------------------- |-----------------------------------------------------------|
 | `button.reinitialiser_defaut_alarme`|  Réinitialisation des défauts d'alarmes (mouvement, ouverture, arrachement)  | 2.0.7                                                     |
 | `button.reinitialiser_defaut_liaison_radio`| Réinitialisation des défauts de lien entre la centrale et les capteurs  | 2.0.7                                                      |
-| `button.reinitialiser_defaut_piles`| Réinitialisation des défauts piles    | 2.0.7                                                      
+| `button.reinitialiser_defaut_piles`| Réinitialisation des défauts piles    | 2.0.7                
+| `button.refresh`| Mise à jour des infos manuellement    | 2.0.13    
 
 ## Installation
 
@@ -147,7 +148,7 @@ Les différents modes d'armement exploitent les zones définies par la configura
 
 Code d'armement : si vous spécifiez un code celui-ci sera demandé lors de l'armement/désarmement.
 
-Interval de rafraîchissement : de 15 secondes à 24 heures, 60 secondes par défaut (il n'est pas conseillé de mettre moins, sinon l'interface web de l'alarme a tendance à planter).
+Interval de rafraîchissement : de 0 seconde à 24 heures, 60 secondes par défaut (il n'est pas conseillé de mettre moins, sinon l'interface web de l'alarme a tendance à planter).
 
 <img src="assets/step3.png"  width="50%">
 
