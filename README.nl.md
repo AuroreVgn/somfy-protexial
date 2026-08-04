@@ -99,6 +99,7 @@ De attributen zijn zichtbaar in het menu **"Details"**.
 | `button.reinitialiser_defaut_alarme` | Alarmfouten resetten (beweging, opening en sabotage) | 2.0.7 |
 | `button.reinitialiser_defaut_liaison_radio` | Radioverbindingsfouten tussen de centrale en de sensoren resetten | 2.0.7 |
 | `button.reinitialiser_defaut_piles` | Batterijfouten resetten | 2.0.7 |
+| `button.refresh` | | 2.0.13 |
 
 ## Installatie
 
@@ -116,7 +117,7 @@ De attributen zijn zichtbaar in het menu **"Details"**.
 
 ### Optie B: Handmatige installatie
 
-1. Download het archief van de nieuwste beschikbare versie: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.0.12.zip)
+1. Download het archief van de nieuwste beschikbare versie: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.0.13.zip)
 2. Zoek de map waarin het bestand `configuration.yaml` van uw Home Assistant-installatie zich bevindt.
 3. Maak de map `custom_components` aan als deze nog niet bestaat.
 4. Maak binnen `custom_components` een map `somfy_protexial` aan.
@@ -159,7 +160,7 @@ Als u een code opgeeft, wordt deze gevraagd bij het in- en uitschakelen van het 
 
 **Vernieuwingsinterval**
 
-Van **15 seconden** tot **25 uuren**. De standaardwaarde is **60 seconden**.
+Van **0 second** tot **25 uuren**. De standaardwaarde is **60 seconden**.
 
 Het wordt afgeraden een korter interval te gebruiken, omdat de webinterface van de alarmcentrale hierdoor instabiel kan worden.
 
