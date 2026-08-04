@@ -99,6 +99,7 @@ Gli attributi sono visibili nel menu **"Dettagli"**.
 | `button.reinitialiser_defaut_alarme` | Ripristina gli errori di allarme (movimento, apertura e manomissione) | 2.0.7 |
 | `button.reinitialiser_defaut_liaison_radio` | Ripristina gli errori di comunicazione radio tra la centrale e i sensori | 2.0.7 |
 | `button.reinitialiser_defaut_piles` | Ripristina gli errori delle batterie | 2.0.7 |
+| `button.reresh` |  | 2.0.13 |
 
 ## Installazione
 
@@ -116,7 +117,7 @@ Gli attributi sono visibili nel menu **"Dettagli"**.
 
 ### Opzione B: Installazione manuale
 
-1. Scaricare l'archivio dell'ultima versione disponibile: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.0.12.zip)
+1. Scaricare l'archivio dell'ultima versione disponibile: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.0.13.zip)
 2. Individuare la cartella contenente il file `configuration.yaml` della propria installazione di Home Assistant.
 3. Se la cartella `custom_components` non esiste, crearla.
 4. Creare una cartella `somfy_protexial` all'interno di `custom_components`.
@@ -159,7 +160,7 @@ Se viene configurato un codice, questo verrà richiesto ogni volta che si inseri
 
 **Intervallo di aggiornamento**
 
-Da **15 secondi** a **24 ora**. Il valore predefinito è **60 secondi**.
+Da **0 second** a **24 ora**. Il valore predefinito è **60 secondi**.
 
 Non è consigliabile utilizzare un intervallo inferiore, poiché l'interfaccia web della centrale potrebbe diventare instabile.
 
