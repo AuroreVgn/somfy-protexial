@@ -158,7 +158,7 @@ The available arming modes are based on the zones configured in your Somfy alarm
 If you specify a code, it will be required whenever the alarm is armed or disarmed.
 
 **Refresh interval:**  
-From **9 seconds** to **24 hours**. The default value is **60 seconds**.
+From **0 second** to **24 hours**. The default value is **60 seconds**.
 
 Using a shorter interval is not recommended, as it may cause the alarm's web interface to become unstable.
 
