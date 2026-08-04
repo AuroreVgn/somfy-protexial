@@ -99,6 +99,7 @@ Attributes are available in the **Details** panel.
 | `button.reinitialiser_defaut_alarme` | Reset alarm faults (motion, intrusion, tamper) | 2.0.7 |
 | `button.reinitialiser_defaut_liaison_radio` | Reset radio communication faults between the control panel and sensors | 2.0.7 |
 | `button.reinitialiser_defaut_piles` | Reset battery faults | 2.0.7 |
+| `button.refresh` | Reset battery faults | 2.0.7 |
 
 ## Installation
 
@@ -116,7 +117,7 @@ Attributes are available in the **Details** panel.
 
 ### Option B: Manual installation
 
-1. Download the latest release archive: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.0.11.zip)
+1. Download the latest release archive: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.0.13.zip)
 2. Locate the directory containing your Home Assistant `configuration.yaml` file.
 3. If the `custom_components` directory does not exist, create it.
 4. Create a `somfy_protexial` directory inside `custom_components`.
@@ -157,7 +158,7 @@ The available arming modes are based on the zones configured in your Somfy alarm
 If you specify a code, it will be required whenever the alarm is armed or disarmed.
 
 **Refresh interval:**  
-From **15 seconds** to **24 hours**. The default value is **60 seconds**.
+From **9 seconds** to **24 hours**. The default value is **60 seconds**.
 
 Using a shorter interval is not recommended, as it may cause the alarm's web interface to become unstable.
 
