@@ -154,6 +154,8 @@ Interval de rafraîchissement : de 0 seconde à 24 heures, 60 secondes par défa
 
 ## À noter
 
+### [Wiki disponible ici](https://github.com/AuroreVgn/somfy-protexial/wiki/Accueil)
+
 ### Carte Lovelace pour Home Assistant (statut et pilotage)
 
 Une [carte](https://github.com/developpeurbox/somfy-protexial-card) a été développé spécialement pour cette intégration.
