@@ -1,8 +1,3 @@
-
-> [!CAUTION]
-> THIS INTEGRATION ISN’T MAINTAINED HERE ANY LONGER, USE [AuroreVgn/somfy-protexial](https://github.com/aurorevgn/somfy-protexial) FORK INSTEAD.  
-> CETTE INTEGRATION N’EST PLUS MAINTENUE ICI, UTILISER LE FORK [AuroreVgn/somfy-protexial](https://github.com/aurorevgn/somfy-protexial) À LA PLACE.  
-
 # Somfy Protexial / Protexiom / Protexial IO
 
 [![GitHub Release][releases-shield]][releases]
