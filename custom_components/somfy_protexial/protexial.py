@@ -389,6 +389,38 @@ class SomfyProtexial:
                 if login_body is not None:
                     # The system has a login page
                     dom = pq(login_body)
+
+                    # PROTEXIOM_ALT uses a broader login challenge selector than
+                    # the historical PROTEXIOM API. A classic Protexiom page can
+                    # therefore also match the ALT selector.
+                    #
+                    # Keep PROTEXIOM_ALT as a true fallback: if the classic
+                    # Protexiom challenge marker is present and contains a valid
+                    # challenge coordinate, do not classify this centrale as ALT.
+                    if api_type == ApiType.PROTEXIOM_ALT:
+                        classic_api = ProtexiomApi()
+                        classic_challenge_element = dom(
+                            classic_api.get_selector(Selector.LOGIN_CHALLENGE)
+                        )
+
+                        if classic_challenge_element:
+                            classic_challenge_text = (
+                                classic_challenge_element.text() or ""
+                            ).strip()
+                            classic_match = re.search(
+                                CHALLENGE_REGEX, classic_challenge_text
+                            )
+
+                            if classic_match:
+                                _LOGGER.debug(
+                                    "Skipping PROTEXIOM_ALT detection: "
+                                    "classic PROTEXIOM challenge marker found "
+                                    "(challenge=%s, raw='%s')",
+                                    classic_match.group(0),
+                                    classic_challenge_text,
+                                )
+                                continue
+
                     challenge_element = dom(
                         self.api.get_selector(Selector.LOGIN_CHALLENGE)
                     )
