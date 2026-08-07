@@ -160,19 +160,6 @@ Interval de rafraîchissement : de 0 seconde à 24 heures, 60 secondes par défa
 
 Une [carte](https://github.com/developpeurbox/somfy-protexial-card) a été développé spécialement pour cette intégration.
 
-### Carte Mushroom Template (détails par éléments)
-
-Un template pour créer chaque éléments avec leur attributs (piles, liaison, ...) est disponible [ici](https://github.com/AuroreVgn/somfy-protexial/blob/main/assets/Template%20Home%20Assistant).
-
-<img width="485" height="127" alt="image" src="https://github.com/user-attachments/assets/d4f385c0-0171-4968-b369-c4cb86d8409e" />
-
-### Carte Lovelace pour Home Assistant uniquement pour la batterie et la détection d'ouverture
-
-Une version simplifiée de la carte permettant de suivre uniquement l'ouverture et la batterie d'un détecteur est disponible [ici](https://forum.hacf.fr/t/integration-custom-centrale-somfy-protexial/23589/295).
-
-### Problématique de sur-consommation de piles pour la centrale
-Une solution a été proposé [ici](https://forum.hacf.fr/t/integration-custom-centrale-somfy-protexial/23589/188) et [là](https://forum.hacf.fr/t/integration-custom-centrale-somfy-protexial/23589/191).
-
 ### Compatibilité de version
 
 La liste visible en haut de cette page n'est pas exhaustive, il est tout à fait possible que cette intégration soit compatible avec d'autres versions de la centrale Somfy. N'hésitez pas à m'en faire part si c'est le cas !
