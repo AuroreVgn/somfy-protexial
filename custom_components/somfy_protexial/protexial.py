@@ -369,8 +369,8 @@ class SomfyProtexial:
         for api_type in [
             ApiType.PROTEXIAL_IO,
             ApiType.PROTEXIAL,
-            ApiType.PROTEXIOM_ALT,
             ApiType.PROTEXIOM,
+            ApiType.PROTEXIOM_ALT,
         ]:
             _LOGGER.debug("Trying API detection: %s", api_type)
             self.api = self.load_api(api_type)
