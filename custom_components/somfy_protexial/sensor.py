@@ -3,6 +3,7 @@ import logging
 from typing import Any, Iterable
 
 from homeassistant.components.sensor import (
+    RestoreSensor,
     SensorEntity,
     SensorDeviceClass,
     SensorEntityDescription,
@@ -56,7 +57,12 @@ async def async_setup_entry(
             entity_category=sensor.get("entity_category"),
             suggested_display_precision=sensor.get("suggested_display_precision"),
         )
-        entities.append(ProtexialSensor(device_info, coordinator, description))
+        entity_class = (
+            ProtexialLastSyncSensor
+            if sensor["id"] == "last_sync"
+            else ProtexialSensor
+        )
+        entities.append(entity_class(device_info, coordinator, description))
 
     # 2) Per-element zone sensors (ENUM) from u_plistelmt.htm (kept commented by design)
     elements = (coordinator.data or {}).get("elements", [])
@@ -133,6 +139,56 @@ class ProtexialSensor(CoordinatorEntity, SensorEntity):
         else:
             self._native_value = value
 
+        self.async_write_ha_state()
+
+
+class ProtexialLastSyncSensor(CoordinatorEntity, RestoreSensor):
+    """Timestamp of the last successful synchronization with the centrale."""
+
+    _attr_has_entity_name = True
+
+    def __init__(
+        self,
+        device_info,
+        coordinator,
+        description: SensorEntityDescription,
+    ) -> None:
+        """Initialize the last synchronization sensor."""
+        super().__init__(coordinator)
+        self.entity_description = description
+        self._attr_translation_key = description.translation_key
+        self._attr_unique_id = f"{DOMAIN}_{description.key}"
+        self._attr_device_info = device_info
+        self._native_value = None
+
+    @property
+    def native_value(self):
+        """Return the timestamp of the last successful synchronization."""
+        return self._native_value
+
+    async def async_added_to_hass(self) -> None:
+        """Restore the previous timestamp when no current value is available."""
+        await super().async_added_to_hass()
+
+        # The coordinator performs its first refresh before entities are
+        # created. Prefer that fresh value when available.
+        current_value = (self.coordinator.data or {}).get(
+            self.entity_description.key
+        )
+        if current_value is not None:
+            self._native_value = current_value
+            return
+
+        # If startup did not provide a value, keep the last value stored by
+        # Home Assistant instead of exposing an unnecessary ``unknown``.
+        if (last_sensor_data := await self.async_get_last_sensor_data()) is not None:
+            self._native_value = last_sensor_data.native_value
+
+    def _handle_coordinator_update(self) -> None:
+        """Update the timestamp after each successful coordinator refresh."""
+        value = (self.coordinator.data or {}).get(self.entity_description.key)
+        if value is not None:
+            self._native_value = value
         self.async_write_ha_state()
 
 
