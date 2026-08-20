@@ -51,6 +51,7 @@ PLATFORMS = [
     Platform.BUTTON,  # Added BUTTON platform for default reset buttons (battery/alarm/link)
     Platform.COVER,
     Platform.LIGHT,
+    Platform.NUMBER,  # Runtime/restorable automatic refresh interval
     Platform.SENSOR,  # Added SENSOR platform for GSM Provider and GSM Signal Strength
     Platform.SWITCH,  # Per-element active/paused control (installer session used only on command)
 ]

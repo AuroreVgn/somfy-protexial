@@ -48,6 +48,7 @@ class SomfyError(str, Enum):
     WRONG_CODE_ALT = "(0x1101)"
     WRONG_CREDENTIALS_ALT = "(0x0901)"
     WRONG_CREDENTIALS_2_ALT = "(0x0810)"
+    INCORRECT_ACCESS_RIGHTS = "(0x0811)"
     UNEXPECTED_ERROR = "(0x0000)"
 
 

@@ -296,6 +296,13 @@ class SomfyProtexial:
                     raise SomfyException("Login failed: Wrong credentials")
                 if code == SomfyError.MAX_LOGIN_ATTEMPTS:
                     raise SomfyException("Login failed: Max attempt count reached")
+                if code == SomfyError.INCORRECT_ACCESS_RIGHTS:
+                    _LOGGER.error(
+                        "Somfy login refused: incorrect access rights (0x0811)"
+                    )
+                    raise SomfyException(
+                        "Login failed: Incorrect access rights (0x0811)"
+                    )
                 if code in (
                     SomfyError.WRONG_CODE,
                     SomfyError.WRONG_CODE_ALT,
@@ -330,8 +337,47 @@ class SomfyProtexial:
             raise SomfyException(f"Something really wrong happened! - {ex}") from ex
 
     async def init(self):
-        """Log in once at startup."""
-        await self.__login()
+        """Log in at startup, retrying once after transient access-rights errors."""
+        try:
+            await self.__login()
+            return
+        except SomfyException as err:
+            # Some Somfy firmwares can sporadically reject a valid login with
+            # error 0x0811 ("Connexion impossible, droit d'accès incorrect").
+            # A later manual reload succeeds without any credential change.
+            # Treat only this specific startup error as transient: acknowledge
+            # the error page when possible, wait briefly, then request a fresh
+            # challenge and retry exactly once.
+            if "(0x0811)" not in str(err):
+                raise
+
+            _LOGGER.warning(
+                "Initial Somfy login refused with 0x0811; "
+                "resetting the error page and retrying once in 5 seconds"
+            )
+
+            self.cookie = None
+            try:
+                form = self.api.get_reset_session_payload()
+                await self.__do_call(
+                    "post",
+                    Page.ERROR,
+                    data=form,
+                    retry=False,
+                    login=False,
+                    authenticated=False,
+                )
+            except SomfyException as reset_err:
+                # The reset is best-effort. The important part is to fetch a
+                # fresh login challenge on the second attempt.
+                _LOGGER.debug(
+                    "Unable to acknowledge Somfy error page before 0x0811 retry: %s",
+                    reset_err,
+                )
+
+            await asyncio.sleep(5)
+            self.cookie = None
+            await self.__login()
 
     async def get_version(self):
         """Return firmware/version string, combining footer year and version page if present."""

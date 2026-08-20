@@ -183,6 +183,11 @@
       "element_active": {
         "name": "{element} (PAUSA)"
       }
+    },
+    "number": {
+      "refresh_interval": {
+        "name": "Intervallo di aggiornamento"
+      }
     }
   }
 }
