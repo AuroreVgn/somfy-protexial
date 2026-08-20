@@ -172,10 +172,11 @@ Les différents modes d'armement exploitent les zones définies par la configura
 **Code d'armement** : si vous spécifiez un code celui-ci sera demandé lors de l'armement/désarmement.
 
 **Interval de rafraîchissement** : de 0 seconde* à 24 heures (86 400 secondes). 60 secondes par défaut (il n'est pas conseillé de mettre moins, sinon l'interface web de l'alarme a tendance à planter).
+
 *la valeur `0` désactive le rafraîchissement automatique. Le bouton **Actualiser les données** permet alors de forcer une synchronisation manuelle à tout moment.
 Cette valeur peut être modifiée dynamiquement par la suite grâce à une entité `number`.
 
-**Compte Installateur (optionnel) :** renseigner le nom d'utilisateur  (par défaut `i`) et le mot de passe Installateur uniquement si vous souhaitez utiliser les switches `(PAUSE)` permettant de mettre en pause ou de réactiver individuellement les éléments. Le pilotage normal de l'alarme continue d'utiliser le compte **Utilisateur**.
+**Compte Installateur (optionnel) :** renseigner le nom d'utilisateur  (par défaut `i`) et le mot de passe **Installateur** uniquement si vous souhaitez utiliser les switches `(PAUSE)` permettant de mettre en pause ou de réactiver individuellement les éléments. Le pilotage normal de l'alarme continue d'utiliser le compte **Utilisateur**.
 
 ## À noter
 
