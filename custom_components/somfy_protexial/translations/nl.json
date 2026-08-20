@@ -36,7 +36,9 @@
           "night_zones": "Nachtzone(s) inschakelen",
           "home_zones": "Thuiszone(s) inschakelen",
           "arm_code": "Optionele 4-cijferige inschakelcode",
-          "scan_interval": "Vernieuwingsinterval in seconden — 0 schakelt automatische vernieuwing uit"
+          "scan_interval": "Vernieuwingsinterval in seconden — 0 schakelt automatische vernieuwing uit",
+          "installer_username": "Gebruikersnaam installateur (optioneel)",
+          "installer_password": "Wachtwoord installateur (optioneel)"
         }
       }
     },
@@ -55,7 +57,9 @@
           "night_zones": "Nachtzone(s) inschakelen",
           "home_zones": "Thuiszone(s) inschakelen",
           "arm_code": "Optionele 4-cijferige inschakelcode",
-          "scan_interval": "Scaninterval (seconden)"
+          "scan_interval": "Scaninterval (seconden)",
+          "installer_username": "Gebruikersnaam installateur (optioneel)",
+          "installer_password": "Wachtwoord installateur (optioneel)"
         }
       }
     },
@@ -173,6 +177,11 @@
     "light": {
       "light": {
         "name": "Lichten"
+      }
+    },
+    "switch": {
+      "element_active": {
+        "name": "{element} (PAUZE)"
       }
     }
   }

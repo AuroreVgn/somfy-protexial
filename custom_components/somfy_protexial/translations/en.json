@@ -36,7 +36,9 @@
           "night_zones": "Arm night zone(s)",
           "home_zones": "Arm home zone(s)",
           "arm_code": "Optional 4 digits arm code",
-          "scan_interval": "Refresh interval in seconds — 0 disables automatic refresh"
+          "scan_interval": "Refresh interval in seconds — 0 disables automatic refresh",
+          "installer_username": "Installer username (optional)",
+          "installer_password": "Installer password (optional)"
         }
       }
     },
@@ -55,7 +57,9 @@
           "night_zones": "Arm night zone(s)",
           "home_zones": "Arm home zone(s)",
           "arm_code": "Optional 4 digits arm code",
-          "scan_interval": "Scan interval (seconds)"
+          "scan_interval": "Scan interval (seconds)",
+          "installer_username": "Installer username (optional)",
+          "installer_password": "Installer password (optional)"
         }
       }
     },
@@ -173,6 +177,11 @@
     "light": {
       "light": {
         "name": "Lights"
+      }
+    },
+    "switch": {
+      "element_active": {
+        "name": "{element} (PAUSE)"
       }
     }
   }

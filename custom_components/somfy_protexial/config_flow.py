@@ -34,6 +34,8 @@ from .const import (
     CONF_CODE,
     CONF_CODES,
     CONF_HOME_ZONES,
+    CONF_INSTALLER_PASSWORD,
+    CONF_INSTALLER_USERNAME,
     CONF_NIGHT_ZONES,
     DOMAIN,
     Zone,
@@ -57,6 +59,8 @@ class ProtexialConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         self.password = None
         self.codes = None
         self.version = None
+        self.installer_username = None
+        self.installer_password = None
 
     async def async_step_user(self, user_input):
         if self._async_current_entries():
@@ -187,6 +191,8 @@ class ProtexialConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     async def async_step_config(self, user_input):
         errors = {}
         if user_input is not None:
+            self.installer_username = (user_input.get(CONF_INSTALLER_USERNAME) or "").strip() or None
+            self.installer_password = user_input.get(CONF_INSTALLER_PASSWORD) or None
             arm_code = (
                 user_input[CONF_ARM_CODE] if CONF_ARM_CODE in user_input else None
             )
@@ -209,6 +215,8 @@ class ProtexialConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                         CONF_USERNAME: self.username,
                         CONF_PASSWORD: self.password,
                         CONF_CODES: self.codes,
+                        CONF_INSTALLER_USERNAME: self.installer_username,
+                        CONF_INSTALLER_PASSWORD: self.installer_password,
                         CONF_NIGHT_ZONES: night_zones,
                         CONF_HOME_ZONES: home_zones,
                         CONF_ARM_CODE: arm_code,
@@ -245,6 +253,10 @@ class ProtexialConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     vol.Optional(CONF_ARM_CODE): TextSelector(
                         TextSelectorConfig(type=TextSelectorType.PASSWORD)
                     ),
+                    vol.Optional(CONF_INSTALLER_USERNAME, default="i"): cv.string,
+                    vol.Optional(CONF_INSTALLER_PASSWORD): TextSelector(
+                        TextSelectorConfig(type=TextSelectorType.PASSWORD)
+                    ),
                     vol.Required(CONF_SCAN_INTERVAL, default=60): NumberSelector(
                         NumberSelectorConfig(
                             mode=NumberSelectorMode.BOX, min=0, max=86400, step=1
@@ -275,6 +287,8 @@ class ProtexialOptionsFlowHandler(config_entries.OptionsFlow):
     ) -> FlowResult:
         errors = {}
         if user_input is not None:
+            installer_username = (user_input.get(CONF_INSTALLER_USERNAME) or "").strip() or None
+            installer_password = user_input.get(CONF_INSTALLER_PASSWORD) or self._config_entry.data.get(CONF_INSTALLER_PASSWORD)
             arm_code = (
                 user_input[CONF_ARM_CODE] if CONF_ARM_CODE in user_input else None
             )
@@ -295,6 +309,8 @@ class ProtexialOptionsFlowHandler(config_entries.OptionsFlow):
                     CONF_USERNAME: self._config_entry.data[CONF_USERNAME],
                     CONF_PASSWORD: self._config_entry.data[CONF_PASSWORD],
                     CONF_CODES: self._config_entry.data[CONF_CODES],
+                    CONF_INSTALLER_USERNAME: installer_username,
+                    CONF_INSTALLER_PASSWORD: installer_password,
                     CONF_NIGHT_ZONES: night_zones,
                     CONF_HOME_ZONES: home_zones,
                     CONF_ARM_CODE: arm_code,
@@ -335,6 +351,13 @@ class ProtexialOptionsFlowHandler(config_entries.OptionsFlow):
                         )
                     ),
                     vol.Optional(CONF_ARM_CODE): TextSelector(
+                        TextSelectorConfig(type=TextSelectorType.PASSWORD)
+                    ),
+                    vol.Optional(
+                        CONF_INSTALLER_USERNAME,
+                        default=self._config_entry.data.get(CONF_INSTALLER_USERNAME) or "i",
+                    ): cv.string,
+                    vol.Optional(CONF_INSTALLER_PASSWORD): TextSelector(
                         TextSelectorConfig(type=TextSelectorType.PASSWORD)
                     ),
                     vol.Required(

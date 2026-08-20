@@ -36,7 +36,9 @@
           "night_zones": "Nachtzone(n) scharf",
           "home_zones": "Anwesend-Zone(n) scharf",
           "arm_code": "Optionaler 4-stelliger Scharfschaltungscode",
-          "scan_interval": "Aktualisierungsintervall in Sekunden — 0 deaktiviert die automatische Aktualisierung"
+          "scan_interval": "Aktualisierungsintervall in Sekunden — 0 deaktiviert die automatische Aktualisierung",
+          "installer_username": "Installateur-Benutzername (optional)",
+          "installer_password": "Installateur-Passwort (optional)"
         }
       }
     },
@@ -55,7 +57,9 @@
           "night_zones": "Nachtzone(n) scharf",
           "home_zones": "Anwesend-Zone(n) scharf",
           "arm_code": "Optionaler 4-stelliger Scharfschaltungscode",
-          "scan_interval": "Abfrageintervall (Sekunden)"
+          "scan_interval": "Abfrageintervall (Sekunden)",
+          "installer_username": "Installateur-Benutzername (optional)",
+          "installer_password": "Installateur-Passwort (optional)"
         }
       }
     },
@@ -173,6 +177,11 @@
     "light": {
       "light": {
         "name": "Lichter"
+      }
+    },
+    "switch": {
+      "element_active": {
+        "name": "{element} (PAUSE)"
       }
     }
   }

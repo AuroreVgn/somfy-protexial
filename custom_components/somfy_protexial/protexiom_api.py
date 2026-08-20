@@ -10,6 +10,7 @@ class ProtexiomApi(AbstractApi):
             Page.PILOTAGE: "/u_pilotage.htm",
             Page.STATUS: "/status.xml",
             Page.ERROR: "/error.htm",
+            Page.INSTALLER_ELEMENTS: "/i_listelmt.htm",
             Page.ELEMENTS: "/u_plistelmt.htm",
             Page.CHALLENGE_CARD: "/u_print.htm",
             Page.VERSION: None,

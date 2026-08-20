@@ -36,7 +36,9 @@
           "night_zones": "Armar zona(s) nocturna(s)",
           "home_zones": "Armar zona(s) en casa",
           "arm_code": "Código de armado opcional de 4 dígitos",
-          "scan_interval": "Intervalo de actualización en segundos — 0 desactiva la actualización automática"
+          "scan_interval": "Intervalo de actualización en segundos — 0 desactiva la actualización automática",
+          "installer_username": "Nombre de usuario del instalador (opcional)",
+          "installer_password": "Contraseña del instalador (opcional)"
         }
       }
     },
@@ -55,7 +57,9 @@
           "night_zones": "Armar zona(s) nocturna(s)",
           "home_zones": "Armar zona(s) en casa",
           "arm_code": "Código de armado opcional de 4 dígitos",
-          "scan_interval": "Intervalo de consulta (segundos)"
+          "scan_interval": "Intervalo de consulta (segundos)",
+          "installer_username": "Nombre de usuario del instalador (opcional)",
+          "installer_password": "Contraseña del instalador (opcional)"
         }
       }
     },
@@ -173,6 +177,11 @@
     "light": {
       "light": {
         "name": "Luces"
+      }
+    },
+    "switch": {
+      "element_active": {
+        "name": "{element} (PAUSA)"
       }
     }
   }

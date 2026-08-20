@@ -137,6 +137,8 @@ class SomfyProtexial:
         username=None,
         password=None,
         codes=None,
+        installer_username=None,
+        installer_password=None,
     ) -> None:
         """Initialize the client with HTTP session, base URL and credentials."""
         self.url = url
@@ -144,10 +146,17 @@ class SomfyProtexial:
         self.username = username
         self.password = password
         self.codes = codes
+        self.installer_username = installer_username
+        self.installer_password = installer_password
+        self._session_lock = asyncio.Lock()
         self.session = session
         self.cookie = None
         self.api = self.load_api(self.api_type)
         self._last_elements_candidate = None
+        # Installer elements page differs across firmware generations. Cache
+        # the first working variant so subsequent pause/reactivate commands do
+        # not retry a known-missing URL.
+        self._installer_elements_candidate = None
         # Last successfully parsed elements list. Used as a fallback when a
         # poll returns an empty/garbled elements page (the same class of
         # Somfy session bug already worked around for status.xml), so a
@@ -553,10 +562,17 @@ class SomfyProtexial:
         self.password = password
         self.codes = codes
 
+    async def __logout(self):
+        """Logout without taking the operation lock (internal use only)."""
+        try:
+            await self.__do_call("get", Page.LOGOUT, retry=False, login=False)
+        finally:
+            self.cookie = None
+
     async def logout(self):
         """Logout and clear session cookie."""
-        await self.__do_call("get", Page.LOGOUT, retry=False, login=False)
-        self.cookie = None
+        async with self._session_lock:
+            await self.__logout()
 
     async def get_status(self) -> Status:
         page_is_authenticated = self.api.is_page_authenticated(Page.STATUS)
@@ -569,7 +585,8 @@ class SomfyProtexial:
             "GET STATUS PARSER auth=%s",
             page_is_authenticated,
         )
-        return await self.__get_status(page_is_authenticated)
+        async with self._session_lock:
+            return await self.__get_status(page_is_authenticated)
 
     async def __with_session_retry(self, func, *args, **kwargs):
         """Last-resort safety net mirroring Jeedom's
@@ -599,7 +616,7 @@ class SomfyProtexial:
                 ex,
             )
             try:
-                await self.logout()
+                await self.__logout()
             except SomfyException as logout_ex:
                 _LOGGER.debug("Logout before retry failed (ignored): %s", logout_ex)
             self.cookie = None
@@ -670,7 +687,7 @@ class SomfyProtexial:
                 "forcing a fresh login and retrying once"
             )
             try:
-                await self.logout()
+                await self.__logout()
             except SomfyException as ex:
                 _LOGGER.debug("Logout before retry failed (ignored): %s", ex)
             self.cookie = None
@@ -717,7 +734,8 @@ class SomfyProtexial:
 
     async def arm(self, zone):
         """Send ARM for the given zone (wrapped with the session-retry safety net)."""
-        await self.__with_session_retry(self.__arm, zone)
+        async with self._session_lock:
+            await self.__with_session_retry(self.__arm, zone)
 
     async def __arm(self, zone):
         form = self.api.get_arm_payload(zone)
@@ -725,7 +743,8 @@ class SomfyProtexial:
 
     async def disarm(self):
         """Send DISARM (wrapped with the session-retry safety net)."""
-        await self.__with_session_retry(self.__disarm)
+        async with self._session_lock:
+            await self.__with_session_retry(self.__disarm)
 
     async def __disarm(self):
         form = self.api.get_disarm_payload()
@@ -733,7 +752,8 @@ class SomfyProtexial:
 
     async def turn_light_on(self):
         """Turn light on (wrapped with the session-retry safety net)."""
-        await self.__with_session_retry(self.__turn_light_on)
+        async with self._session_lock:
+            await self.__with_session_retry(self.__turn_light_on)
 
     async def __turn_light_on(self):
         form = self.api.get_turn_light_on_payload()
@@ -741,7 +761,8 @@ class SomfyProtexial:
 
     async def turn_light_off(self):
         """Turn light off (wrapped with the session-retry safety net)."""
-        await self.__with_session_retry(self.__turn_light_off)
+        async with self._session_lock:
+            await self.__with_session_retry(self.__turn_light_off)
 
     async def __turn_light_off(self):
         form = self.api.get_turn_light_off_payload()
@@ -749,7 +770,8 @@ class SomfyProtexial:
 
     async def open_cover(self):
         """Open cover (wrapped with the session-retry safety net)."""
-        await self.__with_session_retry(self.__open_cover)
+        async with self._session_lock:
+            await self.__with_session_retry(self.__open_cover)
 
     async def __open_cover(self):
         form = self.api.get_open_cover_payload()
@@ -757,7 +779,8 @@ class SomfyProtexial:
 
     async def close_cover(self):
         """Close cover (wrapped with the session-retry safety net)."""
-        await self.__with_session_retry(self.__close_cover)
+        async with self._session_lock:
+            await self.__with_session_retry(self.__close_cover)
 
     async def __close_cover(self):
         form = self.api.get_close_cover_payload()
@@ -766,7 +789,8 @@ class SomfyProtexial:
 
     async def stop_cover(self):
         """Stop cover movement (wrapped with the session-retry safety net)."""
-        await self.__with_session_retry(self.__stop_cover)
+        async with self._session_lock:
+            await self.__with_session_retry(self.__stop_cover)
 
     async def __stop_cover(self):
         form = self.api.get_stop_cover_payload()
@@ -804,22 +828,130 @@ class SomfyProtexial:
 
     async def reset_battery_err(self):
         """Acknowledge/reset the battery default flag (defaut0)."""
-        form = self.api.get_reset_battery_err_payload()
-        await self.__erase_default(form)
+        async with self._session_lock:
+            form = self.api.get_reset_battery_err_payload()
+            await self.__erase_default(form)
 
     async def reset_alarm_err(self):
         """Acknowledge/reset the alarm default flag (defaut3)."""
-        form = self.api.get_reset_alarm_err_payload()
-        await self.__erase_default(form)
+        async with self._session_lock:
+            form = self.api.get_reset_alarm_err_payload()
+            await self.__erase_default(form)
 
     async def reset_link_err(self):
         """Acknowledge/reset the radio link default flag (defaut1)."""
-        form = self.api.get_reset_link_err_payload()
-        await self.__erase_default(form)
+        async with self._session_lock:
+            form = self.api.get_reset_link_err_payload()
+            await self.__erase_default(form)
+
+    async def set_element_active(self, element_id: str, active: bool) -> None:
+        """Temporarily use the installer account to toggle an element.
+
+        The Somfy installer page exposes a toggle-only POST. The caller must
+        therefore invoke this method only when the requested state differs
+        from the state currently reported by the user elements page.
+        """
+        if not self.installer_username or not self.installer_password:
+            raise SomfyException("Installer credentials are not configured")
+
+        async with self._session_lock:
+            _LOGGER.info(
+                "Changing Somfy element %s to %s using a temporary installer session",
+                element_id,
+                "active" if active else "paused",
+            )
+
+            # The centrale accepts only one session at a time. Close the normal
+            # user session, perform the installer-only action, then always try
+            # to restore the normal user session, even if the toggle fails.
+            try:
+                try:
+                    await self.__logout()
+                except SomfyException as ex:
+                    _LOGGER.debug("User logout before installer action failed: %s", ex)
+                    self.cookie = None
+
+                await self.__login(
+                    username=self.installer_username,
+                    password=self.installer_password,
+                )
+
+                form = {
+                    "elt_preload_2": str(element_id),
+                    "toggle": "",
+                    "apply_2": "",
+                }
+                # Installer page location differs between firmware families:
+                # newer/french-localized centrales use /fr/i_listelmt.htm while
+                # older ones commonly use /i_listelmt.htm. Try the API-specific
+                # path first and fall back ONLY on HTTP 404. Falling back after
+                # any other error would be unsafe because the first POST might
+                # already have toggled the element.
+                primary = self.api.get_page(Page.INSTALLER_ELEMENTS)
+                alternate = (
+                    "/i_listelmt.htm"
+                    if primary == "/fr/i_listelmt.htm"
+                    else "/fr/i_listelmt.htm"
+                )
+                candidates = [primary, alternate]
+                if self._installer_elements_candidate in candidates:
+                    candidates.remove(self._installer_elements_candidate)
+                    candidates.insert(0, self._installer_elements_candidate)
+
+                response = None
+                last_exception = None
+                for index, candidate in enumerate(candidates):
+                    try:
+                        response = await self.__do_call(
+                            "post",
+                            candidate,
+                            data=form,
+                            retry=False,
+                            login=False,
+                        )
+                        self._installer_elements_candidate = candidate
+                        if index > 0:
+                            _LOGGER.info(
+                                "Somfy installer elements fallback URL selected: %s",
+                                candidate,
+                            )
+                        break
+                    except SomfyException as ex:
+                        last_exception = ex
+                        if str(ex) != "Http error (404)" or index == len(candidates) - 1:
+                            raise
+                        _LOGGER.debug(
+                            "Somfy installer elements page %s returned 404; trying %s",
+                            candidate,
+                            candidates[index + 1],
+                        )
+
+                if response is None:
+                    if last_exception is not None:
+                        raise last_exception
+                    raise SomfyException("Installer elements page is unavailable")
+
+                if getattr(response.real_url, "path", "") == self.api.get_page(
+                    Page.DEFAULT
+                ):
+                    raise SomfyException(
+                        "Installer action was redirected to the default page"
+                    )
+            finally:
+                try:
+                    await self.__logout()
+                except SomfyException as ex:
+                    _LOGGER.debug("Installer logout failed: %s", ex)
+                    self.cookie = None
+
+                # Restore Home Assistant's normal user session. If this fails,
+                # propagate the error so HA reports the command as failed.
+                await self.__login()
 
     async def get_elements(self) -> list[dict]:
         """Fetch and parse the elements page (wrapped with the session-retry safety net)."""
-        return await self.__with_session_retry(self.__get_elements)
+        async with self._session_lock:
+            return await self.__with_session_retry(self.__get_elements)
 
     async def __get_elements(self) -> list[dict]:
         _LOGGER.debug("ENTER get_elements()")

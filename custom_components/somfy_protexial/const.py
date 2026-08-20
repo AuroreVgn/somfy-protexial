@@ -15,10 +15,13 @@ CONF_MODES = "modes"
 CONF_ARM_CODE = "arm_code"
 CONF_NIGHT_ZONES = "night_zones"
 CONF_HOME_ZONES = "home_zones"
+CONF_INSTALLER_USERNAME = "installer_username"
+CONF_INSTALLER_PASSWORD = "installer_password"
 
 API = "api"
 COORDINATOR = "coordinator"
 DEVICE_INFO = "device_info"
+REFRESH_ELEMENTS = "refresh_elements"
 
 CHALLENGE_REGEX = r"\b[A-F][1-5]\b"
 
@@ -73,6 +76,7 @@ class Page(str, Enum):
     STATUS = "status"
     ERROR = "error"
     ELEMENTS = "elements"
+    INSTALLER_ELEMENTS = "installer_elements"
     CHALLENGE_CARD = "challenge_card"
     VERSION = "version"
     DEFAULT = "default"

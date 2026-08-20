@@ -10,6 +10,7 @@ class ProtexialIOApi(AbstractApi):
             Page.PILOTAGE: "/fr/u_pilotage.htm",
             Page.STATUS: "/status.xml",
             Page.ERROR: "/fr/error.htm",
+            Page.INSTALLER_ELEMENTS: "/fr/i_listelmt.htm",
             Page.ELEMENTS: "/fr/u_plistelmt.htm",
             Page.CHALLENGE_CARD: "/fr/u_challenge.htm",
             Page.VERSION: "/cfg/vers",
