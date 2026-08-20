@@ -14,7 +14,7 @@
 
 ## Sobre
 
-🔀 Esta versão 2.0.x é um **fork atualizado** da integração original de [the8tre](https://github.com/the8tre).
+🔀 Esta versão 2.1.x é um **fork atualizado** da integração original de [the8tre](https://github.com/the8tre).
 
 Os principais objetivos desta integração são antecipar:
 
@@ -25,16 +25,16 @@ Esta integração permite ligar centrais de alarme Somfy Protexial, Protexiom e 
 
 ### Modelos testados
 
-| Modelo | Versão | Estado |
-| -------------- | --------------- | ------------------ |
-| Protexial IO | `2013 (v10_13)` | :white_check_mark: |
-| Protexiom 5000 | `2013 (v10_3)` | :white_check_mark: |
-| Protexial | `2013 (v10_13)` | :white_check_mark: |
-| Protexial | `2013 (v10_14)` | :white_check_mark: |
-| Protexial | `2013 (v10_15)` | :white_check_mark: |
-| Protexial | `2010 (v7_9)` | :white_check_mark: |
-| Protexial | `2010 (v8_1)` | :white_check_mark: |
-| Protexial | `2008` | :white_check_mark: |
+| Modelo | Versão | Estado  Pausa dos elementos |
+| -------------- | --------------- | ------------------  ------------------ |
+| Protexial IO | `2013 (v10_13)` | :white_check_mark:  :white_check_mark: |
+| Protexiom 5000 | `2013 (v10_3)` | :white_check_mark:  |
+| Protexial | `2013 (v10_13)` | :white_check_mark:  |
+| Protexial | `2013 (v10_14)` | :white_check_mark:  |
+| Protexial | `2013 (v10_15)` | :white_check_mark:  |
+| Protexial | `2010 (v7_9)` | :white_check_mark:  |
+| Protexial | `2010 (v8_1)` | :white_check_mark:  |
+| Protexial | `2008` | :white_check_mark:  |
 
 ⚠️ O facto de um modelo não aparecer nesta lista **não significa** que não seja compatível. Apenas pode ainda não ter sido testado ou comunicado por outros utilizadores.
 
@@ -45,6 +45,7 @@ Esta integração permite ligar centrais de alarme Somfy Protexial, Protexiom e 
 - 🚨 o alarme por zonas (A, B e C)
 - 🪟 os estores
 - 💡 as luzes
+- ⏸️ colocar elementos individuais em pausa para manutenção (substituição das pilhas)
 
 🔃 A integração também permite repor falhas de alarme, comunicação por rádio e baterias.
 
@@ -102,15 +103,18 @@ Os atributos podem ser consultados no menu **"Detalhes"**.
 | `button.refresh` | | 2.0.13 |
 
 
-#### Pausa / reativação dos elementos
+#### Pausa / reativação dos elementos (versão 2.1):
 
 Se as credenciais de **Instalador** estiverem configuradas, a integração cria um switch `(PAUSA)` para cada elemento compatível na categoria **Diagnóstico** do dispositivo.
 
 - **ON**: elemento ativo
 - **OFF**: elemento em pausa
-- O comando utiliza temporariamente a conta **Instalador** e depois volta a ligar automaticamente a conta **Utilizador**.
-- A página de Instalador utiliza fallback entre `/fr/i_listelmt.htm` e `/i_listelmt.htm` para melhorar a compatibilidade entre gerações de centrais.
-- Os ícones correspondem aos dos respetivos sensores binários.
+O comando utiliza temporariamente a conta **Instalador** e depois volta a ligar automaticamente a conta **Utilizador**.
+A página *Lista de elementos* do utilizador **Instalador** é detetada com fallback entre `/fr/i_listelmt.htm` e `/i_listelmt.htm` para melhorar a compatibilidade entre gerações de centrais.
+
+⚠️ Se o URL da sua central for diferente, informe-me para que eu possa atualizar a integração.
+
+Os ícones correspondem aos dos respetivos sensores binários.
 
 > As centrais Somfy permitem apenas uma sessão de cada vez. A integração gere automaticamente a troca temporária de sessão ao pausar ou reativar um elemento.
 
@@ -130,7 +134,7 @@ Se as credenciais de **Instalador** estiverem configuradas, a integração cria 
 
 ### Opção B: Instalação manual
 
-1. Transfira o arquivo da versão mais recente: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.0.13.zip)
+1. Transfira o arquivo da versão mais recente: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.1.0.zip)
 2. Localize a pasta que contém o ficheiro `configuration.yaml` da sua instalação do Home Assistant.
 3. Se a pasta `custom_components` não existir, crie-a.
 4. Crie uma pasta `somfy_protexial` dentro de `custom_components`.
@@ -163,22 +167,17 @@ Se as credenciais de **Instalador** estiverem configuradas, a integração cria 
 
 Os diferentes modos de ativação utilizam as zonas configuradas na central Somfy:
 
-- Ativação em ausência (sempre disponível): zonas A+B+C
-- Ativação noturna (opcional): qualquer combinação de A, B, C, A+B, B+C ou A+C
-- Ativação em casa (opcional): qualquer combinação de A, B, C, A+B, B+C ou A+C
+- **Modo ausência** (sempre configurado): zonas A+B+C
+- **Modo noite** (opcional): zonas A, B, C, A+B, B+C ou A+C
+- **Modo presença** (opcional): zonas A, B, C, A+B, B+C ou A+C
 
-**Código de ativação/desativação**
 
-Se definir um código, este será solicitado sempre que ativar ou desativar o sistema de alarme.
+**Código de ativação/desativação:** se especificar um código, este será solicitado ao ativar ou desativar o alarme.
 
-**Intervalo de atualização**
+**Intervalo de atualização:** de 0 segundos* a 24 horas (86 400 segundos). O valor predefinido é 60 segundos (não é aconselhável utilizar um intervalo inferior, pois a interface web do alarme tende a ficar instável).
+*O valor `0` desativa a atualização automática. O botão **Atualizar dados** permite forçar uma sincronização manual a qualquer momento.
 
-De **0 segundo** até **24 horas**. O valor predefinido é **60 segundos**.
-
-Não é recomendado utilizar um intervalo inferior, pois a interface web da central poderá tornar-se instável.
-
-<img src="assets/step3.png" width="50%">
-
+**Conta de Instalador (opcional):** introduza o nome de utilizador (predefinido `i`) e a palavra-passe do Instalador apenas se pretender utilizar os switches `(PAUSA)` para pausar ou reativar elementos individualmente. O controlo normal do alarme continua a utilizar a conta **Utilizador**.
 ## Notas
 
 ### Cartão Lovelace para Home Assistant (estado e controlo)
@@ -214,6 +213,8 @@ ou
 ### Utilização da aplicação móvel original
 
 ⚠️ A aplicação oficial **Somfy Alarme** continua a poder ser utilizada mesmo com esta integração ativa.
+
+⚠️ A aplicação 'Somfy Alarme' deixará de funcionar quando os [servidores Somfy forem desativados](https://github.com/AuroreVgn/somfy-protexial/wiki/Arr%C3%AAt-de-la-2G-et-des-serveurs-alarmsomfy.eu-%E2%80%90-%C3%A9tude-d'impact-et-solution#arr%C3%AAt-des-serveurs-somfyalarmeu).
 
 ### Reconfiguração da integração
 

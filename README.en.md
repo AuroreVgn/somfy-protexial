@@ -14,7 +14,7 @@
 
 ## About
 
-🔀 This 2.0.x version is an **updated fork** of the original integration by [the8tre](https://github.com/the8tre).
+🔀 This 2.1.x version is an **updated fork** of the original integration by [the8tre](https://github.com/the8tre).
 
 The main objectives of this integration are to anticipate:
 
@@ -25,16 +25,16 @@ This integration provides an interface with Somfy Protexial, Protexiom and Prote
 
 Tested models:
 
-| Model | Version | Status |
-| -------------- | --------------- | ------------------ |
-| Protexial IO | `2013 (v10_13)` | :white_check_mark: |
-| Protexiom 5000 | `2013 (v10_3)` | :white_check_mark: |
-| Protexial | `2013 (v10_13)` | :white_check_mark: |
-| Protexial | `2013 (v10_14)` | :white_check_mark: |
-| Protexial | `2013 (v10_15)` | :white_check_mark: |
-| Protexial | `2010 (v7_9)` | :white_check_mark: |
-| Protexial | `2010 (v8_1)` | :white_check_mark: |
-| Protexial | `2008` | :white_check_mark: |
+| Model | Version | Status  Element pause |
+| -------------- | --------------- | ------------------  ------------------ |
+| Protexial IO | `2013 (v10_13)` | :white_check_mark:  :white_check_mark: |
+| Protexiom 5000 | `2013 (v10_3)` | :white_check_mark:  |
+| Protexial | `2013 (v10_13)` | :white_check_mark:  |
+| Protexial | `2013 (v10_14)` | :white_check_mark:  |
+| Protexial | `2013 (v10_15)` | :white_check_mark:  |
+| Protexial | `2010 (v7_9)` | :white_check_mark:  |
+| Protexial | `2010 (v8_1)` | :white_check_mark:  |
+| Protexial | `2008` | :white_check_mark:  |
 
 ⚠️ If your model is not listed here, it does **not** necessarily mean that it is unsupported. It may simply not have been tested yet or reported by users.
 
@@ -45,6 +45,7 @@ Tested models:
 - 🚨 the alarm by zones (A, B, C)
 - 🪟 roller shutters
 - 💡 lights
+- ⏸️ pause individual elements for maintenance (battery replacement)
 
 🔃 The integration also supports resetting alarm, radio link and battery faults.
 
@@ -102,15 +103,18 @@ Attributes are available in the **Details** panel.
 | `button.refresh` | Reset battery faults | 2.0.7 |
 
 
-#### Pausing / reactivating elements
+#### Pausing / reactivating elements (version 2.1):
 
 When **Installer** credentials are configured, the integration creates a `(PAUSE)` switch for each compatible element in the device **Diagnostic** category.
 
 - **ON**: element active
 - **OFF**: element paused
-- Commands temporarily use the **Installer** account, then automatically reconnect the **User** account.
-- The Installer page uses a fallback between `/fr/i_listelmt.htm` and `/i_listelmt.htm` to improve compatibility across panel generations.
-- Icons match those used by the corresponding binary sensors.
+The command temporarily uses the **Installer** account, then automatically reconnects the **User** account.
+The *Element list* page for the **Installer** user is detected with a fallback between `/fr/i_listelmt.htm` and `/i_listelmt.htm` to improve compatibility across control panel generations.
+
+⚠️ If the URL is different on your control panel, please let me know so I can update the integration.
+
+Icons match those used by the corresponding binary sensors.
 
 > Somfy panels allow only one session at a time. The integration therefore handles the temporary session switch automatically when pausing or reactivating an element.
 
@@ -130,7 +134,7 @@ When **Installer** credentials are configured, the integration creates a `(PAUSE
 
 ### Option B: Manual installation
 
-1. Download the latest release archive: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.0.13.zip)
+1. Download the latest release archive: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.1.0.zip)
 2. Locate the directory containing your Home Assistant `configuration.yaml` file.
 3. If the `custom_components` directory does not exist, create it.
 4. Create a `somfy_protexial` directory inside `custom_components`.
@@ -163,20 +167,17 @@ When **Installer** credentials are configured, the integration creates a `(PAUSE
 
 The available arming modes are based on the zones configured in your Somfy alarm control panel:
 
-- Away mode (always configured): Zones A+B+C
-- Night mode (optional): Any combination of A, B, C, A+B, B+C or A+C
-- Home mode (optional): Any combination of A, B, C, A+B, B+C or A+C
+- **Away mode** (always configured): Zones A+B+C
+- **Night mode** (optional): Any combination of A, B, C, A+B, B+C or A+C
+- **Home mode** (optional): Any combination of A, B, C, A+B, B+C or A+C
 
-**Arm/Disarm Code:**  
-If you specify a code, it will be required whenever the alarm is armed or disarmed.
 
-**Refresh interval:**  
-From **0 second** to **24 hours**. The default value is **60 seconds**.
+**Arm/Disarm Code:** If you specify a code, it will be required whenever the alarm is armed or disarmed.
 
-Using a shorter interval is not recommended, as it may cause the alarm's web interface to become unstable.
+**Refresh interval:** From 0 second* to 24 hours (86,400 seconds). The default is 60 seconds (using a shorter interval is not recommended, as the alarm web interface tends to become unstable).
+*Setting `0` disables automatic refresh. The **Refresh data** button can then be used to force a manual synchronization at any time.
 
-<img src="assets/step3.png" width="50%">
-
+**Installer account (optional):** enter the Installer username (default: `i`) and password only if you want to use the `(PAUSE)` switches to pause or reactivate individual elements. Normal alarm control continues to use the **User** account.
 ## Notes
 
 ### Home Assistant Lovelace Card (Status & Control)
@@ -212,6 +213,8 @@ or
 ### Using the original mobile application
 
 ⚠️ The official **Somfy Alarme** mobile application can still be used while this integration is active.
+
+⚠️ The 'Somfy Alarme' application will no longer work once the [Somfy servers are shut down](https://github.com/AuroreVgn/somfy-protexial/wiki/Arr%C3%AAt-de-la-2G-et-des-serveurs-alarmsomfy.eu-%E2%80%90-%C3%A9tude-d'impact-et-solution#arr%C3%AAt-des-serveurs-somfyalarmeu).
 
 ### Reconfiguring the integration
 

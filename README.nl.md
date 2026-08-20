@@ -25,16 +25,16 @@ Deze integratie maakt verbinding met Somfy Protexial-, Protexiom- en Protexial I
 
 ### Geteste modellen
 
-| Model | Versie | Status |
-| -------------- | --------------- | ------------------ |
-| Protexial IO | `2013 (v10_13)` | :white_check_mark: |
-| Protexiom 5000 | `2013 (v10_3)` | :white_check_mark: |
-| Protexial | `2013 (v10_13)` | :white_check_mark: |
-| Protexial | `2013 (v10_14)` | :white_check_mark: |
-| Protexial | `2013 (v10_15)` | :white_check_mark: |
-| Protexial | `2010 (v7_9)` | :white_check_mark: |
-| Protexial | `2010 (v8_1)` | :white_check_mark: |
-| Protexial | `2008` | :white_check_mark: |
+| Model | Versie | Status  Elementen pauzeren |
+| -------------- | --------------- | ------------------  ------------------ |
+| Protexial IO | `2013 (v10_13)` | :white_check_mark:  :white_check_mark: |
+| Protexiom 5000 | `2013 (v10_3)` | :white_check_mark:  |
+| Protexial | `2013 (v10_13)` | :white_check_mark:  |
+| Protexial | `2013 (v10_14)` | :white_check_mark:  |
+| Protexial | `2013 (v10_15)` | :white_check_mark:  |
+| Protexial | `2010 (v7_9)` | :white_check_mark:  |
+| Protexial | `2010 (v8_1)` | :white_check_mark:  |
+| Protexial | `2008` | :white_check_mark:  |
 
 ⚠️ Dat een model hier niet wordt vermeld, betekent **niet** dat het niet wordt ondersteund. Het kan eenvoudigweg nog niet getest zijn of nog niet door gebruikers zijn gemeld.
 
@@ -45,6 +45,7 @@ Deze integratie maakt verbinding met Somfy Protexial-, Protexiom- en Protexial I
 - 🚨 het alarmsysteem per zone (A, B en C)
 - 🪟 rolluiken
 - 💡 verlichting
+- ⏸️ afzonderlijke elementen pauzeren voor onderhoud (batterijen vervangen)
 
 🔃 Daarnaast kunnen alarm-, radioverbinding- en batterijfouten worden gereset.
 
@@ -102,15 +103,18 @@ De attributen zijn zichtbaar in het menu **"Details"**.
 | `button.refresh` | | 2.0.13 |
 
 
-#### Elementen pauzeren / opnieuw activeren
+#### Elementen pauzeren / opnieuw activeren (versie 2.1):
 
 Wanneer **Installateur**-gegevens zijn ingesteld, maakt de integratie voor elk compatibel element een `(PAUZE)`-schakelaar aan in de apparaatcategorie **Diagnostiek**.
 
 - **ON**: element actief
 - **OFF**: element gepauzeerd
-- De opdracht gebruikt tijdelijk het **Installateur**-account en maakt daarna automatisch opnieuw verbinding met het **Gebruiker**-account.
-- Voor de Installateur-pagina wordt een fallback tussen `/fr/i_listelmt.htm` en `/i_listelmt.htm` gebruikt voor betere compatibiliteit tussen verschillende generaties centrales.
-- De pictogrammen komen overeen met die van de bijbehorende binaire sensoren.
+De opdracht gebruikt tijdelijk het **Installateur**-account en maakt daarna automatisch opnieuw verbinding met het **Gebruiker**-account.
+De pagina *Elementenlijst* van de **Installateur**-gebruiker wordt gedetecteerd met een fallback tussen `/fr/i_listelmt.htm` en `/i_listelmt.htm` voor betere compatibiliteit tussen verschillende generaties centrales.
+
+⚠️ Als de URL op jouw centrale anders is, laat het me weten zodat ik de integratie kan bijwerken.
+
+De pictogrammen komen overeen met die van de bijbehorende binaire sensoren.
 
 > Somfy-centrales staan slechts één sessie tegelijk toe. De integratie beheert daarom automatisch de tijdelijke sessiewissel bij het pauzeren of opnieuw activeren van een element.
 
@@ -130,7 +134,7 @@ Wanneer **Installateur**-gegevens zijn ingesteld, maakt de integratie voor elk c
 
 ### Optie B: Handmatige installatie
 
-1. Download het archief van de nieuwste beschikbare versie: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.0.13.zip)
+1. Download het archief van de nieuwste beschikbare versie: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.1.0.zip)
 2. Zoek de map waarin het bestand `configuration.yaml` van uw Home Assistant-installatie zich bevindt.
 3. Maak de map `custom_components` aan als deze nog niet bestaat.
 4. Maak binnen `custom_components` een map `somfy_protexial` aan.
@@ -163,22 +167,17 @@ Wanneer **Installateur**-gegevens zijn ingesteld, maakt de integratie voor elk c
 
 De verschillende inschakelmodi zijn gebaseerd op de zones die in de Somfy-alarmcentrale zijn geconfigureerd:
 
-- Afwezigheidsmodus (altijd beschikbaar): zones A+B+C
-- Nachtmodus (optioneel): een willekeurige combinatie van A, B, C, A+B, B+C of A+C
-- Thuismodus (optioneel): een willekeurige combinatie van A, B, C, A+B, B+C of A+C
+- **Afwezigheidsmodus** (altijd geconfigureerd): zones A+B+C
+- **Nachtmodus** (optioneel): zones A, B, C, A+B, B+C of A+C
+- **Aanwezigheidsmodus** (optioneel): zones A, B, C, A+B, B+C of A+C
 
-**In-/uitschakelcode**
 
-Als u een code opgeeft, wordt deze gevraagd bij het in- en uitschakelen van het alarmsysteem.
+**In-/uitschakelcode:** als je een code opgeeft, wordt deze gevraagd bij het in- of uitschakelen van het alarm.
 
-**Vernieuwingsinterval**
+**Vernieuwingsinterval:** van 0 seconden* tot 24 uur (86.400 seconden). Standaard 60 seconden (een korter interval wordt niet aanbevolen, omdat de webinterface van het alarm dan instabiel kan worden).
+*De waarde `0` schakelt automatisch vernieuwen uit. Met de knop **Gegevens vernieuwen** kan op elk moment handmatig een synchronisatie worden uitgevoerd.
 
-Van **0 second** tot **25 uuren**. De standaardwaarde is **60 seconden**.
-
-Het wordt afgeraden een korter interval te gebruiken, omdat de webinterface van de alarmcentrale hierdoor instabiel kan worden.
-
-<img src="assets/step3.png" width="50%">
-
+**Installateur-account (optioneel):** vul de gebruikersnaam (standaard `i`) en het wachtwoord van de Installateur alleen in als je de `(PAUZE)`-schakelaars wilt gebruiken om afzonderlijke elementen te pauzeren of opnieuw te activeren. De normale alarmbediening blijft het **Gebruiker**-account gebruiken.
 ## Opmerkingen
 
 ### Lovelace-kaart voor Home Assistant (status en bediening)
@@ -214,6 +213,8 @@ of
 ### Gebruik van de originele mobiele app
 
 ⚠️ De officiële **Somfy Alarme**-app kan ook worden gebruikt terwijl deze integratie actief is.
+
+⚠️ De app 'Somfy Alarme' werkt niet meer zodra de [Somfy-servers zijn uitgeschakeld](https://github.com/AuroreVgn/somfy-protexial/wiki/Arr%C3%AAt-de-la-2G-et-des-serveurs-alarmsomfy.eu-%E2%80%90-%C3%A9tude-d'impact-et-solution#arr%C3%AAt-des-serveurs-somfyalarmeu).
 
 ### De integratie opnieuw configureren
 

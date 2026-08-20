@@ -14,7 +14,7 @@
 
 ## Über diese Integration
 
-🔀 Diese Version 2.0.x ist ein **aktualisierter Fork** der ursprünglichen Integration von [the8tre](https://github.com/the8tre).
+🔀 Diese Version 2.1.x ist ein **aktualisierter Fork** der ursprünglichen Integration von [the8tre](https://github.com/the8tre).
 
 Die Hauptziele dieser Integration sind:
 
@@ -25,16 +25,16 @@ Diese Integration ermöglicht die Anbindung einer Somfy Protexial-, Protexiom- o
 
 ### Getestete Modelle
 
-| Modell | Version | Status |
-| -------------- | --------------- | ------------------ |
-| Protexial IO | `2013 (v10_13)` | :white_check_mark: |
-| Protexiom 5000 | `2013 (v10_3)` | :white_check_mark: |
-| Protexial | `2013 (v10_13)` | :white_check_mark: |
-| Protexial | `2013 (v10_14)` | :white_check_mark: |
-| Protexial | `2013 (v10_15)` | :white_check_mark: |
-| Protexial | `2010 (v7_9)` | :white_check_mark: |
-| Protexial | `2010 (v8_1)` | :white_check_mark: |
-| Protexial | `2008` | :white_check_mark: |
+| Modell | Version | Status  Elemente pausieren |
+| -------------- | --------------- | ------------------  ------------------ |
+| Protexial IO | `2013 (v10_13)` | :white_check_mark:  :white_check_mark: |
+| Protexiom 5000 | `2013 (v10_3)` | :white_check_mark:  |
+| Protexial | `2013 (v10_13)` | :white_check_mark:  |
+| Protexial | `2013 (v10_14)` | :white_check_mark:  |
+| Protexial | `2013 (v10_15)` | :white_check_mark:  |
+| Protexial | `2010 (v7_9)` | :white_check_mark:  |
+| Protexial | `2010 (v8_1)` | :white_check_mark:  |
+| Protexial | `2008` | :white_check_mark:  |
 
 ⚠️ Dass ein Modell hier nicht aufgeführt ist, bedeutet **nicht**, dass es nicht unterstützt wird. Es wurde möglicherweise lediglich noch nicht getestet oder gemeldet.
 
@@ -45,6 +45,7 @@ Diese Integration ermöglicht die Anbindung einer Somfy Protexial-, Protexiom- o
 - 🚨 Alarm nach Zonen (A, B, C)
 - 🪟 Rollläden
 - 💡 Beleuchtung
+- ⏸️ einzelne Elemente für Wartungsarbeiten (Batteriewechsel) pausieren
 
 🔃 Darüber hinaus können Alarm-, Funkverbindungs- und Batteriestörungen zurückgesetzt werden.
 
@@ -102,15 +103,18 @@ Die Attribute sind im Menü **„Details“** sichtbar.
 | `button.refresh` | Aktualisierung der Daten | 2.0.13 |
 
 
-#### Elemente pausieren / reaktivieren
+#### Elemente pausieren / reaktivieren (Version 2.1):
 
 Wenn **Installateur**-Zugangsdaten konfiguriert sind, erstellt die Integration für jedes kompatible Element einen `(PAUSE)`-Schalter in der Gerätekategorie **Diagnose**.
 
 - **ON**: Element aktiv
 - **OFF**: Element pausiert
-- Der Befehl verwendet vorübergehend das **Installateur**-Konto und verbindet danach automatisch wieder das **Benutzer**-Konto.
-- Für die Installateur-Seite wird ein Fallback zwischen `/fr/i_listelmt.htm` und `/i_listelmt.htm` verwendet, um die Kompatibilität verschiedener Zentralengenerationen zu verbessern.
-- Die Symbole entsprechen denen der zugehörigen Binärsensoren.
+Der Befehl verwendet vorübergehend das **Installateur**-Konto und verbindet danach automatisch wieder das **Benutzer**-Konto.
+Die Seite *Elementliste* des **Installateur**-Benutzers wird mit einem Fallback zwischen `/fr/i_listelmt.htm` und `/i_listelmt.htm` erkannt, um die Kompatibilität zwischen verschiedenen Zentralengenerationen zu verbessern.
+
+⚠️ Falls die URL bei Ihrer Zentrale anders lautet, teilen Sie mir dies bitte mit, damit ich die Integration aktualisieren kann.
+
+Die Symbole entsprechen denen der zugehörigen Binärsensoren.
 
 > Somfy-Zentralen erlauben nur eine Sitzung gleichzeitig. Die Integration verwaltet den temporären Sitzungswechsel beim Pausieren oder Reaktivieren eines Elements automatisch.
 
@@ -130,7 +134,7 @@ Wenn **Installateur**-Zugangsdaten konfiguriert sind, erstellt die Integration f
 
 ### Option B: Manuelle Installation
 
-1. Das Archiv der neuesten Version herunterladen: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.0.13.zip)
+1. Das Archiv der neuesten Version herunterladen: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.1.0.zip)
 2. Das Verzeichnis suchen, das die Datei `configuration.yaml` Ihrer Home-Assistant-Installation enthält.
 3. Falls das Verzeichnis `custom_components` nicht existiert, erstellen Sie es.
 4. Erstellen Sie darin ein Verzeichnis `somfy_protexial`.
@@ -163,22 +167,17 @@ Wenn **Installateur**-Zugangsdaten konfiguriert sind, erstellt die Integration f
 
 Die verschiedenen Scharfschaltungsmodi basieren auf den in der Somfy-Zentrale konfigurierten Bereichen:
 
-- Abwesenheitsmodus (immer verfügbar): Bereiche A+B+C
-- Nachtmodus (optional): frei wählbare Kombination aus A, B, C, A+B, B+C oder A+C
-- Anwesenheitsmodus (optional): frei wählbare Kombination aus A, B, C, A+B, B+C oder A+C
+- **Abwesenheitsmodus** (immer konfiguriert): Zonen A+B+C
+- **Nachtmodus** (optional): Zonen A, B, C, A+B, B+C oder A+C
+- **Anwesenheitsmodus** (optional): Zonen A, B, C, A+B, B+C oder A+C
 
-**Code für Scharf-/Unscharfschaltung**
 
-Wenn Sie einen Code festlegen, wird dieser beim Scharf- und Unscharfschalten abgefragt.
+**Scharf-/Unscharf-Code:** Wenn Sie einen Code angeben, wird dieser beim Scharf- oder Unscharfschalten der Alarmanlage abgefragt.
 
-**Aktualisierungsintervall**
+**Aktualisierungsintervall:** von 0 Sekunden* bis 24 Stunden (86.400 Sekunden). Standardwert: 60 Sekunden (ein kürzeres Intervall wird nicht empfohlen, da die Weboberfläche der Alarmanlage sonst instabil werden kann).
+*Der Wert `0` deaktiviert die automatische Aktualisierung. Mit der Schaltfläche **Daten aktualisieren** kann jederzeit eine manuelle Synchronisierung erzwungen werden.
 
-Von **0 Sekunden** bis **24 Stunden**. Standardwert: **60 Sekunden**.
-
-Ein kürzeres Intervall wird nicht empfohlen, da die Weboberfläche der Alarmzentrale dadurch instabil werden kann.
-
-<img src="assets/step3.png" width="50%">
-
+**Installateur-Konto (optional):** Benutzername (Standard: `i`) und Passwort des Installateurs nur eintragen, wenn die `(PAUSE)`-Schalter zum Pausieren oder Reaktivieren einzelner Elemente verwendet werden sollen. Die normale Alarmsteuerung verwendet weiterhin das **Benutzer**-Konto.
 ## Hinweise
 
 ### Lovelace-Karte für Home Assistant (Status & Steuerung)
@@ -214,6 +213,8 @@ oder
 ### Verwendung der originalen mobilen App
 
 ⚠️ Die offizielle **Somfy Alarme**-App kann auch bei aktiver Integration weiterhin verwendet werden.
+
+⚠️ Die App 'Somfy Alarme' funktioniert nicht mehr, sobald die [Somfy-Server abgeschaltet sind](https://github.com/AuroreVgn/somfy-protexial/wiki/Arr%C3%AAt-de-la-2G-et-des-serveurs-alarmsomfy.eu-%E2%80%90-%C3%A9tude-d'impact-et-solution#arr%C3%AAt-des-serveurs-somfyalarmeu).
 
 ### Neukonfiguration der Integration
 
