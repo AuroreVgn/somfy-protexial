@@ -64,7 +64,7 @@ Esta integração permite ligar centrais de alarme Somfy Protexial, Protexiom e 
 | `binary_sensor.camera` | Estado da ligação da câmara | 1.2.4 |
 | `sensor.signal_gsm_5` | Intensidade do sinal GSM (/5) | 1.2.6 |
 | `sensor.operateur_gsma` | Operador GSM | 1.2.6 |
-| `sensor.alarme_derniere_sync` | Última sincronização com a central | 2.0.7 |
+| `sensor.alarme_derniere_sync` | Última sincronização com o alarme (o último valor é restaurado após um reinício) | 2.0.7 |
 
 #### São criados os seguintes sensores binários para representar cada dispositivo do sistema de alarme, incluindo os respetivos atributos:
 
@@ -100,6 +100,19 @@ Os atributos podem ser consultados no menu **"Detalhes"**.
 | `button.reinitialiser_defaut_liaison_radio` | Repor falhas de comunicação por rádio entre a central e os sensores | 2.0.7 |
 | `button.reinitialiser_defaut_piles` | Repor falhas das baterias | 2.0.7 |
 | `button.refresh` | | 2.0.13 |
+
+
+#### Pausa / reativação dos elementos
+
+Se as credenciais de **Instalador** estiverem configuradas, a integração cria um switch `(PAUSA)` para cada elemento compatível na categoria **Diagnóstico** do dispositivo.
+
+- **ON**: elemento ativo
+- **OFF**: elemento em pausa
+- O comando utiliza temporariamente a conta **Instalador** e depois volta a ligar automaticamente a conta **Utilizador**.
+- A página de Instalador utiliza fallback entre `/fr/i_listelmt.htm` e `/i_listelmt.htm` para melhorar a compatibilidade entre gerações de centrais.
+- Os ícones correspondem aos dos respetivos sensores binários.
+
+> As centrais Somfy permitem apenas uma sessão de cada vez. A integração gere automaticamente a troca temporária de sessão ao pausar ou reativar um elemento.
 
 ## Instalação
 

@@ -64,7 +64,7 @@ Tested models:
 | `binary_sensor.camera` | Camera connection status | 1.2.4 |
 | `sensor.signal_gsm_5` | GSM signal strength (/5) | 1.2.6 |
 | `sensor.operateur_gsma` | GSM operator | 1.2.6 |
-| `sensor.alarme_derniere_sync` | Last synchronization with the alarm panel | 2.0.7 |
+| `sensor.alarme_derniere_sync` | Last synchronization with the alarm (last value is restored after a restart) | 2.0.7 |
 
 #### The following binary sensors are created to represent every alarm device and expose their attributes:
 
@@ -100,6 +100,19 @@ Attributes are available in the **Details** panel.
 | `button.reinitialiser_defaut_liaison_radio` | Reset radio communication faults between the control panel and sensors | 2.0.7 |
 | `button.reinitialiser_defaut_piles` | Reset battery faults | 2.0.7 |
 | `button.refresh` | Reset battery faults | 2.0.7 |
+
+
+#### Pausing / reactivating elements
+
+When **Installer** credentials are configured, the integration creates a `(PAUSE)` switch for each compatible element in the device **Diagnostic** category.
+
+- **ON**: element active
+- **OFF**: element paused
+- Commands temporarily use the **Installer** account, then automatically reconnect the **User** account.
+- The Installer page uses a fallback between `/fr/i_listelmt.htm` and `/i_listelmt.htm` to improve compatibility across panel generations.
+- Icons match those used by the corresponding binary sensors.
+
+> Somfy panels allow only one session at a time. The integration therefore handles the temporary session switch automatically when pausing or reactivating an element.
 
 ## Installation
 

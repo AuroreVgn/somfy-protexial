@@ -60,7 +60,7 @@ Modèles testés :
 | `binary_sensor.camera`              | État de connexion de la caméra                              | 1.2.4                                                      |
 | `sensor.signal_gsm_5`               | Puissance du signal GSM (/5)                                | 1.2.6                                                      |
 | `sensor.operateur_gsma`             | Opérateur GSM                                               | 1.2.6                                                      |
-| `sensor.alarme_derniere_sync`       | Denière synchronisation avec l'alarme                       | 2.0.7                                                      |
+| `sensor.alarme_derniere_sync`       | Dernière synchronisation avec l'alarme (dernière valeur restaurée après un redémarrage) | 2.0.7                                                      |
 
 #### Les entités (sensors) suivants sont créées avec des attributs (attributes) et représente la liste des éléments de l'alarme :
 | Entité                              | Description -  Attributs                                                                                 | Version |
@@ -96,6 +96,19 @@ Les attributs sont visibles dans le menus "Détails"
 | `button.reinitialiser_defaut_liaison_radio`| Réinitialisation des défauts de lien entre la centrale et les capteurs  | 2.0.7                                                      |
 | `button.reinitialiser_defaut_piles`| Réinitialisation des défauts piles    | 2.0.7                
 | `button.refresh`| Mise à jour des infos manuellement    | 2.0.13    
+
+
+#### Mise en pause / réactivation des éléments
+
+Si les identifiants **Installateur** sont renseignés, l'intégration crée un switch `(PAUSE)` pour chaque élément compatible, dans la catégorie **Diagnostic** de l'appareil.
+
+- **ON** : élément actif
+- **OFF** : élément en pause
+- La commande utilise temporairement le compte **Installateur**, puis reconnecte automatiquement le compte **Utilisateur**.
+- La page Installateur est détectée avec fallback entre `/fr/i_listelmt.htm` et `/i_listelmt.htm` pour améliorer la compatibilité entre les générations de centrales.
+- Les icônes reprennent celles des binary sensors correspondants.
+
+> La centrale Somfy n'accepte qu'une seule session à la fois. L'intégration gère donc automatiquement la bascule de session lors d'une mise en pause ou d'une réactivation.
 
 ## Installation
 
@@ -149,6 +162,11 @@ Les différents modes d'armement exploitent les zones définies par la configura
 Code d'armement : si vous spécifiez un code celui-ci sera demandé lors de l'armement/désarmement.
 
 Interval de rafraîchissement : de 0 seconde à 24 heures, 60 secondes par défaut (il n'est pas conseillé de mettre moins, sinon l'interface web de l'alarme a tendance à planter).
+
+**Rafraîchissement :** la valeur `0` désactive le rafraîchissement automatique. Le bouton **Actualiser les données** permet alors de forcer une synchronisation manuelle à tout moment.
+
+**Compte Installateur (optionnel) :** renseigner le nom d'utilisateur et le mot de passe Installateur uniquement si vous souhaitez utiliser les switches `(PAUSE)` permettant de mettre en pause ou de réactiver individuellement les éléments. Le pilotage normal de l'alarme continue d'utiliser le compte **Utilisateur**.
+
 
 <img src="assets/step3.png"  width="50%">
 

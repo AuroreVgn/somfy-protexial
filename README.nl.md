@@ -64,7 +64,7 @@ Deze integratie maakt verbinding met Somfy Protexial-, Protexiom- en Protexial I
 | `binary_sensor.camera` | Status van de cameraverbinding | 1.2.4 |
 | `sensor.signal_gsm_5` | GSM-signaalsterkte (/5) | 1.2.6 |
 | `sensor.operateur_gsma` | GSM-provider | 1.2.6 |
-| `sensor.alarme_derniere_sync` | Laatste synchronisatie met de alarmcentrale | 2.0.7 |
+| `sensor.alarme_derniere_sync` | Laatste synchronisatie met het alarm (de laatste waarde wordt na een herstart hersteld) | 2.0.7 |
 
 #### Voor elk alarmapparaat worden de volgende binaire sensoren met attributen aangemaakt:
 
@@ -100,6 +100,19 @@ De attributen zijn zichtbaar in het menu **"Details"**.
 | `button.reinitialiser_defaut_liaison_radio` | Radioverbindingsfouten tussen de centrale en de sensoren resetten | 2.0.7 |
 | `button.reinitialiser_defaut_piles` | Batterijfouten resetten | 2.0.7 |
 | `button.refresh` | | 2.0.13 |
+
+
+#### Elementen pauzeren / opnieuw activeren
+
+Wanneer **Installateur**-gegevens zijn ingesteld, maakt de integratie voor elk compatibel element een `(PAUZE)`-schakelaar aan in de apparaatcategorie **Diagnostiek**.
+
+- **ON**: element actief
+- **OFF**: element gepauzeerd
+- De opdracht gebruikt tijdelijk het **Installateur**-account en maakt daarna automatisch opnieuw verbinding met het **Gebruiker**-account.
+- Voor de Installateur-pagina wordt een fallback tussen `/fr/i_listelmt.htm` en `/i_listelmt.htm` gebruikt voor betere compatibiliteit tussen verschillende generaties centrales.
+- De pictogrammen komen overeen met die van de bijbehorende binaire sensoren.
+
+> Somfy-centrales staan slechts één sessie tegelijk toe. De integratie beheert daarom automatisch de tijdelijke sessiewissel bij het pauzeren of opnieuw activeren van een element.
 
 ## Installatie
 

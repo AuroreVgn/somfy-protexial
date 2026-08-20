@@ -64,7 +64,7 @@ Diese Integration ermöglicht die Anbindung einer Somfy Protexial-, Protexiom- o
 | `binary_sensor.camera` | Status der Kameraverbindung | 1.2.4 |
 | `sensor.signal_gsm_5` | GSM-Signalstärke (/5) | 1.2.6 |
 | `sensor.operateur_gsma` | GSM-Netzbetreiber | 1.2.6 |
-| `sensor.alarme_derniere_sync` | Letzte Synchronisierung mit der Alarmzentrale | 2.0.7 |
+| `sensor.alarme_derniere_sync` | Letzte Synchronisierung mit der Alarmanlage (der letzte Wert wird nach einem Neustart wiederhergestellt) | 2.0.7 |
 
 #### Für jedes Alarmgerät werden folgende Binary Sensoren mit Attributen erstellt:
 
@@ -100,6 +100,19 @@ Die Attribute sind im Menü **„Details“** sichtbar.
 | `button.reinitialiser_defaut_liaison_radio` | Funkverbindungsfehler zwischen Zentrale und Sensoren zurücksetzen | 2.0.7 |
 | `button.reinitialiser_defaut_piles` | Batteriestörungen zurücksetzen | 2.0.7 |
 | `button.refresh` | Aktualisierung der Daten | 2.0.13 |
+
+
+#### Elemente pausieren / reaktivieren
+
+Wenn **Installateur**-Zugangsdaten konfiguriert sind, erstellt die Integration für jedes kompatible Element einen `(PAUSE)`-Schalter in der Gerätekategorie **Diagnose**.
+
+- **ON**: Element aktiv
+- **OFF**: Element pausiert
+- Der Befehl verwendet vorübergehend das **Installateur**-Konto und verbindet danach automatisch wieder das **Benutzer**-Konto.
+- Für die Installateur-Seite wird ein Fallback zwischen `/fr/i_listelmt.htm` und `/i_listelmt.htm` verwendet, um die Kompatibilität verschiedener Zentralengenerationen zu verbessern.
+- Die Symbole entsprechen denen der zugehörigen Binärsensoren.
+
+> Somfy-Zentralen erlauben nur eine Sitzung gleichzeitig. Die Integration verwaltet den temporären Sitzungswechsel beim Pausieren oder Reaktivieren eines Elements automatisch.
 
 ## Installation
 

@@ -64,7 +64,7 @@ Questa integrazione permette di collegare le centrali di allarme Somfy Protexial
 | `binary_sensor.camera` | Stato della connessione della telecamera | 1.2.4 |
 | `sensor.signal_gsm_5` | Intensità del segnale GSM (/5) | 1.2.6 |
 | `sensor.operateur_gsma` | Operatore GSM | 1.2.6 |
-| `sensor.alarme_derniere_sync` | Ultima sincronizzazione con la centrale | 2.0.7 |
+| `sensor.alarme_derniere_sync` | Ultima sincronizzazione con l'allarme (l'ultimo valore viene ripristinato dopo un riavvio) | 2.0.7 |
 
 #### Per ogni dispositivo dell'allarme vengono creati i seguenti sensori binari con i relativi attributi:
 
@@ -100,6 +100,19 @@ Gli attributi sono visibili nel menu **"Dettagli"**.
 | `button.reinitialiser_defaut_liaison_radio` | Ripristina gli errori di comunicazione radio tra la centrale e i sensori | 2.0.7 |
 | `button.reinitialiser_defaut_piles` | Ripristina gli errori delle batterie | 2.0.7 |
 | `button.reresh` |  | 2.0.13 |
+
+
+#### Pausa / riattivazione degli elementi
+
+Se sono configurate le credenziali **Installatore**, l'integrazione crea uno switch `(PAUSA)` per ogni elemento compatibile nella categoria **Diagnostica** del dispositivo.
+
+- **ON**: elemento attivo
+- **OFF**: elemento in pausa
+- Il comando utilizza temporaneamente l'account **Installatore**, quindi riconnette automaticamente l'account **Utente**.
+- La pagina Installatore utilizza un fallback tra `/fr/i_listelmt.htm` e `/i_listelmt.htm` per migliorare la compatibilità tra diverse generazioni di centrali.
+- Le icone corrispondono a quelle dei relativi sensori binari.
+
+> Le centrali Somfy consentono una sola sessione alla volta. L'integrazione gestisce automaticamente il cambio temporaneo di sessione durante la pausa o la riattivazione di un elemento.
 
 ## Installazione
 

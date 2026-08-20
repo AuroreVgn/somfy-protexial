@@ -64,7 +64,7 @@ Esta integración proporciona la comunicación con las centrales de alarma Somfy
 | `binary_sensor.camera` | Estado de conexión de la cámara | 1.2.4 |
 | `sensor.signal_gsm_5` | Intensidad de la señal GSM (/5) | 1.2.6 |
 | `sensor.operateur_gsma` | Operador GSM | 1.2.6 |
-| `sensor.alarme_derniere_sync` | Última sincronización con la central de alarma | 2.0.7 |
+| `sensor.alarme_derniere_sync` | Última sincronización con la alarma (el último valor se restaura después de un reinicio) | 2.0.7 |
 
 #### Se crean los siguientes sensores binarios para representar cada dispositivo de la alarma junto con sus atributos:
 
@@ -100,6 +100,19 @@ Los atributos pueden consultarse en el menú **"Detalles"**.
 | `button.reinitialiser_defaut_liaison_radio` | Restablecer los fallos de comunicación por radio entre la central y los sensores | 2.0.7 |
 | `button.reinitialiser_defaut_piles` | Restablecer los fallos de batería | 2.0.7 |
 | `button.refresh` | Restablecer los fallos de batería | 2.0.13 |
+
+
+#### Pausa / reactivación de elementos
+
+Si se configuran las credenciales de **Instalador**, la integración crea un switch `(PAUSA)` para cada elemento compatible en la categoría **Diagnóstico** del dispositivo.
+
+- **ON**: elemento activo
+- **OFF**: elemento en pausa
+- La orden utiliza temporalmente la cuenta **Instalador** y después vuelve a conectar automáticamente la cuenta **Usuario**.
+- La página de Instalador utiliza un fallback entre `/fr/i_listelmt.htm` y `/i_listelmt.htm` para mejorar la compatibilidad entre generaciones de centrales.
+- Los iconos coinciden con los de los sensores binarios correspondientes.
+
+> Las centrales Somfy solo permiten una sesión a la vez. La integración gestiona automáticamente el cambio temporal de sesión al pausar o reactivar un elemento.
 
 ## Instalación
 
