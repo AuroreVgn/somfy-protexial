@@ -13,7 +13,7 @@
 
 ## À propos
 
-🔀 Cette version 2.0.x est un [Fork](https://github.com/the8tre/somfy-protexial) **mis à jour** de l’intégration originale de [the8tre](https://github.com/the8tre) désormais archivée.
+🔀 Cette version 2.1.x est un [Fork](https://github.com/the8tre/somfy-protexial) **mis à jour** de l’intégration originale de [the8tre](https://github.com/the8tre) désormais archivée.
 
 Les principaux objectifs de cette intégration sont d'anticiper : 
 - [l'**arrêt de la 2G**](https://github.com/AuroreVgn/somfy-protexial/wiki/Arr%C3%AAt-de-la-2G-et-des-serveurs-alarmsomfy.eu-%E2%80%90-%C3%A9tude-d'impact-et-solution#arr%C3%AAt-de-la-2g) en proposant une alternative fiable sans devoir tout changer pour alerter d'une intrusion (ou autre) directement via Home Assistant et l'application smartphone permettant la mise en place d'alertes critiques (ie. qui notifient même en silencieux).
@@ -22,16 +22,16 @@ Les principaux objectifs de cette intégration sont d'anticiper :
 Cette intégration gère l'interface avec une centrale d'alarme Somfy Protexial, Protexiom ou Protexial IO.
 
 Modèles testés :
-| Modèle         | Version         | Statut             |
-| -------------- | --------------- | ------------------ |
-| Protexial IO   | `2013 (v10_13)` | :white_check_mark: |
-| Protexiom 5000 | `2013 (v10_3)`  | :white_check_mark: |
-| Protexial      | `2013 (v10_13)` | :white_check_mark: |
-| Protexial      | `2013 (v10_14)` | :white_check_mark: |
-| Protexial      | `2013 (v10_15)` | :white_check_mark: |
-| Protexial      | `2010 (v7_9)`   | :white_check_mark: |
-| Protexial      | `2010 (v8_1)`   | :white_check_mark: |
-| Protexial      | `2008`          | :white_check_mark: |
+| Modèle         | Version         | Statut             | Mise en pause des éléments             |
+| -------------- | --------------- | ------------------ | -------------------------------------- |
+| Protexial IO   | `2013 (v10_13)` | :white_check_mark: | :white_check_mark:                     |
+| Protexiom 5000 | `2013 (v10_3)`  | :white_check_mark: |                                        |
+| Protexial      | `2013 (v10_13)` | :white_check_mark: |                                        |
+| Protexial      | `2013 (v10_14)` | :white_check_mark: |                                        |
+| Protexial      | `2013 (v10_15)` | :white_check_mark: |                                        |
+| Protexial      | `2010 (v7_9)`   | :white_check_mark: |                                        |
+| Protexial      | `2010 (v8_1)`   | :white_check_mark: |                                        |
+| Protexial      | `2008`          | :white_check_mark: |                                        |
 
 ⚠️ Un modèle non présent ici ne signifie pas que cela ne fonctionnera pas, juste qu'il n'a pas été testé ou ajouté faute de retours.
 
@@ -41,7 +41,8 @@ Modèles testés :
 
 - 🚨 de l'alarme par zones (A, B, C)
 - 🪟 des volets roulants
-- 💡des lumières
+- 💡 des lumières
+- ⏸️ la mise en pause des éléments pour opérer leur maintenance (changement de piles)
 
 🔃 L'intégration permet également la réinitialisation des défauts (alarmes, liaisons et piles).
 
@@ -81,7 +82,7 @@ Modèles testés :
 | `binary_sensor.tc_4_tlcmd_xxx`      | Télécommande alarme multi zones - Attributs lien avec la centrale, pause                                              | 2.0.0   |
 | `binary_sensor.badge_bdg_axxx`   | Badge - Attributs lien avec la centrale, pause                                              | 2.0.0   |
 
-Les attributs sont visibles dans le menus "Détails"
+Les attributs sont visibles dans le menu "Détails"
 
 <img width="160" height="243" alt="image" src="https://github.com/user-attachments/assets/1fd0de09-5f3e-4dc0-b147-bb55593adf45" />
 
@@ -98,15 +99,19 @@ Les attributs sont visibles dans le menus "Détails"
 | `button.refresh`| Mise à jour des infos manuellement    | 2.0.13    
 
 
-#### Mise en pause / réactivation des éléments
+#### Mise en pause / réactivation des éléments (version 2.1) :
 
 Si les identifiants **Installateur** sont renseignés, l'intégration crée un switch `(PAUSE)` pour chaque élément compatible, dans la catégorie **Diagnostic** de l'appareil.
 
 - **ON** : élément actif
 - **OFF** : élément en pause
-- La commande utilise temporairement le compte **Installateur**, puis reconnecte automatiquement le compte **Utilisateur**.
-- La page Installateur est détectée avec fallback entre `/fr/i_listelmt.htm` et `/i_listelmt.htm` pour améliorer la compatibilité entre les générations de centrales.
-- Les icônes reprennent celles des binary sensors correspondants.
+
+La commande utilise temporairement le compte **Installateur**, puis reconnecte automatiquement le compte **Utilisateur**.
+La page *Liste des éléments* de l'utilisateur **Installateur** est détectée avec fallback entre `/fr/i_listelmt.htm` et `/i_listelmt.htm` pour améliorer la compatibilité entre les générations de centrales.
+
+⚠️ Si l'URL sur votre centrale est différente, merci de m'en faire part que je puisse faire une mise à jour.
+
+Les icônes reprennent celles des binary sensors correspondants.
 
 > La centrale Somfy n'accepte qu'une seule session à la fois. L'intégration gère donc automatiquement la bascule de session lors d'une mise en pause ou d'une réactivation.
 
@@ -126,7 +131,7 @@ Si les identifiants **Installateur** sont renseignés, l'intégration crée un s
 
 ### Option B : Installation manuelle
 
-1. Télécharger l'archive de la dernière version disponible: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.0.12.zip)
+1. Télécharger l'archive de la dernière version disponible: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.1.0.zip)
 2. Localiser le répertoire contenant le fichier `configuration.yaml` dans votre installation de HA
 3. Si il n'y a pas de répertoire `custom_components` le créer
 4. Créer un répertoire `somfy_protexial` dans `custom_components`
@@ -155,17 +160,16 @@ Si les identifiants **Installateur** sont renseignés, l'intégration crée un s
 
 Les différents modes d'armement exploitent les zones définies par la configuration de la centrale Somfy:
 
-- Armement en absence (toujours configuré) : zones A+B+C
-- Armement pour la nuit (optionnel) : zones au choix (A, B, C, A+B, B+C, A+C)
-- Armement en présence (optionnel) : zones au choix (A, B, C, A+B, B+C, A+C)
+- **Armement en absence** (toujours configuré) : zones A+B+C
+- **Armement pour la nuit** (optionnel) : zones au choix (A, B, C, A+B, B+C, A+C)
+- **Armement en présence** (optionnel) : zones au choix (A, B, C, A+B, B+C, A+C)
 
-Code d'armement : si vous spécifiez un code celui-ci sera demandé lors de l'armement/désarmement.
+**Code d'armement** : si vous spécifiez un code celui-ci sera demandé lors de l'armement/désarmement.
 
-Interval de rafraîchissement : de 0 seconde à 24 heures, 60 secondes par défaut (il n'est pas conseillé de mettre moins, sinon l'interface web de l'alarme a tendance à planter).
+**Interval de rafraîchissement** : de 0 seconde* à 24 heures (86 400 secondes). 60 secondes par défaut (il n'est pas conseillé de mettre moins, sinon l'interface web de l'alarme a tendance à planter).
+*la valeur `0` désactive le rafraîchissement automatique. Le bouton **Actualiser les données** permet alors de forcer une synchronisation manuelle à tout moment.
 
-**Rafraîchissement :** la valeur `0` désactive le rafraîchissement automatique. Le bouton **Actualiser les données** permet alors de forcer une synchronisation manuelle à tout moment.
-
-**Compte Installateur (optionnel) :** renseigner le nom d'utilisateur et le mot de passe Installateur uniquement si vous souhaitez utiliser les switches `(PAUSE)` permettant de mettre en pause ou de réactiver individuellement les éléments. Le pilotage normal de l'alarme continue d'utiliser le compte **Utilisateur**.
+**Compte Installateur (optionnel) :** renseigner le nom d'utilisateur  (par défaut `i`) et le mot de passe Installateur uniquement si vous souhaitez utiliser les switches `(PAUSE)` permettant de mettre en pause ou de réactiver individuellement les éléments. Le pilotage normal de l'alarme continue d'utiliser le compte **Utilisateur**.
 
 
 <img src="assets/step3.png"  width="50%">
@@ -195,7 +199,8 @@ Certaines centrales fournissent leur version via cette URL : *http://192.168.1.2
 
 ### Utilisation de l'application mobile d'origine
 
-⚠️ L'utilisation de l'application mobile 'Somfy Alarme' reste possible même avec l'intégration active.
+⚠️ L'utilisation de l'application mobile 'Somfy Alarme' reste possible même avec l'intégration active. 
+⚠️ L'application 'Somfy Alarme' ne fonctionnera plus une fois les [serveurs Somfy arrêtés](https://github.com/AuroreVgn/somfy-protexial/wiki/Arr%C3%AAt-de-la-2G-et-des-serveurs-alarmsomfy.eu-%E2%80%90-%C3%A9tude-d'impact-et-solution#arr%C3%AAt-des-serveurs-somfyalarmeu).
 
 ### Re-configuration de l'intégration
 
