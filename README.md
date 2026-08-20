@@ -43,6 +43,7 @@ Modèles testés :
 - 🪟 des volets roulants
 - 💡 des lumières
 - ⏸️ la mise en pause des éléments pour opérer leur maintenance (changement de piles)
+- 🔄 le paramétrage dynamique de l'intervalle de rafraichissement des données (voir plus bas)
 
 🔃 L'intégration permet également la réinitialisation des défauts (alarmes, liaisons et piles).
 
@@ -99,7 +100,7 @@ Les attributs sont visibles dans le menu "Détails"
 | `button.refresh`| Mise à jour des infos manuellement    | 2.0.13    
 
 
-#### Mise en pause / réactivation des éléments (version 2.1) :
+#### ⏸️ Mise en pause / réactivation des éléments (version 2.1) :
 
 Si les identifiants **Installateur** sont renseignés, l'intégration crée un switch `(PAUSE)` pour chaque élément compatible, dans la catégorie **Diagnostic** de l'appareil.
 
@@ -114,6 +115,10 @@ La page *Liste des éléments* de l'utilisateur **Installateur** est détectée 
 Les icônes reprennent celles des binary sensors correspondants.
 
 > La centrale Somfy n'accepte qu'une seule session à la fois. L'intégration gère donc automatiquement la bascule de session lors d'une mise en pause ou d'une réactivation.
+
+#### 🔄 Intervalle de rafraîchissement dynamique (version 2.1) :
+L’intervalle de rafraîchissement de l’intégration est également disponible sous la forme d’une entité `number`. Sa valeur peut être modifiée directement depuis l’interface ou par une automatisation afin d’adapter dynamiquement la fréquence d’interrogation de la centrale afin de [limiter sa consommation de piles](https://github.com/AuroreVgn/somfy-protexial/wiki/Optimisation-de-la-dur%C3%A9e-de-vie-des-piles-de-la-Centrale#avec-un-intervalle-de-rafraichissement-variable).
+
 
 ## Installation
 
@@ -168,6 +173,7 @@ Les différents modes d'armement exploitent les zones définies par la configura
 
 **Interval de rafraîchissement** : de 0 seconde* à 24 heures (86 400 secondes). 60 secondes par défaut (il n'est pas conseillé de mettre moins, sinon l'interface web de l'alarme a tendance à planter).
 *la valeur `0` désactive le rafraîchissement automatique. Le bouton **Actualiser les données** permet alors de forcer une synchronisation manuelle à tout moment.
+Cette valeur peut être modifiée dynamiquement par la suite grâce à une entité `number`.
 
 **Compte Installateur (optionnel) :** renseigner le nom d'utilisateur  (par défaut `i`) et le mot de passe Installateur uniquement si vous souhaitez utiliser les switches `(PAUSE)` permettant de mettre en pause ou de réactiver individuellement les éléments. Le pilotage normal de l'alarme continue d'utiliser le compte **Utilisateur**.
 
