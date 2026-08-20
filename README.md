@@ -171,9 +171,6 @@ Les différents modes d'armement exploitent les zones définies par la configura
 
 **Compte Installateur (optionnel) :** renseigner le nom d'utilisateur  (par défaut `i`) et le mot de passe Installateur uniquement si vous souhaitez utiliser les switches `(PAUSE)` permettant de mettre en pause ou de réactiver individuellement les éléments. Le pilotage normal de l'alarme continue d'utiliser le compte **Utilisateur**.
 
-
-<img src="assets/step3.png"  width="50%">
-
 ## À noter
 
 ### [Wiki disponible ici](https://github.com/AuroreVgn/somfy-protexial/wiki/Accueil)
