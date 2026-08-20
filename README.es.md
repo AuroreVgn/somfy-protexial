@@ -46,6 +46,7 @@ Esta integración proporciona la comunicación con las centrales de alarma Somfy
 - 🪟 las persianas
 - 💡 las luces
 - ⏸️ poner en pausa elementos individuales para realizar tareas de mantenimiento (cambio de pilas)
+- 🔄 configurar dinámicamente el intervalo de actualización de los datos (ver más abajo)
 
 🔃 La integración también permite restablecer los fallos de alarma, comunicación por radio y batería.
 
@@ -103,7 +104,7 @@ Los atributos pueden consultarse en el menú **"Detalles"**.
 | `button.refresh` | Restablecer los fallos de batería | 2.0.13 |
 
 
-#### Pausa / reactivación de elementos (versión 2.1):
+#### ⏸️ Pausa / reactivación de elementos (versión 2.1):
 
 Si se configuran las credenciales de **Instalador**, la integración crea un switch `(PAUSA)` para cada elemento compatible en la categoría **Diagnóstico** del dispositivo.
 
@@ -119,6 +120,10 @@ Los iconos coinciden con los de los sensores binarios correspondientes.
 
 
 > Las centrales Somfy solo permiten una sesión a la vez. La integración gestiona automáticamente el cambio temporal de sesión al pausar o reactivar un elemento.
+
+#### 🔄 Intervalo de actualización dinámico (versión 2.1):
+El intervalo de actualización de la integración también está disponible como una entidad `number`. Su valor puede modificarse directamente desde la interfaz o mediante una automatización para adaptar dinámicamente la frecuencia de consulta de la central y así [reducir el consumo de sus pilas](https://github.com/AuroreVgn/somfy-protexial/wiki/Optimisation-de-la-dur%C3%A9e-de-vie-des-piles-de-la-Centrale#avec-un-intervalle-de-rafraichissement-variable).
+
 
 ## Instalación
 
@@ -178,6 +183,7 @@ Los distintos modos de armado utilizan las zonas configuradas en la central Somf
 
 **Intervalo de actualización:** de 0 segundos* a 24 horas (86.400 segundos). El valor predeterminado es 60 segundos (no se recomienda utilizar un intervalo menor, ya que la interfaz web de la alarma tiende a volverse inestable).
 *El valor `0` desactiva la actualización automática. El botón **Actualizar datos** permite forzar una sincronización manual en cualquier momento.
+Este valor puede modificarse dinámicamente posteriormente mediante una entidad `number`.
 
 **Cuenta de Instalador (opcional):** introduce el nombre de usuario (por defecto `i`) y la contraseña del Instalador únicamente si deseas utilizar los switches `(PAUSA)` para pausar o reactivar elementos individualmente. El control normal de la alarma sigue utilizando la cuenta **Usuario**.
 ## Información adicional

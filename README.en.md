@@ -46,6 +46,7 @@ Tested models:
 - 🪟 roller shutters
 - 💡 lights
 - ⏸️ pause individual elements for maintenance (battery replacement)
+- 🔄 dynamic configuration of the data refresh interval (see below)
 
 🔃 The integration also supports resetting alarm, radio link and battery faults.
 
@@ -103,7 +104,7 @@ Attributes are available in the **Details** panel.
 | `button.refresh` | Reset battery faults | 2.0.7 |
 
 
-#### Pausing / reactivating elements (version 2.1):
+#### ⏸️ Pausing / reactivating elements (version 2.1):
 
 When **Installer** credentials are configured, the integration creates a `(PAUSE)` switch for each compatible element in the device **Diagnostic** category.
 
@@ -117,6 +118,10 @@ The *Element list* page for the **Installer** user is detected with a fallback b
 Icons match those used by the corresponding binary sensors.
 
 > Somfy panels allow only one session at a time. The integration therefore handles the temporary session switch automatically when pausing or reactivating an element.
+
+#### 🔄 Dynamic refresh interval (version 2.1):
+The integration's refresh interval is also available as a `number` entity. Its value can be changed directly from the interface or by an automation to dynamically adapt how often the control panel is queried in order to [reduce its battery consumption](https://github.com/AuroreVgn/somfy-protexial/wiki/Optimisation-de-la-dur%C3%A9e-de-vie-des-piles-de-la-Centrale#avec-un-intervalle-de-rafraichissement-variable).
+
 
 ## Installation
 
@@ -176,6 +181,7 @@ The available arming modes are based on the zones configured in your Somfy alarm
 
 **Refresh interval:** From 0 second* to 24 hours (86,400 seconds). The default is 60 seconds (using a shorter interval is not recommended, as the alarm web interface tends to become unstable).
 *Setting `0` disables automatic refresh. The **Refresh data** button can then be used to force a manual synchronization at any time.
+This value can then be changed dynamically using a `number` entity.
 
 **Installer account (optional):** enter the Installer username (default: `i`) and password only if you want to use the `(PAUSE)` switches to pause or reactivate individual elements. Normal alarm control continues to use the **User** account.
 ## Notes

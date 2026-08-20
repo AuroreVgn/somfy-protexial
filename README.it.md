@@ -46,6 +46,7 @@ Questa integrazione permette di collegare le centrali di allarme Somfy Protexial
 - 🪟 le tapparelle
 - 💡 le luci
 - ⏸️ mettere in pausa singoli elementi per eseguire la manutenzione (sostituzione delle batterie)
+- 🔄 configurare dinamicamente l'intervallo di aggiornamento dei dati (vedi sotto)
 
 🔃 L'integrazione consente inoltre di ripristinare gli errori relativi all'allarme, alla comunicazione radio e alle batterie.
 
@@ -103,7 +104,7 @@ Gli attributi sono visibili nel menu **"Dettagli"**.
 | `button.reresh` |  | 2.0.13 |
 
 
-#### Pausa / riattivazione degli elementi (versione 2.1):
+#### ⏸️ Pausa / riattivazione degli elementi (versione 2.1):
 
 Se sono configurate le credenziali **Installatore**, l'integrazione crea uno switch `(PAUSA)` per ogni elemento compatibile nella categoria **Diagnostica** del dispositivo.
 
@@ -117,6 +118,10 @@ La pagina *Elenco elementi* dell'utente **Installatore** viene rilevata con fall
 Le icone corrispondono a quelle dei relativi sensori binari.
 
 > Le centrali Somfy consentono una sola sessione alla volta. L'integrazione gestisce automaticamente il cambio temporaneo di sessione durante la pausa o la riattivazione di un elemento.
+
+#### 🔄 Intervallo di aggiornamento dinamico (versione 2.1):
+L'intervallo di aggiornamento dell'integrazione è disponibile anche come entità `number`. Il suo valore può essere modificato direttamente dall'interfaccia o tramite un'automazione per adattare dinamicamente la frequenza di interrogazione della centrale e [ridurne il consumo delle batterie](https://github.com/AuroreVgn/somfy-protexial/wiki/Optimisation-de-la-dur%C3%A9e-de-vie-des-piles-de-la-Centrale#avec-un-intervalle-de-rafraichissement-variable).
+
 
 ## Installazione
 
@@ -176,6 +181,7 @@ Le diverse modalità di inserimento utilizzano le zone configurate nella central
 
 **Intervallo di aggiornamento:** da 0 secondi* a 24 ore (86.400 secondi). Il valore predefinito è 60 secondi (non è consigliabile impostare un intervallo inferiore, poiché l'interfaccia web dell'allarme tende a diventare instabile).
 *Il valore `0` disabilita l'aggiornamento automatico. Il pulsante **Aggiorna dati** consente di forzare una sincronizzazione manuale in qualsiasi momento.
+Questo valore può essere modificato dinamicamente in seguito tramite un'entità `number`.
 
 **Account Installatore (opzionale):** inserire il nome utente (predefinito `i`) e la password Installatore solo se si desidera utilizzare gli switch `(PAUSA)` per mettere in pausa o riattivare singoli elementi. Il normale controllo dell'allarme continua a utilizzare l'account **Utente**.
 ## Note

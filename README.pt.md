@@ -46,6 +46,7 @@ Esta integração permite ligar centrais de alarme Somfy Protexial, Protexiom e 
 - 🪟 os estores
 - 💡 as luzes
 - ⏸️ colocar elementos individuais em pausa para manutenção (substituição das pilhas)
+- 🔄 configurar dinamicamente o intervalo de atualização dos dados (ver abaixo)
 
 🔃 A integração também permite repor falhas de alarme, comunicação por rádio e baterias.
 
@@ -103,7 +104,7 @@ Os atributos podem ser consultados no menu **"Detalhes"**.
 | `button.refresh` | | 2.0.13 |
 
 
-#### Pausa / reativação dos elementos (versão 2.1):
+#### ⏸️ Pausa / reativação dos elementos (versão 2.1):
 
 Se as credenciais de **Instalador** estiverem configuradas, a integração cria um switch `(PAUSA)` para cada elemento compatível na categoria **Diagnóstico** do dispositivo.
 
@@ -117,6 +118,10 @@ A página *Lista de elementos* do utilizador **Instalador** é detetada com fall
 Os ícones correspondem aos dos respetivos sensores binários.
 
 > As centrais Somfy permitem apenas uma sessão de cada vez. A integração gere automaticamente a troca temporária de sessão ao pausar ou reativar um elemento.
+
+#### 🔄 Intervalo de atualização dinâmico (versão 2.1):
+O intervalo de atualização da integração também está disponível como uma entidade `number`. O seu valor pode ser alterado diretamente na interface ou através de uma automatização para adaptar dinamicamente a frequência de consulta da central e assim [reduzir o consumo das pilhas](https://github.com/AuroreVgn/somfy-protexial/wiki/Optimisation-de-la-dur%C3%A9e-de-vie-des-piles-de-la-Centrale#avec-un-intervalle-de-rafraichissement-variable).
+
 
 ## Instalação
 
@@ -176,6 +181,7 @@ Os diferentes modos de ativação utilizam as zonas configuradas na central Somf
 
 **Intervalo de atualização:** de 0 segundos* a 24 horas (86 400 segundos). O valor predefinido é 60 segundos (não é aconselhável utilizar um intervalo inferior, pois a interface web do alarme tende a ficar instável).
 *O valor `0` desativa a atualização automática. O botão **Atualizar dados** permite forçar uma sincronização manual a qualquer momento.
+Este valor pode ser alterado dinamicamente posteriormente através de uma entidade `number`.
 
 **Conta de Instalador (opcional):** introduza o nome de utilizador (predefinido `i`) e a palavra-passe do Instalador apenas se pretender utilizar os switches `(PAUSA)` para pausar ou reativar elementos individualmente. O controlo normal do alarme continua a utilizar a conta **Utilizador**.
 ## Notas

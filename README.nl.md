@@ -46,6 +46,7 @@ Deze integratie maakt verbinding met Somfy Protexial-, Protexiom- en Protexial I
 - 🪟 rolluiken
 - 💡 verlichting
 - ⏸️ afzonderlijke elementen pauzeren voor onderhoud (batterijen vervangen)
+- 🔄 het gegevensvernieuwingsinterval dynamisch instellen (zie hieronder)
 
 🔃 Daarnaast kunnen alarm-, radioverbinding- en batterijfouten worden gereset.
 
@@ -103,7 +104,7 @@ De attributen zijn zichtbaar in het menu **"Details"**.
 | `button.refresh` | | 2.0.13 |
 
 
-#### Elementen pauzeren / opnieuw activeren (versie 2.1):
+#### ⏸️ Elementen pauzeren / opnieuw activeren (versie 2.1):
 
 Wanneer **Installateur**-gegevens zijn ingesteld, maakt de integratie voor elk compatibel element een `(PAUZE)`-schakelaar aan in de apparaatcategorie **Diagnostiek**.
 
@@ -117,6 +118,10 @@ De pagina *Elementenlijst* van de **Installateur**-gebruiker wordt gedetecteerd 
 De pictogrammen komen overeen met die van de bijbehorende binaire sensoren.
 
 > Somfy-centrales staan slechts één sessie tegelijk toe. De integratie beheert daarom automatisch de tijdelijke sessiewissel bij het pauzeren of opnieuw activeren van een element.
+
+#### 🔄 Dynamisch vernieuwingsinterval (versie 2.1):
+Het vernieuwingsinterval van de integratie is ook beschikbaar als een `number`-entiteit. De waarde kan rechtstreeks via de interface of door een automatisering worden gewijzigd om dynamisch aan te passen hoe vaak de centrale wordt uitgelezen en zo het [batterijverbruik te beperken](https://github.com/AuroreVgn/somfy-protexial/wiki/Optimisation-de-la-dur%C3%A9e-de-vie-des-piles-de-la-Centrale#avec-un-intervalle-de-rafraichissement-variable).
+
 
 ## Installatie
 
@@ -176,6 +181,7 @@ De verschillende inschakelmodi zijn gebaseerd op de zones die in de Somfy-alarmc
 
 **Vernieuwingsinterval:** van 0 seconden* tot 24 uur (86.400 seconden). Standaard 60 seconden (een korter interval wordt niet aanbevolen, omdat de webinterface van het alarm dan instabiel kan worden).
 *De waarde `0` schakelt automatisch vernieuwen uit. Met de knop **Gegevens vernieuwen** kan op elk moment handmatig een synchronisatie worden uitgevoerd.
+Deze waarde kan daarna dynamisch worden gewijzigd via een `number`-entiteit.
 
 **Installateur-account (optioneel):** vul de gebruikersnaam (standaard `i`) en het wachtwoord van de Installateur alleen in als je de `(PAUZE)`-schakelaars wilt gebruiken om afzonderlijke elementen te pauzeren of opnieuw te activeren. De normale alarmbediening blijft het **Gebruiker**-account gebruiken.
 ## Opmerkingen

@@ -46,6 +46,7 @@ Diese Integration ermöglicht die Anbindung einer Somfy Protexial-, Protexiom- o
 - 🪟 Rollläden
 - 💡 Beleuchtung
 - ⏸️ einzelne Elemente für Wartungsarbeiten (Batteriewechsel) pausieren
+- 🔄 das Daten-Aktualisierungsintervall dynamisch einstellen (siehe unten)
 
 🔃 Darüber hinaus können Alarm-, Funkverbindungs- und Batteriestörungen zurückgesetzt werden.
 
@@ -103,7 +104,7 @@ Die Attribute sind im Menü **„Details“** sichtbar.
 | `button.refresh` | Aktualisierung der Daten | 2.0.13 |
 
 
-#### Elemente pausieren / reaktivieren (Version 2.1):
+#### ⏸️ Elemente pausieren / reaktivieren (Version 2.1):
 
 Wenn **Installateur**-Zugangsdaten konfiguriert sind, erstellt die Integration für jedes kompatible Element einen `(PAUSE)`-Schalter in der Gerätekategorie **Diagnose**.
 
@@ -117,6 +118,10 @@ Die Seite *Elementliste* des **Installateur**-Benutzers wird mit einem Fallback 
 Die Symbole entsprechen denen der zugehörigen Binärsensoren.
 
 > Somfy-Zentralen erlauben nur eine Sitzung gleichzeitig. Die Integration verwaltet den temporären Sitzungswechsel beim Pausieren oder Reaktivieren eines Elements automatisch.
+
+#### 🔄 Dynamisches Aktualisierungsintervall (Version 2.1):
+Das Aktualisierungsintervall der Integration ist auch als `number`-Entität verfügbar. Der Wert kann direkt über die Benutzeroberfläche oder durch eine Automatisierung geändert werden, um die Abfragehäufigkeit der Zentrale dynamisch anzupassen und so den [Batterieverbrauch zu reduzieren](https://github.com/AuroreVgn/somfy-protexial/wiki/Optimisation-de-la-dur%C3%A9e-de-vie-des-piles-de-la-Centrale#avec-un-intervalle-de-rafraichissement-variable).
+
 
 ## Installation
 
@@ -176,6 +181,7 @@ Die verschiedenen Scharfschaltungsmodi basieren auf den in der Somfy-Zentrale ko
 
 **Aktualisierungsintervall:** von 0 Sekunden* bis 24 Stunden (86.400 Sekunden). Standardwert: 60 Sekunden (ein kürzeres Intervall wird nicht empfohlen, da die Weboberfläche der Alarmanlage sonst instabil werden kann).
 *Der Wert `0` deaktiviert die automatische Aktualisierung. Mit der Schaltfläche **Daten aktualisieren** kann jederzeit eine manuelle Synchronisierung erzwungen werden.
+Dieser Wert kann anschließend über eine `number`-Entität dynamisch geändert werden.
 
 **Installateur-Konto (optional):** Benutzername (Standard: `i`) und Passwort des Installateurs nur eintragen, wenn die `(PAUSE)`-Schalter zum Pausieren oder Reaktivieren einzelner Elemente verwendet werden sollen. Die normale Alarmsteuerung verwendet weiterhin das **Benutzer**-Konto.
 ## Hinweise
