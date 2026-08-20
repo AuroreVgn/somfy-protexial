@@ -31,7 +31,7 @@ Modèles testés :
 | Protexial      | `2013 (v10_15)` | :white_check_mark: |                                        |
 | Protexial      | `2010 (v7_9)`   | :white_check_mark: |                                        |
 | Protexial      | `2010 (v8_1)`   | :white_check_mark: |                                        |
-| Protexial      | `2008`          | :white_check_mark: |                                        |
+| Protexial      | `2008`          | :white_check_mark: | 🔧                                       |
 
 ⚠️ Un modèle non présent ici ne signifie pas que cela ne fonctionnera pas, juste qu'il n'a pas été testé ou ajouté faute de retours.
 
