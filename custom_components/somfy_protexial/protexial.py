@@ -922,11 +922,21 @@ class SomfyProtexial:
                     password=self.installer_password,
                 )
 
-                form = {
-                    "elt_preload_2": str(element_id),
-                    "toggle": "",
-                    "apply_2": "",
-                }
+                # Older Protexiom 2008 (PROTEXIOM_ALT) firmwares use the
+                # same toggle action but without the "_2" suffix used by
+                # newer Protexial firmwares.
+                if self.api_type == ApiType.PROTEXIOM_ALT:
+                    form = {
+                        "elt_preload": str(element_id),
+                        "toggle": "",
+                        "apply": "",
+                    }
+                else:
+                    form = {
+                        "elt_preload_2": str(element_id),
+                        "toggle": "",
+                        "apply_2": "",
+                    }
                 # Installer page location differs between firmware families:
                 # newer/french-localized centrales use /fr/i_listelmt.htm while
                 # older ones commonly use /i_listelmt.htm. Try the API-specific
