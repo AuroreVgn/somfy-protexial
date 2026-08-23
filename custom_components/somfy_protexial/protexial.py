@@ -972,28 +972,10 @@ class SomfyProtexial:
                 #   /fr/i_listelmt.htm -> elt_preload_2 / apply_2
                 #   /i_listelmt.htm    -> elt_preload   / apply
                 #
-                # Base the payload on the actual installer page selected by the
-                # API instead of the detected API type, because some 2008
-                # centrales can be detected as PROTEXIOM rather than
-                # PROTEXIOM_ALT.
+                # The payload must be selected from the URL ACTUALLY posted to.
+                # This matters when the API-specific URL returns 404 and the
+                # integration falls back to the other firmware variant.
                 primary = self.api.get_page(Page.INSTALLER_ELEMENTS)
-
-                if primary == "/i_listelmt.htm":
-                    form = {
-                        "elt_preload": str(element_id),
-                        "toggle": "",
-                        "apply": "",
-                    }
-                else:
-                    form = {
-                        "elt_preload_2": str(element_id),
-                        "toggle": "",
-                        "apply_2": "",
-                    }
-
-                # Try the API-specific path first and fall back ONLY on HTTP 404.
-                # Falling back after any other error would be unsafe because the
-                # first POST might already have toggled the element.
                 alternate = (
                     "/i_listelmt.htm"
                     if primary == "/fr/i_listelmt.htm"
@@ -1007,6 +989,19 @@ class SomfyProtexial:
                 response = None
                 last_exception = None
                 for index, candidate in enumerate(candidates):
+                    if candidate == "/i_listelmt.htm":
+                        form = {
+                            "elt_preload": str(element_id),
+                            "toggle": "",
+                            "apply": "",
+                        }
+                    else:
+                        form = {
+                            "elt_preload_2": str(element_id),
+                            "toggle": "",
+                            "apply_2": "",
+                        }
+
                     try:
                         response = await self.__do_call(
                             "post",
