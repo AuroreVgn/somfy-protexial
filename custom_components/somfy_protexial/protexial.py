@@ -989,7 +989,75 @@ class SomfyProtexial:
                 response = None
                 last_exception = None
                 for index, candidate in enumerate(candidates):
-                    if candidate == "/i_listelmt.htm":
+                    # Extra safety: inspect the installer page before sending
+                    # the state-changing POST. This avoids relying only on the
+                    # URL reported/detected for a firmware generation.
+                    #
+                    # Known variants:
+                    #   older Protexiom -> elt_preload / apply
+                    #   newer Protexial -> elt_preload_2 / apply_2
+                    #
+                    # If the page cannot be inspected or the form is unusual,
+                    # fall back to the URL-based mapping below.
+                    use_legacy_form = candidate == "/i_listelmt.htm"
+
+                    try:
+                        inspect_response = await self.__do_call(
+                            "get",
+                            candidate,
+                            retry=False,
+                            login=False,
+                        )
+                        inspect_html = await inspect_response.text(
+                            self.api.get_encoding()
+                        )
+
+                        has_legacy_fields = (
+                            re.search(
+                                r'name=["\']elt_preload["\']',
+                                inspect_html,
+                                re.IGNORECASE,
+                            )
+                            and re.search(
+                                r'name=["\']apply["\']',
+                                inspect_html,
+                                re.IGNORECASE,
+                            )
+                        )
+                        has_new_fields = (
+                            re.search(
+                                r'name=["\']elt_preload_2["\']',
+                                inspect_html,
+                                re.IGNORECASE,
+                            )
+                            and re.search(
+                                r'name=["\']apply_2["\']',
+                                inspect_html,
+                                re.IGNORECASE,
+                            )
+                        )
+
+                        if has_legacy_fields:
+                            use_legacy_form = True
+                        elif has_new_fields:
+                            use_legacy_form = False
+
+                        _LOGGER.debug(
+                            "Somfy installer form detected on %s: %s",
+                            candidate,
+                            "legacy (elt_preload/apply)"
+                            if use_legacy_form
+                            else "new (elt_preload_2/apply_2)",
+                        )
+                    except SomfyException as inspect_ex:
+                        _LOGGER.debug(
+                            "Unable to inspect Somfy installer form on %s; "
+                            "using URL-based payload fallback: %s",
+                            candidate,
+                            inspect_ex,
+                        )
+
+                    if use_legacy_form:
                         form = {
                             "elt_preload": str(element_id),
                             "toggle": "",
