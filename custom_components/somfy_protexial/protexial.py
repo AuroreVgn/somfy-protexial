@@ -9,7 +9,7 @@ from urllib.parse import urlencode
 from xml.etree import ElementTree as ET
 from aiohttp import ClientError, ClientSession
 from openai import api_type
-from lxml import html as lxml_html
+from pyquery import PyQuery as pq
 
 from .const import (
     CHALLENGE_REGEX,
@@ -33,39 +33,6 @@ from .somfy_exception import SomfyException
 
 _LOGGER: logging.Logger = logging.getLogger(__name__)
 _PRINTABLE_CHARS = set(string.printable)
-
-
-def _select(root, selector: str):
-    """Run the known Somfy selectors as XPath, without cssselect."""
-    xpath_by_selector = {
-        "meta[http-equiv=\'content-type\']": ".//meta[@http-equiv=\'content-type\']",
-        "#form_id table tr:nth-child(4) td:nth-child(1) b": (
-            ".//*[@id=\'form_id\']//table"
-            "//*[self::tr and count(preceding-sibling::*) = 3]"
-            "/*[1][self::td]//b"
-        ),
-        "#form_id div:nth-child(6) b": (
-            ".//*[@id=\'form_id\']"
-            "//*[self::div and count(preceding-sibling::*) = 5]//b"
-        ),
-        "#form_id table tr:nth-child(4) td:nth-child(1)": (
-            ".//*[@id=\'form_id\']//table"
-            "//*[self::tr and count(preceding-sibling::*) = 3]"
-            "/*[1][self::td]"
-        ),
-        "#infobox b": ".//*[@id=\'infobox\']//b",
-        "[id^=\'menu_footer\']": ".//*[starts-with(@id, \'menu_footer\')]",
-        "td:not([class])": ".//td[not(@class)]",
-    }
-    xpath = xpath_by_selector.get(selector)
-    if xpath is None:
-        raise SomfyException(f"Unsupported HTML selector: {selector}")
-    return root.xpath(xpath)
-
-
-def _element_text(element) -> str:
-    """Return the full textual content of an lxml element."""
-    return element.text_content() if element is not None else ""
 
 
 def _fix_mojibake(text: str) -> str:
@@ -271,14 +238,12 @@ class SomfyProtexial:
 
             # Somfy error page
             if getattr(response.real_url, "path", "") == self.api.get_page(Page.ERROR):
-                dom = lxml_html.fromstring(preview)
-                error_elements = _select(
-                    dom, self.api.get_selector(Selector.ERROR_CODE)
-                )
-                if not error_elements:
+                dom = pq(preview)
+                error_el = dom(self.api.get_selector(Selector.ERROR_CODE))
+                if not error_el:
                     _LOGGER.error(preview)
                     raise SomfyException("Unknown error")
-                code = _element_text(error_elements[0])
+                code = error_el.text()
 
                 if code == SomfyError.NOT_AUTHORIZED and not self.cookie and retry:
                     await self.__login()
@@ -421,15 +386,11 @@ class SomfyProtexial:
             error_response = await self.__do_call(
                 "get", Page.LOGIN, login=False, authenticated=False
             )
-            dom = lxml_html.fromstring(
-                await error_response.text(self.api.get_encoding())
-            )
-            footer_elements = _select(dom, self.api.get_selector(Selector.FOOTER))
-            if footer_elements:
+            dom = pq(await error_response.text(self.api.get_encoding()))
+            footer_element = dom(self.api.get_selector(Selector.FOOTER))
+            if footer_element is not None:
                 matches = re.search(
-                    r"([0-9]{4}) somfy",
-                    _element_text(footer_elements[0]),
-                    re.IGNORECASE,
+                    r"([0-9]{4}) somfy", footer_element.text(), re.IGNORECASE
                 )
                 if len(matches.groups()) > 0:
                     version_string = matches.group(1)
@@ -482,7 +443,7 @@ class SomfyProtexial:
                 login_body = await self.do_guess_get(loginPage)
                 if login_body is not None:
                     # The system has a login page
-                    dom = lxml_html.fromstring(login_body)
+                    dom = pq(login_body)
 
                     # PROTEXIOM_ALT uses a broader login challenge selector than
                     # the historical PROTEXIOM API. A classic Protexiom page can
@@ -493,13 +454,13 @@ class SomfyProtexial:
                     # challenge coordinate, do not classify this centrale as ALT.
                     if api_type == ApiType.PROTEXIOM_ALT:
                         classic_api = ProtexiomApi()
-                        classic_challenge_elements = _select(
-                            dom, classic_api.get_selector(Selector.LOGIN_CHALLENGE)
+                        classic_challenge_element = dom(
+                            classic_api.get_selector(Selector.LOGIN_CHALLENGE)
                         )
 
-                        if classic_challenge_elements:
-                            classic_challenge_text = _element_text(
-                                classic_challenge_elements[0]
+                        if classic_challenge_element:
+                            classic_challenge_text = (
+                                classic_challenge_element.text() or ""
                             ).strip()
                             classic_match = re.search(
                                 CHALLENGE_REGEX, classic_challenge_text
@@ -515,12 +476,12 @@ class SomfyProtexial:
                                 )
                                 continue
 
-                    challenge_elements = _select(
-                        dom, self.api.get_selector(Selector.LOGIN_CHALLENGE)
+                    challenge_element = dom(
+                        self.api.get_selector(Selector.LOGIN_CHALLENGE)
                     )
                     # Check if the challenge element is present
-                    if challenge_elements:
-                        challenge_text = _element_text(challenge_elements[0]).strip()
+                    if challenge_element is not None:
+                        challenge_text = challenge_element.text().strip()
 
                         match = re.search(CHALLENGE_REGEX, challenge_text)
                         _LOGGER.debug(
@@ -595,15 +556,13 @@ class SomfyProtexial:
     async def get_challenge(self):
         """Read the login challenge (grid coordinate) from the login page."""
         login_response = await self.__do_call("get", Page.LOGIN, login=False)
-        dom = lxml_html.fromstring(await login_response.text(self.api.get_encoding()))
-        challenge_elements = _select(
-            dom, self.api.get_selector(Selector.LOGIN_CHALLENGE)
-        )
+        dom = pq(await login_response.text(self.api.get_encoding()))
+        challenge_element = dom(self.api.get_selector(Selector.LOGIN_CHALLENGE))
 
-        if not challenge_elements:
+        if not challenge_element:
             raise SomfyException("Challenge not found")
 
-        raw_challenge = _element_text(challenge_elements[0])
+        raw_challenge = challenge_element.text()
 
         # Extract challenge coordinate (e.g. A1, D5, E2...) even if the page
         # contains additional text such as "Code d'authentification E5".
@@ -803,10 +762,8 @@ class SomfyProtexial:
         """Log in and scrape the full authentication card (grid) values, then logout."""
         await self.__login(username, password, code)
         status_response = await self.__do_call("get", Page.CHALLENGE_CARD, login=False)
-        dom = lxml_html.fromstring(await status_response.text(self.api.get_encoding()))
-        all_challenge_elements = _select(
-            dom, self.api.get_selector(Selector.CHALLENGE_CARD)
-        )
+        dom = pq(await status_response.text(self.api.get_encoding()))
+        all_challenge_elements = dom(self.api.get_selector(Selector.CHALLENGE_CARD))
         challenges = {}
         chars = ["A", "B", "C", "D", "E", "F"]
         global_index = 0
@@ -967,14 +924,14 @@ class SomfyProtexial:
 
                 # Installer page location differs between firmware families:
                 # newer/french-localized centrales use /fr/i_listelmt.htm while
-                # older ones commonly use /i_listelmt.htm. The corresponding
-                # form field names differ too:
+                # older ones commonly use /i_listelmt.htm.
+                #
+                # Known form variants:
                 #   /fr/i_listelmt.htm -> elt_preload_2 / apply_2
                 #   /i_listelmt.htm    -> elt_preload   / apply
                 #
-                # The payload must be selected from the URL ACTUALLY posted to.
-                # This matters when the API-specific URL returns 404 and the
-                # integration falls back to the other firmware variant.
+                # Do not rely on api_type alone: some old Protexiom centrales
+                # can be detected as PROTEXIOM rather than PROTEXIOM_ALT.
                 primary = self.api.get_page(Page.INSTALLER_ELEMENTS)
                 alternate = (
                     "/i_listelmt.htm"
@@ -989,18 +946,13 @@ class SomfyProtexial:
                 response = None
                 last_exception = None
                 for index, candidate in enumerate(candidates):
-                    # Extra safety: inspect the installer page before sending
-                    # the state-changing POST. This avoids relying only on the
-                    # URL reported/detected for a firmware generation.
-                    #
-                    # Known variants:
-                    #   older Protexiom -> elt_preload / apply
-                    #   newer Protexial -> elt_preload_2 / apply_2
-                    #
-                    # If the page cannot be inspected or the form is unusual,
-                    # fall back to the URL-based mapping below.
+                    # Select a safe default payload from the URL ACTUALLY used.
+                    # This is important when the first URL 404s and we fall back
+                    # to the other firmware variant.
                     use_legacy_form = candidate == "/i_listelmt.htm"
 
+                    # Extra safety: inspect the installer page before the
+                    # state-changing POST and detect the actual field names.
                     try:
                         inspect_response = await self.__do_call(
                             "get",
@@ -1012,7 +964,7 @@ class SomfyProtexial:
                             self.api.get_encoding()
                         )
 
-                        has_legacy_fields = (
+                        has_legacy_fields = bool(
                             re.search(
                                 r'name=["\']elt_preload["\']',
                                 inspect_html,
@@ -1024,7 +976,7 @@ class SomfyProtexial:
                                 re.IGNORECASE,
                             )
                         )
-                        has_new_fields = (
+                        has_new_fields = bool(
                             re.search(
                                 r'name=["\']elt_preload_2["\']',
                                 inspect_html,
