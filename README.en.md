@@ -27,14 +27,14 @@ Tested models:
 
 | Model | Version | Status  Element pause |
 | -------------- | --------------- | ------------------  |------------------ |
-| Protexial IO | `2013 (v10_13)` | :white_check_mark: | ;white_check_mark: |
-| Protexiom 5000 | `2013 (v10_3)` | :white_check_mark:  |
-| Protexial | `2013 (v10_13)` | :white_check_mark:  |
-| Protexial | `2013 (v10_14)` | :white_check_mark:  |
-| Protexial | `2013 (v10_15)` | :white_check_mark:  |
-| Protexial | `2010 (v7_9)` | :white_check_mark:  |
-| Protexial | `2010 (v8_1)` | :white_check_mark:  |
-| Protexial | `2008` | :white_check_mark:  |
+| Protexial IO | `2013 (v10_13)` | :white_check_mark: | :white_check_mark: |
+| Protexiom 5000 | `2013 (v10_3)` | :white_check_mark:  ||
+| Protexial | `2013 (v10_13)` | :white_check_mark:  ||
+| Protexial | `2013 (v10_14)` | :white_check_mark:  ||
+| Protexial | `2013 (v10_15)` | :white_check_mark:  ||
+| Protexial | `2010 (v7_9)` | :white_check_mark:  ||
+| Protexial | `2010 (v8_1)` | :white_check_mark:  ||
+| Protexial | `2008` | :white_check_mark:  ||
 
 ⚠️ If your model is not listed here, it does **not** necessarily mean that it is unsupported. It may simply not have been tested yet or reported by users.
 
