@@ -25,7 +25,7 @@ Questa integrazione permette di collegare le centrali di allarme Somfy Protexial
 
 ### Modelli testati
 
-| Modello | Versione | Stato  ~Pausa elementi |
+| Modello | Versione | Stato  |Pausa elementi |
 | -------------- | --------------- | ------------------|  ------------------ |
 | Protexial IO | `2013 (v10_13)` | :white_check_mark:  |:white_check_mark: |
 | Protexiom 5000 | `2013 (v10_3)` | :white_check_mark:  ||
