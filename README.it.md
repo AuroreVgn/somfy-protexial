@@ -34,7 +34,7 @@ Questa integrazione permette di collegare le centrali di allarme Somfy Protexial
 | Protexial | `2013 (v10_15)` | :white_check_mark:  ||
 | Protexial | `2010 (v7_9)` | :white_check_mark:  ||
 | Protexial | `2010 (v8_1)` | :white_check_mark:  ||
-| Protexial | `2008` | :white_check_mark:  ||
+| Protexial | `2008` | :white_check_mark:  |:white_check_mark:|
 
 ⚠️ Se il tuo modello non è presente in questo elenco **non significa** necessariamente che non sia compatibile. Potrebbe semplicemente non essere ancora stato testato o segnalato dagli utenti.
 
