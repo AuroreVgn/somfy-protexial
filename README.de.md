@@ -34,7 +34,7 @@ Diese Integration ermöglicht die Anbindung einer Somfy Protexial-, Protexiom- o
 | Protexial | `2013 (v10_15)` | :white_check_mark:  ||
 | Protexial | `2010 (v7_9)` | :white_check_mark:  ||
 | Protexial | `2010 (v8_1)` | :white_check_mark:  ||
-| Protexial | `2008` | :white_check_mark:  ||
+| Protexial | `2008` | :white_check_mark:  |:white_check_mark:|
 
 ⚠️ Dass ein Modell hier nicht aufgeführt ist, bedeutet **nicht**, dass es nicht unterstützt wird. Es wurde möglicherweise lediglich noch nicht getestet oder gemeldet.
 
