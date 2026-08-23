@@ -25,16 +25,16 @@ Diese Integration ermöglicht die Anbindung einer Somfy Protexial-, Protexiom- o
 
 ### Getestete Modelle
 
-| Modell | Version | Status  Elemente pausieren |
+| Modell | Version | Status  |Elemente pausieren |
 | -------------- | --------------- | ------------------  ------------------ |
-| Protexial IO | `2013 (v10_13)` | :white_check_mark:  :white_check_mark: |
-| Protexiom 5000 | `2013 (v10_3)` | :white_check_mark:  |
-| Protexial | `2013 (v10_13)` | :white_check_mark:  |
-| Protexial | `2013 (v10_14)` | :white_check_mark:  |
-| Protexial | `2013 (v10_15)` | :white_check_mark:  |
-| Protexial | `2010 (v7_9)` | :white_check_mark:  |
-| Protexial | `2010 (v8_1)` | :white_check_mark:  |
-| Protexial | `2008` | :white_check_mark:  |
+| Protexial IO | `2013 (v10_13)` | :white_check_mark:  |;white_check_mark: |
+| Protexiom 5000 | `2013 (v10_3)` | :white_check_mark:  ||
+| Protexial | `2013 (v10_13)` | :white_check_mark:  ||
+| Protexial | `2013 (v10_14)` | :white_check_mark:  ||
+| Protexial | `2013 (v10_15)` | :white_check_mark:  ||
+| Protexial | `2010 (v7_9)` | :white_check_mark:  ||
+| Protexial | `2010 (v8_1)` | :white_check_mark:  ||
+| Protexial | `2008` | :white_check_mark:  ||
 
 ⚠️ Dass ein Modell hier nicht aufgeführt ist, bedeutet **nicht**, dass es nicht unterstützt wird. Es wurde möglicherweise lediglich noch nicht getestet oder gemeldet.
 
