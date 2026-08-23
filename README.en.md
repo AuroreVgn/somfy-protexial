@@ -26,8 +26,8 @@ This integration provides an interface with Somfy Protexial, Protexiom and Prote
 Tested models:
 
 | Model | Version | Status  Element pause |
-| -------------- | --------------- | ------------------  ------------------ |
-| Protexial IO | `2013 (v10_13)` | :white_check_mark:  :white_check_mark: |
+| -------------- | --------------- | ------------------  |------------------ |
+| Protexial IO | `2013 (v10_13)` | :white_check_mark: | ;white_check_mark: |
 | Protexiom 5000 | `2013 (v10_3)` | :white_check_mark:  |
 | Protexial | `2013 (v10_13)` | :white_check_mark:  |
 | Protexial | `2013 (v10_14)` | :white_check_mark:  |
