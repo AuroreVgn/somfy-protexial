@@ -34,7 +34,7 @@ Esta integração permite ligar centrais de alarme Somfy Protexial, Protexiom e 
 | Protexial | `2013 (v10_15)` | :white_check_mark:  ||
 | Protexial | `2010 (v7_9)` | :white_check_mark:  ||
 | Protexial | `2010 (v8_1)` | :white_check_mark:  ||
-| Protexial | `2008` | :white_check_mark:  ||
+| Protexial | `2008` | :white_check_mark:  |:white_check_mark:|
 
 ⚠️ O facto de um modelo não aparecer nesta lista **não significa** que não seja compatível. Apenas pode ainda não ter sido testado ou comunicado por outros utilizadores.
 
