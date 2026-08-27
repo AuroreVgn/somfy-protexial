@@ -8,7 +8,6 @@ import unicodedata
 from urllib.parse import urlencode
 from xml.etree import ElementTree as ET
 from aiohttp import ClientError, ClientSession
-from openai import api_type
 from pyquery import PyQuery as pq
 
 from .const import (
