@@ -153,6 +153,14 @@ class SomfyProtexial:
         self.cookie = None
         self.api = self.load_api(self.api_type)
         self._last_elements_candidate = None
+        # Like Jeedom's phpProtexiom::detectHwVersion(), which probes the
+        # centrale's page layout only once (at eqLogic creation/save) and
+        # then always re-queries that exact same URL: once a candidate
+        # elements page has produced a fully valid parsed list, it is
+        # locked in via _elements_page_locked and every later poll goes
+        # straight to it - no more re-trying alternate page variants each
+        # time. See get_elements() below for why this matters.
+        self._elements_page_locked = False
         # Installer elements page differs across firmware generations. Cache
         # the first working variant so subsequent pause/reactivate commands do
         # not retry a known-missing URL.
@@ -621,6 +629,22 @@ class SomfyProtexial:
             await self.__logout()
 
     async def get_status(self) -> Status:
+        """Fetch and parse status.xml (wrapped with the session-retry safety net).
+
+        Unlike get_elements() and the action commands (arm/disarm/cover/
+        light), this call used to go straight to __get_status() with no
+        retry: a single slow/timed-out response from the centrale (rare,
+        but observed - e.g. an occasional status.xml request taking longer
+        than HTTP_TIMEOUT) would propagate straight up to the
+        DataUpdateCoordinator as a failure, which Home Assistant surfaces
+        by marking every entity "unavailable" for one poll cycle before
+        the next scheduled attempt (typically) succeeds on its own.
+        Wrapping it in __with_session_retry() closes that gap: a timeout
+        or connection error now gets one immediate retry (with a forced
+        fresh login, Jeedom-style) before giving up, so an isolated slow
+        response is far more likely to be absorbed transparently instead
+        of flashing every Somfy entity unavailable.
+        """
         page_is_authenticated = self.api.is_page_authenticated(Page.STATUS)
         _LOGGER.debug(
             "AUTH CHECK: Page.STATUS=%s authenticated=%s",
@@ -632,7 +656,9 @@ class SomfyProtexial:
             page_is_authenticated,
         )
         async with self._session_lock:
-            return await self.__get_status(page_is_authenticated)
+            return await self.__with_session_retry(
+                self.__get_status, page_is_authenticated
+            )
 
     async def __with_session_retry(self, func, *args, **kwargs):
         """Last-resort safety net mirroring Jeedom's
@@ -1076,23 +1102,34 @@ class SomfyProtexial:
 
     async def __get_elements(self) -> list[dict]:
         _LOGGER.debug("ENTER get_elements()")
-        """Fetch and parse the elements page, returning a normalized list of dicts."""
-        candidates = [
-            LIST_ELEMENTS,
-            LIST_ELEMENTS_ALT,
-            LIST_ELEMENTS_PRINT,
-            LIST_ELEMENTS_NOLANG,
-            LIST_ELEMENTS_ALT_NOLANG,
-        ]
+        """Fetch and parse the elements page, returning a normalized list of dicts.
 
-        if self._last_elements_candidate is not None:
+        Mirrors the Jeedom reference plugin (phpProtexiom::detectHwVersion()):
+        the page variant is detected only once, then every later poll goes
+        straight back to that same page - it is never re-guessed. This
+        matters because the previous behaviour (re-trying a priority-ordered
+        list of 5 page variants on every poll, remembering only the last one
+        that happened to answer) is what caused door/window sensors to flap:
+        LIST_ELEMENTS ("u_plistelmt.htm", a "print"-style page) was tried
+        first and doesn't reliably reflect the live state on this firmware,
+        and a single transient hiccup on the locked-in page was enough to
+        silently fall through to it, producing an alternating stale/live
+        read on the very next poll. Jeedom has always relied on
+        "u_listelmt.htm" (LIST_ELEMENTS_ALT here) instead, so that is now
+        tried first during detection too.
+        """
+        if self._elements_page_locked and self._last_elements_candidate is not None:
+            # Page variant already detected for this session: don't probe
+            # any alternate candidate, just like Jeedom never re-probes
+            # detectHwVersion() once HwVersion is set.
+            candidates = [self._last_elements_candidate]
+        else:
             candidates = [
-                self._last_elements_candidate,
-                *[
-                    candidate
-                    for candidate in candidates
-                    if candidate != self._last_elements_candidate
-                ],
+                LIST_ELEMENTS_ALT,
+                LIST_ELEMENTS_ALT_NOLANG,
+                LIST_ELEMENTS,
+                LIST_ELEMENTS_NOLANG,
+                LIST_ELEMENTS_PRINT,
             ]
 
         html = None
@@ -1126,17 +1163,19 @@ class SomfyProtexial:
             except Exception:
                 continue
 
-        if found_candidate is not None:
-            self._last_elements_candidate = found_candidate
-
         if html is None:
             # Known Somfy session bug (same class as the empty status.xml
             # case): no candidate page could be fetched/decoded at all.
             # Keep the previous known-good list instead of returning []
             # (which would make every door/window sensor report "closed").
+            # Note: when the page is already locked in, we do NOT fall back
+            # to a different page variant here - that fallback is exactly
+            # what used to cause the flapping. We just wait for the next
+            # poll and retry the same locked page.
             _LOGGER.warning(
-                "Empty elements page received (known Somfy session bug), "
-                "keeping the last known door/window states"
+                "%s elements page received (known Somfy session bug), "
+                "keeping the last known door/window states",
+                "Locked" if self._elements_page_locked else "Empty",
             )
             return self._last_good_elements
 
@@ -1175,8 +1214,9 @@ class SomfyProtexial:
         # door/window sensor's state.
         if n == 0 or (len(elt_porte) == 0 and self._last_good_elements):
             _LOGGER.warning(
-                "Empty/incomplete elements page received (known Somfy "
-                "session bug), keeping the last known door/window states"
+                "%s/incomplete elements page received (known Somfy "
+                "session bug), keeping the last known door/window states",
+                "Locked elements page returned empty" if self._elements_page_locked else "Empty",
             )
             return self._last_good_elements
 
@@ -1200,5 +1240,21 @@ class SomfyProtexial:
             elements.append(el)
 
         # _LOGGER.debug("Extracted elements (count=%d): %s", len(elements), elements[:3])
+
+        # This is a fully valid, successfully parsed read: lock this page
+        # variant in for the rest of the session (Jeedom-style one-shot
+        # detection) so future polls go straight to it instead of
+        # re-testing alternate candidates.
+        if found_candidate is not None:
+            if not self._elements_page_locked:
+                _LOGGER.info(
+                    "Elements page detected and locked in for this "
+                    "session: %s (won't be re-probed until the "
+                    "integration reloads/restarts)",
+                    found_candidate,
+                )
+            self._elements_page_locked = True
+            self._last_elements_candidate = found_candidate
+
         self._last_good_elements = elements
         return elements
