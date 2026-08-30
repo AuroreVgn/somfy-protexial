@@ -110,6 +110,9 @@
       },
       "reset_link_err": {
         "name": "Funkverbindungsfehler zurücksetzen"
+      },
+      "sync_clock": {
+        "name": "Uhr synchronisieren"
       }
     },
     "binary_sensor": {

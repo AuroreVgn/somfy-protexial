@@ -78,6 +78,7 @@ class Page(str, Enum):
     ERROR = "error"
     ELEMENTS = "elements"
     INSTALLER_ELEMENTS = "installer_elements"
+    GENERAL_SETTINGS = "general_settings"
     CHALLENGE_CARD = "challenge_card"
     VERSION = "version"
     DEFAULT = "default"
@@ -200,5 +201,17 @@ BUTTONS = [
         "id": "reset_link_err",
         "translation_key": "reset_link_err",
         "icon": "mdi:access-point-off",
+    },
+    {
+        # Sets the centrale's clock from Home Assistant's current date/time
+        # via the installer-only "Réglages généraux" page (i_reggen.htm):
+        # unchecks "Mise à l'heure auto", saves the date/time, then
+        # re-checks "Mise à l'heure auto" and saves again. See
+        # SomfyProtexial.sync_clock(). Only usable when installer
+        # credentials are configured (see "requires_installer" below).
+        "id": "sync_clock",
+        "translation_key": "sync_clock",
+        "icon": "mdi:update",
+        "requires_installer": True,
     },
 ]

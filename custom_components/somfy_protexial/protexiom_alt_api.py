@@ -10,9 +10,10 @@ class ProtexiomAltApi(AbstractApi):
             Page.PILOTAGE: "/u_pilotage.htm",
             Page.STATUS: "/status.xml",
             Page.ERROR: "/error.htm",
-            Page.INSTALLER_ELEMENTS: "/i_listelmt.htm",
             Page.ELEMENTS: "/u_plistelmt.htm",
+            Page.INSTALLER_ELEMENTS: "/i_listelmt.htm",
             Page.CHALLENGE_CARD: "/a_print.htm",
+            Page.GENERAL_SETTINGS: "/i_reggen.htm",
             Page.VERSION: None,
             Page.DEFAULT: "/default.htm",
         }

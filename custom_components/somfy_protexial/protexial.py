@@ -1,4 +1,5 @@
 import asyncio
+import datetime
 import logging
 import re
 import string
@@ -164,6 +165,10 @@ class SomfyProtexial:
         # the first working variant so subsequent pause/reactivate commands do
         # not retry a known-missing URL.
         self._installer_elements_candidate = None
+        # General settings page (clock sync) has the same firmware-dependent
+        # URL variation as the installer elements page above. Cache the
+        # first working variant for the same reason.
+        self._general_settings_candidate = None
         # Last successfully parsed elements list. Used as a fallback when a
         # poll returns an empty/garbled elements page (the same class of
         # Somfy session bug already worked around for status.xml), so a
@@ -1083,6 +1088,241 @@ class SomfyProtexial:
                     raise SomfyException(
                         "Installer action was redirected to the default page"
                     )
+            finally:
+                try:
+                    await self.__logout()
+                except SomfyException as ex:
+                    _LOGGER.debug("Installer logout failed: %s", ex)
+                    self.cookie = None
+
+                # Restore Home Assistant's normal user session. If this fails,
+                # propagate the error so HA reports the command as failed.
+                await self.__login()
+
+    async def sync_clock(self) -> None:
+        """Set the centrale's clock from the current local date/time.
+
+        The only place the Somfy web UI exposes the clock is the
+        installer-only "Réglages généraux" page (i_reggen.htm). Doing this
+        by hand means: log in as installer, uncheck "Mise à l'heure auto",
+        enter the date/time and save, then re-check "Mise à l'heure auto"
+        and save again (leaving auto-sync enabled afterwards, the
+        hardware's normal behavior - this button is only meant to correct
+        a clock that has drifted, e.g. after a power cut, not to disable
+        auto-sync permanently). This reproduces that sequence.
+
+        The page is a single full HTML form with no partial-update
+        endpoint: every field must be resubmitted on each POST, not just
+        the date/time ones. The other settings on the page (entry delay,
+        chime, siren/ring volume) are therefore scraped from the page
+        first and echoed back unchanged, so this command cannot silently
+        reset them.
+
+        Uses the local system clock (datetime.now(), no timezone
+        conversion) rather than Home Assistant's own time helpers, to keep
+        this module free of any Home Assistant dependency, consistent with
+        the rest of this class. This assumes the host's system timezone
+        matches Home Assistant's configured timezone, true for the
+        overwhelming majority of installs (Home Assistant OS/Supervised,
+        or a container/VM whose TZ was set to match) - if that's not the
+        case here, the two clocks will disagree.
+        """
+        if not self.installer_username or not self.installer_password:
+            raise SomfyException("Installer credentials are not configured")
+
+        async with self._session_lock:
+            _LOGGER.info(
+                "Synchronizing Somfy centrale clock using a temporary "
+                "installer session"
+            )
+
+            try:
+                try:
+                    await self.__logout()
+                except SomfyException as ex:
+                    _LOGGER.debug("User logout before installer action failed: %s", ex)
+                    self.cookie = None
+
+                await self.__login(
+                    username=self.installer_username,
+                    password=self.installer_password,
+                )
+
+                # General settings page location differs between firmware
+                # families, same as the installer elements page.
+                primary = self.api.get_page(Page.GENERAL_SETTINGS)
+                alternate = (
+                    "/i_reggen.htm"
+                    if primary == "/fr/i_reggen.htm"
+                    else "/fr/i_reggen.htm"
+                )
+                candidates = [primary, alternate]
+                if self._general_settings_candidate in candidates:
+                    candidates.remove(self._general_settings_candidate)
+                    candidates.insert(0, self._general_settings_candidate)
+
+                page_response = None
+                used_candidate = None
+                last_exception = None
+                for index, candidate in enumerate(candidates):
+                    try:
+                        page_response = await self.__do_call(
+                            "get", candidate, retry=False, login=False
+                        )
+                        used_candidate = candidate
+                        self._general_settings_candidate = candidate
+                        if index > 0:
+                            _LOGGER.info(
+                                "Somfy general settings fallback URL selected: %s",
+                                candidate,
+                            )
+                        break
+                    except SomfyException as ex:
+                        last_exception = ex
+                        if str(ex) != "Http error (404)" or index == len(candidates) - 1:
+                            raise
+                        _LOGGER.debug(
+                            "Somfy general settings page %s returned 404; trying %s",
+                            candidate,
+                            candidates[index + 1],
+                        )
+
+                if page_response is None:
+                    if last_exception is not None:
+                        raise last_exception
+                    raise SomfyException("General settings page is unavailable")
+
+                if getattr(page_response.real_url, "path", "") == self.api.get_page(
+                    Page.DEFAULT
+                ):
+                    raise SomfyException(
+                        "General settings page was redirected to the default page"
+                    )
+
+                html = await page_response.text(self.api.get_encoding())
+                dom = pq(html)
+                form = dom("form[name='i_reggen']") or dom("form")
+
+                def _field(name: str, default: str = "") -> str:
+                    el = form(f"[name='{name}']")
+                    value = el.attr("value") if el else None
+                    return value if value is not None else default
+
+                def _checked(name: str) -> bool:
+                    el = form(f"[name='{name}']")
+                    return bool(el) and el.attr("checked") is not None
+
+                def _selected_value(name: str) -> str:
+                    el = form(f"select[name='{name}'] option[selected]")
+                    if el:
+                        return el.attr("value") or ""
+                    # No option explicitly marked "selected": a browser
+                    # would default to the first one.
+                    first = form(f"select[name='{name}'] option").eq(0)
+                    return (first.attr("value") or "") if first else ""
+
+                # Everything on the page except date/time/update_time is
+                # preserved as-is; only these three ever need to change.
+                other_fields = {
+                    "tempoentree": _field("tempoentree"),
+                    "biplevel": _selected_value("biplevel"),
+                    "sirenlevel": _selected_value("sirenlevel"),
+                }
+                if _checked("kiela"):
+                    other_fields["kiela"] = "mode"
+                if _checked("bipontransmiter"):
+                    other_fields["bipontransmiter"] = "mode"
+
+                now = datetime.datetime.now()
+
+                def _build_payload(update_time_checked: bool) -> dict:
+                    payload = {
+                        "date_dd": f"{now.day:02d}",
+                        "date_mm": f"{now.month:02d}",
+                        "date_yy": f"{now.year:04d}",
+                        "heure_hh": f"{now.hour:02d}",
+                        "heure_mm": f"{now.minute:02d}",
+                        **other_fields,
+                        "btn_save": "Sauvegarder",
+                    }
+                    if update_time_checked:
+                        payload["update_time"] = ""
+                    return payload
+
+                # Step 1: write the exact date/time with auto-sync OFF -
+                # otherwise the centrale would just overwrite our values
+                # right back with its own (drifted) clock.
+                await self.__do_call(
+                    "post",
+                    used_candidate,
+                    data=_build_payload(update_time_checked=False),
+                    retry=False,
+                    login=False,
+                )
+
+                # The centrale's embedded web server is a small, single-
+                # threaded device: firing a second state-changing POST
+                # immediately after the first one (before it has finished
+                # applying/persisting it) can result in that second save
+                # being silently ignored - observed here as "Mise à
+                # l'heure auto" not actually getting re-checked. Give it a
+                # moment before the second save, same idea as the fixed
+                # delays already used elsewhere in this class around
+                # sensitive sequential calls to the centrale (e.g. the
+                # 0x0811 login retry).
+                await asyncio.sleep(1.5)
+
+                # Step 2: re-enable auto-sync, now that the clock is correct.
+                await self.__do_call(
+                    "post",
+                    used_candidate,
+                    data=_build_payload(update_time_checked=True),
+                    retry=False,
+                    login=False,
+                )
+
+                # Verify step 2 actually took effect - re-fetch the page and
+                # check the checkbox state rather than assume the POST was
+                # applied. If not, retry once more after another pause
+                # before giving up (so a stuck "auto-sync OFF" state is at
+                # least surfaced in the logs instead of silently assumed
+                # fixed).
+                for verify_attempt in (1, 2):
+                    verify_response = await self.__do_call(
+                        "get", used_candidate, retry=False, login=False
+                    )
+                    verify_html = await verify_response.text(self.api.get_encoding())
+                    verify_dom = pq(verify_html)
+                    verify_form = verify_dom("form[name='i_reggen']") or verify_dom(
+                        "form"
+                    )
+                    auto_sync_on = (
+                        bool(verify_form("[name='update_time']"))
+                        and verify_form("[name='update_time']").attr("checked")
+                        is not None
+                    )
+                    if auto_sync_on:
+                        break
+                    if verify_attempt == 1:
+                        _LOGGER.warning(
+                            "'Mise a l'heure auto' does not appear re-checked "
+                            "after saving, retrying once more"
+                        )
+                        await asyncio.sleep(1.5)
+                        await self.__do_call(
+                            "post",
+                            used_candidate,
+                            data=_build_payload(update_time_checked=True),
+                            retry=False,
+                            login=False,
+                        )
+                    else:
+                        _LOGGER.warning(
+                            "'Mise a l'heure auto' still does not appear "
+                            "re-checked after a second attempt - the clock "
+                            "was set, but auto-sync may be left disabled on "
+                            "the centrale; check i_reggen.htm manually"
+                        )
             finally:
                 try:
                     await self.__logout()

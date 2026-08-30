@@ -110,6 +110,9 @@
       },
       "reset_link_err": {
         "name": "Repor erro da ligação de rádio"
+      },
+      "sync_clock": {
+        "name": "Sincronizar relógio"
       }
     },
     "binary_sensor": {

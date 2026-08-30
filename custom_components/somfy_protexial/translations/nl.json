@@ -110,6 +110,9 @@
       },
       "reset_link_err": {
         "name": "Radioverbindingsfout resetten"
+      },
+      "sync_clock": {
+        "name": "Klok synchroniseren"
       }
     },
     "binary_sensor": {

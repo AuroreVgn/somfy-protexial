@@ -110,6 +110,9 @@
       },
       "reset_link_err": {
         "name": "Reset Radio Link Error"
+      },
+      "sync_clock": {
+        "name": "Sync Clock"
       }
     },
     "binary_sensor": {

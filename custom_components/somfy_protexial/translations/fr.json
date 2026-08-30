@@ -120,6 +120,9 @@
       },
       "reset_link_err": {
         "name": "Réinitialiser défaut liaison radio"
+      },
+      "sync_clock": {
+        "name": "Synchroniser l'horloge"
       }
     },
     "binary_sensor": {

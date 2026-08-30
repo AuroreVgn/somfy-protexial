@@ -36,7 +36,19 @@ async def async_setup_entry(
             entry_id=config_entry.entry_id,
         )
     ]
+    has_installer_credentials = bool(
+        protexial.installer_username and protexial.installer_password
+    )
     for button in BUTTONS:
+        if button.get("requires_installer") and not has_installer_credentials:
+            # e.g. sync_clock: only usable with an installer session, so
+            # don't create an entity that would just fail on every press
+            # when no installer code is configured for this entry.
+            _LOGGER.debug(
+                "Skipping button '%s': installer credentials not configured",
+                button["id"],
+            )
+            continue
         description = ButtonEntityDescription(
             key=button["id"],
             translation_key=button["translation_key"],
