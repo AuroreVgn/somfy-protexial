@@ -2,7 +2,7 @@
 name: "\U0001F41E Signaler un bug"
 about: Signaler un problème avec l'intégration Somfy Protexial
 title: "[BUG] - "
-labels: bug
+labels: bug, enhancement / amélioration
 assignees: AuroreVgn
 type: Bug
 
