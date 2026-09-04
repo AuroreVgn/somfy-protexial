@@ -2,7 +2,7 @@
 name: "\U0001F41E Signaler un bug"
 about: Signaler un problème avec l'intégration Somfy Protexial
 title: "[BUG] - "
-labels: bug
+labels: bug, enhancement / amélioration
 assignees: AuroreVgn
 type: Bug
 
@@ -31,7 +31,7 @@ Firmware: 20XX (v10_XX)
 *< détails ici ; supprimer cette ligne >*
 
 ### Journaux / logs
-Pour afficher les journaux / log de l'intégration, se référer à cette page : (ici)[https://github.com/AuroreVgn/somfy-protexial/wiki/Mode-d%C3%A9bug]
+Pour afficher les journaux / log de l'intégration, se référer à [cette page](https://github.com/AuroreVgn/somfy-protexial/wiki/Mode-d%C3%A9bug)
 `````
 *< COLLER ICI >*
 `````
