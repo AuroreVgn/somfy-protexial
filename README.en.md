@@ -14,7 +14,7 @@
 
 ## About
 
-🔀 This 2.1.x version is an **updated fork** of the original integration by [the8tre](https://github.com/the8tre).
+🔀 This 2.2.x version is an **updated fork** of the original integration by [the8tre](https://github.com/the8tre).
 
 The main objectives of this integration are to anticipate:
 
@@ -25,16 +25,16 @@ This integration provides an interface with Somfy Protexial, Protexiom and Prote
 
 Tested models:
 
-| Model | Version | Status  | Element pause |
-| -------------- | --------------- | ------------------  |------------------ |
-| Protexial IO | `2013 (v10_13)` | :white_check_mark: | :white_check_mark: |
-| Protexiom 5000 | `2013 (v10_3)` | :white_check_mark:  ||
-| Protexial | `2013 (v10_13)` | :white_check_mark:  ||
-| Protexial | `2013 (v10_14)` | :white_check_mark:  ||
-| Protexial | `2013 (v10_15)` | :white_check_mark:  ||
-| Protexial | `2010 (v7_9)` | :white_check_mark:  |:white_check_mark:|
-| Protexial | `2010 (v8_1)` | :white_check_mark:  ||
-| Protexial | `2008` | :white_check_mark:  |:white_check_mark:|
+| Model | Version | Status  Element pause |
+| -------------- | --------------- | ------------------  ------------------ |
+| Protexial IO | `2013 (v10_13)` | :white_check_mark:  :white_check_mark: |
+| Protexiom 5000 | `2013 (v10_3)` | :white_check_mark:  |
+| Protexial | `2013 (v10_13)` | :white_check_mark:  |
+| Protexial | `2013 (v10_14)` | :white_check_mark:  |
+| Protexial | `2013 (v10_15)` | :white_check_mark:  |
+| Protexial | `2010 (v7_9)` | :white_check_mark:  |
+| Protexial | `2010 (v8_1)` | :white_check_mark:  |
+| Protexial | `2008` | :white_check_mark:  |
 
 ⚠️ If your model is not listed here, it does **not** necessarily mean that it is unsupported. It may simply not have been tested yet or reported by users.
 
@@ -67,6 +67,8 @@ Tested models:
 | `sensor.signal_gsm_5` | GSM signal strength (/5) | 1.2.6 |
 | `sensor.operateur_gsma` | GSM operator | 1.2.6 |
 | `sensor.alarme_derniere_sync` | Last synchronization with the alarm (last value is restored after a restart) | 2.0.7 |
+| `sensor.control_panel_date_and_time` | Last date and time read directly from the control panel (last value restored after a restart) | 2.1.x |
+| `sensor.event_journal` | 10 most recent events from the control panel journal. The state is the latest event and the `events` attribute contains the detailed list | 2.2.0 |
 
 #### The following binary sensors are created to represent every alarm device and expose their attributes:
 
@@ -102,6 +104,8 @@ Attributes are available in the **Details** panel.
 | `button.reinitialiser_defaut_liaison_radio` | Reset radio communication faults between the control panel and sensors | 2.0.7 |
 | `button.reinitialiser_defaut_piles` | Reset battery faults | 2.0.7 |
 | `button.refresh` | Reset battery faults | 2.0.7 |
+| `button.read_control_panel_date_and_time` | Reads the date and time currently stored in the control panel | 2.1.x |
+| `button.synchronize_date_and_time` | Synchronizes the control panel date and time with Home Assistant local date and time | 2.1.x |
 
 
 #### ⏸️ Pausing / reactivating elements (version 2.1):
@@ -122,6 +126,30 @@ Icons match those used by the corresponding binary sensors.
 #### 🔄 Dynamic refresh interval (version 2.1):
 The integration's refresh interval is also available as a `number` entity. Its value can be changed directly from the interface or by an automation to dynamically adapt how often the control panel is queried in order to [reduce its battery consumption](https://github.com/AuroreVgn/somfy-protexial/wiki/Optimisation-de-la-dur%C3%A9e-de-vie-des-piles-de-la-Centrale#avec-un-intervalle-de-rafraichissement-variable).
 
+The selected value is preserved after reloading the integration or restarting Home Assistant.
+
+
+#### ⚙️ Control panel general settings (version 2.1):
+
+When **Installer** credentials are configured, the integration can also read and modify several general control panel settings from Home Assistant. Entities are created only when the corresponding setting is available on the control panel.
+
+| Entité | Description | Paramètre Somfy |
+| ------ | ----------- | --------------- |
+| `number.entry_delay` | Entry delay, from 1 to 60 seconds | `tempoentree` |
+| `switch.ding_dong_on_indoor_siren` | Enables or disables DING DONG on the indoor siren | `kiela` |
+| `switch.transmitter_beep` | Enables or disables the transmitter beep | `bipontransmiter` |
+| `select.siren_beep_level` | Siren beep level: Low, Medium or High | `biplevel` |
+| `select.siren_ringing_level` | Siren ringing level: Low, Medium or High | `sirenlevel` |
+
+Changes are made using the **Installer** account. Before each write, the integration reads the current control panel configuration form and changes only the requested setting in order to preserve all other settings.
+
+The **Read control panel date and time** button reads the time actually stored in the control panel and updates the dedicated sensor. The **Synchronize date and time** button copies Home Assistant local date and time to the control panel. These functions also use the **Installer** account.
+
+#### 📜 Event journal (version 2.2.0):
+
+The integration exposes the control panel **event journal** through a dedicated sensor. The **10 most recent events** are available in the `events` attribute with date, time, event, related element and Somfy code. The sensor state is the latest event.
+
+The journal is read with the **User** account, read-only, without using the Installer account. It is refreshed at most once every 5 minutes to limit requests to the control panel. If reading temporarily fails, the last known events are kept.
 
 ## Installation
 
@@ -139,7 +167,7 @@ The integration's refresh interval is also available as a `number` entity. Its v
 
 ### Option B: Manual installation
 
-1. Download the latest release archive: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.1.0.zip)
+1. Download the latest release archive: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.2.0.zip)
 2. Locate the directory containing your Home Assistant `configuration.yaml` file.
 3. If the `custom_components` directory does not exist, create it.
 4. Create a `somfy_protexial` directory inside `custom_components`.
@@ -177,13 +205,13 @@ The available arming modes are based on the zones configured in your Somfy alarm
 - **Home mode** (optional): Any combination of A, B, C, A+B, B+C or A+C
 
 
-**Arm/Disarm Code:** If you specify a code, it will be required whenever the alarm is armed or disarmed.
+**Arm/Disarm Code:** If you specify a code, it always remains required for disarming. The **Require code for arming** option lets you choose whether it must also be entered when arming.
 
 **Refresh interval:** From 0 second* to 24 hours (86,400 seconds). The default is 60 seconds (using a shorter interval is not recommended, as the alarm web interface tends to become unstable).
 *Setting `0` disables automatic refresh. The **Refresh data** button can then be used to force a manual synchronization at any time.
 This value can then be changed dynamically using a `number` entity.
 
-**Installer account (optional):** enter the Installer username (default: `i`) and password only if you want to use the `(PAUSE)` switches to pause or reactivate individual elements. Normal alarm control continues to use the **User** account.
+**Installer account (optional):** enter the Installer username (default: `i`) and password only if you want to use the `(PAUSE)` switches to pause or reactivate individual elements. Normal alarm control continues to use the **User** account. The Installer account is also required for date/time read and synchronization and for the general control panel settings described above.
 ## Notes
 
 ### Home Assistant Lovelace Card (Status & Control)

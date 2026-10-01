@@ -14,7 +14,7 @@
 
 ## Acerca de
 
-🔀 Esta versión 2.1.x es un **fork actualizado** de la integración original de [the8tre](https://github.com/the8tre).
+🔀 Esta versión 2.2.x es un **fork actualizado** de la integración original de [the8tre](https://github.com/the8tre).
 
 Los principales objetivos de esta integración son anticiparse a:
 
@@ -25,16 +25,16 @@ Esta integración proporciona la comunicación con las centrales de alarma Somfy
 
 ### Modelos probados
 
-| Modelo | Versión | Estado  |Pausa de elementos |
-| -------------- | --------------- | ------------------  |------------------ |
-| Protexial IO | `2013 (v10_13)` | :white_check_mark:  |:white_check_mark: |
-| Protexiom 5000 | `2013 (v10_3)` | :white_check_mark:  ||
-| Protexial | `2013 (v10_13)` | :white_check_mark:  ||
-| Protexial | `2013 (v10_14)` | :white_check_mark:  ||
-| Protexial | `2013 (v10_15)` | :white_check_mark:  ||
-| Protexial | `2010 (v7_9)` | :white_check_mark:  |:white_check_mark:|
-| Protexial | `2010 (v8_1)` | :white_check_mark:  ||
-| Protexial | `2008` | :white_check_mark:  |:white_check_mark:|
+| Modelo | Versión | Estado  Pausa de elementos |
+| -------------- | --------------- | ------------------  ------------------ |
+| Protexial IO | `2013 (v10_13)` | :white_check_mark:  :white_check_mark: |
+| Protexiom 5000 | `2013 (v10_3)` | :white_check_mark:  |
+| Protexial | `2013 (v10_13)` | :white_check_mark:  |
+| Protexial | `2013 (v10_14)` | :white_check_mark:  |
+| Protexial | `2013 (v10_15)` | :white_check_mark:  |
+| Protexial | `2010 (v7_9)` | :white_check_mark:  |
+| Protexial | `2010 (v8_1)` | :white_check_mark:  |
+| Protexial | `2008` | :white_check_mark:  |
 
 ⚠️ Que un modelo no aparezca en esta lista **no significa** que no sea compatible. Simplemente puede que todavía no haya sido probado o comunicado por otros usuarios.
 
@@ -67,6 +67,8 @@ Esta integración proporciona la comunicación con las centrales de alarma Somfy
 | `sensor.signal_gsm_5` | Intensidad de la señal GSM (/5) | 1.2.6 |
 | `sensor.operateur_gsma` | Operador GSM | 1.2.6 |
 | `sensor.alarme_derniere_sync` | Última sincronización con la alarma (el último valor se restaura después de un reinicio) | 2.0.7 |
+| `sensor.fecha_y_hora_de_la_central` | Última fecha y hora leídas directamente de la central (el último valor se restaura después de un reinicio) | 2.1.x |
+| `sensor.registro_de_eventos` | Los 10 eventos más recientes del registro de la central. El estado corresponde al último evento y el atributo `events` contiene la lista detallada | 2.2.0 |
 
 #### Se crean los siguientes sensores binarios para representar cada dispositivo de la alarma junto con sus atributos:
 
@@ -102,6 +104,8 @@ Los atributos pueden consultarse en el menú **"Detalles"**.
 | `button.reinitialiser_defaut_liaison_radio` | Restablecer los fallos de comunicación por radio entre la central y los sensores | 2.0.7 |
 | `button.reinitialiser_defaut_piles` | Restablecer los fallos de batería | 2.0.7 |
 | `button.refresh` | Restablecer los fallos de batería | 2.0.13 |
+| `button.leer_fecha_y_hora_de_la_central` | Lee la fecha y la hora almacenadas actualmente en la central | 2.1.x |
+| `button.sincronizar_fecha_y_hora` | Sincroniza la fecha y la hora de la central con la fecha y hora locales de Home Assistant | 2.1.x |
 
 
 #### ⏸️ Pausa / reactivación de elementos (versión 2.1):
@@ -124,6 +128,30 @@ Los iconos coinciden con los de los sensores binarios correspondientes.
 #### 🔄 Intervalo de actualización dinámico (versión 2.1):
 El intervalo de actualización de la integración también está disponible como una entidad `number`. Su valor puede modificarse directamente desde la interfaz o mediante una automatización para adaptar dinámicamente la frecuencia de consulta de la central y así [reducir el consumo de sus pilas](https://github.com/AuroreVgn/somfy-protexial/wiki/Optimisation-de-la-dur%C3%A9e-de-vie-des-piles-de-la-Centrale#avec-un-intervalle-de-rafraichissement-variable).
 
+El valor seleccionado se conserva después de recargar la integración o reiniciar Home Assistant.
+
+
+#### ⚙️ Ajustes generales de la central (versión 2.1):
+
+Si se configuran las credenciales de **Instalador**, la integración también permite leer y modificar varios ajustes generales de la central desde Home Assistant. Las entidades solo se crean si el ajuste correspondiente está disponible en la central.
+
+| Entité | Description | Paramètre Somfy |
+| ------ | ----------- | --------------- |
+| `number.temporizacion_de_entrada` | Temporización de entrada, de 1 a 60 segundos | `tempoentree` |
+| `switch.ding_dong_en_sirena_interior` | Activa o desactiva DING DONG en la sirena interior | `kiela` |
+| `switch.pitido_del_transmisor` | Activa o desactiva el pitido del transmisor | `bipontransmiter` |
+| `select.nivel_de_pitidos_de_las_sirenas` | Nivel de pitidos: Bajo, Medio o Alto | `biplevel` |
+| `select.nivel_de_sonido_de_las_sirenas` | Nivel de sonido de las sirenas: Bajo, Medio o Alto | `sirenlevel` |
+
+Los cambios se realizan mediante la cuenta **Instalador**. Antes de cada escritura, la integración vuelve a leer el formulario de configuración actual de la central y modifica únicamente el ajuste solicitado para conservar el resto de parámetros.
+
+El botón **Leer fecha y hora de la central** lee la hora realmente almacenada en la central y actualiza el sensor dedicado. **Sincronizar fecha y hora** copia la fecha y hora locales de Home Assistant a la central. Estas funciones también utilizan la cuenta **Instalador**.
+
+#### 📜 Registro de eventos (versión 2.2.0):
+
+La integración expone el **registro de eventos** de la central mediante un sensor dedicado. Los **10 eventos más recientes** están disponibles en el atributo `events` con la fecha, la hora, el evento, el elemento relacionado y el código Somfy. El estado del sensor corresponde al último evento.
+
+El registro se lee con la cuenta **Usuario**, en modo de solo lectura, sin utilizar la cuenta Instalador. Se actualiza como máximo una vez cada 5 minutos para limitar las consultas a la central. Si la lectura falla temporalmente, se conservan los últimos eventos conocidos.
 
 ## Instalación
 
@@ -141,7 +169,7 @@ El intervalo de actualización de la integración también está disponible como
 
 ### Opción B: Instalación manual
 
-1. Descargue el archivo de la última versión disponible: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.1.0.zip)
+1. Descargue el archivo de la última versión disponible: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.2.0.zip)
 2. Localice el directorio que contiene el archivo `configuration.yaml` de su instalación de Home Assistant.
 3. Si no existe el directorio `custom_components`, créelo.
 4. Cree un directorio `somfy_protexial` dentro de `custom_components`.
@@ -179,13 +207,13 @@ Los distintos modos de armado utilizan las zonas configuradas en la central Somf
 - **Modo presencia** (opcional): zonas A, B, C, A+B, B+C o A+C
 
 
-**Código de armado/desarmado:** si especificas un código, se solicitará al armar o desarmar la alarma.
+**Código de armado/desarmado:** si especificas un código, seguirá siendo siempre obligatorio para desarmar. La opción **Exigir código para armar** permite elegir si también debe introducirse al armar.
 
 **Intervalo de actualización:** de 0 segundos* a 24 horas (86.400 segundos). El valor predeterminado es 60 segundos (no se recomienda utilizar un intervalo menor, ya que la interfaz web de la alarma tiende a volverse inestable).
 *El valor `0` desactiva la actualización automática. El botón **Actualizar datos** permite forzar una sincronización manual en cualquier momento.
 Este valor puede modificarse dinámicamente posteriormente mediante una entidad `number`.
 
-**Cuenta de Instalador (opcional):** introduce el nombre de usuario (por defecto `i`) y la contraseña del Instalador únicamente si deseas utilizar los switches `(PAUSA)` para pausar o reactivar elementos individualmente. El control normal de la alarma sigue utilizando la cuenta **Usuario**.
+**Cuenta de Instalador (opcional):** introduce el nombre de usuario (por defecto `i`) y la contraseña del Instalador únicamente si deseas utilizar los switches `(PAUSA)` para pausar o reactivar elementos individualmente. El control normal de la alarma sigue utilizando la cuenta **Usuario**. La cuenta de Instalador también es necesaria para leer y sincronizar la fecha/hora y para los ajustes generales de la central descritos anteriormente.
 ## Información adicional
 
 ### Tarjeta Lovelace para Home Assistant (estado y control)

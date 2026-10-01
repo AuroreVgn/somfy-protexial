@@ -13,7 +13,7 @@
 
 ## À propos
 
-🔀 Cette version 2.1.x est un [Fork](https://github.com/the8tre/somfy-protexial) **mis à jour** de l’intégration originale de [the8tre](https://github.com/the8tre) désormais archivée.
+🔀 Cette version 2.2.x est un [Fork](https://github.com/the8tre/somfy-protexial) **mis à jour** de l’intégration originale de [the8tre](https://github.com/the8tre) désormais archivée.
 
 Les principaux objectifs de cette intégration sont d'anticiper : 
 - [l'**arrêt de la 2G**](https://github.com/AuroreVgn/somfy-protexial/wiki/Arr%C3%AAt-de-la-2G-et-des-serveurs-alarmsomfy.eu-%E2%80%90-%C3%A9tude-d'impact-et-solution#arr%C3%AAt-de-la-2g) en proposant une alternative fiable sans devoir tout changer pour alerter d'une intrusion (ou autre) directement via Home Assistant et l'application smartphone permettant la mise en place d'alertes critiques (ie. qui notifient même en silencieux).
@@ -29,9 +29,9 @@ Modèles testés :
 | Protexial      | `2013 (v10_13)` | :white_check_mark: |                                        |
 | Protexial      | `2013 (v10_14)` | :white_check_mark: |                                        |
 | Protexial      | `2013 (v10_15)` | :white_check_mark: |                                        |
-| Protexial      | `2010 (v7_9)`   | :white_check_mark: | :white_check_mark:                     |
+| Protexial      | `2010 (v7_9)`   | :white_check_mark: |                                        |
 | Protexial      | `2010 (v8_1)`   | :white_check_mark: |                                        |
-| Protexial      | `2008`          | :white_check_mark: | :white_check_mark:                     |
+| Protexial      | `2008`          | :white_check_mark: |                                        |
 
 ⚠️ Un modèle non présent ici ne signifie pas que cela ne fonctionnera pas, juste qu'il n'a pas été testé ou ajouté faute de retours.
 
@@ -63,6 +63,8 @@ Modèles testés :
 | `sensor.signal_gsm_5`               | Puissance du signal GSM (/5)                                | 1.2.6                                                      |
 | `sensor.operateur_gsma`             | Opérateur GSM                                               | 1.2.6                                                      |
 | `sensor.alarme_derniere_sync`       | Dernière synchronisation avec l'alarme (dernière valeur restaurée après un redémarrage) | 2.0.7                                                      |
+| `sensor.date_et_heure_de_la_centrale` | Dernière date et heure lues directement dans la centrale (dernière valeur restaurée après un redémarrage) | 2.1.x |
+| `sensor.journal_des_evenements` | 10 événements les plus récents du journal de la centrale. L’état correspond au dernier événement et l’attribut `events` contient la liste détaillée | 2.2.0 |
 
 #### Les entités (sensors) suivants sont créées avec des attributs (attributes) et représente la liste des éléments de l'alarme :
 | Entité                              | Description -  Attributs                                                                                 | Version |
@@ -98,6 +100,8 @@ Les attributs sont visibles dans le menu "Détails"
 | `button.reinitialiser_defaut_liaison_radio`| Réinitialisation des défauts de lien entre la centrale et les capteurs  | 2.0.7                                                      |
 | `button.reinitialiser_defaut_piles`| Réinitialisation des défauts piles    | 2.0.7                
 | `button.refresh`| Mise à jour des infos manuellement    | 2.0.13    
+| `button.lire_la_date_et_l_heure_de_la_centrale` | Lit la date et l’heure actuellement enregistrées dans la centrale | 2.1.x |
+| `button.synchroniser_la_date_et_l_heure` | Synchronise la date et l’heure de la centrale avec la date et l’heure locales de Home Assistant | 2.1.x |
 
 
 #### ⏸️ Mise en pause / réactivation des éléments (version 2.1) :
@@ -119,6 +123,30 @@ Les icônes reprennent celles des binary sensors correspondants.
 #### 🔄 Intervalle de rafraîchissement dynamique (version 2.1) :
 L’intervalle de rafraîchissement de l’intégration est également disponible sous la forme d’une entité `number`. Sa valeur peut être modifiée directement depuis l’interface ou par une automatisation afin d’adapter dynamiquement la fréquence d’interrogation de la centrale afin de [limiter sa consommation de piles](https://github.com/AuroreVgn/somfy-protexial/wiki/Optimisation-de-la-dur%C3%A9e-de-vie-des-piles-de-la-Centrale#avec-un-intervalle-de-rafraichissement-variable).
 
+La valeur choisie est conservée après un rechargement de l’intégration ou un redémarrage de Home Assistant.
+
+
+#### ⚙️ Paramètres généraux de la centrale (version 2.1) :
+
+Si les identifiants **Installateur** sont renseignés, l’intégration permet également de lire et de modifier plusieurs paramètres généraux de la centrale depuis Home Assistant. Les entités ne sont créées que si le paramètre correspondant est présent sur la centrale.
+
+| Entité | Description | Paramètre Somfy |
+| ------ | ----------- | --------------- |
+| `number.temporisation_d_entree` | Temporisation d’entrée, de 1 à 60 secondes | `tempoentree` |
+| `switch.ding_dong_sur_sirene_interieure` | Active ou désactive le DING DONG sur la sirène intérieure | `kiela` |
+| `switch.bip_sonore_sur_le_transmetteur` | Active ou désactive le bip sonore sur le transmetteur | `bipontransmiter` |
+| `select.niveau_des_bips_sonores_des_sirenes` | Niveau des bips sonores : Faible, Moyen ou Fort | `biplevel` |
+| `select.niveau_de_sonnerie_des_sirenes` | Niveau de sonnerie des sirènes : Faible, Moyen ou Fort | `sirenlevel` |
+
+Les modifications sont effectuées via le compte **Installateur**. Avant chaque écriture, l’intégration relit le formulaire de configuration de la centrale et ne modifie que le paramètre demandé afin de préserver les autres réglages.
+
+Le bouton **Lire la date et l'heure de la centrale** lit l'heure réellement enregistrée dans la centrale et met à jour le sensor dédié. Le bouton **Synchroniser la date et l'heure** copie la date et l'heure locales de Home Assistant vers la centrale. Ces fonctions utilisent également le compte **Installateur**.
+
+#### 📜 Journal des événements (version 2.2.0) :
+
+L’intégration expose le **journal des événements** de la centrale via un sensor dédié. Les **10 événements les plus récents** sont disponibles dans l’attribut `events` avec la date, l’heure, l’événement, l’élément concerné et le code Somfy. L’état du sensor correspond au dernier événement.
+
+Le journal est lu avec le compte **Utilisateur**, en lecture seule, sans utiliser le compte Installateur. Il est actualisé au maximum toutes les 5 minutes afin de limiter les requêtes vers la centrale. En cas d’échec temporaire de lecture, les derniers événements connus sont conservés.
 
 ## Installation
 
@@ -136,7 +164,7 @@ L’intervalle de rafraîchissement de l’intégration est également disponibl
 
 ### Option B : Installation manuelle
 
-1. Télécharger l'archive de la dernière version disponible: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.1.0.zip)
+1. Télécharger l'archive de la dernière version disponible: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.2.0.zip)
 2. Localiser le répertoire contenant le fichier `configuration.yaml` dans votre installation de HA
 3. Si il n'y a pas de répertoire `custom_components` le créer
 4. Créer un répertoire `somfy_protexial` dans `custom_components`
@@ -169,14 +197,13 @@ Les différents modes d'armement exploitent les zones définies par la configura
 - **Armement pour la nuit** (optionnel) : zones au choix (A, B, C, A+B, B+C, A+C)
 - **Armement en présence** (optionnel) : zones au choix (A, B, C, A+B, B+C, A+C)
 
-**Code d'armement** : si vous spécifiez un code celui-ci sera demandé lors de l'armement/désarmement.
+**Code d'armement** : si vous spécifiez un code, celui-ci reste toujours requis pour le désarmement. L’option **Code requis pour l’armement** permet de choisir s’il doit également être demandé lors de l’armement.
 
 **Interval de rafraîchissement** : de 0 seconde* à 24 heures (86 400 secondes). 60 secondes par défaut (il n'est pas conseillé de mettre moins, sinon l'interface web de l'alarme a tendance à planter).
-
 *la valeur `0` désactive le rafraîchissement automatique. Le bouton **Actualiser les données** permet alors de forcer une synchronisation manuelle à tout moment.
 Cette valeur peut être modifiée dynamiquement par la suite grâce à une entité `number`.
 
-**Compte Installateur (optionnel) :** renseigner le nom d'utilisateur  (par défaut `i`) et le mot de passe **Installateur** uniquement si vous souhaitez utiliser les switches `(PAUSE)` permettant de mettre en pause ou de réactiver individuellement les éléments. Le pilotage normal de l'alarme continue d'utiliser le compte **Utilisateur**.
+**Compte Installateur (optionnel) :** renseigner le nom d'utilisateur  (par défaut `i`) et le mot de passe Installateur uniquement si vous souhaitez utiliser les switches `(PAUSE)` permettant de mettre en pause ou de réactiver individuellement les éléments. Le pilotage normal de l'alarme continue d'utiliser le compte **Utilisateur**.
 
 ## À noter
 

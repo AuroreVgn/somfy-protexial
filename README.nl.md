@@ -25,16 +25,16 @@ Deze integratie maakt verbinding met Somfy Protexial-, Protexiom- en Protexial I
 
 ### Geteste modellen
 
-| Model | Versie | Status  |Elementen pauzeren |
-| -------------- | --------------- | ------------------  |------------------ |
-| Protexial IO | `2013 (v10_13)` | :white_check_mark:  |:white_check_mark: |
-| Protexiom 5000 | `2013 (v10_3)` | :white_check_mark:  ||
-| Protexial | `2013 (v10_13)` | :white_check_mark:  ||
-| Protexial | `2013 (v10_14)` | :white_check_mark:  ||
-| Protexial | `2013 (v10_15)` | :white_check_mark:  ||
-| Protexial | `2010 (v7_9)` | :white_check_mark:  |:white_check_mark:|
-| Protexial | `2010 (v8_1)` | :white_check_mark:  ||
-| Protexial | `2008` | :white_check_mark:  |:white_check_mark:|
+| Model | Versie | Status  Elementen pauzeren |
+| -------------- | --------------- | ------------------  ------------------ |
+| Protexial IO | `2013 (v10_13)` | :white_check_mark:  :white_check_mark: |
+| Protexiom 5000 | `2013 (v10_3)` | :white_check_mark:  |
+| Protexial | `2013 (v10_13)` | :white_check_mark:  |
+| Protexial | `2013 (v10_14)` | :white_check_mark:  |
+| Protexial | `2013 (v10_15)` | :white_check_mark:  |
+| Protexial | `2010 (v7_9)` | :white_check_mark:  |
+| Protexial | `2010 (v8_1)` | :white_check_mark:  |
+| Protexial | `2008` | :white_check_mark:  |
 
 ⚠️ Dat een model hier niet wordt vermeld, betekent **niet** dat het niet wordt ondersteund. Het kan eenvoudigweg nog niet getest zijn of nog niet door gebruikers zijn gemeld.
 
@@ -67,6 +67,8 @@ Deze integratie maakt verbinding met Somfy Protexial-, Protexiom- en Protexial I
 | `sensor.signal_gsm_5` | GSM-signaalsterkte (/5) | 1.2.6 |
 | `sensor.operateur_gsma` | GSM-provider | 1.2.6 |
 | `sensor.alarme_derniere_sync` | Laatste synchronisatie met het alarm (de laatste waarde wordt na een herstart hersteld) | 2.0.7 |
+| `sensor.datum_en_tijd_van_de_centrale` | Laatste datum en tijd die rechtstreeks uit de centrale zijn gelezen (laatste waarde wordt na een herstart hersteld) | 2.1.x |
+| `sensor.gebeurtenissenlogboek` | De 10 meest recente gebeurtenissen uit het logboek van de centrale. De status is de laatste gebeurtenis en het attribuut `events` bevat de gedetailleerde lijst | 2.2.0 |
 
 #### Voor elk alarmapparaat worden de volgende binaire sensoren met attributen aangemaakt:
 
@@ -102,6 +104,8 @@ De attributen zijn zichtbaar in het menu **"Details"**.
 | `button.reinitialiser_defaut_liaison_radio` | Radioverbindingsfouten tussen de centrale en de sensoren resetten | 2.0.7 |
 | `button.reinitialiser_defaut_piles` | Batterijfouten resetten | 2.0.7 |
 | `button.refresh` | | 2.0.13 |
+| `button.datum_en_tijd_van_de_centrale_lezen` | Leest de datum en tijd die momenteel in de centrale zijn opgeslagen | 2.1.x |
+| `button.datum_en_tijd_synchroniseren` | Synchroniseert datum en tijd van de centrale met de lokale datum en tijd van Home Assistant | 2.1.x |
 
 
 #### ⏸️ Elementen pauzeren / opnieuw activeren (versie 2.1):
@@ -122,6 +126,30 @@ De pictogrammen komen overeen met die van de bijbehorende binaire sensoren.
 #### 🔄 Dynamisch vernieuwingsinterval (versie 2.1):
 Het vernieuwingsinterval van de integratie is ook beschikbaar als een `number`-entiteit. De waarde kan rechtstreeks via de interface of door een automatisering worden gewijzigd om dynamisch aan te passen hoe vaak de centrale wordt uitgelezen en zo het [batterijverbruik te beperken](https://github.com/AuroreVgn/somfy-protexial/wiki/Optimisation-de-la-dur%C3%A9e-de-vie-des-piles-de-la-Centrale#avec-un-intervalle-de-rafraichissement-variable).
 
+De gekozen waarde blijft behouden na het herladen van de integratie of een herstart van Home Assistant.
+
+
+#### ⚙️ Algemene instellingen van de centrale (versie 2.1):
+
+Wanneer **Installateur**-gegevens zijn ingesteld, kan de integratie ook verschillende algemene instellingen van de centrale vanuit Home Assistant lezen en wijzigen. Entiteiten worden alleen aangemaakt als de bijbehorende instelling op de centrale beschikbaar is.
+
+| Entité | Description | Paramètre Somfy |
+| ------ | ----------- | --------------- |
+| `number.ingangsvertraging` | Ingangsvertraging van 1 tot 60 seconden | `tempoentree` |
+| `switch.ding_dong_op_binnensirene` | Schakelt DING DONG op de binnensirene in of uit | `kiela` |
+| `switch.pieptoon_op_de_zender` | Schakelt de pieptoon op de zender in of uit | `bipontransmiter` |
+| `select.pieptoonniveau_van_de_sirenes` | Pieptoonniveau: Laag, Gemiddeld of Hoog | `biplevel` |
+| `select.geluidsniveau_van_de_sirenes` | Geluidsniveau van de sirenes: Laag, Gemiddeld of Hoog | `sirenlevel` |
+
+Wijzigingen worden uitgevoerd via het **Installateur**-account. Voor elke schrijfactie leest de integratie het actuele configuratieformulier van de centrale opnieuw en wijzigt alleen de gevraagde instelling, zodat alle andere instellingen behouden blijven.
+
+De knop **Datum en tijd van de centrale lezen** leest de werkelijk in de centrale opgeslagen tijd en werkt de speciale sensor bij. **Datum en tijd synchroniseren** kopieert de lokale datum en tijd van Home Assistant naar de centrale. Ook deze functies gebruiken het **Installateur**-account.
+
+#### 📜 Gebeurtenissenlogboek (versie 2.2.0):
+
+De integratie stelt het **gebeurtenissenlogboek** van de centrale beschikbaar via een aparte sensor. De **10 meest recente gebeurtenissen** zijn beschikbaar in het attribuut `events`, met datum, tijd, gebeurtenis, betrokken element en Somfy-code. De sensorstatus is de meest recente gebeurtenis.
+
+Het logboek wordt alleen-lezen uitgelezen met het **Gebruiker**-account, zonder het Installateur-account te gebruiken. Het wordt maximaal eenmaal per 5 minuten vernieuwd om het aantal verzoeken aan de centrale te beperken. Als het uitlezen tijdelijk mislukt, blijven de laatst bekende gebeurtenissen behouden.
 
 ## Installatie
 
@@ -139,7 +167,7 @@ Het vernieuwingsinterval van de integratie is ook beschikbaar als een `number`-e
 
 ### Optie B: Handmatige installatie
 
-1. Download het archief van de nieuwste beschikbare versie: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.1.0.zip)
+1. Download het archief van de nieuwste beschikbare versie: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.2.0.zip)
 2. Zoek de map waarin het bestand `configuration.yaml` van uw Home Assistant-installatie zich bevindt.
 3. Maak de map `custom_components` aan als deze nog niet bestaat.
 4. Maak binnen `custom_components` een map `somfy_protexial` aan.
@@ -177,13 +205,13 @@ De verschillende inschakelmodi zijn gebaseerd op de zones die in de Somfy-alarmc
 - **Aanwezigheidsmodus** (optioneel): zones A, B, C, A+B, B+C of A+C
 
 
-**In-/uitschakelcode:** als je een code opgeeft, wordt deze gevraagd bij het in- of uitschakelen van het alarm.
+**In-/uitschakelcode:** als je een code opgeeft, blijft deze altijd vereist voor het uitschakelen. Met de optie **Code vereisen voor inschakelen** kun je kiezen of de code ook bij het inschakelen moet worden ingevoerd.
 
 **Vernieuwingsinterval:** van 0 seconden* tot 24 uur (86.400 seconden). Standaard 60 seconden (een korter interval wordt niet aanbevolen, omdat de webinterface van het alarm dan instabiel kan worden).
 *De waarde `0` schakelt automatisch vernieuwen uit. Met de knop **Gegevens vernieuwen** kan op elk moment handmatig een synchronisatie worden uitgevoerd.
 Deze waarde kan daarna dynamisch worden gewijzigd via een `number`-entiteit.
 
-**Installateur-account (optioneel):** vul de gebruikersnaam (standaard `i`) en het wachtwoord van de Installateur alleen in als je de `(PAUZE)`-schakelaars wilt gebruiken om afzonderlijke elementen te pauzeren of opnieuw te activeren. De normale alarmbediening blijft het **Gebruiker**-account gebruiken.
+**Installateur-account (optioneel):** vul de gebruikersnaam (standaard `i`) en het wachtwoord van de Installateur alleen in als je de `(PAUZE)`-schakelaars wilt gebruiken om afzonderlijke elementen te pauzeren of opnieuw te activeren. De normale alarmbediening blijft het **Gebruiker**-account gebruiken. Het Installateur-account is ook vereist voor het lezen en synchroniseren van datum/tijd en voor de hierboven beschreven algemene instellingen van de centrale.
 ## Opmerkingen
 
 ### Lovelace-kaart voor Home Assistant (status en bediening)
