@@ -9,11 +9,13 @@ from homeassistant.components.sensor import (
     SensorEntityDescription,
 )
 from homeassistant.config_entries import ConfigEntry
+from homeassistant.const import EntityCategory
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.helpers.dispatcher import async_dispatcher_connect
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import SENSORS, COORDINATOR, DEVICE_INFO, DOMAIN
+from .const import API, SENSORS, COORDINATOR, DEVICE_INFO, DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -85,6 +87,27 @@ async def async_setup_entry(
     #             options=zone_options,
     #         )
     #     )
+
+    # Read-only user event journal (10 most recent events).
+    entities.append(
+        ProtexialEventJournalSensor(
+            device_info=device_info,
+            coordinator=coordinator,
+        )
+    )
+
+    # Date/time stored in the centrale is available only through the
+    # installer general-settings page, so expose this sensor only when
+    # installer credentials are configured.
+    protexial = hass.data[DOMAIN][config_entry.entry_id][API]
+    if protexial.installer_username and protexial.installer_password:
+        entities.append(
+            ProtexialCentraleDateTimeSensor(
+                hass=hass,
+                entry_id=config_entry.entry_id,
+                device_info=device_info,
+            )
+        )
 
     if entities:
         async_add_entities(entities)
@@ -189,6 +212,98 @@ class ProtexialLastSyncSensor(CoordinatorEntity, RestoreSensor):
         value = (self.coordinator.data or {}).get(self.entity_description.key)
         if value is not None:
             self._native_value = value
+        self.async_write_ha_state()
+
+
+
+class ProtexialEventJournalSensor(CoordinatorEntity, SensorEntity):
+    """Expose the 10 most recent events from the Somfy user journal."""
+
+    _attr_has_entity_name = True
+    _attr_translation_key = "event_journal"
+    _attr_icon = "mdi:clipboard-text-clock-outline"
+    _attr_entity_category = EntityCategory.DIAGNOSTIC
+
+    def __init__(self, device_info, coordinator) -> None:
+        super().__init__(coordinator)
+        self._attr_unique_id = f"{DOMAIN}_event_journal"
+        self._attr_device_info = device_info
+        self._native_value = None
+        self._events: list[dict] = []
+
+    @property
+    def native_value(self):
+        """Return a compact representation of the latest event."""
+        return self._native_value
+
+    @property
+    def extra_state_attributes(self):
+        """Expose the 10 most recent journal entries."""
+        return {"events": self._events}
+
+    def _handle_coordinator_update(self) -> None:
+        events = (self.coordinator.data or {}).get("event_journal") or []
+        self._events = list(events[:10])
+        if self._events:
+            latest = self._events[0]
+            self._native_value = (
+                f"{latest.get('date', '')} {latest.get('time', '')} - "
+                f"{latest.get('event', '')}"
+            ).strip(" -")
+        else:
+            self._native_value = None
+        self.async_write_ha_state()
+
+
+class ProtexialCentraleDateTimeSensor(RestoreSensor):
+    """Last date/time read directly from the Somfy centrale."""
+
+    _attr_has_entity_name = True
+    _attr_translation_key = "centrale_datetime"
+    _attr_icon = "mdi:clipboard-text-clock"
+    _attr_entity_category = EntityCategory.DIAGNOSTIC
+
+    def __init__(self, hass, entry_id: str, device_info) -> None:
+        """Initialize the centrale date/time sensor."""
+        self._hass_ref = hass
+        self._entry_id = entry_id
+        self._attr_unique_id = f"{DOMAIN}_centrale_datetime"
+        self._attr_device_info = device_info
+        self._native_value = None
+
+    @property
+    def native_value(self):
+        """Return the last date/time read from the centrale."""
+        return self._native_value
+
+    async def async_added_to_hass(self) -> None:
+        """Restore the previous reading and listen for fresh button reads."""
+        await super().async_added_to_hass()
+
+        current = self.hass.data[DOMAIN][self._entry_id].get("centrale_datetime")
+        if current:
+            self._native_value = current
+        else:
+            last_state = await self.async_get_last_state()
+            if last_state is not None and last_state.state not in (
+                "unknown",
+                "unavailable",
+            ):
+                self._native_value = last_state.state
+
+        self.async_on_remove(
+            async_dispatcher_connect(
+                self.hass,
+                f"{DOMAIN}_{self._entry_id}_centrale_datetime_updated",
+                self._handle_centrale_datetime_update,
+            )
+        )
+
+    async def _handle_centrale_datetime_update(self) -> None:
+        """Update the sensor after the read button gets a fresh value."""
+        self._native_value = self.hass.data[DOMAIN][self._entry_id].get(
+            "centrale_datetime"
+        )
         self.async_write_ha_state()
 
 

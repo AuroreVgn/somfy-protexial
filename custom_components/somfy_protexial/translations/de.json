@@ -38,7 +38,8 @@
           "arm_code": "Optionaler 4-stelliger Scharfschaltungscode",
           "scan_interval": "Aktualisierungsintervall in Sekunden — 0 deaktiviert die automatische Aktualisierung",
           "installer_username": "Installateur-Benutzername (optional)",
-          "installer_password": "Installateur-Passwort (optional)"
+          "installer_password": "Installateur-Passwort (optional)",
+          "arm_code_required": "Code zum Scharfschalten erforderlich (Unscharfschalten bleibt geschützt)"
         }
       }
     },
@@ -59,7 +60,8 @@
           "arm_code": "Optionaler 4-stelliger Scharfschaltungscode",
           "scan_interval": "Abfrageintervall (Sekunden)",
           "installer_username": "Installateur-Benutzername (optional)",
-          "installer_password": "Installateur-Passwort (optional)"
+          "installer_password": "Installateur-Passwort (optional)",
+          "arm_code_required": "Code zum Scharfschalten erforderlich (Unscharfschalten bleibt geschützt)"
         }
       }
     },
@@ -91,6 +93,12 @@
       },
       "last_sync": {
         "name": "Letzte Synchronisierung"
+      },
+      "centrale_datetime": {
+        "name": "Datum und Uhrzeit der Zentrale"
+      },
+      "event_journal": {
+        "name": "Ereignisprotokoll"
       }
     },
     "alarm_control_panel": {
@@ -110,6 +118,12 @@
       },
       "reset_link_err": {
         "name": "Funkverbindungsfehler zurücksetzen"
+      },
+      "read_centrale_datetime": {
+        "name": "Datum und Uhrzeit der Zentrale lesen"
+      },
+      "sync_centrale_datetime": {
+        "name": "Datum und Uhrzeit der Zentrale synchronisieren"
       }
     },
     "binary_sensor": {

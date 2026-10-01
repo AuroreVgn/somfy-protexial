@@ -16,6 +16,7 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from .const import (
     API,
     CONF_ARM_CODE,
+    CONF_ARM_CODE_REQUIRED,
     CONF_HOME_ZONES,
     CONF_NIGHT_ZONES,
     COORDINATOR,
@@ -43,10 +44,18 @@ async def async_setup_entry(
     night_zones = config_entry.data.get(CONF_NIGHT_ZONES)
     home_zones = config_entry.data.get(CONF_HOME_ZONES)
     arm_code = config_entry.data.get(CONF_ARM_CODE)
+    arm_code_required = config_entry.data.get(CONF_ARM_CODE_REQUIRED, True)
     alarms = []
     alarms.append(
-        ProtexialAlarm(device_info, coordinator, api,
-                       night_zones, home_zones, arm_code)
+        ProtexialAlarm(
+            device_info,
+            coordinator,
+            api,
+            night_zones,
+            home_zones,
+            arm_code,
+            arm_code_required,
+        )
     )
     async_add_entities(alarms)
 
@@ -59,7 +68,14 @@ class ProtexialAlarm(CoordinatorEntity, AlarmControlPanelEntity):
     _attr_icon = "mdi:shield-home"
 
     def __init__(
-        self, device_info, coordinator, api, night_zones, home_zones, arm_code
+        self,
+        device_info,
+        coordinator,
+        api,
+        night_zones,
+        home_zones,
+        arm_code,
+        arm_code_required,
     ) -> None:
         """Initialize entity metadata and supported modes."""
         super().__init__(coordinator)
@@ -75,6 +91,7 @@ class ProtexialAlarm(CoordinatorEntity, AlarmControlPanelEntity):
         if self.home_zones > 0:
             self.modes.append(AlarmControlPanelEntityFeature.ARM_HOME)
         self.arm_code = arm_code
+        self.arm_code_required = arm_code_required
         self._changed_by = None
 
 
@@ -93,8 +110,8 @@ class ProtexialAlarm(CoordinatorEntity, AlarmControlPanelEntity):
 
     @property
     def code_arm_required(self) -> bool:
-        """Whether a code is required to arm/disarm."""
-        return self.arm_code is not None
+        """Return whether the configured code is required for arming."""
+        return self.arm_code is not None and self.arm_code_required
 
     @property
     def changed_by(self):
@@ -163,20 +180,23 @@ class ProtexialAlarm(CoordinatorEntity, AlarmControlPanelEntity):
         await self.coordinator.async_request_refresh()
 
     async def async_alarm_arm_home(self, code=None):
-        """Arm in 'home' mode (requires code if configured)."""
-        self.check_arm_code(code)
+        """Arm in 'home' mode."""
+        if self.code_arm_required:
+            self.check_arm_code(code)
         await self.__arm_zones(self.home_zones)
         await self.coordinator.async_request_refresh()
 
     async def async_alarm_arm_night(self, code=None):
-        """Arm in 'night' mode (requires code if configured)."""
-        self.check_arm_code(code)
+        """Arm in 'night' mode."""
+        if self.code_arm_required:
+            self.check_arm_code(code)
         await self.__arm_zones(self.night_zones)
         await self.coordinator.async_request_refresh()
 
     async def async_alarm_arm_away(self, code=None):
-        """Arm in 'away' (all zones) mode (requires code if configured)."""
-        self.check_arm_code(code)
+        """Arm in 'away' (all zones) mode."""
+        if self.code_arm_required:
+            self.check_arm_code(code)
         await self.api.arm(Zone.ABC)
         await self.coordinator.async_request_refresh()
 

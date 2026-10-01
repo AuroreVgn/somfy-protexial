@@ -58,7 +58,21 @@ def _get_element_icon(element: dict, problem: bool = False) -> str:
     name = (element.get("name") or "").lower()
 
     element_type = f"{label} {name}"
+    normalized_label = label.strip()
 
+    # Door/window/garage detectors: prefer the Somfy element label instead
+    # of relying on the user-defined name. This keeps icons consistent even
+    # when names do not contain words such as "Ouvt", "vitre" or "garage".
+    if normalized_label.startswith("do vitre"):
+        return "mdi:window-open-variant" if problem else "mdi:window-closed-variant"
+
+    if normalized_label.startswith("do gar"):
+        return "mdi:garage-open-variant" if problem else "mdi:garage-variant"
+
+    if normalized_label.startswith("do"):
+        return "mdi:door-open" if problem else "mdi:door-closed"
+
+    # Keep the previous fallbacks for labels/names from other panel variants.
     if "vitre" in element_type:
         return "mdi:window-open-variant" if problem else "mdi:window-closed-variant"
 

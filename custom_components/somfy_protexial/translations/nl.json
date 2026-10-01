@@ -38,7 +38,8 @@
           "arm_code": "Optionele 4-cijferige inschakelcode",
           "scan_interval": "Vernieuwingsinterval in seconden — 0 schakelt automatische vernieuwing uit",
           "installer_username": "Gebruikersnaam installateur (optioneel)",
-          "installer_password": "Wachtwoord installateur (optioneel)"
+          "installer_password": "Wachtwoord installateur (optioneel)",
+          "arm_code_required": "Code vereisen voor inschakelen (uitschakelen blijft beveiligd)"
         }
       }
     },
@@ -59,7 +60,8 @@
           "arm_code": "Optionele 4-cijferige inschakelcode",
           "scan_interval": "Scaninterval (seconden)",
           "installer_username": "Gebruikersnaam installateur (optioneel)",
-          "installer_password": "Wachtwoord installateur (optioneel)"
+          "installer_password": "Wachtwoord installateur (optioneel)",
+          "arm_code_required": "Code vereisen voor inschakelen (uitschakelen blijft beveiligd)"
         }
       }
     },
@@ -91,6 +93,12 @@
       },
       "last_sync": {
         "name": "Laatste synchronisatie"
+      },
+      "centrale_datetime": {
+        "name": "Datum en tijd van de centrale"
+      },
+      "event_journal": {
+        "name": "Gebeurtenissenlogboek"
       }
     },
     "alarm_control_panel": {
@@ -110,6 +118,12 @@
       },
       "reset_link_err": {
         "name": "Radioverbindingsfout resetten"
+      },
+      "read_centrale_datetime": {
+        "name": "Datum en tijd van de centrale lezen"
+      },
+      "sync_centrale_datetime": {
+        "name": "Datum en tijd van de centrale synchroniseren"
       }
     },
     "binary_sensor": {

@@ -38,7 +38,8 @@
           "arm_code": "Code d'armement à 4 chiffres optionnel",
           "scan_interval": "Intervalle d’actualisation en secondes — 0 désactive l’actualisation automatique",
           "installer_username": "Nom d’utilisateur Installateur (optionnel)",
-          "installer_password": "Mot de passe Installateur (optionnel)"
+          "installer_password": "Mot de passe Installateur (optionnel)",
+          "arm_code_required": "Code requis pour l’armement (le désarmement reste protégé)"
         }
       }
     },
@@ -59,7 +60,8 @@
           "arm_code": "Code d'armement à 4 chiffres optionnel",
           "scan_interval": "Intervalle de rafraîchissement (secondes)",
           "installer_username": "Nom d’utilisateur Installateur (optionnel)",
-          "installer_password": "Mot de passe Installateur (optionnel)"
+          "installer_password": "Mot de passe Installateur (optionnel)",
+          "arm_code_required": "Code requis pour l’armement (le désarmement reste protégé)"
         }
       }
     },
@@ -101,6 +103,12 @@
       },
       "last_sync": {
         "name": "Dernière synchronisation"
+      },
+      "centrale_datetime": {
+        "name": "Date et heure de la centrale"
+      },
+      "event_journal": {
+        "name": "Journal des événements"
       }
     },
     "alarm_control_panel": {
@@ -120,6 +128,12 @@
       },
       "reset_link_err": {
         "name": "Réinitialiser défaut liaison radio"
+      },
+      "read_centrale_datetime": {
+        "name": "Lire la date et l'heure de la centrale"
+      },
+      "sync_centrale_datetime": {
+        "name": "Synchroniser la date et l'heure"
       }
     },
     "binary_sensor": {

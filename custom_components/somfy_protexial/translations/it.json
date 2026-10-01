@@ -38,7 +38,8 @@
           "arm_code": "Codice di inserimento opzionale di 4 cifre",
           "scan_interval": "Intervallo di aggiornamento in secondi — 0 disabilita l'aggiornamento automatico",
           "installer_username": "Nome utente installatore (opzionale)",
-          "installer_password": "Password installatore (opzionale)"
+          "installer_password": "Password installatore (opzionale)",
+          "arm_code_required": "Richiedi il codice per l’inserimento (il disinserimento resta protetto)"
         }
       }
     },
@@ -59,7 +60,8 @@
           "arm_code": "Codice di inserimento opzionale di 4 cifre",
           "scan_interval": "Intervallo di scansione (secondi)",
           "installer_username": "Nome utente installatore (opzionale)",
-          "installer_password": "Password installatore (opzionale)"
+          "installer_password": "Password installatore (opzionale)",
+          "arm_code_required": "Richiedi il codice per l’inserimento (il disinserimento resta protetto)"
         }
       }
     },
@@ -91,6 +93,12 @@
       },
       "last_sync": {
         "name": "Ultima sincronizzazione"
+      },
+      "centrale_datetime": {
+        "name": "Data e ora della centrale"
+      },
+      "event_journal": {
+        "name": "Registro eventi"
       }
     },
     "alarm_control_panel": {
@@ -110,6 +118,12 @@
       },
       "reset_link_err": {
         "name": "Reimposta errore collegamento radio"
+      },
+      "read_centrale_datetime": {
+        "name": "Leggi data e ora della centrale"
+      },
+      "sync_centrale_datetime": {
+        "name": "Sincronizza data e ora della centrale"
       }
     },
     "binary_sensor": {

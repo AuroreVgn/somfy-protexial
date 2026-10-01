@@ -2,9 +2,9 @@
 Somfy Protexial
 """
 
-import asyncio
 from datetime import timedelta
 import logging
+import time
 
 from homeassistant.components.alarm_control_panel import AlarmControlPanelEntityFeature
 from homeassistant.config_entries import ConfigEntry
@@ -21,6 +21,7 @@ from homeassistant.helpers import aiohttp_client, device_registry as dr
 from homeassistant.helpers.device_registry import CONNECTION_NETWORK_MAC
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.typing import ConfigType
+from homeassistant.helpers.storage import Store
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from homeassistant.util import dt as dt_util
 
@@ -36,6 +37,7 @@ from .const import (
     COORDINATOR,
     DEVICE_INFO,
     REFRESH_ELEMENTS,
+    REFRESH_INTERVAL_STORE,
     DOMAIN,
     ApiType,
     Zone,
@@ -46,27 +48,16 @@ _LOGGER = logging.getLogger(__name__)
 
 SCAN_INTERVAL = timedelta(seconds=20)
 
-# Somfy centrales are known to occasionally answer a request with blank/
-# default values instead of the real ones once a session has been kept
-# open a while (the "empty status.xml" bug already worked around in
-# SomfyProtexial.__get_status - an empty XML leaves every Status field at
-# its "ok" default). The elements list can fail the exact same way, but
-# it isn't caught by the "empty/incomplete" guard inside
-# SomfyProtexial.get_elements(), because the blank read is still a fully
-# formed page: every element is present, just defaulted to "ok". See
-# _refresh_elements() below for how this is detected and retried.
-MAX_ELEMENTS_ATTEMPTS = 3
-ELEMENTS_RETRY_DELAY = 2  # seconds between immediate retries
-
 PLATFORMS = [
     Platform.ALARM_CONTROL_PANEL,
     Platform.BINARY_SENSOR,
-    Platform.BUTTON,  # Added BUTTON platform for default reset buttons (battery/alarm/link)
+    Platform.BUTTON,
     Platform.COVER,
     Platform.LIGHT,
-    Platform.NUMBER,  # Runtime/restorable automatic refresh interval
-    Platform.SENSOR,  # Added SENSOR platform for GSM Provider and GSM Signal Strength
-    Platform.SWITCH,  # Per-element active/paused control (installer session used only on command)
+    Platform.NUMBER,
+    Platform.SELECT,
+    Platform.SENSOR,
+    Platform.SWITCH,
 ]
 
 
@@ -95,113 +86,17 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     last_status = None
     last_elements = []
-
-    def _has_open_door(elements) -> bool:
-        """True if any element in the list reports an open door/window."""
-        return any(
-            (el.get("door") or "").lower() not in ("", "itemhidden", "itemdoorok")
-            for el in elements
-        )
+    last_journal = []
+    last_journal_refresh = 0.0
 
     async def _refresh_elements():
-        """Refresh and update the shared elements cache.
-
-        Cross-checks the freshly-fetched elements list against the
-        PREVIOUS accepted elements list (last_elements, as it stood before
-        this call): if the last known-good read had at least one
-        door/window open and the new read says everything is closed,
-        that's suspicious enough to double-check before trusting it - the
-        blank/defaulted-page bug reports every element as closed, so a
-        single "all closed" read right after a real "open" read is exactly
-        as consistent with the bug as with a genuine close.
-
-        IMPORTANT: an earlier version of this check retried up to
-        MAX_ELEMENTS_ATTEMPTS times and then, if every retry still showed
-        "all closed", DISCARDED the read and kept the old "open" state.
-        That's backwards, and it caused a real, observed regression: once
-        a door/window was accepted as open, any later *genuine* close was
-        indistinguishable from the glitch (a real close also reads
-        "closed" on every retry), so it got permanently discarded every
-        single poll - the affected entity was stuck reporting "open"
-        forever, with no self-recovery, until the integration was
-        reloaded. That's how binary_sensor.do_gar_porte_garage stayed
-        stuck "open" for ~18h on 2026-08-20/21 while the garage door was
-        actually closed (confirmed via status.xml, which independently
-        never flapped).
-
-        The fix: a "closed" read is only suspicious once. If a SECOND,
-        independent read (a couple of seconds later) agrees the same
-        elements are closed, that agreement is trusted and accepted -
-        a genuine transition is stable and reproduces on an immediate
-        re-poll, while the blank-page glitch is a one-off that is very
-        unlikely to reproduce identically several times in a row. If a
-        later read instead shows something open again, that's treated
-        as confirmation that the earlier "closed" read *was* the glitch,
-        and the open reading is trusted immediately (no need to wait for
-        a second opinion on an "open" result - only "everything closed
-        right after something was open" is the suspicious pattern).
-
-        Only if every attempt is inconclusive (mixed results with no two
-        consistent "closed" reads, or repeated empty/incomplete reads) do
-        we fall back to keeping the previous known-good elements, to be
-        retried on the next call to this function.
-        """
+        """Refresh and update the shared elements cache."""
         nonlocal last_elements
-        previously_open = _has_open_door(last_elements)
-        consecutive_closed_reads = 0
-
-        for attempt in range(1, MAX_ELEMENTS_ATTEMPTS + 1):
-            candidate = await protexial.get_elements()
-
-            if not candidate:
-                consecutive_closed_reads = 0
-                _LOGGER.warning(
-                    "Empty/incomplete elements read on attempt %d/%d%s",
-                    attempt,
-                    MAX_ELEMENTS_ATTEMPTS,
-                    ", retrying immediately" if attempt < MAX_ELEMENTS_ATTEMPTS else "",
-                )
-            elif not previously_open or _has_open_door(candidate):
-                # Nothing was open before (any result is unremarkable), or
-                # this read still shows something open - can't be the
-                # blank/defaulted-page bug (which reports everything as
-                # closed), so there is nothing to confirm. Trust it
-                # immediately, including when it reverses an earlier
-                # "closed" read from this same call (see docstring).
-                last_elements = candidate
-                return last_elements
-            else:
-                consecutive_closed_reads += 1
-                if consecutive_closed_reads >= 2:
-                    _LOGGER.info(
-                        "Closed state confirmed by %d independent reads, "
-                        "accepting it (attempt %d/%d)",
-                        consecutive_closed_reads,
-                        attempt,
-                        MAX_ELEMENTS_ATTEMPTS,
-                    )
-                    last_elements = candidate
-                    return last_elements
-                _LOGGER.warning(
-                    "Elements read says everything is closed, but a "
-                    "door/window was open a moment ago - confirming with "
-                    "another read before trusting it (attempt %d/%d)",
-                    attempt,
-                    MAX_ELEMENTS_ATTEMPTS,
-                )
-
-            if attempt < MAX_ELEMENTS_ATTEMPTS:
-                await asyncio.sleep(ELEMENTS_RETRY_DELAY)
-
-        _LOGGER.warning(
-            "Could not get two consistent elements reads after %d "
-            "attempts, keeping the previous known door/window states",
-            MAX_ELEMENTS_ATTEMPTS,
-        )
+        last_elements = await protexial.get_elements()
         return last_elements
 
     async def _get_status():
-        nonlocal last_status, last_elements
+        nonlocal last_status, last_elements, last_journal, last_journal_refresh
         try:
             st = await protexial.get_status()
             current_status = {
@@ -221,23 +116,6 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             _LOGGER.debug("new status: %s - old: %s", current_status, last_status)
 
             status_changed = current_status != last_status
-
-            # Same strategy as the Jeedom plugin (protexiom.class.php /
-            # setStatusFromSpBrowser): besides refreshing the per-door/window
-            # element list whenever the global status changes, also force a
-            # refresh on every poll while at least one door/window is
-            # reported open. Without this, a door/window state change can be
-            # missed for several minutes because it doesn't necessarily
-            # change any of the global status.xml fields, so the per-zone
-            # list would otherwise only "catch up" whenever an unrelated
-            # field (GSM signal, etc.) happens to change.
-            #
-            # This costs one extra HTTP GET to the centrale per scan_interval
-            # *only* while something is open - negligible over a wired
-            # connection - and it does not draw on the door/window sensors'
-            # own batteries: they push their state to the centrale over
-            # radio asynchronously, and this call only reads back what the
-            # centrale already knows.
             door_open = current_status.get("door") != "ok"
 
             if status_changed or door_open:
@@ -246,25 +124,49 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
                 last_status = current_status
                 await _refresh_elements()
 
-            # Mirrors Jeedom's lastCommunication/timeout diagnostic (updated
-            # on every successful poll in checkAndUpdateCmdProtexiom()): a
-            # timestamp of the last successful exchange with the centrale,
-            # exposed as a dedicated diagnostic sensor (see const.py SENSORS
-            # "last_sync") so a non-responding centrale can be spotted
-            # without digging through the logs.
+            # The event journal is useful but does not need to be fetched at
+            # every normal status refresh. Refresh it at most every 5 minutes
+            # and keep the last known-good value if the journal page fails.
+            now_monotonic = time.monotonic()
+            if not last_journal or now_monotonic - last_journal_refresh >= 300:
+                try:
+                    last_journal = await protexial.get_event_journal(limit=10)
+                    last_journal_refresh = now_monotonic
+                except Exception as journal_err:
+                    _LOGGER.warning(
+                        "Unable to refresh Somfy event journal; keeping previous data: %s",
+                        journal_err,
+                    )
+                    # Avoid hammering an unsupported/temporarily unavailable
+                    # page on every coordinator refresh.
+                    last_journal_refresh = now_monotonic
+
             status_dict = {
                 **current_status,
                 "elements": last_elements,
+                "event_journal": last_journal,
                 "last_sync": dt_util.utcnow(),
             }
             return status_dict
         except Exception as err:
             raise UpdateFailed(f"Error communicating with API: {err}")
 
-    scan_interval = int(entry.data.get(CONF_SCAN_INTERVAL, 60))
-    update_interval = (
-        None if scan_interval == 0 else timedelta(seconds=scan_interval)
+    # The config-entry value is only the initial/default value. Once the
+    # refresh interval entity has been used, its dedicated Store value is the
+    # single source of truth across reloads and Home Assistant restarts.
+    refresh_interval_store = Store(
+        hass, 1, f"{DOMAIN}.{entry.entry_id}.refresh_interval"
     )
+    stored_refresh_interval = await refresh_interval_store.async_load()
+    if isinstance(stored_refresh_interval, dict):
+        stored_refresh_interval = stored_refresh_interval.get("value")
+    try:
+        scan_interval = int(stored_refresh_interval)
+    except (TypeError, ValueError):
+        scan_interval = int(entry.data.get(CONF_SCAN_INTERVAL, 60))
+    if not 0 <= scan_interval <= 86400:
+        scan_interval = int(entry.data.get(CONF_SCAN_INTERVAL, 60))
+    update_interval = None if scan_interval == 0 else timedelta(seconds=scan_interval)
 
     coordinator = DataUpdateCoordinator(
         hass,
@@ -299,15 +201,14 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         COORDINATOR: coordinator,
         DEVICE_INFO: device_info,
         REFRESH_ELEMENTS: _refresh_elements,
+        REFRESH_INTERVAL_STORE: refresh_interval_store,
     }
 
     entry.async_on_unload(entry.add_update_listener(async_reload_entry))
 
     await coordinator.async_config_entry_first_refresh()
 
-    hass.async_create_task(
-        hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
-    )
+    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
     return True
 

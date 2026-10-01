@@ -38,7 +38,8 @@
           "arm_code": "Optional 4 digits arm code",
           "scan_interval": "Refresh interval in seconds — 0 disables automatic refresh",
           "installer_username": "Installer username (optional)",
-          "installer_password": "Installer password (optional)"
+          "installer_password": "Installer password (optional)",
+          "arm_code_required": "Require code for arming (disarming remains protected)"
         }
       }
     },
@@ -59,7 +60,8 @@
           "arm_code": "Optional 4 digits arm code",
           "scan_interval": "Scan interval (seconds)",
           "installer_username": "Installer username (optional)",
-          "installer_password": "Installer password (optional)"
+          "installer_password": "Installer password (optional)",
+          "arm_code_required": "Require code for arming (disarming remains protected)"
         }
       }
     },
@@ -91,6 +93,12 @@
       },
       "last_sync": {
         "name": "Last Sync"
+      },
+      "centrale_datetime": {
+        "name": "Control panel date and time"
+      },
+      "event_journal": {
+        "name": "Event journal"
       }
     },
     "alarm_control_panel": {
@@ -110,6 +118,12 @@
       },
       "reset_link_err": {
         "name": "Reset Radio Link Error"
+      },
+      "read_centrale_datetime": {
+        "name": "Read control panel date and time"
+      },
+      "sync_centrale_datetime": {
+        "name": "Synchronize control panel date and time"
       }
     },
     "binary_sensor": {
