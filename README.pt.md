@@ -9,6 +9,9 @@
 
 ![header](assets/header.png)
 
+> [!NOTE]
+> 📚 A documentação detalhada do projeto está disponível na [Wiki](https://github.com/AuroreVgn/somfy-protexial/wiki), atualmente mantida em francês.
+
 ## Outros idiomas
 
 [English](README.en.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Italiano](README.it.md) | [Nederlands](README.nl.md) | [Português](README.pt.md)
