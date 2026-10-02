@@ -2,255 +2,225 @@
 
 [![GitHub Release][releases-shield]][releases]
 [![License][license-shield]](LICENSE)
-
-[![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg?style=flat-square)](https://github.com/hacs/integration)
+[![HACS](https://img.shields.io/badge/HACS-Custom-41BDF5.svg?style=flat-square)](https://github.com/hacs/integration)
 [![Maintainers](https://img.shields.io/badge/maintainers-@AuroreVgn%20|%20@the8tre-blue.svg?style=flat-square)](#)
 [![Ko-fi](https://img.shields.io/badge/Ko--fi-Support-FF5E5B?style=flat-square&logo=ko-fi&logoColor=white)](https://ko-fi.com/aurorevgn)
 
 ![header](assets/header.png)
 
-## Other languages
+## 🌍 Other languages
+
 [English](README.en.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Italiano](README.it.md) | [Nederlands](README.nl.md) | [Português](README.pt.md)
 
-## À propos
+## 🔐 À propos
 
-🔀 Cette version 2.2.x est un [Fork](https://github.com/the8tre/somfy-protexial) **mis à jour** de l’intégration originale de [the8tre](https://github.com/the8tre) désormais archivée.
+Cette intégration permet d'utiliser une centrale d'alarme **Somfy Protexial, Protexiom ou Protexial IO directement dans Home Assistant**.
 
-Les principaux objectifs de cette intégration sont d'anticiper : 
-- [l'**arrêt de la 2G**](https://github.com/AuroreVgn/somfy-protexial/wiki/Arr%C3%AAt-de-la-2G-et-des-serveurs-alarmsomfy.eu-%E2%80%90-%C3%A9tude-d'impact-et-solution#arr%C3%AAt-de-la-2g) en proposant une alternative fiable sans devoir tout changer pour alerter d'une intrusion (ou autre) directement via Home Assistant et l'application smartphone permettant la mise en place d'alertes critiques (ie. qui notifient même en silencieux).
-- [l'**arrêt des serveurs Somfy Protexial/Protexiom**](https://github.com/AuroreVgn/somfy-protexial/wiki/Arr%C3%AAt-de-la-2G-et-des-serveurs-alarmsomfy.eu-%E2%80%90-%C3%A9tude-d'impact-et-solution#arr%C3%AAt-des-serveurs-somfyalarmeu) (même si l'impact est à priori très limité).
+🔀 La branche 2.2.x est un [fork](https://github.com/the8tre/somfy-protexial) maintenu et enrichi de l'intégration originale de [the8tre](https://github.com/the8tre), désormais archivée.
 
-Cette intégration gère l'interface avec une centrale d'alarme Somfy Protexial, Protexiom ou Protexial IO.
+Le projet vise notamment à prolonger la durée de vie de ces centrales et à anticiper :
 
-Modèles testés :
-| Modèle         | Version         | Statut             | Mise en pause des éléments             |
-| -------------- | --------------- | ------------------ | -------------------------------------- |
-| Protexial IO   | `2013 (v10_13)` | :white_check_mark: | :white_check_mark:                     |
-| Protexiom 5000 | `2013 (v10_3)`  | :white_check_mark: |                                        |
-| Protexial      | `2013 (v10_13)` | :white_check_mark: |                                        |
-| Protexial      | `2013 (v10_14)` | :white_check_mark: |                                        |
-| Protexial      | `2013 (v10_15)` | :white_check_mark: |                                        |
-| Protexial      | `2010 (v7_9)`   | :white_check_mark: |                                        |
-| Protexial      | `2010 (v8_1)`   | :white_check_mark: |                                        |
-| Protexial      | `2008`          | :white_check_mark: |                                        |
+- 📵 [l'arrêt de la 2G](https://github.com/AuroreVgn/somfy-protexial/wiki/Arr%C3%AAt-de-la-2G-et-des-serveurs-alarmsomfy.eu-%E2%80%90-%C3%A9tude-d'impact-et-solution), en permettant de remplacer une partie des alertes GSM par des notifications Home Assistant, y compris des alertes critiques
+- ☁️ l'évolution ou l'arrêt des services distants historiques Somfy, l'intégration communiquant directement avec la centrale sur le réseau local
 
-⚠️ Un modèle non présent ici ne signifie pas que cela ne fonctionnera pas, juste qu'il n'a pas été testé ou ajouté faute de retours.
+> [!TIP]
+> 📚 La documentation détaillée, les guides, automatisations et solutions de dépannage sont regroupés dans le **[Wiki du projet](https://github.com/AuroreVgn/somfy-protexial/wiki)**.
 
-🔎 L'intégration permet la visualisation de l'état de l'alarme et de ces éléments.
+## ✨ Fonctionnalités principales
 
-👉🏻 L'intégration permet le pilotage :
+L'intégration permet notamment :
 
-- 🚨 de l'alarme par zones (A, B, C)
-- 🪟 des volets roulants
-- 💡 des lumières
-- ⏸️ la mise en pause des éléments pour opérer leur maintenance (changement de piles)
-- 🔄 le paramétrage dynamique de l'intervalle de rafraichissement des données (voir plus bas)
+- 🚨 le pilotage de l'alarme et des zones A, B et C ;
+- 🪟 le pilotage des volets roulants ;
+- 💡 le pilotage des lumières ;
+- 🚪 la remontée des détecteurs et de leurs états ;
+- 🔋 le suivi des piles et des défauts ;
+- 📡 le diagnostic des communications radio et GSM ;
+- 🔃 la réinitialisation des défauts d'alarme, de liaison et de piles ;
+- ⏸️ la mise en pause et la réactivation d'éléments compatibles pour leur maintenance ;
+- 🔄 un intervalle de rafraîchissement modifiable dynamiquement ;
+- ⚙️ la lecture et la modification de certains paramètres généraux de la centrale ;
+- 🕐 la lecture et la synchronisation de la date et de l'heure ;
+- 📜 la consultation des événements récents de la centrale.
 
-🔃 L'intégration permet également la réinitialisation des défauts (alarmes, liaisons et piles).
+➡️ **[Consulter la liste complète des entités et fonctionnalités](https://github.com/AuroreVgn/somfy-protexial/wiki/Entit%C3%A9s-et-fonctionnalit%C3%A9s)**
 
-#### Les entités suivantes sont gérées :
-| Entité                              | Description                                                 | Version                                                    |
-| ----------------------------------- | ----------------------------------------------------------- |-----------------------------------------------------------|
-| `alarm_control_panel.alarme`        | Support des modes `armed_away`, `armed_home`, `armed_night` | 1.2.4                                                     |
-| `cover.volets`                      | Ouverture, fermeture et arrêt. Pas de contrôle de position  | 1.2.4                                                      |
-| `light.lumieres`                    | Allumé ou éteint (état maintenu par l'intégration : ne permet pas de savoir si les lumières ont été allumées/éteintes avec un autre moyen (télécommande, bouton, autre intégration))          | 1.2.4                                                      |
-| `binary_sensor.batterie`            | État aggrégé des batteries des éléments                     | 1.2.4                                                      |
-| `binary_sensor.boitier`             | État du boîtier                                             | 1.2.4                                                      |
-| `binary_sensor.communication_radio` | État de la communication radio.                             | 1.2.4                                                      |
-| `binary_sensor.communication_gsm`   | État de la communication GSM                                | 1.2.4                                                      |
-| `binary_sensor.mouvement_detecte`   | État de détection de mouvement                              | 1.2.4                                                      |
-| `binary_sensor.porte_ou_fenetre`    | État d'ouvertue de porte ou fenêtre                         | 1.2.4                                                      |
-| `binary_sensor.camera`              | État de connexion de la caméra                              | 1.2.4                                                      |
-| `sensor.signal_gsm_5`               | Puissance du signal GSM (/5)                                | 1.2.6                                                      |
-| `sensor.operateur_gsma`             | Opérateur GSM                                               | 1.2.6                                                      |
-| `sensor.alarme_derniere_sync`       | Dernière synchronisation avec l'alarme (dernière valeur restaurée après un redémarrage) | 2.0.7                                                      |
-| `sensor.date_et_heure_de_la_centrale` | Dernière date et heure lues directement dans la centrale (dernière valeur restaurée après un redémarrage) | 2.1.x |
-| `sensor.journal_des_evenements` | 10 événements les plus récents du journal de la centrale. L’état correspond au dernier événement et l’attribut `events` contient la liste détaillée | 2.2.0 |
+## 🛡️ Compatibilité
 
-#### Les entités (sensors) suivants sont créées avec des attributs (attributes) et représente la liste des éléments de l'alarme :
-| Entité                              | Description -  Attributs                                                                                 | Version |
-| ----------------------------------- | -------------------------------------------------------------------------------------------------------- | --------|
-| `binary_sensor.do_ouvt_xxx`         | Ouverture de porte - Attributs batterie, lien avec la centrale, erreur, arrachement, ouvert/fermé, pause | 2.0.0   |
-| `binary_sensor.do_vitre_ouvt_xxx`   | Ouverture de fenêtre avec détection de bris de vitre - Attributs batterie, lien avec la centrale, erreur, arrachement, ouvert/fermé, pause                    | 2.0.0   |
-| `binary_sensor.do_vitre_ouvt_xxx`   | Détecteur audiosonique de bris de vitres - Attributs batterie, lien avec la centrale, erreur, arrachement, ouvert/fermé, pause                    | 2.0.0   |
-| `binary_sensor.do_gar_xxx`          | Ouverture de porte de garage - Attributs batterie, lien avec la centrale, erreur, arrachement, ouvert/fermé, pause                    | 2.0.0   |
-| `binary_sensor.dm_image_mvt_xxx`    | Détecteur de mouvements avec prise d'images - Attributs batterie, lien avec la centrale, erreur, arrachement, pause               | 2.0.0   |
-| `binary_sensor.dm_mvt_xxx`          | Détecteur de mouvements - Attributs batterie, lien avec la centrale, erreur, arrachement, pause               | 2.0.0   |
-| `binary_sensor.tr_tel_xxx`          | Centrale - Attributs batterie, lien avec la centrale, erreur, arrachement, pause               | 2.0.0   |
-| `binary_sensor.clavier_clv_xxx`     | Clavier - Attributs batterie, lien avec la centrale, erreur, arrachement, pause               | 2.0.0   |
-| `binary_sensor.cl_lcd_clv_xxx`      | Clavier avec écran LCD - Attributs batterie, lien avec la centrale, erreur, arrachement, pause               | 2.0.0   |  
-| `binary_sensor.sir_ext_xxx`         | Sirène extérieure - Attributs batterie, lien avec la centrale, erreur, arrachement, pause               | 2.0.0   |  
-| `binary_sensor.sir_int_xxx`         | Sirène intérieure - Attributs batterie, lien avec la centrale, erreur, arrachement, pause               | 2.0.0   |  
-| `binary_sensor.d_fumee_fumee_xxx`   | Détecteur de fumée - Attributs batterie, lien avec la centrale, erreur, pause                            | 2.0.0   |  
-| `binary_sensor.tc_multi_tlcmd_xxx`  | Télécommande multi canaux - Attributs lien avec la centrale, pause                                              | 2.0.0   |
-| `binary_sensor.tc_4_tlcmd_xxx`      | Télécommande alarme multi zones - Attributs lien avec la centrale, pause                                              | 2.0.0   |
-| `binary_sensor.badge_bdg_axxx`   | Badge - Attributs lien avec la centrale, pause                                              | 2.0.0   |
+Plusieurs générations de centrales **Protexial, Protexiom et Protexial IO**, de 2008 à 2013, ont fait l'objet de retours concluants.
 
-Les attributs sont visibles dans le menu "Détails"
+L'absence d'un modèle dans la liste ne signifie pas qu'il est incompatible : il peut simplement ne pas avoir encore été testé ou documenté.
 
-<img width="160" height="243" alt="image" src="https://github.com/user-attachments/assets/1fd0de09-5f3e-4dc0-b147-bb55593adf45" />
+➡️ **[Consulter les modèles et versions testés](https://github.com/AuroreVgn/somfy-protexial/wiki/Compatibilit%C3%A9-des-centrales)**
 
+## 📦 Installation
 
-<img width="526" height="301" alt="image" src="https://github.com/user-attachments/assets/50ad793d-bddc-44b5-915a-b569b7cb5050" />
+### Option A — HACS (recommandé)
 
+Ajoutez directement le dépôt à HACS :
 
-#### Les boutons suivants sont gérés :
-| Entité                              | Description                                                 | Version                                                    |
-| ----------------------------------- | ----------------------------------------------------------- |-----------------------------------------------------------|
-| `button.reinitialiser_defaut_alarme`|  Réinitialisation des défauts d'alarmes (mouvement, ouverture, arrachement)  | 2.0.7                                                     |
-| `button.reinitialiser_defaut_liaison_radio`| Réinitialisation des défauts de lien entre la centrale et les capteurs  | 2.0.7                                                      |
-| `button.reinitialiser_defaut_piles`| Réinitialisation des défauts piles    | 2.0.7                
-| `button.refresh`| Mise à jour des infos manuellement    | 2.0.13    
-| `button.lire_la_date_et_l_heure_de_la_centrale` | Lit la date et l’heure actuellement enregistrées dans la centrale | 2.1.x |
-| `button.synchroniser_la_date_et_l_heure` | Synchronise la date et l’heure de la centrale avec la date et l’heure locales de Home Assistant | 2.1.x |
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?category=integration&repository=somfy-protexial&owner=AuroreVgn)
 
+Ou manuellement :
 
-#### ⏸️ Mise en pause / réactivation des éléments (version 2.1) :
+1. ouvrez **HACS → Intégrations → ⋮ → Dépôts personnalisés** ;
+2. ajoutez `https://github.com/AuroreVgn/somfy-protexial` ;
+3. choisissez la catégorie **Intégration** ;
+4. téléchargez **Somfy Protexial** ;
+5. redémarrez Home Assistant.
 
-Si les identifiants **Installateur** sont renseignés, l'intégration crée un switch `(PAUSE)` pour chaque élément compatible, dans la catégorie **Diagnostic** de l'appareil.
+### Option B — Installation manuelle
 
-- **ON** : élément actif
-- **OFF** : élément en pause
+1. Téléchargez l'archive de la [dernière release](https://github.com/AuroreVgn/somfy-protexial/releases/latest).
+2. Dans le répertoire contenant `configuration.yaml`, créez si nécessaire `custom_components`.
+3. Créez `custom_components/somfy_protexial`.
+4. Placez-y le contenu du composant `somfy_protexial`.
+5. Redémarrez Home Assistant.
 
-La commande utilise temporairement le compte **Installateur**, puis reconnecte automatiquement le compte **Utilisateur**.
-La page *Liste des éléments* de l'utilisateur **Installateur** est détectée avec fallback entre `/fr/i_listelmt.htm` et `/i_listelmt.htm` pour améliorer la compatibilité entre les générations de centrales.
+> [!TIP]
+> Besoin d'installer ou de tester une ancienne version ? Consultez **[Télécharger une version précise de l'intégration](https://github.com/AuroreVgn/somfy-protexial/wiki/T%C3%A9l%C3%A9charger-une-version-pr%C3%A9cise-de-l'int%C3%A9gration)**.
 
-⚠️ Si l'URL sur votre centrale est différente, merci de m'en faire part que je puisse faire une mise à jour.
+## ⚙️ Configuration
 
-Les icônes reprennent celles des binary sensors correspondants.
+Vous pouvez lancer directement l'ajout de l'intégration :
 
-> La centrale Somfy n'accepte qu'une seule session à la fois. L'intégration gère donc automatiquement la bascule de session lors d'une mise en pause ou d'une réactivation.
+[![Open your Home Assistant instance and start setting up a new integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=somfy_protexial)
 
-#### 🔄 Intervalle de rafraîchissement dynamique (version 2.1) :
-L’intervalle de rafraîchissement de l’intégration est également disponible sous la forme d’une entité `number`. Sa valeur peut être modifiée directement depuis l’interface ou par une automatisation afin d’adapter dynamiquement la fréquence d’interrogation de la centrale afin de [limiter sa consommation de piles](https://github.com/AuroreVgn/somfy-protexial/wiki/Optimisation-de-la-dur%C3%A9e-de-vie-des-piles-de-la-Centrale#avec-un-intervalle-de-rafraichissement-variable).
+Ou depuis :
 
-La valeur choisie est conservée après un rechargement de l’intégration ou un redémarrage de Home Assistant.
-
-
-#### ⚙️ Paramètres généraux de la centrale (version 2.1) :
-
-Si les identifiants **Installateur** sont renseignés, l’intégration permet également de lire et de modifier plusieurs paramètres généraux de la centrale depuis Home Assistant. Les entités ne sont créées que si le paramètre correspondant est présent sur la centrale.
-
-| Entité | Description | Paramètre Somfy |
-| ------ | ----------- | --------------- |
-| `number.temporisation_d_entree` | Temporisation d’entrée, de 1 à 60 secondes | `tempoentree` |
-| `switch.ding_dong_sur_sirene_interieure` | Active ou désactive le DING DONG sur la sirène intérieure | `kiela` |
-| `switch.bip_sonore_sur_le_transmetteur` | Active ou désactive le bip sonore sur le transmetteur | `bipontransmiter` |
-| `select.niveau_des_bips_sonores_des_sirenes` | Niveau des bips sonores : Faible, Moyen ou Fort | `biplevel` |
-| `select.niveau_de_sonnerie_des_sirenes` | Niveau de sonnerie des sirènes : Faible, Moyen ou Fort | `sirenlevel` |
-
-Les modifications sont effectuées via le compte **Installateur**. Avant chaque écriture, l’intégration relit le formulaire de configuration de la centrale et ne modifie que le paramètre demandé afin de préserver les autres réglages.
-
-Le bouton **Lire la date et l'heure de la centrale** lit l'heure réellement enregistrée dans la centrale et met à jour le sensor dédié. Le bouton **Synchroniser la date et l'heure** copie la date et l'heure locales de Home Assistant vers la centrale. Ces fonctions utilisent également le compte **Installateur**.
-
-#### 📜 Journal des événements (version 2.2.0) :
-
-L’intégration expose le **journal des événements** de la centrale via un sensor dédié. Les **10 événements les plus récents** sont disponibles dans l’attribut `events` avec la date, l’heure, l’événement, l’élément concerné et le code Somfy. L’état du sensor correspond au dernier événement.
-
-Le journal est lu avec le compte **Utilisateur**, en lecture seule, sans utiliser le compte Installateur. Il est actualisé au maximum toutes les 5 minutes afin de limiter les requêtes vers la centrale. En cas d’échec temporaire de lecture, les derniers événements connus sont conservés.
-
-## Installation
-
-### Option A : Installation via HACS (recommandé)
-
-1. Ajouter ce repository GitHub à HACS
-   - automatiquement [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?category=integration&repository=somfy-protexial&owner=AuroreVgn) <br />
-   - manuellement
-      - HACS :arrow_right: Intégrations :arrow_right: Menu '...' :arrow_right: Dépôts personnalisés
-      - Dépôt: `https://github.com/AuroreVgn/somfy-protexial`
-      - Catégorie: `Intégration`
-3. Télécharger l'intégration
-   - HACS :arrow_right: Intégrations :arrow_right: Somfy Protexial :arrow_right: Télécharger
-4. Redémarrer Home Assistant
-
-### Option B : Installation manuelle
-
-1. Télécharger l'archive de la dernière version disponible: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.2.0.zip)
-2. Localiser le répertoire contenant le fichier `configuration.yaml` dans votre installation de HA
-3. Si il n'y a pas de répertoire `custom_components` le créer
-4. Créer un répertoire `somfy_protexial` dans `custom_components`
-5. Extraire le contenu de `somfy_protexial.zip` dans le répertoire `somfy_protexial`
-6. Redémarrer Home Assistant
-
-## Configuration
-
-- Ajouter l'intégration [![Open your Home Assistant instance and start setting up a new integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=somfy_protexial) ou manuellement
-- Paramètres :arrow_right: Appareils et services :arrow_right: + Ajouter une intégration :arrow_right: Somfy Protexial
+**Paramètres → Appareils et services → Ajouter une intégration → Somfy Protexial**
 
 ### 1. Adresse de la centrale
 
-- Saisisser l'URL de l'interface web locale de votre centrale: `http://192.168.1.234` ou `http://192.168.1.234:9876`
-  </br>
-  <img src="assets/welcome.png"  width="50%"><img src="assets/login_io.jpeg"  width="50%">
+Saisissez l'adresse locale de l'interface web, par exemple :
 
-### 2. Identifiants de l'utilisateur
+```text
+http://192.168.1.234
+```
 
-- Utilisateur : `"u"`, **conserver la valeur pré-remplie**
-- Mot de passe : Saisir le mot de passe habituellement utilisé
-- Code : Saisir le code de la carte d'authentification correspondant au challenge demandé
-  <img src="assets/step2.png"  width="50%">
+ou avec un port personnalisé :
 
-### 3. Configuration additionelle
+```text
+http://192.168.1.234:9876
+```
 
-Les différents modes d'armement exploitent les zones définies par la configuration de la centrale Somfy:
+<img src="assets/welcome.png" width="50%"><img src="assets/login_io.jpeg" width="50%">
 
-- **Armement en absence** (toujours configuré) : zones A+B+C
-- **Armement pour la nuit** (optionnel) : zones au choix (A, B, C, A+B, B+C, A+C)
-- **Armement en présence** (optionnel) : zones au choix (A, B, C, A+B, B+C, A+C)
+### 2. Compte Utilisateur
 
-**Code d'armement** : si vous spécifiez un code, celui-ci reste toujours requis pour le désarmement. L’option **Code requis pour l’armement** permet de choisir s’il doit également être demandé lors de l’armement.
+Renseignez :
 
-**Interval de rafraîchissement** : de 0 seconde* à 24 heures (86 400 secondes). 60 secondes par défaut (il n'est pas conseillé de mettre moins, sinon l'interface web de l'alarme a tendance à planter).
-*la valeur `0` désactive le rafraîchissement automatique. Le bouton **Actualiser les données** permet alors de forcer une synchronisation manuelle à tout moment.
-Cette valeur peut être modifiée dynamiquement par la suite grâce à une entité `number`.
+- **Utilisateur** : `u` dans la plupart des cas ; conservez la valeur proposée par l'intégration ;
+- **Mot de passe** : le mot de passe utilisé pour accéder à la centrale ;
+- **Code** : le code de la carte d'authentification correspondant au challenge affiché.
 
-**Compte Installateur (optionnel) :** renseigner le nom d'utilisateur  (par défaut `i`) et le mot de passe Installateur uniquement si vous souhaitez utiliser les switches `(PAUSE)` permettant de mettre en pause ou de réactiver individuellement les éléments. Le pilotage normal de l'alarme continue d'utiliser le compte **Utilisateur**.
+<img src="assets/step2.png" width="50%">
 
-## À noter
+### 3. Options principales
 
-### [Wiki disponible ici](https://github.com/AuroreVgn/somfy-protexial/wiki/Accueil)
+Les modes d'armement utilisent les zones définies dans la centrale :
 
-### Carte Lovelace pour Home Assistant (statut et pilotage)
+- **Absence** : A+B+C ;
+- **Nuit** : combinaison de zones configurable ;
+- **Présence** : combinaison de zones configurable.
 
-Une [carte](https://github.com/developpeurbox/somfy-protexial-card) a été développé spécialement pour cette intégration.
+**Code d'armement :** si un code est configuré, il reste requis pour le désarmement. L'option **Code requis pour l'armement** détermine s'il doit également être demandé lors de l'armement.
 
-### Compatibilité de version
+**Intervalle de rafraîchissement :** configurable de `0` à 86 400 secondes, avec 60 secondes par défaut. La valeur `0` désactive l'actualisation automatique ; le bouton **Actualiser les données** permet alors de lancer une synchronisation manuelle.
 
-La liste visible en haut de cette page n'est pas exhaustive, il est tout à fait possible que cette intégration soit compatible avec d'autres versions de la centrale Somfy. N'hésitez pas à m'en faire part si c'est le cas !
+> [!WARNING]
+> Un intervalle très court sollicite fortement l'ancienne interface web de la centrale. Il n'est pas recommandé de descendre inutilement sous la valeur par défaut.
 
-👉🏻Un fil de discussion à ce sujet est disponible ici: [HACF - Intégration Custom: Centrale Somfy Protexial](https://forum.hacf.fr/t/integration-custom-centrale-somfy-protexial/23589/1)
+➡️ **[Optimiser la fréquence de rafraîchissement et la durée de vie des piles](https://github.com/AuroreVgn/somfy-protexial/wiki/Optimisation-de-la-dur%C3%A9e-de-vie-des-piles-de-la-Centrale)**
 
-L'année de l'interface de votre centrale apparait en bas des pages:</br>
-<img src="assets/version.png"  width="30%">
+### 4. Compte Installateur — optionnel
 
-Certaines centrales fournissent leur version via cette URL : *http://192.168.1.234/cfg/vers* ou *http://192.168.1.234:9876/cfg/vers*
+Le compte **Installateur** n'est pas nécessaire au pilotage normal de l'alarme.
 
-### Utilisation de l'interface web d'origine
+Il permet d'accéder aux fonctions qui nécessitent des droits supplémentaires, notamment :
 
-⚠️ **La centrale ne gérant qu'une seule session utilisateur à la fois il est nécesaire de désactiver temporairement l'intégration si vous voulez pouvoir utiliser l'interface web.**
+- ⏸️ pause et réactivation des éléments compatibles ;
+- ⚙️ certains paramètres généraux de la centrale ;
+- 🕐 lecture et synchronisation de la date et de l'heure.
 
-### Utilisation de l'application mobile d'origine
+➡️ **[Pause et maintenance des éléments](https://github.com/AuroreVgn/somfy-protexial/wiki/Pause-et-maintenance-des-%C3%A9l%C3%A9ments)**
 
-⚠️ L'utilisation de l'application mobile 'Somfy Alarme' reste possible même avec l'intégration active. 
-⚠️ L'application 'Somfy Alarme' ne fonctionnera plus une fois les [serveurs Somfy arrêtés](https://github.com/AuroreVgn/somfy-protexial/wiki/Arr%C3%AAt-de-la-2G-et-des-serveurs-alarmsomfy.eu-%E2%80%90-%C3%A9tude-d'impact-et-solution#arr%C3%AAt-des-serveurs-somfyalarmeu).
+## 📚 Documentation
 
-### Re-configuration de l'intégration
+Le Wiki regroupe la documentation détaillée afin de garder ce README volontairement simple.
 
-L'intégration supporte la re-configuration à partie de l'interface graphique.
+| Guide | Description |
+| --- | --- |
+| 📡 [Entités et fonctionnalités](https://github.com/AuroreVgn/somfy-protexial/wiki/Entit%C3%A9s-et-fonctionnalit%C3%A9s) | Entités, attributs, boutons, paramètres et fonctions |
+| 🛡️ [Compatibilité](https://github.com/AuroreVgn/somfy-protexial/wiki/Compatibilit%C3%A9-des-centrales) | Centrales et générations testées |
+| 📵 [Arrêt de la 2G et des services Somfy](https://github.com/AuroreVgn/somfy-protexial/wiki/Arr%C3%AAt-de-la-2G-et-des-serveurs-alarmsomfy.eu-%E2%80%90-%C3%A9tude-d'impact-et-solution) | Impacts et solutions avec Home Assistant |
+| 🔋 [Optimisation des piles](https://github.com/AuroreVgn/somfy-protexial/wiki/Optimisation-de-la-dur%C3%A9e-de-vie-des-piles-de-la-Centrale) | Rafraîchissement court, variable ou désactivé |
+| ⏸️ [Pause et maintenance](https://github.com/AuroreVgn/somfy-protexial/wiki/Pause-et-maintenance-des-%C3%A9l%C3%A9ments) | Maintenance des équipements |
+| 📜 [Journal des événements](https://github.com/AuroreVgn/somfy-protexial/wiki/Journal-des-%C3%A9v%C3%A9nements) | Événements récents de la centrale |
+| 🚨 [Détection d'intrusions](https://github.com/AuroreVgn/somfy-protexial/wiki/D%C3%A9tection-d'intrusions,-comment-faire-%3F) | Exemples d'automatisations |
+| 🎨 [Dashboard](https://github.com/AuroreVgn/somfy-protexial/wiki/Dashboard) | Cartes et exemples Lovelace |
+| 🐛 [Mode débug](https://github.com/AuroreVgn/somfy-protexial/wiki/Mode-d%C3%A9bug) | Activer les logs détaillés |
+| ❓ [FAQ & dépannage](https://github.com/AuroreVgn/somfy-protexial/wiki/FAQ-et-d%C3%A9pannage) | Problèmes fréquents et diagnostic |
 
-## Les contributions sont les bienvenues !
-Si vous voulez contribuer :  [Contribution guidelines](CONTRIBUTING.md)
+➡️ **[Accéder au Wiki complet](https://github.com/AuroreVgn/somfy-protexial/wiki)**
 
-## Credits
-Le code a principalement été repris de [@Ludeeus](https://github.com/ludeeus) [integration_blueprint][integration_blueprint].
+## 🎨 Carte Lovelace
+
+Une carte Lovelace dédiée a été développée pour afficher et piloter facilement l'alarme :
+
+➡️ **[somfy-protexial-card](https://github.com/developpeurbox/somfy-protexial-card)** par [developpeurbox](https://github.com/developpeurbox)
+
+D'autres exemples de dashboards sont disponibles dans la **[page Dashboard du Wiki](https://github.com/AuroreVgn/somfy-protexial/wiki/Dashboard)**.
+
+## ⚠️ À savoir
+
+### Interface web Somfy
+
+La centrale ne gère qu'une seule session utilisateur à la fois.
+
+> [!IMPORTANT]
+> Si vous souhaitez utiliser directement l'interface web d'origine avec le même compte, il peut être nécessaire de désactiver temporairement l'intégration.
+
+### Application mobile Somfy
+
+L'intégration Home Assistant fonctionne localement et n'a pas besoin des serveurs Somfy pour ses fonctions principales.
+
+Pour les conséquences de l'évolution des services historiques Somfy et de la 2G :
+
+➡️ **[Étude d'impact et solutions](https://github.com/AuroreVgn/somfy-protexial/wiki/Arr%C3%AAt-de-la-2G-et-des-serveurs-alarmsomfy.eu-%E2%80%90-%C3%A9tude-d'impact-et-solution)**
+
+### Reconfiguration
+
+L'intégration prend en charge la reconfiguration depuis l'interface graphique de Home Assistant.
+
+## 🆘 Aide et support
+
+Avant de signaler un problème, consultez la **[FAQ](https://github.com/AuroreVgn/somfy-protexial/wiki/FAQ-et-d%C3%A9pannage)** et, si nécessaire, activez le **[mode débug](https://github.com/AuroreVgn/somfy-protexial/wiki/Mode-d%C3%A9bug)**.
+
+- 🐛 [Issues GitHub](https://github.com/AuroreVgn/somfy-protexial/issues)
+- 💬 [Discussion HACF](https://forum.hacf.fr/t/integration-custom-centrale-somfy-protexial/23589/1)
+
+## 🤝 Contributions
+
+Les contributions et retours sur d'autres générations de centrales sont les bienvenus.
+
+➡️ [Contribution guidelines](CONTRIBUTING.md)
+
+## ☕ Soutenir le projet
+
+Si cette intégration vous permet de continuer à utiliser votre centrale Somfy et que vous souhaitez soutenir son développement et sa maintenance :
+
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-Soutenir_le_projet-FF5E5B?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/aurorevgn)
+
+## 🙏 Crédits
+
+Cette version est issue du projet original de [the8tre](https://github.com/the8tre/somfy-protexial).
+
+Le code a également été basé sur l'[integration_blueprint][integration_blueprint] de [@Ludeeus](https://github.com/ludeeus).
 
 ---
 
 [integration_blueprint]: https://github.com/custom-components/integration_blueprint
-[hacs]: https://hacs.xyz
-[hacsbadge]: https://img.shields.io/badge/HACS-Custom-orange.svg?style=flat-square
 [license-shield]: https://img.shields.io/github/license/the8tre/somfy-protexial.svg?style=flat-square
-[maintenance-shield]: https://img.shields.io/badge/maintainer-%40the8tre-blue.svg?style=flat-square
 [releases-shield]: https://img.shields.io/github/v/release/AuroreVgn/somfy-protexial.svg?style=flat-square
 [releases]: https://github.com/AuroreVgn/somfy-protexial/releases
-[user_profile]: https://github.com/AuroreVgn
