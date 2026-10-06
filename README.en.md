@@ -54,6 +54,23 @@ Tested models:
 
 🔃 The integration also supports resetting alarm, radio link and battery faults.
 
+### 🌍 Panel interface languages
+
+The integration automatically detects the language used by the alarm panel web interface.
+
+The following Somfy interfaces are currently supported:
+
+| Language | Prefix |
+| --- | --- |
+| 🇫🇷 French | `/fr/` |
+| 🇩🇪 German | `/de/` |
+| 🇬🇧 English | `/gb/` |
+| 🇪🇸 Spanish | `/sp/` |
+| 🇮🇹 Italian | `/it/` |
+| 🇳🇱 Dutch | `/nl/` |
+
+The alarm panel interface language is independent from the language used by Home Assistant.
+
 #### The following entities are supported:
 
 | Entity | Description | Version |
