@@ -54,6 +54,23 @@ Deze integratie maakt verbinding met Somfy Protexial-, Protexiom- en Protexial I
 
 🔃 Daarnaast kunnen alarm-, radioverbinding- en batterijfouten worden gereset.
 
+### 🌍 Talen van de centrale-interface
+
+De integratie detecteert automatisch de taal die door de webinterface van de alarmcentrale wordt gebruikt.
+
+De volgende Somfy-interfaces worden momenteel ondersteund:
+
+| Taal | Voorvoegsel |
+| --- | --- |
+| 🇫🇷 Frans | `/fr/` |
+| 🇩🇪 Duits | `/de/` |
+| 🇬🇧 Engels | `/gb/` |
+| 🇪🇸 Spaans | `/sp/` |
+| 🇮🇹 Italiaans | `/it/` |
+| 🇳🇱 Nederlands | `/nl/` |
+
+De taal van de webinterface van de centrale staat los van de taal die in Home Assistant wordt gebruikt.
+
 #### Ondersteunde entiteiten
 
 | Entiteit | Beschrijving | Versie |
