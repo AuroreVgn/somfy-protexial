@@ -237,11 +237,6 @@ Les contributions et retours sur d'autres générations de centrales sont les bi
 
 ➡️ [Contribution guidelines](CONTRIBUTING.md)
 
-## ☕ Soutenir le projet
-
-Si cette intégration vous permet de continuer à utiliser votre centrale Somfy et que vous souhaitez soutenir son développement et sa maintenance :
-
-[![Ko-fi](https://img.shields.io/badge/Ko--fi-Soutenir_le_projet-FF5E5B?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/aurorevgn)
 
 ## 🙏 Crédits
 
