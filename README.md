@@ -21,6 +21,10 @@ Si cette intégration vous est utile et que vous souhaitez soutenir son dévelop
   </a>
 </p>
 
+## 🏠 Mes projets Home Assistant
+
+Retrouvez l'ensemble de mes intégrations et projets Home Assistant sur ma page dédiée : [**🏠 Découvrir mes projets Home Assistant**](https://gentle-suggestion-7c3.notion.site/Mes-projets-Home-Assistant-3eda02eefa8f81a48621c3caeef7fa8e)
+
 ## 🌍 Other languages
 
 [English](README.en.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Italiano](README.it.md) | [Nederlands](README.nl.md) | [Português](README.pt.md)
