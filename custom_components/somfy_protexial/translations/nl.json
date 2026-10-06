@@ -196,11 +196,38 @@
     "switch": {
       "element_active": {
         "name": "{element} (PAUZE)"
+      },
+      "ding_dong": {
+        "name": "DING DONG op binnensirene"
+      },
+      "transmitter_beep": {
+        "name": "Pieptoon van de zender"
       }
     },
     "number": {
       "refresh_interval": {
         "name": "Vernieuwingsinterval"
+      },
+      "entry_delay": {
+        "name": "Inloopvertraging"
+      }
+    },
+    "select": {
+      "siren_beep_level": {
+        "name": "Pieptoonniveau van de sirenes",
+        "state": {
+          "low": "Laag",
+          "medium": "Gemiddeld",
+          "high": "Hoog"
+        }
+      },
+      "siren_level": {
+        "name": "Geluidsniveau van de sirenes",
+        "state": {
+          "low": "Laag",
+          "medium": "Gemiddeld",
+          "high": "Hoog"
+        }
       }
     }
   }

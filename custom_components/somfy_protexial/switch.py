@@ -13,6 +13,7 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.util import dt as dt_util
 
 from .const import API, COORDINATOR, DEVICE_INFO, DOMAIN, REFRESH_ELEMENTS
+from .element_icons import get_element_icon
 from .somfy_exception import SomfyException
 
 _LOGGER = logging.getLogger(__name__)
@@ -20,45 +21,7 @@ _LOGGER = logging.getLogger(__name__)
 
 def _element_icon(element: dict, active: bool | None = True) -> str:
     """Return the appropriate icon for a Somfy element."""
-    label = (element.get("label") or "").lower()
-    name = (element.get("name") or "").lower()
-    element_type = f"{label} {name}"
-    normalized_label = label.strip()
-    paused = active is False
-
-    # Keep pause-switch icons aligned with the corresponding detector icon.
-    # Prefer the Somfy element label so custom user names do not affect it.
-    if normalized_label.startswith("do vitre"):
-        return "mdi:window-open-variant" if paused else "mdi:window-closed-variant"
-    if normalized_label.startswith("do gar"):
-        return "mdi:garage-open-variant" if paused else "mdi:garage-variant"
-    if normalized_label.startswith("do"):
-        return "mdi:door-open" if paused else "mdi:door-closed"
-
-    # Keep the previous fallbacks for labels/names from other panel variants.
-    if "vitre" in element_type:
-        return "mdi:window-open-variant" if paused else "mdi:window-closed-variant"
-    if "ouvt" in element_type:
-        return "mdi:door-open" if paused else "mdi:door-closed"
-    if "do gar" in element_type:
-        return "mdi:garage-open-variant" if paused else "mdi:garage-variant"
-    if "dm" in element_type:
-        return "mdi:motion-sensor-off" if paused else "mdi:motion-sensor"
-    if "fum" in element_type:
-        return "mdi:smoke-detector-variant-alert" if paused else "mdi:smoke-detector-variant"
-    if "sir ext" in element_type:
-        return "mdi:home-sound-out-outline" if paused else "mdi:home-sound-out"
-    if "sir" in element_type:
-        return "mdi:bullhorn-outline" if paused else "mdi:bullhorn"
-    if "clavier" in element_type or "cl lcd" in element_type:
-        return "mdi:keyboard-off-outline" if paused else "mdi:dialpad"
-    if "tc" in element_type:
-        return "mdi:remote-off" if paused else "mdi:remote"
-    if "badge" in element_type:
-        return "mdi:key-alert" if paused else "mdi:key-variant"
-    if "tr" in element_type:
-        return "mdi:alpha-s-box-outline" if paused else "mdi:alpha-s-box"
-    return "mdi:alert-rhombus-outline" if paused else "mdi:help-rhombus"
+    return get_element_icon(element, alert=active is False)
 
 
 def _pause_state(element: dict) -> bool | None:
@@ -97,7 +60,7 @@ async def async_setup_entry(
                 SomfyGeneralSettingSwitch(
                     api, device_info, config_entry.entry_id,
                     field="kiela",
-                    name="DING DONG sur sirène intérieure",
+                    translation_key="ding_dong",
                     icon="mdi:bell-ring-outline",
                     initial_value=settings.get("kiela") == "mode",
                 )
@@ -107,7 +70,7 @@ async def async_setup_entry(
                 SomfyGeneralSettingSwitch(
                     api, device_info, config_entry.entry_id,
                     field="bipontransmiter",
-                    name="Bip sonore sur le transmetteur",
+                    translation_key="transmitter_beep",
                     icon="mdi:volume-medium",
                     initial_value=settings.get("bipontransmiter") == "mode",
                 )
@@ -136,10 +99,10 @@ class SomfyGeneralSettingSwitch(SwitchEntity):
     _attr_entity_category = EntityCategory.CONFIG
     _attr_should_poll = False
 
-    def __init__(self, api, device_info, entry_id: str, field: str, name: str, icon: str, initial_value: bool) -> None:
+    def __init__(self, api, device_info, entry_id: str, field: str, translation_key: str, icon: str, initial_value: bool) -> None:
         self._api = api
         self._field = field
-        self._attr_name = name
+        self._attr_translation_key = translation_key
         self._attr_icon = icon
         self._attr_is_on = initial_value
         self._attr_unique_id = f"{entry_id}_general_{field}"

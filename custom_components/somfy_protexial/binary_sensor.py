@@ -13,6 +13,8 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.helpers.entity import EntityCategory
 
+from .attribute_translations import get_attribute_localization
+from .element_icons import get_element_icon
 from .const import BINARY_SENSORS, COORDINATOR, DEVICE_INFO, DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
@@ -37,6 +39,63 @@ ELEMENTS_MAPPING = {
     "tr tél": ["battery", "comm", "house", "tamper", "pause"],
     # robust aliases for mojibake/variants
     "tr t": ["battery", "comm", "house", "tamper", "pause"],
+    # German-localized Protexial labels (issue #28).
+    "bm": ["battery", "comm", "house", "tamper", "pause"],
+    "rauchm": ["battery", "comm", "house", "pause"],
+    "fb": ["house", "pause"],
+    "innensir": ["battery", "comm", "house", "tamper", "pause"],
+    "aussensir": ["battery", "comm", "house", "tamper", "pause"],
+    "außensir.": ["battery", "comm", "house", "tamper", "pause"],
+    "lcd-bed": ["battery", "comm", "house", "tamper", "pause"],
+    "tastatur": ["battery", "comm", "house", "tamper", "pause"],
+    "bedien.": ["battery", "comm", "house", "tamper", "pause"],
+    "übt": ["battery", "comm", "house", "tamper", "pause"],
+    "öm": ["battery", "comm", "house", "tamper", "door", "pause"],
+    "öffnungsm": ["battery", "comm", "house", "tamper", "door", "pause"],
+    # Spanish-localized Protexial labels. Firmware uses /sp/ for Spanish.
+    "do cristal": ["battery", "comm", "house", "tamper", "door", "pause"],
+    "llave": ["house", "pause"],
+    "teclado": ["battery", "comm", "house", "tamper", "pause"],
+    "tecl. lcd": ["battery", "comm", "house", "tamper", "pause"],
+    "d. humo": ["battery", "comm", "house", "pause"],
+    "imagen dm": ["battery", "comm", "house", "tamper", "pause"],
+    # Italian-localized Protexial labels. Firmware uses /it/.
+    "sa fin.": ["battery", "comm", "house", "tamper", "door", "pause"],
+    "sa gar.": ["battery", "comm", "house", "tamper", "door", "pause"],
+    "sir. est.": ["battery", "comm", "house", "tamper", "pause"],
+    "sm": ["battery", "comm", "house", "tamper", "pause"],
+    "sm foto": ["battery", "comm", "house", "tamper", "pause"],
+    "tastiera": ["battery", "comm", "house", "tamper", "pause"],
+    "tast. lcd": ["battery", "comm", "house", "tamper", "pause"],
+    "s. fumo": ["battery", "comm", "house", "pause"],
+    "sa": ["battery", "comm", "house", "tamper", "door", "pause"],
+    "tr. tel.": ["battery", "comm", "house", "tamper", "pause"],
+    # Dutch-localized Protexial labels. Firmware uses /nl/.
+    "afst. bed. 4": ["house", "pause"],
+    "bd": ["battery", "comm", "house", "tamper", "pause"],
+    "be.m.cam": ["battery", "comm", "house", "tamper", "pause"],
+    "buitensir.": ["battery", "comm", "house", "tamper", "pause"],
+    "keypad": ["battery", "comm", "house", "tamper", "pause"],
+    "lcd-keyp.": ["battery", "comm", "house", "tamper", "pause"],
+    "m. afst. bed": ["house", "pause"],
+    "od garaged": ["battery", "comm", "house", "tamper", "door", "pause"],
+    "od raam": ["battery", "comm", "house", "tamper", "door", "pause"],
+    "tel. kiezer": ["battery", "comm", "house", "tamper", "pause"],
+    "binnensir.": ["battery", "comm", "house", "tamper", "pause"],
+    "od": ["battery", "comm", "house", "tamper", "door", "pause"],
+    "rookdet.": ["battery", "comm", "house", "pause"],
+    # English-localized Protexial labels. Firmware uses /gb/.
+    "md": ["battery", "comm", "house", "tamper", "pause"],
+    "md cam.": ["battery", "comm", "house", "tamper", "pause"],
+    "window od": ["battery", "comm", "house", "tamper", "door", "pause"],
+    "lcd keypad": ["battery", "comm", "house", "tamper", "pause"],
+    "multi rc": ["house", "pause"],
+    "garage od": ["battery", "comm", "house", "tamper", "door", "pause"],
+    "rc 4": ["house", "pause"],
+    "ph dialer": ["battery", "comm", "house", "tamper", "pause"],
+    "outdoor sir": ["battery", "comm", "house", "tamper", "pause"],
+    "indoor sir": ["battery", "comm", "house", "tamper", "pause"],
+    "smoke det.": ["battery", "comm", "house", "pause"],
 }
 
 # Field configuration (class/icon). Note: we interpret flags per-field in code.
@@ -53,70 +112,20 @@ FIELD_CONFIG = {
 # Default icon for an element
 def _get_element_icon(element: dict, problem: bool = False) -> str:
     """Return the appropriate icon for a Somfy element."""
-
-    label = (element.get("label") or "").lower()
-    name = (element.get("name") or "").lower()
-
-    element_type = f"{label} {name}"
-    normalized_label = label.strip()
-
-    # Door/window/garage detectors: prefer the Somfy element label instead
-    # of relying on the user-defined name. This keeps icons consistent even
-    # when names do not contain words such as "Ouvt", "vitre" or "garage".
-    if normalized_label.startswith("do vitre"):
-        return "mdi:window-open-variant" if problem else "mdi:window-closed-variant"
-
-    if normalized_label.startswith("do gar"):
-        return "mdi:garage-open-variant" if problem else "mdi:garage-variant"
-
-    if normalized_label.startswith("do"):
-        return "mdi:door-open" if problem else "mdi:door-closed"
-
-    # Keep the previous fallbacks for labels/names from other panel variants.
-    if "vitre" in element_type:
-        return "mdi:window-open-variant" if problem else "mdi:window-closed-variant"
-
-    if "ouvt" in element_type:
-        return "mdi:door-open" if problem else "mdi:door-closed"
-
-    if "do gar" in element_type:
-        return "mdi:garage-open-variant" if problem else "mdi:garage-variant"
-
-    if "dm" in element_type:
-        return "mdi:motion-sensor-off" if problem else "mdi:motion-sensor"
-
-    if "fum" in element_type:
-        return (
-            "mdi:smoke-detector-variant-alert"
-            if problem
-            else "mdi:smoke-detector-variant"
-        )
-
-    if "sir ext" in element_type:
-        return "mdi:home-sound-out-outline" if problem else "mdi:home-sound-out"
-
-    if "sir" in element_type:
-        return "mdi:bullhorn-outline" if problem else "mdi:bullhorn"
-
-    if "clavier" in element_type or "cl lcd" in element_type:
-        return "mdi:keyboard-off-outline" if problem else "mdi:dialpad"
-
-    if "tc" in element_type:
-        return "mdi:remote-off" if problem else "mdi:remote"
-
-    if "badge" in element_type:
-        return "mdi:key-alert" if problem else "mdi:key-variant"
-
-    if "tr" in element_type:
-        return "mdi:alpha-s-box-outline" if problem else "mdi:alpha-s-box"
-
-    return "mdi:alert-rhombus-outline" if problem else "mdi:help-rhombus"
+    return get_element_icon(element, alert=problem)
 
 
 def _fields_for_label(label: str) -> Optional[list[str]]:
     """Return the list of flags to expose for a given element label (prefix match)."""
     lab = (label or "").strip().lower()
     for key in sorted(ELEMENTS_MAPPING.keys(), key=len, reverse=True):
+        # Most Somfy labels are matched by prefix because some firmware adds
+        # a suffix. Very short labels can collide across languages, though:
+        # Italian "SM" (motion sensor) must not match English "Smoke det.".
+        if key in {"sm", "sa", "od"}:
+            if lab == key or lab.startswith(key + " "):
+                return ELEMENTS_MAPPING[key]
+            continue
         if lab.startswith(key):
             return ELEMENTS_MAPPING[key]
     return None
@@ -496,32 +505,25 @@ class SomfyElementAggregateBinarySensor(CoordinatorEntity, BinarySensorEntity):
 
     @property
     def extra_state_attributes(self) -> dict:
-        """Expose only the requested human-friendly attributes plus Zone."""
+        """Expose human-friendly diagnostic attributes plus Zone."""
         el = self._find_element() or self._element or {}
         fields = getattr(self, "_fields", [])
 
-        # (internal_name, exposed_label)
-        order = [
-            ("battery", "Battery"),
-            ("comm", "Link"),
-            ("house", "House"),
-            ("tamper", "Tamper"),
-            ("door", "Door open"),
-            ("pause", "Running"),
-        ]
+        localization = get_attribute_localization(self)
+        labels = localization["element_labels"]
+        values = localization["element_values"]
 
         attrs: dict[str, str] = {}
-        for field, label in order:
+        for field in ("battery", "comm", "house", "tamper", "door", "pause"):
             if field not in fields:
                 continue
             _, human = self._value_for(field, el)
             if human is not None:
-                attrs[label] = human
+                attrs[labels[field]] = values.get(human, human)
 
-        # Add zone once if available
         zone = el.get("zone")
         if zone:
-            attrs["Zone"] = zone
+            attrs[labels["zone"]] = zone
 
         return attrs
 

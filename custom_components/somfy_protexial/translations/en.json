@@ -196,11 +196,38 @@
     "switch": {
       "element_active": {
         "name": "{element} (PAUSE)"
+      },
+      "ding_dong": {
+        "name": "DING DONG on indoor siren"
+      },
+      "transmitter_beep": {
+        "name": "Transmitter beep"
       }
     },
     "number": {
       "refresh_interval": {
         "name": "Refresh interval"
+      },
+      "entry_delay": {
+        "name": "Entry delay"
+      }
+    },
+    "select": {
+      "siren_beep_level": {
+        "name": "Siren beep level",
+        "state": {
+          "low": "Low",
+          "medium": "Medium",
+          "high": "High"
+        }
+      },
+      "siren_level": {
+        "name": "Siren sound level",
+        "state": {
+          "low": "Low",
+          "medium": "Medium",
+          "high": "High"
+        }
       }
     }
   }

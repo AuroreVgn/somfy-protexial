@@ -105,7 +105,7 @@ class SomfyEntryDelayNumber(NumberEntity):
     """Installer entry delay (tempoentree) in seconds."""
 
     _attr_has_entity_name = True
-    _attr_name = "Temporisation d'entrée"
+    _attr_translation_key = "entry_delay"
     _attr_icon = "mdi:timer-lock-outline"
     _attr_entity_category = EntityCategory.CONFIG
     _attr_native_min_value = 1

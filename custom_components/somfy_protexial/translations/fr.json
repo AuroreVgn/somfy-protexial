@@ -206,11 +206,38 @@
     "switch": {
       "element_active": {
         "name": "{element} (PAUSE)"
+      },
+      "ding_dong": {
+        "name": "DING DONG sur sirène intérieure"
+      },
+      "transmitter_beep": {
+        "name": "Bip sonore sur le transmetteur"
       }
     },
     "number": {
       "refresh_interval": {
         "name": "Intervalle d’actualisation"
+      },
+      "entry_delay": {
+        "name": "Temporisation d'entrée"
+      }
+    },
+    "select": {
+      "siren_beep_level": {
+        "name": "Niveau des bips sonores des sirènes",
+        "state": {
+          "low": "Faible",
+          "medium": "Moyen",
+          "high": "Fort"
+        }
+      },
+      "siren_level": {
+        "name": "Niveau de sonnerie des sirènes",
+        "state": {
+          "low": "Faible",
+          "medium": "Moyen",
+          "high": "Fort"
+        }
       }
     }
   }

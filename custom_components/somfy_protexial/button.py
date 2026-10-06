@@ -9,6 +9,7 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.dispatcher import async_dispatcher_send
 from homeassistant.util import dt as dt_util
 
+from .attribute_translations import get_attribute_localization
 from .const import API, BUTTONS, COORDINATOR, DEVICE_INFO, DOMAIN
 from .somfy_exception import SomfyException
 
@@ -113,10 +114,11 @@ class ProtexialReadDateTimeButton(ButtonEntity):
     @property
     def extra_state_attributes(self):
         """Expose the last date/time read from the centrale."""
+        labels = get_attribute_localization(self)["datetime_labels"]
         return {
-            "date_heure_centrale": self._centrale_datetime,
-            "date_centrale": self._centrale_date,
-            "heure_centrale": self._centrale_time,
+            labels["datetime"]: self._centrale_datetime,
+            labels["date"]: self._centrale_date,
+            labels["time"]: self._centrale_time,
         }
 
     async def async_press(self) -> None:

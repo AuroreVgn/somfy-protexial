@@ -196,11 +196,38 @@
     "switch": {
       "element_active": {
         "name": "{element} (PAUSA)"
+      },
+      "ding_dong": {
+        "name": "DING DONG na sirene interior"
+      },
+      "transmitter_beep": {
+        "name": "Sinal sonoro do transmissor"
       }
     },
     "number": {
       "refresh_interval": {
         "name": "Intervalo de atualização"
+      },
+      "entry_delay": {
+        "name": "Temporização de entrada"
+      }
+    },
+    "select": {
+      "siren_beep_level": {
+        "name": "Nível dos sinais sonoros das sirenes",
+        "state": {
+          "low": "Baixo",
+          "medium": "Médio",
+          "high": "Alto"
+        }
+      },
+      "siren_level": {
+        "name": "Nível sonoro das sirenes",
+        "state": {
+          "low": "Baixo",
+          "medium": "Médio",
+          "high": "Alto"
+        }
       }
     }
   }

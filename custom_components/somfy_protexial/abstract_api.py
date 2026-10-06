@@ -17,6 +17,17 @@ class AbstractApi(ABC):
     def get_encoding(self):
         return self.encoding
 
+    def set_language_prefix(self, prefix: str) -> None:
+        """Apply a detected web-UI language prefix to localized pages.
+
+        Protexial firmwares can expose the same UI below /fr/, /de/, etc.
+        Protexiom variants without a language prefix are left unchanged.
+        """
+        prefix = (prefix or "fr").strip("/")
+        for page, path in list(self.pages.items()):
+            if isinstance(path, str) and path.startswith("/fr/"):
+                self.pages[page] = f"/{prefix}/{path[4:]}"
+
     def requires_admin(self) -> bool:
         return False
 

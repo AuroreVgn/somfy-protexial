@@ -9,6 +9,7 @@ import unicodedata
 from urllib.parse import urlencode
 from xml.etree import ElementTree as ET
 from aiohttp import ClientError, ClientSession
+from openai import api_type
 from pyquery import PyQuery as pq
 
 from .const import (
@@ -152,6 +153,11 @@ class SomfyProtexial:
         self.session = session
         self.cookie = None
         self.api = self.load_api(self.api_type)
+        # Language prefix used by localized Protexial web pages (/fr/, /de/, ...).
+        # It is detected from the centrale itself and never changes the no-prefix
+        # Protexiom paths.
+        self.language_prefix = "fr"
+        self._language_detected = False
         self._last_elements_candidate = None
         # Like Jeedom's phpProtexiom::detectHwVersion(), which probes the
         # centrale's page layout only once (at eqLogic creation/save) and
@@ -359,8 +365,61 @@ class SomfyProtexial:
             _LOGGER.error("Something really wrong happened! - %s", ex)
             raise SomfyException(f"Something really wrong happened! - {ex}") from ex
 
+    def _localized_path(self, path: str) -> str:
+        """Return *path* with /fr/ replaced by the detected UI language."""
+        if isinstance(path, str) and path.startswith("/fr/"):
+            return f"/{self.language_prefix}/{path[4:]}"
+        return path
+
+    async def _detect_language_prefix(self) -> str:
+        """Detect localized Protexial pages from the root redirect.
+
+        German 2010 firmware redirects / to /de/login.htm. French firmware
+        normally redirects to /fr/login.htm. If the root does not reveal a
+        language, probe localized login pages with safe GET requests only.
+        """
+        if self._language_detected:
+            return self.language_prefix
+
+        detected = None
+        try:
+            async with asyncio.timeout(HTTP_TIMEOUT):
+                response = await self.session.get(
+                    f"{self.url}/", headers={}, allow_redirects=False
+                )
+            location = response.headers.get("Location", "")
+            match = re.search(r"^/([a-zA-Z]{2})/login\.htm(?:[?#].*)?$", location)
+            if match:
+                detected = match.group(1).lower()
+        except (asyncio.TimeoutError, ClientError):
+            pass
+
+        if detected is None:
+            # Keep this deliberately small and GET-only. French remains first
+            # for backwards compatibility; German is the firmware reported in #28.
+            for prefix in ("fr", "de", "gb", "en", "it", "sp", "es", "nl", "pt"):
+                try:
+                    async with asyncio.timeout(HTTP_TIMEOUT):
+                        response = await self.session.get(
+                            f"{self.url}/{prefix}/login.htm",
+                            headers={},
+                            allow_redirects=False,
+                        )
+                    if response.status == 200:
+                        detected = prefix
+                        break
+                except (asyncio.TimeoutError, ClientError):
+                    continue
+
+        self.language_prefix = detected or "fr"
+        self._language_detected = True
+        self.api.set_language_prefix(self.language_prefix)
+        _LOGGER.info("Somfy web UI language prefix detected: /%s/", self.language_prefix)
+        return self.language_prefix
+
     async def init(self):
         """Log in at startup, retrying once after transient access-rights errors."""
+        await self._detect_language_prefix()
         try:
             await self.__login()
             return
@@ -444,6 +503,7 @@ class SomfyProtexial:
 
     async def guess_and_set_api_type(self):
         """Try different API flavors until login/version pages match, then set api_type."""
+        await self._detect_language_prefix()
         for api_type in [
             ApiType.PROTEXIAL_IO,
             ApiType.PROTEXIAL,
@@ -452,6 +512,7 @@ class SomfyProtexial:
         ]:
             _LOGGER.debug("Trying API detection: %s", api_type)
             self.api = self.load_api(api_type)
+            self.api.set_language_prefix(self.language_prefix)
             has_version_page = False
             # Some older systems don't have a version page
             versionPage = self.api.get_page(Page.VERSION)
@@ -895,7 +956,7 @@ class SomfyProtexial:
         first (based on the last successful get_elements() call, if any),
         then fall back to the other one.
         """
-        candidates = [LIST_ELEMENTS_ALT, LIST_ELEMENTS_ALT_NOLANG]
+        candidates = [self._localized_path(LIST_ELEMENTS_ALT), LIST_ELEMENTS_ALT_NOLANG]
         if self._last_elements_candidate in candidates:
             candidates = [
                 self._last_elements_candidate,
@@ -1006,7 +1067,7 @@ class SomfyProtexial:
                 password=self.installer_password,
             )
 
-            candidates = ["/fr/i_reggen.htm", "/i_reggen.htm"]
+            candidates = [self._localized_path("/fr/i_reggen.htm"), "/i_reggen.htm"]
             if self._installer_general_candidate in candidates:
                 candidates.remove(self._installer_general_candidate)
                 candidates.insert(0, self._installer_general_candidate)
@@ -1278,10 +1339,11 @@ class SomfyProtexial:
                 # Do not rely on api_type alone: some old Protexiom centrales
                 # can be detected as PROTEXIOM rather than PROTEXIOM_ALT.
                 primary = self.api.get_page(Page.INSTALLER_ELEMENTS)
+                localized_installer = self._localized_path("/fr/i_listelmt.htm")
                 alternate = (
                     "/i_listelmt.htm"
-                    if primary == "/fr/i_listelmt.htm"
-                    else "/fr/i_listelmt.htm"
+                    if primary == localized_installer
+                    else localized_installer
                 )
                 candidates = [primary, alternate]
                 if self._installer_elements_candidate in candidates:
@@ -1434,7 +1496,7 @@ class SomfyProtexial:
         candidates: list[str] = []
         if self._journal_page:
             candidates.append(self._journal_page)
-        for candidate in ("/fr/journal.htm", "/journal.htm"):
+        for candidate in (self._localized_path("/fr/journal.htm"), "/journal.htm"):
             if candidate not in candidates:
                 candidates.append(candidate)
 
@@ -1544,11 +1606,11 @@ class SomfyProtexial:
             candidates = [self._last_elements_candidate]
         else:
             candidates = [
-                LIST_ELEMENTS_ALT,
+                self._localized_path(LIST_ELEMENTS_ALT),
                 LIST_ELEMENTS_ALT_NOLANG,
-                LIST_ELEMENTS,
+                self._localized_path(LIST_ELEMENTS),
                 LIST_ELEMENTS_NOLANG,
-                LIST_ELEMENTS_PRINT,
+                self._localized_path(LIST_ELEMENTS_PRINT),
             ]
 
         html = None

@@ -16,9 +16,9 @@ from .somfy_exception import SomfyException
 _LOGGER = logging.getLogger(__name__)
 
 _LEVEL_TO_VALUE = {
-    "Faible": "0",
-    "Moyen": "1",
-    "Fort": "3",
+    "low": "0",
+    "medium": "1",
+    "high": "3",
 }
 _VALUE_TO_LEVEL = {value: label for label, value in _LEVEL_TO_VALUE.items()}
 
@@ -44,7 +44,7 @@ async def async_setup_entry(
                     device_info=data[DEVICE_INFO],
                     entry_id=entry.entry_id,
                     field="biplevel",
-                    name="Niveau des bips sonores des sirènes",
+                    translation_key="siren_beep_level",
                     icon="mdi:volume-medium",
                     initial_value=settings.get("biplevel", "0"),
                 )
@@ -56,7 +56,7 @@ async def async_setup_entry(
                     device_info=data[DEVICE_INFO],
                     entry_id=entry.entry_id,
                     field="sirenlevel",
-                    name="Niveau de sonnerie des sirènes",
+                    translation_key="siren_level",
                     icon="mdi:bullhorn-outline",
                     initial_value=settings.get("sirenlevel", "3"),
                 )
@@ -81,17 +81,17 @@ class SomfySoundLevelSelect(SelectEntity):
         device_info,
         entry_id: str,
         field: str,
-        name: str,
+        translation_key: str,
         icon: str,
         initial_value: str,
     ) -> None:
         self._api = api
         self._field = field
-        self._attr_name = name
+        self._attr_translation_key = translation_key
         self._attr_icon = icon
         self._attr_unique_id = f"{entry_id}_general_{field}"
         self._attr_device_info = device_info
-        self._attr_current_option = _VALUE_TO_LEVEL.get(str(initial_value), "Faible")
+        self._attr_current_option = _VALUE_TO_LEVEL.get(str(initial_value), "low")
 
     async def async_select_option(self, option: str) -> None:
         if option not in _LEVEL_TO_VALUE:
