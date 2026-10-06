@@ -54,6 +54,23 @@ Esta integración proporciona la comunicación con las centrales de alarma Somfy
 
 🔃 La integración también permite restablecer los fallos de alarma, comunicación por radio y batería.
 
+### 🌍 Idiomas de la interfaz de la central
+
+La integración detecta automáticamente el idioma utilizado por la interfaz web de la central de alarma.
+
+Actualmente se admiten las siguientes interfaces Somfy:
+
+| Idioma | Prefijo |
+| --- | --- |
+| 🇫🇷 Francés | `/fr/` |
+| 🇩🇪 Alemán | `/de/` |
+| 🇬🇧 Inglés | `/gb/` |
+| 🇪🇸 Español | `/sp/` |
+| 🇮🇹 Italiano | `/it/` |
+| 🇳🇱 Neerlandés | `/nl/` |
+
+El idioma de la interfaz web de la central es independiente del idioma utilizado en Home Assistant.
+
 #### Entidades compatibles
 
 | Entidad | Descripción | Versión |
