@@ -54,6 +54,23 @@ Diese Integration ermöglicht die Anbindung einer Somfy Protexial-, Protexiom- o
 
 🔃 Darüber hinaus können Alarm-, Funkverbindungs- und Batteriestörungen zurückgesetzt werden.
 
+### 🌍 Sprache der Zentralen-Weboberfläche
+
+Die Integration erkennt automatisch die Sprache der Weboberfläche der Alarmzentrale.
+
+Folgende Somfy-Oberflächen werden derzeit unterstützt:
+
+| Sprache | Präfix |
+| --- | --- |
+| 🇫🇷 Französisch | `/fr/` |
+| 🇩🇪 Deutsch | `/de/` |
+| 🇬🇧 Englisch | `/gb/` |
+| 🇪🇸 Spanisch | `/sp/` |
+| 🇮🇹 Italienisch | `/it/` |
+| 🇳🇱 Niederländisch | `/nl/` |
+
+Die Sprache der Weboberfläche der Alarmzentrale ist unabhängig von der in Home Assistant verwendeten Sprache.
+
 #### Unterstützte Entitäten
 
 | Entität | Beschreibung | Version |
