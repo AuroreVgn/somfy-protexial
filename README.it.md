@@ -13,6 +13,10 @@
 > [!NOTE]
 > 📚 La documentazione dettagliata del progetto è disponibile nella [Wiki](https://github.com/AuroreVgn/somfy-protexial/wiki), attualmente mantenuta in francese.
 
+## 🏠 My Home Assistant Projects
+ 
+Discover all my Home Assistant integrations and projects on my dedicated page: [**🏠 Discover my Home Assistant Projects**](https://gentle-suggestion-7c3.notion.site/Mes-projets-Home-Assistant-3eda02eefa8f81a48621c3caeef7fa8e)
+
 ## ☕️ Sostieni il progetto
 
 Se questa integrazione ti è utile e desideri supportarne lo sviluppo e la manutenzione:
