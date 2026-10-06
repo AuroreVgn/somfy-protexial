@@ -51,6 +51,24 @@ Plusieurs générations de centrales **Protexial, Protexiom et Protexial IO**, d
 
 L'absence d'un modèle dans la liste ne signifie pas qu'il est incompatible : il peut simplement ne pas avoir encore été testé ou documenté.
 
+### 🌍 Langues de l'interface de la centrale
+
+L'intégration détecte automatiquement la langue utilisée par l'interface web de la centrale.
+
+Les interfaces Somfy actuellement prises en charge sont :
+
+| Langue | Préfixe |
+| --- | --- |
+| 🇫🇷 Français | `/fr/` |
+| 🇩🇪 Allemand | `/de/` |
+| 🇬🇧 Anglais | `/gb/` |
+| 🇪🇸 Espagnol | `/sp/` |
+| 🇮🇹 Italien | `/it/` |
+| 🇳🇱 Néerlandais | `/nl/` |
+
+La langue de l'interface de la centrale est indépendante de la langue utilisée dans Home Assistant.
+
+
 ➡️ **[Consulter les modèles et versions testés](https://github.com/AuroreVgn/somfy-protexial/wiki/Compatibilit%C3%A9-des-centrales)**
 
 ## 📦 Installation
