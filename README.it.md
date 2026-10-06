@@ -13,6 +13,17 @@
 > [!NOTE]
 > 📚 La documentazione dettagliata del progetto è disponibile nella [Wiki](https://github.com/AuroreVgn/somfy-protexial/wiki), attualmente mantenuta in francese.
 
+## ☕️ Sostieni il progetto
+
+Se questa integrazione ti è utile e desideri supportarne lo sviluppo e la manutenzione:
+
+<p>
+  <a href="https://ko-fi.com/aurorevgn">
+    <img src="https://storage.ko-fi.com/cdn/kofi4.png?v=3"
+         alt="Sostieni il progetto su Ko-fi"
+         height="45">
+  </a>
+</p>
 
 ## Altre lingue
 
