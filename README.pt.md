@@ -54,6 +54,25 @@ Esta integração permite ligar centrais de alarme Somfy Protexial, Protexiom e 
 
 🔃 A integração também permite repor falhas de alarme, comunicação por rádio e baterias.
 
+### 🌍 Idiomas da interface da central
+
+A integração deteta automaticamente o idioma utilizado pela interface web da central de alarme.
+
+As seguintes interfaces Somfy são atualmente suportadas:
+
+| Idioma | Prefixo |
+| --- | --- |
+| 🇫🇷 Francês | `/fr/` |
+| 🇩🇪 Alemão | `/de/` |
+| 🇬🇧 Inglês | `/gb/` |
+| 🇪🇸 Espanhol | `/sp/` |
+| 🇮🇹 Italiano | `/it/` |
+| 🇳🇱 Neerlandês | `/nl/` |
+
+O idioma da interface web da central é independente do idioma utilizado no Home Assistant.
+
+> **Nota:** o português é suportado como idioma da interface da integração no Home Assistant, mas não corresponde atualmente a uma interface de firmware Somfy suportada.
+
 #### Entidades suportadas
 
 | Entidade | Descrição | Versão |
