@@ -13,7 +13,6 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.helpers.entity import EntityCategory
 
-from .attribute_translations import get_attribute_localization
 from .element_icons import get_element_icon
 from .const import BINARY_SENSORS, COORDINATOR, DEVICE_INFO, DOMAIN
 
@@ -509,9 +508,21 @@ class SomfyElementAggregateBinarySensor(CoordinatorEntity, BinarySensorEntity):
         el = self._find_element() or self._element or {}
         fields = getattr(self, "_fields", [])
 
-        localization = get_attribute_localization(self)
-        labels = localization["element_labels"]
-        values = localization["element_values"]
+        # Keep extra-state attribute keys and values stable.
+        #
+        # These attributes are a public technical interface used by Lovelace
+        # cards and may also be referenced by user automations/templates.
+        # Translating them according to the Home Assistant UI language would
+        # change that interface at runtime and break consumers expecting the
+        # historical names/values.
+        attribute_keys = {
+            "battery": "Battery",
+            "comm": "Link",
+            "house": "House",
+            "tamper": "Tamper",
+            "door": "Door open",
+            "pause": "Running",
+        }
 
         attrs: dict[str, str] = {}
         for field in ("battery", "comm", "house", "tamper", "door", "pause"):
@@ -519,11 +530,11 @@ class SomfyElementAggregateBinarySensor(CoordinatorEntity, BinarySensorEntity):
                 continue
             _, human = self._value_for(field, el)
             if human is not None:
-                attrs[labels[field]] = values.get(human, human)
+                attrs[attribute_keys[field]] = human
 
         zone = el.get("zone")
         if zone:
-            attrs[labels["zone"]] = zone
+            attrs["Zone"] = zone
 
         return attrs
 
