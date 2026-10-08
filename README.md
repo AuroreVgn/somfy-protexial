@@ -28,7 +28,7 @@ Si cette intégration vous est utile et que vous souhaitez soutenir son dévelop
 
 [English](README.en.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Italiano](README.it.md) | [Nederlands](README.nl.md) | [Português](README.pt.md)
 
-## 🔐 À propos
+## ℹ️ À propos
 
 Cette intégration permet d'utiliser une centrale d'alarme **Somfy Protexial, Protexiom ou Protexial IO directement dans Home Assistant**.
 
@@ -198,7 +198,7 @@ Le Wiki regroupe la documentation détaillée afin de garder ce README volontair
 
 ➡️ **[Accéder au Wiki complet](https://github.com/AuroreVgn/somfy-protexial/wiki)**
 
-## 🎨 Carte Lovelace
+## 🧩 Carte Lovelace
 
 Une carte Lovelace dédiée a été développée pour afficher et piloter facilement l'alarme :
 
@@ -227,7 +227,7 @@ Pour les conséquences de l'évolution des services historiques Somfy et de la 2
 
 L'intégration prend en charge la reconfiguration depuis l'interface graphique de Home Assistant.
 
-## 🆘 Aide et support
+## 🛠️ Aide et support
 
 Avant de signaler un problème, consultez la **[FAQ](https://github.com/AuroreVgn/somfy-protexial/wiki/FAQ-et-d%C3%A9pannage)** et, si nécessaire, activez le **[mode débug](https://github.com/AuroreVgn/somfy-protexial/wiki/Mode-d%C3%A9bug)**.
 
