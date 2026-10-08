@@ -9,6 +9,7 @@ import unicodedata
 from urllib.parse import urlencode
 from xml.etree import ElementTree as ET
 from aiohttp import ClientError, ClientSession
+from openai import api_type
 from pyquery import PyQuery as pq
 
 from .const import (
@@ -1485,8 +1486,33 @@ class SomfyProtexial:
         """
         async with self._session_lock:
             return await self.__with_session_retry(
-                self.__get_event_journal, limit
+                self.__get_event_journal_with_read_retry, limit
             )
+
+    async def __get_event_journal_with_read_retry(
+        self, limit: int
+    ) -> list[dict]:
+        """Retry one transient journal read without changing the login session."""
+        for attempt in range(2):
+            try:
+                return await self.__get_event_journal(limit)
+            except SomfyException as err:
+                message = str(err)
+                transient = (
+                    message.startswith("Incomplete event journal")
+                    or message.startswith("Unable to parse event journal field:")
+                    or message.startswith("Unable to decode event journal field:")
+                    or message.startswith("Event journal response read failed:")
+                    or "Connection closed" in message
+                )
+                if not transient or attempt:
+                    raise
+                _LOGGER.debug(
+                    "Transient Somfy event journal read failure (%s); "
+                    "retrying GET once with the existing session",
+                    message,
+                )
+                await asyncio.sleep(1)
 
     async def __get_event_journal(self, limit: int = 10) -> list[dict]:
         """Fetch and parse the first event-journal page."""
@@ -1522,7 +1548,23 @@ class SomfyProtexial:
             raise SomfyException("Event journal page not available")
 
         self._journal_page = working_page
-        body = await response.text(self.api.get_encoding())
+        try:
+            body = await response.text(self.api.get_encoding())
+        except (ClientError, asyncio.TimeoutError) as err:
+            raise SomfyException(
+                f"Event journal response read failed: {type(err).__name__}"
+            ) from err
+
+        # A complete Somfy journal page ends in </html>. Never accept
+        # partially delivered arrays as a valid journal snapshot.
+        if not re.search(r"</html>\s*$", body, flags=re.IGNORECASE):
+            _LOGGER.debug(
+                "Incomplete Somfy event journal: body_length=%d, "
+                "html_end_present=False, eventcode_declaration_present=%s",
+                len(body),
+                bool(re.search(r"var\s+eventcode\s*=", body)),
+            )
+            raise SomfyException("Incomplete event journal HTML response")
 
         def _read_js_array(name: str) -> list[str]:
             match = re.search(
@@ -1531,6 +1573,12 @@ class SomfyProtexial:
                 flags=re.DOTALL,
             )
             if not match:
+                _LOGGER.debug(
+                    "Somfy event journal field missing: field=%s, body_length=%d, "
+                    "html_end_present=True",
+                    name,
+                    len(body),
+                )
                 raise SomfyException(
                     f"Unable to parse event journal field: {name}"
                 )
