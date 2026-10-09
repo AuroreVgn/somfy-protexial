@@ -9,7 +9,6 @@ import unicodedata
 from urllib.parse import urlencode
 from xml.etree import ElementTree as ET
 from aiohttp import ClientError, ClientSession
-from openai import api_type
 from pyquery import PyQuery as pq
 
 from .const import (
@@ -51,7 +50,6 @@ _ACCESS_RIGHTS_MESSAGES = {
     "es": "Permisos de acceso insuficientes",
     "it": "Diritti di accesso insufficienti",
     "nl": "Onvoldoende toegangsrechten",
-    "pt": "Permissões de acesso insuficientes",
 }
 
 
