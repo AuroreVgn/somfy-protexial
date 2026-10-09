@@ -35,6 +35,25 @@ from .somfy_exception import SomfyException
 _LOGGER: logging.Logger = logging.getLogger(__name__)
 _PRINTABLE_CHARS = set(string.printable)
 
+# Keep the authentication challenge coordinate visible in DEBUG, but never
+# expose the card answer, passwords, alarm codes or session credentials.
+_SENSITIVE_PAYLOAD_FIELDS = frozenset({
+    "password", "passwd", "pass", "pwd", "key", "code", "pin", "arm_code",
+    "alarm_code", "installer_password", "user_code", "secret", "token",
+})
+
+_ACCESS_RIGHTS_MESSAGES = {
+    "fr": "Droits d'accès insuffisants",
+    "de": "Unzureichende Zugriffsrechte",
+    "gb": "Insufficient access rights",
+    "en": "Insufficient access rights",
+    "sp": "Permisos de acceso insuficientes",
+    "es": "Permisos de acceso insuficientes",
+    "it": "Diritti di accesso insufficienti",
+    "nl": "Onvoldoende toegangsrechten",
+    "pt": "Permissões de acesso insuficientes",
+}
+
 
 def _fix_mojibake(text: str) -> str:
     """Best-effort fix for accent mojibake, e.g. 'TÃ©l' -> 'Tél'."""
@@ -210,7 +229,7 @@ class SomfyProtexial:
 
         try:
             if self.cookie and authenticated:
-                _LOGGER.debug("Using cookie: %s", self.cookie)
+                _LOGGER.debug("Using cookie: [REDACTED]")
                 headers["Cookie"] = self.cookie
             payload = None
             if data is not None:
@@ -222,8 +241,15 @@ class SomfyProtexial:
                 if method == "get":
                     response = await self.session.get(full_path, headers=headers)
                 elif method == "post":
-                    _LOGGER.debug("With payload: %s", data)
-                    _LOGGER.debug("With payload (encoded): %s", payload)
+                    safe_data = {
+                        key: "***" if key.lower() in _SENSITIVE_PAYLOAD_FIELDS else value
+                        for key, value in data.items()
+                    }
+                    _LOGGER.debug("With payload: %s", safe_data)
+                    _LOGGER.debug(
+                        "With payload (encoded): %s",
+                        urlencode(safe_data, encoding=self.api.get_encoding()),
+                    )
                     response = await self.session.post(
                         full_path, data=payload, headers=headers
                     )
@@ -236,7 +262,13 @@ class SomfyProtexial:
             except Exception:
                 preview = "<unreadable>"
             _LOGGER.debug("Response path: %s", getattr(response.real_url, "path", "?"))
-            _LOGGER.debug("Response headers: %s", response.headers)
+            _LOGGER.debug(
+                "Response headers: %s",
+                {
+                    key: "[REDACTED]" if key.lower() in ("set-cookie", "cookie") else value
+                    for key, value in response.headers.items()
+                },
+            )
             _LOGGER.debug("Response body (first 500 chars): %s", preview[:500])
 
             if response.status != 200:
@@ -268,16 +300,24 @@ class SomfyProtexial:
                     raise SomfyException("Unknown error")
                 code = error_el.text()
 
-                if code == SomfyError.NOT_AUTHORIZED and not self.cookie and retry:
-                    await self.__login()
-                    return await self.__do_call(
-                        method,
-                        page,
-                        headers=headers,
-                        data=data,
-                        retry=False,
-                        login=False,
-                        authenticated=authenticated,
+                if code == SomfyError.NOT_AUTHORIZED:
+                    if not self.cookie and retry:
+                        await self.__login()
+                        return await self.__do_call(
+                            method,
+                            page,
+                            headers=headers,
+                            data=data,
+                            retry=False,
+                            login=False,
+                            authenticated=authenticated,
+                        )
+                    raise SomfyException(
+                        "Command failed: "
+                        + _ACCESS_RIGHTS_MESSAGES.get(
+                            self.language_prefix, _ACCESS_RIGHTS_MESSAGES["gb"]
+                        )
+                        + " (0x0903)"
                     )
 
                 if code == SomfyError.SESSION_ALREADY_OPEN:
@@ -685,7 +725,7 @@ class SomfyProtexial:
         else:
             self.cookie = None
 
-        _LOGGER.debug("Stored cookie: %s", self.cookie)
+        _LOGGER.debug("Stored cookie: %s", "[REDACTED]" if self.cookie else None)
 
     def set_credentials(self, username, password, codes):
         self.username = username
@@ -1502,9 +1542,16 @@ class SomfyProtexial:
                     message.startswith("Incomplete event journal")
                     or message.startswith("Unable to parse event journal field:")
                     or message.startswith("Unable to decode event journal field:")
-                    or message.startswith("Event journal response read failed:")
                     or "Connection closed" in message
                 )
+                # A dropped connection may invalidate the Somfy session.
+                # Let the existing outer recovery perform a fresh login rather
+                # than retrying with a potentially invalid session.
+                if (
+                    message.startswith("Event journal response read failed:")
+                    or message.startswith("Error fetching information from")
+                ):
+                    raise
                 if not transient or attempt:
                     raise
                 _LOGGER.debug(
