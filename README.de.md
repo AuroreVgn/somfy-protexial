@@ -34,6 +34,19 @@ Wenn diese Integration für dich nützlich ist und du ihre Entwicklung und Pfleg
 
 ## Über diese Integration
 
+## 🆕 Neu in Version 2.2.1
+
+Diese stabile Version vereint die Korrekturen und Verbesserungen aus `2.2.1-beta1`, `2.2.1-beta2` und `2.2.1-beta3`:
+
+- 🌍 **Mehrsprachige Kompatibilität:** Automatische Erkennung der Sprache der Weboberfläche der Alarmzentrale und Unterstützung lokalisierter Pfade (`/fr/`, `/de/`, `/gb/`, `/sp/`, `/it/`, `/nl/`); Pfade ohne Sprachpräfix bleiben für entsprechende Modelle erhalten.
+- 📋 **Ereignisprotokoll:** Erkennung abgeschnittener HTML-Antworten, erneuter Leseversuch und Beibehaltung der zuletzt gültigen Ereignisse bei fehlgeschlagener Aktualisierung.
+- 🔄 **Sitzungswiederherstellung:** Bei Verbindungsfehlern (`ClientConnectionError`) wird die Sitzung wiederhergestellt, statt eine möglicherweise ungültige Sitzung unnötig erneut zu verwenden.
+- 🔐 **Fehler `0x0903`:** Verbesserte Erkennung unzureichender Zugriffsrechte, einschließlich der deutschen Meldung `Unzureichende Zugriffsrechte`, ohne die gesamte HTML-Fehlerseite zu protokollieren.
+- 🔒 **Datenschutz in DEBUG-Protokollen:** Passwörter, Authentifizierungscodes, sensible POST-Daten und Sitzungscookies werden maskiert; die Challenge bleibt für Diagnosezwecke sichtbar.
+
+Vielen Dank an @benztown711 für Tests und Rückmeldungen mit einer deutschsprachigen Protexial ©2010 `v7_9`.
+
+
 🔀 Diese Version 2.2.x ist ein **aktualisierter Fork** der ursprünglichen Integration von [the8tre](https://github.com/the8tre).
 
 Die Hauptziele dieser Integration sind:
