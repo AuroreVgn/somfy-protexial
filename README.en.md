@@ -33,6 +33,18 @@ If you find this integration useful and would like to support its development an
 
 [English](README.en.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Italiano](README.it.md) | [Nederlands](README.nl.md) | [Português](README.pt.md)
 
+## 🆕 What's new in version 2.2.1
+
+This stable release includes the fixes and improvements from `2.2.1-beta1`, `2.2.1-beta2`, and `2.2.1-beta3`:
+
+- 🌍 **Multilingual compatibility:** automatic detection of the control panel web interface language and support for localized paths (`/fr/`, `/de/`, `/gb/`, `/sp/`, `/it/`, `/nl/`), while retaining non-prefixed paths for compatible models.
+- 📋 **Event journal:** detection of truncated HTML responses, retrying reads, and preserving the last valid events if a refresh fails.
+- 🔄 **Session recovery:** on connection errors (`ClientConnectionError`), recover the session without unnecessarily retrying a potentially invalid session.
+- 🔐 **`0x0903` error:** improved recognition of insufficient access rights, including the German message `Unzureichende Zugriffsrechte`, without logging the entire HTML error page.
+- 🔒 **DEBUG log privacy:** masking of passwords, authentication codes, sensitive POST payload data, and session cookies; the challenge remains visible for diagnostics.
+
+Thanks to @benztown711 for testing and feedback on a German-language Protexial ©2010 `v7_9` control panel.
+
 ## About
 
 🔀 This 2.2.x version is an **updated fork** of the original integration by [the8tre](https://github.com/the8tre).
