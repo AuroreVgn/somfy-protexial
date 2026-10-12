@@ -42,6 +42,18 @@ Le projet vise notamment à prolonger la durée de vie de ces centrales et à an
 > [!TIP]
 > 📚 La documentation détaillée, les guides, automatisations et solutions de dépannage sont regroupés dans le **[Wiki du projet](https://github.com/AuroreVgn/somfy-protexial/wiki)**.
 
+## 🆕 Nouveautés de la version 2.2.1
+
+Cette version stable regroupe les corrections et améliorations des versions `2.2.1-beta1`, `2.2.1-beta2` et `2.2.1-beta3` :
+
+- 🌍 **Compatibilité multilingue :** détection de la langue de l'interface Web des centrales et prise en charge des chemins localisés (`/fr/`, `/de/`, `/gb/`, `/sp/`, `/it/`, `/nl/`), avec conservation des chemins sans préfixe pour les modèles concernés.
+- 📋 **Journal des événements :** détection des réponses HTML tronquées, nouvelle tentative de lecture et conservation des derniers événements valides si l'actualisation échoue.
+- 🔄 **Récupération de session :** en cas d'erreur de connexion (`ClientConnectionError`), déclenchement de la récupération de session sans réutiliser inutilement une session potentiellement invalide.
+- 🔐 **Erreur `0x0903` :** meilleure reconnaissance des droits d'accès insuffisants, notamment du message allemand `Unzureichende Zugriffsrechte`, sans journaliser toute la page HTML d'erreur.
+- 🔒 **Confidentialité des logs DEBUG :** masquage des mots de passe, codes d'authentification, données sensibles des requêtes POST et cookies de session ; le challenge reste lisible pour le diagnostic.
+
+Merci à @benztown711 pour ses tests et retours sur une centrale Protexial ©2010 `v7_9` en allemand.
+
 ## ✨ Fonctionnalités principales
 
 L'intégration permet notamment :
