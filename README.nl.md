@@ -34,6 +34,19 @@ Als je deze integratie nuttig vindt en de ontwikkeling en het onderhoud ervan wi
 
 ## Over
 
+## 🆕 Nieuw in versie 2.2.1
+
+Deze stabiele versie bundelt de oplossingen en verbeteringen uit `2.2.1-beta1`, `2.2.1-beta2` en `2.2.1-beta3`:
+
+- 🌍 **Meertalige compatibiliteit:** automatische detectie van de taal van de webinterface van de alarmcentrale en ondersteuning voor gelokaliseerde paden (`/fr/`, `/de/`, `/gb/`, `/sp/`, `/it/`, `/nl/`), met behoud van paden zonder taalprefix voor de betreffende modellen.
+- 📋 **Gebeurtenislogboek:** detectie van afgebroken HTML-antwoorden, opnieuw proberen te lezen en behoud van de laatst geldige gebeurtenissen als verversen mislukt.
+- 🔄 **Sessieherstel:** bij verbindingsfouten (`ClientConnectionError`) wordt sessieherstel gestart zonder een mogelijk ongeldige sessie onnodig opnieuw te gebruiken.
+- 🔐 **Fout `0x0903`:** verbeterde herkenning van onvoldoende toegangsrechten, inclusief de Duitse melding `Unzureichende Zugriffsrechte`, zonder de volledige HTML-foutpagina te loggen.
+- 🔒 **Privacy van DEBUG-logboeken:** wachtwoorden, authenticatiecodes, gevoelige POST-gegevens en sessiecookies worden afgeschermd; de challenge blijft zichtbaar voor diagnose.
+
+Dank aan @benztown711 voor tests en feedback met een Duitstalige Protexial ©2010 `v7_9`.
+
+
 🔀 Deze versie 2.0.x is een **bijgewerkte fork** van de oorspronkelijke integratie van [the8tre](https://github.com/the8tre).
 
 De belangrijkste doelstellingen van deze integratie zijn:
