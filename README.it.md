@@ -35,6 +35,19 @@ Se questa integrazione ti è utile e desideri supportarne lo sviluppo e la manut
 
 ## Informazioni
 
+## 🆕 Novità della versione 2.2.1
+
+Questa versione stabile include le correzioni e i miglioramenti di `2.2.1-beta1`, `2.2.1-beta2` e `2.2.1-beta3`:
+
+- 🌍 **Compatibilità multilingue:** rilevamento automatico della lingua dell'interfaccia web della centrale e supporto dei percorsi localizzati (`/fr/`, `/de/`, `/gb/`, `/sp/`, `/it/`, `/nl/`), mantenendo i percorsi senza prefisso per i modelli interessati.
+- 📋 **Registro eventi:** rilevamento delle risposte HTML troncate, nuovo tentativo di lettura e conservazione degli ultimi eventi validi in caso di aggiornamento non riuscito.
+- 🔄 **Ripristino della sessione:** in caso di errori di connessione (`ClientConnectionError`), viene avviato il ripristino della sessione senza riutilizzare inutilmente una sessione potenzialmente non valida.
+- 🔐 **Errore `0x0903`:** riconoscimento migliorato dei diritti di accesso insufficienti, incluso il messaggio tedesco `Unzureichende Zugriffsrechte`, senza registrare l'intera pagina HTML di errore.
+- 🔒 **Privacy dei log DEBUG:** password, codici di autenticazione, dati sensibili delle richieste POST e cookie di sessione vengono mascherati; la challenge rimane visibile per la diagnostica.
+
+Grazie a @benztown711 per i test e i riscontri su una centrale Protexial ©2010 `v7_9` in tedesco.
+
+
 🔀 Questa versione 2.2.x è un **fork aggiornato** dell'integrazione originale di [the8tre](https://github.com/the8tre).
 
 Gli obiettivi principali di questa integrazione sono:
