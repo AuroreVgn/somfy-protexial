@@ -1,4 +1,4 @@
-# Somfy Protexial / Protexiom / Protexial IO
+# 🔐 Somfy Protexial / Protexiom / Protexial IO
 
 [![GitHub Release][releases-shield]][releases]
 [![License][license-shield]](LICENSE)
