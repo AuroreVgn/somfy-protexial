@@ -10,7 +10,7 @@
 
 ## 🏠 Mes projets Home Assistant
 
-Retrouvez l'ensemble de mes intégrations et projets Home Assistant sur ma page dédiée : [**🏠 Découvrir mes projets Home Assistant**](https://gentle-suggestion-7c3.notion.site/Mes-projets-Home-Assistant-3eda02eefa8f81a48621c3caeef7fa8e)
+Retrouvez l'ensemble de mes intégrations et projets Home Assistant sur ma page dédiée : [**🏠 Découvrir mes projets Home Assistant**](https://erra.me)
 
 ## ☕️ Soutenir le projet
 
