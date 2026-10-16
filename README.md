@@ -28,6 +28,21 @@ Si cette intégration vous est utile et que vous souhaitez soutenir son dévelop
 
 [English](README.en.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Italiano](README.it.md) | [Nederlands](README.nl.md) | [Português](README.pt.md)
 
+## 📑 Sommaire
+
+- [ℹ️ À propos](#ℹ-à-propos)
+- [🆕 Nouveautés de la version 2.2.1](#-nouveautés-de-la-version-221)
+- [✨ Fonctionnalités principales](#-fonctionnalités-principales)
+- [🛡️ Compatibilité](#-compatibilité)
+- [📦 Installation](#-installation)
+- [⚙️ Configuration](#-configuration)
+- [📚 Documentation](#-documentation)
+- [🧩 Carte Lovelace](#-carte-lovelace)
+- [⚠️ À savoir](#-à-savoir)
+- [🛠️ Aide et support](#-aide-et-support)
+- [🤝 Contributions](#-contributions)
+- [🙏 Crédits](#-crédits)
+
 ## ℹ️ À propos
 
 Cette intégration permet d'utiliser une centrale d'alarme **Somfy Protexial, Protexiom ou Protexial IO directement dans Home Assistant**.
