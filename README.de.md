@@ -30,19 +30,23 @@ Wenn diese Integration für dich nützlich ist und du ihre Entwicklung und Pfleg
 
 ## 📑 Inhaltsverzeichnis
 
-- [ℹ️ Über diese Integration](#ℹ-über-diese-integration)
-- [🆕 Neu in Version 2.2.1](#-neu-in-version-221)
-- [📦 Installation](#-installation)
-- [⚙️ Konfiguration](#-konfiguration)
-- [⚠️ Hinweise](#-hinweise)
-- [🤝 Beiträge sind willkommen!](#-beiträge-sind-willkommen)
-- [🙏 Danksagung](#-danksagung)
+- [ℹ️ Über diese Integration](#toc-section-1)
+- [🆕 Neu in Version 2.2.1](#toc-section-2)
+- [📦 Installation](#toc-section-3)
+- [⚙️ Konfiguration](#toc-section-4)
+- [⚠️ Hinweise](#toc-section-5)
+- [🤝 Beiträge sind willkommen!](#toc-section-6)
+- [🙏 Danksagung](#toc-section-7)
 
 ## 🌍 Weitere Sprachen
 
 [English](README.en.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Italiano](README.it.md) | [Nederlands](README.nl.md) | [Português](README.pt.md)
 
+<a name="toc-section-1"></a>
+
 ## ℹ️ Über diese Integration
+
+<a name="toc-section-2"></a>
 
 ## 🆕 Neu in Version 2.2.1
 
@@ -211,6 +215,8 @@ Die Integration stellt das **Ereignisprotokoll** der Zentrale über einen eigene
 
 Das Protokoll wird schreibgeschützt mit dem **Benutzer**-Konto gelesen, ohne das Installateur-Konto zu verwenden. Es wird höchstens alle 5 Minuten aktualisiert, um die Anzahl der Anfragen an die Zentrale zu begrenzen. Bei einem vorübergehenden Lesefehler bleiben die zuletzt bekannten Ereignisse erhalten.
 
+<a name="toc-section-3"></a>
+
 ## 📦 Installation
 
 ### Option A: Installation über HACS (empfohlen)
@@ -233,6 +239,8 @@ Das Protokoll wird schreibgeschützt mit dem **Benutzer**-Konto gelesen, ohne da
 4. Erstellen Sie darin ein Verzeichnis `somfy_protexial`.
 5. Entpacken Sie den Inhalt von `somfy_protexial.zip` in dieses Verzeichnis.
 6. Starten Sie Home Assistant neu.
+
+<a name="toc-section-4"></a>
 
 ## ⚙️ Konfiguration
 
@@ -272,6 +280,8 @@ Die verschiedenen Scharfschaltungsmodi basieren auf den in der Somfy-Zentrale ko
 Dieser Wert kann anschließend über eine `number`-Entität dynamisch geändert werden.
 
 **Installateur-Konto (optional):** Benutzername (Standard: `i`) und Passwort des Installateurs nur eintragen, wenn die `(PAUSE)`-Schalter zum Pausieren oder Reaktivieren einzelner Elemente verwendet werden sollen. Die normale Alarmsteuerung verwendet weiterhin das **Benutzer**-Konto. Das Installateur-Konto wird außerdem zum Lesen und Synchronisieren von Datum/Uhrzeit sowie für die oben beschriebenen allgemeinen Zentraleneinstellungen benötigt.
+<a name="toc-section-5"></a>
+
 ## ⚠️ Hinweise
 
 ### Lovelace-Karte für Home Assistant (Status & Steuerung)
@@ -314,9 +324,13 @@ oder
 
 Die Integration unterstützt eine vollständige Neukonfiguration direkt über die grafische Benutzeroberfläche von Home Assistant.
 
+<a name="toc-section-6"></a>
+
 ## 🤝 Beiträge sind willkommen!
 
 Wenn Sie zur Weiterentwicklung beitragen möchten, lesen Sie bitte die [Contribution guidelines](CONTRIBUTING.md).
+
+<a name="toc-section-7"></a>
 
 ## 🙏 Danksagung
 
