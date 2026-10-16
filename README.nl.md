@@ -32,6 +32,16 @@ Als je deze integratie nuttig vindt en de ontwikkeling en het onderhoud ervan wi
 
 [English](README.en.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Italiano](README.it.md) | [Nederlands](README.nl.md) | [Português](README.pt.md)
 
+## 📑 Inhoudsopgave
+
+- [Over](#over)
+- [🆕 Nieuw in versie 2.2.1](#-nieuw-in-versie-221)
+- [Installatie](#installatie)
+- [Configuratie](#configuratie)
+- [Opmerkingen](#opmerkingen)
+- [Bijdragen zijn welkom!](#bijdragen-zijn-welkom)
+- [Dankwoord](#dankwoord)
+
 ## Over
 
 ## 🆕 Nieuw in versie 2.2.1
