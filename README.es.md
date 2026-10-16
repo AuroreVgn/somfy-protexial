@@ -32,6 +32,16 @@ Si esta integración te resulta útil y deseas apoyar su desarrollo y mantenimie
 
 [English](README.en.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Italiano](README.it.md) | [Nederlands](README.nl.md) | [Português](README.pt.md)
 
+## 📑 Índice
+
+- [Acerca de](#acerca-de)
+- [🆕 Novedades de la versión 2.2.1](#-novedades-de-la-versión-221)
+- [Instalación](#instalación)
+- [Configuración](#configuración)
+- [Información adicional](#información-adicional)
+- [¡Las contribuciones son bienvenidas!](#las-contribuciones-son-bienvenidas)
+- [Créditos](#créditos)
+
 ## Acerca de
 
 ## 🆕 Novedades de la versión 2.2.1
