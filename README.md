@@ -39,7 +39,6 @@ Si cette intégration vous est utile et que vous souhaitez soutenir son dévelop
 - [📚 Documentation](#-documentation)
 - [🧩 Carte Lovelace](#-carte-lovelace)
 - [⚠️ À savoir](#-à-savoir)
-- [🛠️ Aide et support](#-aide-et-support)
 - [🤝 Contributions](#-contributions)
 - [🙏 Crédits](#-crédits)
 
