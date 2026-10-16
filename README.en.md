@@ -29,19 +29,19 @@ If you find this integration useful and would like to support its development an
   </a>
 </p>
 
-## Other languages
+## 🌍 Other languages
 
 [English](README.en.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Italiano](README.it.md) | [Nederlands](README.nl.md) | [Português](README.pt.md)
 
 ## 📑 Table of contents
 
 - [🆕 What's new in version 2.2.1](#-whats-new-in-version-221)
-- [About](#about)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Notes](#notes)
-- [Contributions are welcome!](#contributions-are-welcome)
-- [Credits](#credits)
+- [ℹ️ About](#ℹ-about)
+- [📦 Installation](#-installation)
+- [⚙️ Configuration](#-configuration)
+- [⚠️ Notes](#-notes)
+- [🤝 Contributions are welcome!](#-contributions-are-welcome)
+- [🙏 Credits](#-credits)
 
 ## 🆕 What's new in version 2.2.1
 
@@ -55,7 +55,7 @@ This stable release includes the fixes and improvements from `2.2.1-beta1`, `2.2
 
 Thanks to @benztown711 for testing and feedback on a German-language Protexial ©2010 `v7_9` control panel.
 
-## About
+## ℹ️ About
 
 🔀 This 2.2.x version is an **updated fork** of the original integration by [the8tre](https://github.com/the8tre).
 
@@ -211,7 +211,7 @@ The integration exposes the control panel **event journal** through a dedicated 
 
 The journal is read with the **User** account, read-only, without using the Installer account. It is refreshed at most once every 5 minutes to limit requests to the control panel. If reading temporarily fails, the last known events are kept.
 
-## Installation
+## 📦 Installation
 
 ### Option A: Install via HACS (Recommended)
 
@@ -234,7 +234,7 @@ The journal is read with the **User** account, read-only, without using the Inst
 5. Extract the contents of `somfy_protexial.zip` into the `somfy_protexial` directory.
 6. Restart Home Assistant.
 
-## Configuration
+## ⚙️ Configuration
 
 - Add the integration using [![Open your Home Assistant instance and start setting up a new integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=somfy_protexial) or manually.
 - Settings → Devices & Services → + Add Integration → Somfy Protexial
@@ -272,7 +272,7 @@ The available arming modes are based on the zones configured in your Somfy alarm
 This value can then be changed dynamically using a `number` entity.
 
 **Installer account (optional):** enter the Installer username (default: `i`) and password only if you want to use the `(PAUSE)` switches to pause or reactivate individual elements. Normal alarm control continues to use the **User** account. The Installer account is also required for date/time read and synchronization and for the general control panel settings described above.
-## Notes
+## ⚠️ Notes
 
 ### Home Assistant Lovelace Card (Status & Control)
 
@@ -314,11 +314,11 @@ or
 
 The integration fully supports reconfiguration directly from the Home Assistant graphical interface.
 
-## Contributions are welcome!
+## 🤝 Contributions are welcome!
 
 If you'd like to contribute, please read the [Contribution guidelines](CONTRIBUTING.md).
 
-## Credits
+## 🙏 Credits
 
 This integration is largely based on the work of [@Ludeeus](https://github.com/ludeeus) and the [integration_blueprint][integration_blueprint].
 
