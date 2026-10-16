@@ -30,20 +30,19 @@ Wenn diese Integration für dich nützlich ist und du ihre Entwicklung und Pfleg
 
 ## 📑 Inhaltsverzeichnis
 
-- [Weitere Sprachen](#weitere-sprachen)
-- [Über diese Integration](#über-diese-integration)
+- [ℹ️ Über diese Integration](#ℹ-über-diese-integration)
 - [🆕 Neu in Version 2.2.1](#-neu-in-version-221)
-- [Installation](#installation)
-- [Konfiguration](#konfiguration)
-- [Hinweise](#hinweise)
-- [Beiträge sind willkommen!](#beiträge-sind-willkommen)
-- [Danksagung](#danksagung)
+- [📦 Installation](#-installation)
+- [⚙️ Konfiguration](#-konfiguration)
+- [⚠️ Hinweise](#-hinweise)
+- [🤝 Beiträge sind willkommen!](#-beiträge-sind-willkommen)
+- [🙏 Danksagung](#-danksagung)
 
-## Weitere Sprachen
+## 🌍 Weitere Sprachen
 
 [English](README.en.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Italiano](README.it.md) | [Nederlands](README.nl.md) | [Português](README.pt.md)
 
-## Über diese Integration
+## ℹ️ Über diese Integration
 
 ## 🆕 Neu in Version 2.2.1
 
@@ -212,7 +211,7 @@ Die Integration stellt das **Ereignisprotokoll** der Zentrale über einen eigene
 
 Das Protokoll wird schreibgeschützt mit dem **Benutzer**-Konto gelesen, ohne das Installateur-Konto zu verwenden. Es wird höchstens alle 5 Minuten aktualisiert, um die Anzahl der Anfragen an die Zentrale zu begrenzen. Bei einem vorübergehenden Lesefehler bleiben die zuletzt bekannten Ereignisse erhalten.
 
-## Installation
+## 📦 Installation
 
 ### Option A: Installation über HACS (empfohlen)
 
@@ -235,7 +234,7 @@ Das Protokoll wird schreibgeschützt mit dem **Benutzer**-Konto gelesen, ohne da
 5. Entpacken Sie den Inhalt von `somfy_protexial.zip` in dieses Verzeichnis.
 6. Starten Sie Home Assistant neu.
 
-## Konfiguration
+## ⚙️ Konfiguration
 
 - Fügen Sie die Integration hinzu: [![Open your Home Assistant instance and start setting up a new integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=somfy_protexial) oder manuell.
 - Einstellungen → Geräte & Dienste → + Integration hinzufügen → Somfy Protexial
@@ -273,7 +272,7 @@ Die verschiedenen Scharfschaltungsmodi basieren auf den in der Somfy-Zentrale ko
 Dieser Wert kann anschließend über eine `number`-Entität dynamisch geändert werden.
 
 **Installateur-Konto (optional):** Benutzername (Standard: `i`) und Passwort des Installateurs nur eintragen, wenn die `(PAUSE)`-Schalter zum Pausieren oder Reaktivieren einzelner Elemente verwendet werden sollen. Die normale Alarmsteuerung verwendet weiterhin das **Benutzer**-Konto. Das Installateur-Konto wird außerdem zum Lesen und Synchronisieren von Datum/Uhrzeit sowie für die oben beschriebenen allgemeinen Zentraleneinstellungen benötigt.
-## Hinweise
+## ⚠️ Hinweise
 
 ### Lovelace-Karte für Home Assistant (Status & Steuerung)
 
@@ -315,11 +314,11 @@ oder
 
 Die Integration unterstützt eine vollständige Neukonfiguration direkt über die grafische Benutzeroberfläche von Home Assistant.
 
-## Beiträge sind willkommen!
+## 🤝 Beiträge sind willkommen!
 
 Wenn Sie zur Weiterentwicklung beitragen möchten, lesen Sie bitte die [Contribution guidelines](CONTRIBUTING.md).
 
-## Danksagung
+## 🙏 Danksagung
 
 Diese Integration basiert größtenteils auf der Arbeit von [@Ludeeus](https://github.com/ludeeus) und dem Projekt [integration_blueprint][integration_blueprint].
 
