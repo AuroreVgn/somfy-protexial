@@ -34,15 +34,19 @@ Als je deze integratie nuttig vindt en de ontwikkeling en het onderhoud ervan wi
 
 ## 📑 Inhoudsopgave
 
-- [ℹ️ Over](#ℹ-over)
-- [🆕 Nieuw in versie 2.2.1](#-nieuw-in-versie-221)
-- [📦 Installatie](#-installatie)
-- [⚙️ Configuratie](#-configuratie)
-- [⚠️ Opmerkingen](#-opmerkingen)
-- [🤝 Bijdragen zijn welkom!](#-bijdragen-zijn-welkom)
-- [🙏 Dankwoord](#-dankwoord)
+- [ℹ️ Over](#toc-section-1)
+- [🆕 Nieuw in versie 2.2.1](#toc-section-2)
+- [📦 Installatie](#toc-section-3)
+- [⚙️ Configuratie](#toc-section-4)
+- [⚠️ Opmerkingen](#toc-section-5)
+- [🤝 Bijdragen zijn welkom!](#toc-section-6)
+- [🙏 Dankwoord](#toc-section-7)
+
+<a name="toc-section-1"></a>
 
 ## ℹ️ Over
+
+<a name="toc-section-2"></a>
 
 ## 🆕 Nieuw in versie 2.2.1
 
@@ -211,6 +215,8 @@ De integratie stelt het **gebeurtenissenlogboek** van de centrale beschikbaar vi
 
 Het logboek wordt alleen-lezen uitgelezen met het **Gebruiker**-account, zonder het Installateur-account te gebruiken. Het wordt maximaal eenmaal per 5 minuten vernieuwd om het aantal verzoeken aan de centrale te beperken. Als het uitlezen tijdelijk mislukt, blijven de laatst bekende gebeurtenissen behouden.
 
+<a name="toc-section-3"></a>
+
 ## 📦 Installatie
 
 ### Optie A: Installatie via HACS (aanbevolen)
@@ -233,6 +239,8 @@ Het logboek wordt alleen-lezen uitgelezen met het **Gebruiker**-account, zonder 
 4. Maak binnen `custom_components` een map `somfy_protexial` aan.
 5. Pak de inhoud van `somfy_protexial.zip` uit in de map `somfy_protexial`.
 6. Herstart Home Assistant.
+
+<a name="toc-section-4"></a>
 
 ## ⚙️ Configuratie
 
@@ -272,6 +280,8 @@ De verschillende inschakelmodi zijn gebaseerd op de zones die in de Somfy-alarmc
 Deze waarde kan daarna dynamisch worden gewijzigd via een `number`-entiteit.
 
 **Installateur-account (optioneel):** vul de gebruikersnaam (standaard `i`) en het wachtwoord van de Installateur alleen in als je de `(PAUZE)`-schakelaars wilt gebruiken om afzonderlijke elementen te pauzeren of opnieuw te activeren. De normale alarmbediening blijft het **Gebruiker**-account gebruiken. Het Installateur-account is ook vereist voor het lezen en synchroniseren van datum/tijd en voor de hierboven beschreven algemene instellingen van de centrale.
+<a name="toc-section-5"></a>
+
 ## ⚠️ Opmerkingen
 
 ### Lovelace-kaart voor Home Assistant (status en bediening)
@@ -314,9 +324,13 @@ of
 
 De integratie ondersteunt volledige herconfiguratie rechtstreeks vanuit de grafische gebruikersinterface van Home Assistant.
 
+<a name="toc-section-6"></a>
+
 ## 🤝 Bijdragen zijn welkom!
 
 Wilt u bijdragen aan het project? Raadpleeg dan de [Contribution guidelines](CONTRIBUTING.md).
+
+<a name="toc-section-7"></a>
 
 ## 🙏 Dankwoord
 
