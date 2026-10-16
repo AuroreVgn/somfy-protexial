@@ -35,13 +35,15 @@ If you find this integration useful and would like to support its development an
 
 ## 📑 Table of contents
 
-- [🆕 What's new in version 2.2.1](#-whats-new-in-version-221)
-- [ℹ️ About](#ℹ-about)
-- [📦 Installation](#-installation)
-- [⚙️ Configuration](#-configuration)
-- [⚠️ Notes](#-notes)
-- [🤝 Contributions are welcome!](#-contributions-are-welcome)
-- [🙏 Credits](#-credits)
+- [🆕 What's new in version 2.2.1](#toc-section-1)
+- [ℹ️ About](#toc-section-2)
+- [📦 Installation](#toc-section-3)
+- [⚙️ Configuration](#toc-section-4)
+- [⚠️ Notes](#toc-section-5)
+- [🤝 Contributions are welcome!](#toc-section-6)
+- [🙏 Credits](#toc-section-7)
+
+<a name="toc-section-1"></a>
 
 ## 🆕 What's new in version 2.2.1
 
@@ -54,6 +56,8 @@ This stable release includes the fixes and improvements from `2.2.1-beta1`, `2.2
 - 🔒 **DEBUG log privacy:** masking of passwords, authentication codes, sensitive POST payload data, and session cookies; the challenge remains visible for diagnostics.
 
 Thanks to @benztown711 for testing and feedback on a German-language Protexial ©2010 `v7_9` control panel.
+
+<a name="toc-section-2"></a>
 
 ## ℹ️ About
 
@@ -211,6 +215,8 @@ The integration exposes the control panel **event journal** through a dedicated 
 
 The journal is read with the **User** account, read-only, without using the Installer account. It is refreshed at most once every 5 minutes to limit requests to the control panel. If reading temporarily fails, the last known events are kept.
 
+<a name="toc-section-3"></a>
+
 ## 📦 Installation
 
 ### Option A: Install via HACS (Recommended)
@@ -233,6 +239,8 @@ The journal is read with the **User** account, read-only, without using the Inst
 4. Create a `somfy_protexial` directory inside `custom_components`.
 5. Extract the contents of `somfy_protexial.zip` into the `somfy_protexial` directory.
 6. Restart Home Assistant.
+
+<a name="toc-section-4"></a>
 
 ## ⚙️ Configuration
 
@@ -272,6 +280,8 @@ The available arming modes are based on the zones configured in your Somfy alarm
 This value can then be changed dynamically using a `number` entity.
 
 **Installer account (optional):** enter the Installer username (default: `i`) and password only if you want to use the `(PAUSE)` switches to pause or reactivate individual elements. Normal alarm control continues to use the **User** account. The Installer account is also required for date/time read and synchronization and for the general control panel settings described above.
+<a name="toc-section-5"></a>
+
 ## ⚠️ Notes
 
 ### Home Assistant Lovelace Card (Status & Control)
@@ -314,9 +324,13 @@ or
 
 The integration fully supports reconfiguration directly from the Home Assistant graphical interface.
 
+<a name="toc-section-6"></a>
+
 ## 🤝 Contributions are welcome!
 
 If you'd like to contribute, please read the [Contribution guidelines](CONTRIBUTING.md).
+
+<a name="toc-section-7"></a>
 
 ## 🙏 Credits
 
