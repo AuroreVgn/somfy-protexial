@@ -28,6 +28,17 @@ Wenn diese Integration für dich nützlich ist und du ihre Entwicklung und Pfleg
   </a>
 </p>
 
+## 📑 Inhaltsverzeichnis
+
+- [Weitere Sprachen](#weitere-sprachen)
+- [Über diese Integration](#über-diese-integration)
+- [🆕 Neu in Version 2.2.1](#-neu-in-version-221)
+- [Installation](#installation)
+- [Konfiguration](#konfiguration)
+- [Hinweise](#hinweise)
+- [Beiträge sind willkommen!](#beiträge-sind-willkommen)
+- [Danksagung](#danksagung)
+
 ## Weitere Sprachen
 
 [English](README.en.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Italiano](README.it.md) | [Nederlands](README.nl.md) | [Português](README.pt.md)
