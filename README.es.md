@@ -28,21 +28,21 @@ Si esta integración te resulta útil y deseas apoyar su desarrollo y mantenimie
   </a>
 </p>
 
-## Otros idiomas
+## 🌍 Otros idiomas
 
 [English](README.en.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Italiano](README.it.md) | [Nederlands](README.nl.md) | [Português](README.pt.md)
 
 ## 📑 Índice
 
-- [Acerca de](#acerca-de)
+- [ℹ️ Acerca de](#ℹ-acerca-de)
 - [🆕 Novedades de la versión 2.2.1](#-novedades-de-la-versión-221)
-- [Instalación](#instalación)
-- [Configuración](#configuración)
-- [Información adicional](#información-adicional)
+- [📦 Instalación](#-instalación)
+- [⚙️ Configuración](#-configuración)
+- [⚠️ Información adicional](#-información-adicional)
 - [¡Las contribuciones son bienvenidas!](#las-contribuciones-son-bienvenidas)
-- [Créditos](#créditos)
+- [🙏 Créditos](#-créditos)
 
-## Acerca de
+## ℹ️ Acerca de
 
 ## 🆕 Novedades de la versión 2.2.1
 
@@ -213,7 +213,7 @@ La integración expone el **registro de eventos** de la central mediante un sens
 
 El registro se lee con la cuenta **Usuario**, en modo de solo lectura, sin utilizar la cuenta Instalador. Se actualiza como máximo una vez cada 5 minutos para limitar las consultas a la central. Si la lectura falla temporalmente, se conservan los últimos eventos conocidos.
 
-## Instalación
+## 📦 Instalación
 
 ### Opción A: Instalación mediante HACS (recomendada)
 
@@ -236,7 +236,7 @@ El registro se lee con la cuenta **Usuario**, en modo de solo lectura, sin utili
 5. Extraiga el contenido de `somfy_protexial.zip` en el directorio `somfy_protexial`.
 6. Reinicie Home Assistant.
 
-## Configuración
+## ⚙️ Configuración
 
 - Añada la integración utilizando [![Open your Home Assistant instance and start setting up a new integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=somfy_protexial) o manualmente.
 - Ajustes → Dispositivos y servicios → + Añadir integración → Somfy Protexial
@@ -274,7 +274,7 @@ Los distintos modos de armado utilizan las zonas configuradas en la central Somf
 Este valor puede modificarse dinámicamente posteriormente mediante una entidad `number`.
 
 **Cuenta de Instalador (opcional):** introduce el nombre de usuario (por defecto `i`) y la contraseña del Instalador únicamente si deseas utilizar los switches `(PAUSA)` para pausar o reactivar elementos individualmente. El control normal de la alarma sigue utilizando la cuenta **Usuario**. La cuenta de Instalador también es necesaria para leer y sincronizar la fecha/hora y para los ajustes generales de la central descritos anteriormente.
-## Información adicional
+## ⚠️ Información adicional
 
 ### Tarjeta Lovelace para Home Assistant (estado y control)
 
@@ -320,7 +320,7 @@ La integración admite la reconfiguración completa directamente desde la interf
 
 Si desea contribuir al proyecto, consulte las [Contribution guidelines](CONTRIBUTING.md).
 
-## Créditos
+## 🙏 Créditos
 
 Esta integración está basada en gran medida en el trabajo de [@Ludeeus](https://github.com/ludeeus) y en el proyecto [integration_blueprint][integration_blueprint].
 
