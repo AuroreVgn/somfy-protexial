@@ -34,15 +34,19 @@ Se esta integração lhe for útil e quiser apoiar o seu desenvolvimento e manut
 
 ## 📑 Índice
 
-- [ℹ️ Sobre](#ℹ-sobre)
-- [🆕 Novidades da versão 2.2.1](#-novidades-da-versão-221)
-- [📦 Instalação](#-instalação)
-- [⚙️ Configuração](#-configuração)
-- [⚠️ Notas](#-notas)
-- [🤝 As contribuições são bem-vindas!](#-as-contribuições-são-bem-vindas)
-- [🙏 Créditos](#-créditos)
+- [ℹ️ Sobre](#toc-section-1)
+- [🆕 Novidades da versão 2.2.1](#toc-section-2)
+- [📦 Instalação](#toc-section-3)
+- [⚙️ Configuração](#toc-section-4)
+- [⚠️ Notas](#toc-section-5)
+- [🤝 As contribuições são bem-vindas!](#toc-section-6)
+- [🙏 Créditos](#toc-section-7)
+
+<a name="toc-section-1"></a>
 
 ## ℹ️ Sobre
+
+<a name="toc-section-2"></a>
 
 ## 🆕 Novidades da versão 2.2.1
 
@@ -213,6 +217,8 @@ A integração disponibiliza o **registo de eventos** da central através de um 
 
 O registo é lido com a conta **Utilizador**, apenas em modo de leitura, sem utilizar a conta Instalador. É atualizado no máximo uma vez a cada 5 minutos para limitar os pedidos à central. Se a leitura falhar temporariamente, os últimos eventos conhecidos são mantidos.
 
+<a name="toc-section-3"></a>
+
 ## 📦 Instalação
 
 ### Opção A: Instalação através do HACS (recomendada)
@@ -235,6 +241,8 @@ O registo é lido com a conta **Utilizador**, apenas em modo de leitura, sem uti
 4. Crie uma pasta `somfy_protexial` dentro de `custom_components`.
 5. Extraia o conteúdo de `somfy_protexial.zip` para a pasta `somfy_protexial`.
 6. Reinicie o Home Assistant.
+
+<a name="toc-section-4"></a>
 
 ## ⚙️ Configuração
 
@@ -274,6 +282,8 @@ Os diferentes modos de ativação utilizam as zonas configuradas na central Somf
 Este valor pode ser alterado dinamicamente posteriormente através de uma entidade `number`.
 
 **Conta de Instalador (opcional):** introduza o nome de utilizador (predefinido `i`) e a palavra-passe do Instalador apenas se pretender utilizar os switches `(PAUSA)` para pausar ou reativar elementos individualmente. O controlo normal do alarme continua a utilizar a conta **Utilizador**. A conta de Instalador também é necessária para ler e sincronizar a data/hora e para as definições gerais da central descritas acima.
+<a name="toc-section-5"></a>
+
 ## ⚠️ Notas
 
 ### Cartão Lovelace para Home Assistant (estado e controlo)
@@ -316,9 +326,13 @@ ou
 
 A integração suporta a reconfiguração completa diretamente através da interface gráfica do Home Assistant.
 
+<a name="toc-section-6"></a>
+
 ## 🤝 As contribuições são bem-vindas!
 
 Se pretender contribuir para o projeto, consulte as [Contribution guidelines](CONTRIBUTING.md).
+
+<a name="toc-section-7"></a>
 
 ## 🙏 Créditos
 
