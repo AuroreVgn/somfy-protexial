@@ -28,21 +28,21 @@ Als je deze integratie nuttig vindt en de ontwikkeling en het onderhoud ervan wi
   </a>
 </p>
 
-## Andere talen
+## 🌍 Andere talen
 
 [English](README.en.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Italiano](README.it.md) | [Nederlands](README.nl.md) | [Português](README.pt.md)
 
 ## 📑 Inhoudsopgave
 
-- [Over](#over)
+- [ℹ️ Over](#ℹ-over)
 - [🆕 Nieuw in versie 2.2.1](#-nieuw-in-versie-221)
-- [Installatie](#installatie)
-- [Configuratie](#configuratie)
-- [Opmerkingen](#opmerkingen)
-- [Bijdragen zijn welkom!](#bijdragen-zijn-welkom)
-- [Dankwoord](#dankwoord)
+- [📦 Installatie](#-installatie)
+- [⚙️ Configuratie](#-configuratie)
+- [⚠️ Opmerkingen](#-opmerkingen)
+- [🤝 Bijdragen zijn welkom!](#-bijdragen-zijn-welkom)
+- [🙏 Dankwoord](#-dankwoord)
 
-## Over
+## ℹ️ Over
 
 ## 🆕 Nieuw in versie 2.2.1
 
@@ -211,7 +211,7 @@ De integratie stelt het **gebeurtenissenlogboek** van de centrale beschikbaar vi
 
 Het logboek wordt alleen-lezen uitgelezen met het **Gebruiker**-account, zonder het Installateur-account te gebruiken. Het wordt maximaal eenmaal per 5 minuten vernieuwd om het aantal verzoeken aan de centrale te beperken. Als het uitlezen tijdelijk mislukt, blijven de laatst bekende gebeurtenissen behouden.
 
-## Installatie
+## 📦 Installatie
 
 ### Optie A: Installatie via HACS (aanbevolen)
 
@@ -234,7 +234,7 @@ Het logboek wordt alleen-lezen uitgelezen met het **Gebruiker**-account, zonder 
 5. Pak de inhoud van `somfy_protexial.zip` uit in de map `somfy_protexial`.
 6. Herstart Home Assistant.
 
-## Configuratie
+## ⚙️ Configuratie
 
 - Voeg de integratie toe via [![Open your Home Assistant instance and start setting up a new integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=somfy_protexial) of handmatig.
 - Instellingen → Apparaten en diensten → + Integratie toevoegen → Somfy Protexial
@@ -272,7 +272,7 @@ De verschillende inschakelmodi zijn gebaseerd op de zones die in de Somfy-alarmc
 Deze waarde kan daarna dynamisch worden gewijzigd via een `number`-entiteit.
 
 **Installateur-account (optioneel):** vul de gebruikersnaam (standaard `i`) en het wachtwoord van de Installateur alleen in als je de `(PAUZE)`-schakelaars wilt gebruiken om afzonderlijke elementen te pauzeren of opnieuw te activeren. De normale alarmbediening blijft het **Gebruiker**-account gebruiken. Het Installateur-account is ook vereist voor het lezen en synchroniseren van datum/tijd en voor de hierboven beschreven algemene instellingen van de centrale.
-## Opmerkingen
+## ⚠️ Opmerkingen
 
 ### Lovelace-kaart voor Home Assistant (status en bediening)
 
@@ -314,11 +314,11 @@ of
 
 De integratie ondersteunt volledige herconfiguratie rechtstreeks vanuit de grafische gebruikersinterface van Home Assistant.
 
-## Bijdragen zijn welkom!
+## 🤝 Bijdragen zijn welkom!
 
 Wilt u bijdragen aan het project? Raadpleeg dan de [Contribution guidelines](CONTRIBUTING.md).
 
-## Dankwoord
+## 🙏 Dankwoord
 
 Deze integratie is grotendeels gebaseerd op het werk van [@Ludeeus](https://github.com/ludeeus) en het project [integration_blueprint][integration_blueprint].
 
