@@ -33,6 +33,16 @@ If you find this integration useful and would like to support its development an
 
 [English](README.en.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Italiano](README.it.md) | [Nederlands](README.nl.md) | [Português](README.pt.md)
 
+## 📑 Table of contents
+
+- [🆕 What's new in version 2.2.1](#-whats-new-in-version-221)
+- [About](#about)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Notes](#notes)
+- [Contributions are welcome!](#contributions-are-welcome)
+- [Credits](#credits)
+
 ## 🆕 What's new in version 2.2.1
 
 This stable release includes the fixes and improvements from `2.2.1-beta1`, `2.2.1-beta2`, and `2.2.1-beta3`:
