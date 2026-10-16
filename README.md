@@ -30,17 +30,19 @@ Si cette intégration vous est utile et que vous souhaitez soutenir son dévelop
 
 ## 📑 Sommaire
 
-- [ℹ️ À propos](#ℹ-à-propos)
-- [🆕 Nouveautés de la version 2.2.1](#-nouveautés-de-la-version-221)
-- [✨ Fonctionnalités principales](#-fonctionnalités-principales)
-- [🛡️ Compatibilité](#-compatibilité)
-- [📦 Installation](#-installation)
-- [⚙️ Configuration](#-configuration)
-- [📚 Documentation](#-documentation)
-- [🧩 Carte Lovelace](#-carte-lovelace)
-- [⚠️ À savoir](#-à-savoir)
-- [🤝 Contributions](#-contributions)
-- [🙏 Crédits](#-crédits)
+- [ℹ️ À propos](#toc-section-1)
+- [🆕 Nouveautés de la version 2.2.1](#toc-section-2)
+- [✨ Fonctionnalités principales](#toc-section-3)
+- [🛡️ Compatibilité](#toc-section-4)
+- [📦 Installation](#toc-section-5)
+- [⚙️ Configuration](#toc-section-6)
+- [📚 Documentation](#toc-section-7)
+- [🧩 Carte Lovelace](#toc-section-8)
+- [⚠️ À savoir](#toc-section-9)
+- [🤝 Contributions](#toc-section-10)
+- [🙏 Crédits](#toc-section-11)
+
+<a name="toc-section-1"></a>
 
 ## ℹ️ À propos
 
@@ -56,6 +58,8 @@ Le projet vise notamment à prolonger la durée de vie de ces centrales et à an
 > [!TIP]
 > 📚 La documentation détaillée, les guides, automatisations et solutions de dépannage sont regroupés dans le **[Wiki du projet](https://github.com/AuroreVgn/somfy-protexial/wiki)**.
 
+<a name="toc-section-2"></a>
+
 ## 🆕 Nouveautés de la version 2.2.1
 
 Cette version stable regroupe les corrections et améliorations des versions `2.2.1-beta1`, `2.2.1-beta2` et `2.2.1-beta3` :
@@ -67,6 +71,8 @@ Cette version stable regroupe les corrections et améliorations des versions `2.
 - 🔒 **Confidentialité des logs DEBUG :** masquage des mots de passe, codes d'authentification, données sensibles des requêtes POST et cookies de session ; le challenge reste lisible pour le diagnostic.
 
 Merci à @benztown711 pour ses tests et retours sur une centrale Protexial ©2010 `v7_9` en allemand.
+
+<a name="toc-section-3"></a>
 
 ## ✨ Fonctionnalités principales
 
@@ -86,6 +92,8 @@ L'intégration permet notamment :
 - 📜 la consultation des événements récents de la centrale.
 
 ➡️ **[Consulter la liste complète des entités et fonctionnalités](https://github.com/AuroreVgn/somfy-protexial/wiki/Entit%C3%A9s-et-fonctionnalit%C3%A9s)**
+
+<a name="toc-section-4"></a>
 
 ## 🛡️ Compatibilité
 
@@ -113,6 +121,8 @@ La langue de l'interface de la centrale est indépendante de la langue utilisée
 
 ➡️ **[Consulter les modèles et versions testés](https://github.com/AuroreVgn/somfy-protexial/wiki/Compatibilit%C3%A9-des-centrales)**
 
+<a name="toc-section-5"></a>
+
 ## 📦 Installation
 
 ### Option A — HACS (recommandé)
@@ -139,6 +149,8 @@ Ou manuellement :
 
 > [!TIP]
 > Besoin d'installer ou de tester une ancienne version ? Consultez **[Télécharger une version précise de l'intégration](https://github.com/AuroreVgn/somfy-protexial/wiki/T%C3%A9l%C3%A9charger-une-version-pr%C3%A9cise-de-l'int%C3%A9gration)**.
+
+<a name="toc-section-6"></a>
 
 ## ⚙️ Configuration
 
@@ -205,6 +217,8 @@ Il permet d'accéder aux fonctions qui nécessitent des droits supplémentaires,
 
 ➡️ **[Pause et maintenance des éléments](https://github.com/AuroreVgn/somfy-protexial/wiki/Pause-et-maintenance-des-%C3%A9l%C3%A9ments)**
 
+<a name="toc-section-7"></a>
+
 ## 📚 Documentation
 
 Le Wiki regroupe la documentation détaillée afin de garder ce README volontairement simple.
@@ -224,6 +238,8 @@ Le Wiki regroupe la documentation détaillée afin de garder ce README volontair
 
 ➡️ **[Accéder au Wiki complet](https://github.com/AuroreVgn/somfy-protexial/wiki)**
 
+<a name="toc-section-8"></a>
+
 ## 🧩 Carte Lovelace
 
 Une carte Lovelace dédiée a été développée pour afficher et piloter facilement l'alarme :
@@ -231,6 +247,8 @@ Une carte Lovelace dédiée a été développée pour afficher et piloter facile
 ➡️ **[somfy-protexial-card](https://github.com/developpeurbox/somfy-protexial-card)** par [developpeurbox](https://github.com/developpeurbox)
 
 D'autres exemples de dashboards sont disponibles dans la **[page Dashboard du Wiki](https://github.com/AuroreVgn/somfy-protexial/wiki/Dashboard)**.
+
+<a name="toc-section-9"></a>
 
 ## ⚠️ À savoir
 
@@ -260,12 +278,16 @@ Avant de signaler un problème, consultez la **[FAQ](https://github.com/AuroreVg
 - 🐛 [Issues GitHub](https://github.com/AuroreVgn/somfy-protexial/issues)
 - 💬 [Discussion HACF](https://forum.hacf.fr/t/integration-custom-centrale-somfy-protexial/23589/1)
 
+<a name="toc-section-10"></a>
+
 ## 🤝 Contributions
 
 Les contributions et retours sur d'autres générations de centrales sont les bienvenus.
 
 ➡️ [Contribution guidelines](CONTRIBUTING.md)
 
+
+<a name="toc-section-11"></a>
 
 ## 🙏 Crédits
 
