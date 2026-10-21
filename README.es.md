@@ -54,6 +54,7 @@ Si esta integración te resulta útil y deseas apoyar su desarrollo y mantenimie
 - **PAUSA:** se elimina el interruptor PAUSA de la central porque la interfaz web no ofrece esta función; los demás elementos compatibles la conservan.
 - **[Apertura de memoria (#31)](https://github.com/AuroreVgn/somfy-protexial/issues/31) :** se añade un botón que pone la central en pausa durante 2 minutos para facilitar el mantenimiento, como el cambio de pilas. Esta función también permite añadir nuevos elementos al sistema de alarma. Por ahora, no se ha considerado pertinente añadir elementos directamente desde la integración.
 - **[Cierre de memoria (#31)](https://github.com/AuroreVgn/somfy-protexial/issues/31) :** se añade un botón para sacar la central del modo de pausa.
+- **Estos dos botones solo están disponibles si el código de instalador está configurado en la integración.**
 - **Importante:** utilizar estos comandos con la alarma desactivada. No se dispone de un estado real de apertura/cierre.
 
 ### Versión anterior — 2.2.1
