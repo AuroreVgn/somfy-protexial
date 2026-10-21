@@ -50,10 +50,10 @@ Als je deze integratie nuttig vindt en de ontwikkeling en het onderhoud ervan wi
 
 ## 🆕 Nieuw in versie 2.2.2
 
-- **Protexiom 2008 (`2.2.2-beta1`):** verbeterde detectie van de aanmeldpagina op oudere Protexiom en Protexiom ALT centrales. De integratie controleert eerst `/login.htm` en het authenticatiekenmerk, vóór de meertalige pagina's. Reeds herkende oudere centrales slaan deze controles over. **Nog te testen op een echte Protexiom 2008.**
+- **[Protexiom 2008 (#30)](https://github.com/AuroreVgn/somfy-protexial/issues/30) :** verbeterde detectie van de aanmeldpagina op oudere Protexiom en Protexiom ALT centrales. De integratie controleert eerst `/login.htm` en het authenticatiekenmerk, vóór de meertalige pagina's. Reeds herkende oudere centrales slaan deze controles over. **Nog te testen op een echte Protexiom 2008.**
 - **PAUZE:** de PAUZE-schakelaar voor de centrale is verwijderd omdat de webinterface deze functie niet aanbiedt; andere compatibele elementen behouden deze functie.
-- **Geheugen openen:** een nieuwe knop zet de centrale gedurende 2 minuten in de pauzestand om onderhoud, zoals het vervangen van batterijen, te vergemakkelijken. Hiermee kunnen ook nieuwe elementen aan het alarmsysteem worden toegevoegd. Het rechtstreeks toevoegen van elementen via de integratie wordt op dit moment niet als een zinvolle functie beschouwd.
-- **Geheugen sluiten:** een nieuwe knop haalt de centrale uit de pauzestand.
+- **[Geheugen openen (#31)](https://github.com/AuroreVgn/somfy-protexial/issues/31) :** een nieuwe knop zet de centrale gedurende 2 minuten in de pauzestand om onderhoud, zoals het vervangen van batterijen, te vergemakkelijken. Hiermee kunnen ook nieuwe elementen aan het alarmsysteem worden toegevoegd. Het rechtstreeks toevoegen van elementen via de integratie wordt op dit moment niet als een zinvolle functie beschouwd.
+- **[Geheugen sluiten (#31)](https://github.com/AuroreVgn/somfy-protexial/issues/31) :** een nieuwe knop haalt de centrale uit de pauzestand.
 - **Belangrijk:** gebruik deze opdrachten alleen wanneer het alarm uitgeschakeld is. Er is geen werkelijke open-/geslotenstatus beschikbaar.
 
 ### Vorige versie — 2.2.1
