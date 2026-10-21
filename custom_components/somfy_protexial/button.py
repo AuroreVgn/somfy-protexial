@@ -40,6 +40,8 @@ async def async_setup_entry(
     if protexial.installer_username and protexial.installer_password:
         entities.extend(
             [
+                ProtexialMemoryButton(device_info, protexial, config_entry.entry_id, True),
+                ProtexialMemoryButton(device_info, protexial, config_entry.entry_id, False),
                 ProtexialReadDateTimeButton(
                     device_info=device_info,
                     protexial=protexial,
@@ -66,6 +68,26 @@ async def async_setup_entry(
         async_add_entities(entities)
     else:
         _LOGGER.debug("No buttons to add.")
+
+
+class ProtexialMemoryButton(ButtonEntity):
+    """Send a memory command without exposing a fictitious open/closed state."""
+
+    _attr_has_entity_name = True
+    _attr_entity_category = EntityCategory.CONFIG
+
+    def __init__(self, device_info, protexial, entry_id: str, opening: bool) -> None:
+        self._protexial = protexial
+        self._opening = opening
+        action = "open" if opening else "close"
+        self._attr_unique_id = f"{entry_id}_memory_{action}"
+        self._attr_translation_key = f"memory_{action}"
+        self._attr_icon = "mdi:lock-open-outline" if opening else "mdi:lock-outline"
+        self._attr_device_info = device_info
+
+    async def async_press(self) -> None:
+        """Issue the command using the existing installer session workflow."""
+        await self._protexial.set_memory_open(self._opening)
 
 
 class ProtexialRefreshButton(ButtonEntity):
