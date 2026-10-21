@@ -150,7 +150,7 @@ De taal van de webinterface van de centrale staat los van de taal die in Home As
 | `binary_sensor.do_gar_xxx` | Garagedeurcontact - Attributen: batterij, verbinding met de centrale, fout, sabotage, open/gesloten, gepauzeerd | 2.0.0 |
 | `binary_sensor.dm_image_mvt_xxx` | Bewegingsmelder met beeldopname - Attributen: batterij, verbinding met de centrale, fout, sabotage, gepauzeerd | 2.0.0 |
 | `binary_sensor.dm_mvt_xxx` | Bewegingsmelder - Attributen: batterij, verbinding met de centrale, fout, sabotage, gepauzeerd | 2.0.0 |
-| `binary_sensor.tr_tel_xxx` | Alarmcentrale - Attributen: batterij, verbinding met de centrale, fout, sabotage, gepauzeerd | 2.0.0 |
+| `binary_sensor.tr_tel_xxx` | Alarmcentrale - Attributen: batterij, verbinding met de centrale, fout, sabotage | 2.0.0 |
 | `binary_sensor.clavier_clv_xxx` | Toetsenbord - Attributen: batterij, verbinding met de centrale, fout, sabotage, gepauzeerd | 2.0.0 |
 | `binary_sensor.cl_lcd_clv_xxx` | LCD-toetsenbord - Attributen: batterij, verbinding met de centrale, fout, sabotage, gepauzeerd | 2.0.0 |
 | `binary_sensor.sir_ext_xxx` | Buitensirene - Attributen: batterij, verbinding met de centrale, fout, sabotage, gepauzeerd | 2.0.0 |
