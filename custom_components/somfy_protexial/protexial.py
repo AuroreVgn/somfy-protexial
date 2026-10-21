@@ -3,24 +3,24 @@ import json
 import logging
 import re
 import string
-
 from urllib.parse import urlencode
 from xml.etree import ElementTree as ET
+
 from aiohttp import ClientError, ClientSession
 from pyquery import PyQuery as pq
 
 from .const import (
+    ApiType,
     CHALLENGE_REGEX,
     HTTP_TIMEOUT,
-    ApiType,
+    LIST_ELEMENTS,
+    LIST_ELEMENTS_ALT,
+    LIST_ELEMENTS_ALT_NOLANG,
+    LIST_ELEMENTS_NOLANG,
+    LIST_ELEMENTS_PRINT,
     Page,
     Selector,
     SomfyError,
-    LIST_ELEMENTS,
-    LIST_ELEMENTS_PRINT,
-    LIST_ELEMENTS_ALT,
-    LIST_ELEMENTS_NOLANG,
-    LIST_ELEMENTS_ALT_NOLANG,
 )
 
 from .protexial_api import ProtexialApi
