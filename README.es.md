@@ -150,7 +150,7 @@ El idioma de la interfaz web de la central es independiente del idioma utilizado
 | `binary_sensor.do_gar_xxx` | Contacto de puerta de garaje: batería, comunicación con la central, fallo, sabotaje, abierta/cerrada, pausado | 2.0.0 |
 | `binary_sensor.dm_image_mvt_xxx` | Detector de movimiento con captura de imágenes: batería, comunicación con la central, fallo, sabotaje, pausado | 2.0.0 |
 | `binary_sensor.dm_mvt_xxx` | Detector de movimiento: batería, comunicación con la central, fallo, sabotaje, pausado | 2.0.0 |
-| `binary_sensor.tr_tel_xxx` | Central de alarma: batería, comunicación con la central, fallo, sabotaje, pausado | 2.0.0 |
+| `binary_sensor.tr_tel_xxx` | Central de alarma: batería, comunicación con la central, fallo, sabotaje | 2.0.0 |
 | `binary_sensor.clavier_clv_xxx` | Teclado: batería, comunicación con la central, fallo, sabotaje, pausado | 2.0.0 |
 | `binary_sensor.cl_lcd_clv_xxx` | Teclado LCD: batería, comunicación con la central, fallo, sabotaje, pausado | 2.0.0 |
 | `binary_sensor.sir_ext_xxx` | Sirena exterior: batería, comunicación con la central, fallo, sabotaje, pausado | 2.0.0 |
