@@ -62,10 +62,10 @@ Le projet vise notamment à prolonger la durée de vie de ces centrales et à an
 
 ## 🆕 Nouveautés de la version 2.2.2
 
-- **Mémoire d'appairage :** deux boutons sans état, « Ouverture mémoire » et « Fermeture mémoire », permettent de commander l'enregistrement des nouveaux éléments depuis Home Assistant.
-- **PAUSE :** suppression du commutateur PAUSE pour la centrale uniquement ; les autres éléments compatibles conservent cette fonction.
-- **Compatibilité :** utilisation temporaire du compte installateur, restauration de la session utilisateur et détection des variantes de la page des éléments.
-- **Important :** utiliser ces commandes lorsque l'alarme est à l'arrêt. L'ouverture dure normalement deux minutes (renouvelées à chaque élément enregistré). Aucun état ouvert/fermé n'est disponible. Fonction testée sur une Protexial ; anciennes Protexiom à confirmer.
+- **PAUSE :** suppression du commutateur PAUSE pour la centrale car la page web ne propose pas cette fonction ; les autres éléments compatibles conservent cette fonction.
+- **Ouverture de la mémoire :** ajout de ce bouton qui permet de mettre en pause la centrale pendant 2 min pour faciliter sa maintenance, notamment le remplacement des piles. Cette fonction permet aussi d'ajouter de nouveaux éléments au système d'alarme. À ce jour, l'ajout d'éléments depuis l'intégration n'a pas été jugé pertinent.
+- **Fermeture de la mémoire :** ajout de ce bouton qui permet de sortir la centrale de pause.
+- **Important :** utiliser ces commandes lorsque l'alarme est à l'arrêt. Aucun état ouvert/fermé n'est disponible.
 
 ### Previous version — 2.2.1
 
