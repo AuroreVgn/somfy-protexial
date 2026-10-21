@@ -16,7 +16,7 @@ jobs:
       contents: write
     steps:
       - name: Check out the released revision
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: ${{ github.event_name == 'release' && github.event.release.tag_name || github.ref }}
           persist-credentials: false
@@ -92,7 +92,7 @@ jobs:
           PY
 
       - name: Preserve verified ZIP as workflow artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: somfy-protexial-hacs
           path: ${{ runner.temp }}/somfy_protexial.zip
