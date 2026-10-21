@@ -67,11 +67,7 @@ Le projet vise notamment à prolonger la durée de vie de ces centrales et à an
 - **Fermeture de la mémoire :** ajout de ce bouton qui permet de sortir la centrale de pause.
 - **Important :** utiliser ces commandes lorsque l'alarme est à l'arrêt. Aucun état ouvert/fermé n'est disponible.
 
-### Previous version — 2.2.1
-
-#### 🆕 Nouveautés de la version 2.2.1
-
-Cette version stable regroupe les corrections et améliorations des versions `2.2.1-beta1`, `2.2.1-beta2` et `2.2.1-beta3` :
+### Version précédente — 2.2.1
 
 - 🌍 **Compatibilité multilingue :** détection de la langue de l'interface Web des centrales et prise en charge des chemins localisés (`/fr/`, `/de/`, `/gb/`, `/sp/`, `/it/`, `/nl/`), avec conservation des chemins sans préfixe pour les modèles concernés.
 - 📋 **Journal des événements :** détection des réponses HTML tronquées, nouvelle tentative de lecture et conservation des derniers événements valides si l'actualisation échoue.
