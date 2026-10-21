@@ -33,4 +33,5 @@ repos:
             "--profile",
             "black",
             "--check-only",
+            "--diff",
           ]
