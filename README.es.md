@@ -50,10 +50,10 @@ Si esta integración te resulta útil y deseas apoyar su desarrollo y mantenimie
 
 ## 🆕 Novedades de la versión 2.2.2
 
-- **Memoria de emparejamiento:** dos botones sin estado para abrir y cerrar el registro de nuevos dispositivos.
-- **PAUSA:** se elimina el interruptor PAUSA de la central; se conserva para los demás dispositivos compatibles.
-- **Compatibilidad:** sesión temporal de instalador, restauración de la sesión de usuario y detección de variantes de la página.
-- **Importante:** usar con la alarma desactivada. La apertura suele durar dos minutos (renovados tras cada registro). No hay estado real disponible. Probado en una Protexial; falta verificar modelos Protexiom antiguos.
+- **PAUSA:** se elimina el interruptor PAUSA de la central porque la interfaz web no ofrece esta función; los demás elementos compatibles la conservan.
+- **Apertura de memoria:** se añade un botón que pone la central en pausa durante 2 minutos para facilitar el mantenimiento, como el cambio de pilas. Esta función también permite añadir nuevos elementos al sistema de alarma. Por ahora, no se ha considerado pertinente añadir elementos directamente desde la integración.
+- **Cierre de memoria:** se añade un botón para sacar la central del modo de pausa.
+- **Importante:** utilizar estos comandos con la alarma desactivada. No se dispone de un estado real de apertura/cierre.
 
 ### Previous version — 2.2.1
 
