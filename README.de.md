@@ -150,7 +150,7 @@ Die Sprache der Weboberfläche der Alarmzentrale ist unabhängig von der in Home
 | `binary_sensor.do_gar_xxx` | Garagentorkontakt – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, offen/geschlossen, pausiert | 2.0.0 |
 | `binary_sensor.dm_image_mvt_xxx` | Bewegungsmelder mit Bildaufnahme – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 |
 | `binary_sensor.dm_mvt_xxx` | Bewegungsmelder – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 |
-| `binary_sensor.tr_tel_xxx` | Alarmzentrale – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 |
+| `binary_sensor.tr_tel_xxx` | Alarmzentrale – Batterie, Verbindung zur Zentrale, Fehler, Sabotage | 2.0.0 |
 | `binary_sensor.clavier_clv_xxx` | Tastatur – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 |
 | `binary_sensor.cl_lcd_clv_xxx` | LCD-Tastatur – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 |
 | `binary_sensor.sir_ext_xxx` | Außensirene – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 |
