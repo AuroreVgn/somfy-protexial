@@ -1,4 +1,4 @@
-from enum import Enum, auto
+from enum import Enum
 
 from homeassistant.components.binary_sensor import BinarySensorDeviceClass
 
