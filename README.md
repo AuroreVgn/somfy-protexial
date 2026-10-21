@@ -62,10 +62,10 @@ Le projet vise notamment à prolonger la durée de vie de ces centrales et à an
 
 ## 🆕 Nouveautés de la version 2.2.2
 
-- **Correction Protexiom 2008 (issue de `2.2.2-beta1`) :** amélioration de la détection de connexion des anciennes Protexiom et Protexiom ALT : priorité à `/login.htm` et vérification de la signature d'authentification avant toute recherche de pages multilingues. Les centrales déjà identifiées évitent ces sondages. **Correctif encore à valider sur une véritable Protexiom 2008.**
+- **[Correction Protexiom 2008 (#30)](https://github.com/AuroreVgn/somfy-protexial/issues/30) :** amélioration de la détection de connexion des anciennes Protexiom et Protexiom ALT : priorité à `/login.htm` et vérification de la signature d'authentification avant toute recherche de pages multilingues. Les centrales déjà identifiées évitent ces sondages. **Correctif encore à valider sur une véritable Protexiom 2008.**
 - **PAUSE :** suppression du commutateur PAUSE pour la centrale car la page web ne propose pas cette fonction ; les autres éléments compatibles conservent cette fonction.
-- **Ouverture de la mémoire :** ajout de ce bouton qui permet de mettre en pause la centrale pendant 2 min pour faciliter sa maintenance, notamment le remplacement des piles. Cette fonction permet aussi d'ajouter de nouveaux éléments au système d'alarme. À ce jour, l'ajout d'éléments depuis l'intégration n'a pas été jugé pertinent.
-- **Fermeture de la mémoire :** ajout de ce bouton qui permet de sortir la centrale de pause.
+- **[Ouverture de la mémoire (#31)](https://github.com/AuroreVgn/somfy-protexial/issues/31) :** ajout de ce bouton qui permet de mettre en pause la centrale pendant 2 min pour faciliter sa maintenance, notamment le remplacement des piles. Cette fonction permet aussi d'ajouter de nouveaux éléments au système d'alarme. À ce jour, l'ajout d'éléments depuis l'intégration n'a pas été jugé pertinent.
+- **[Fermeture de la mémoire (#31)](https://github.com/AuroreVgn/somfy-protexial/issues/31) :** ajout de ce bouton qui permet de sortir la centrale de pause.
 - **Important :** utiliser ces commandes lorsque l'alarme est à l'arrêt. Aucun état ouvert/fermé n'est disponible.
 
 ### Version précédente — 2.2.1
