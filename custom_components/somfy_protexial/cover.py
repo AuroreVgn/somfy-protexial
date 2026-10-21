@@ -42,12 +42,10 @@ class ProtexialCover(CoverEntity):
         self._attr_device_info = device_info
         self.api = api
 
-
     @property
     def is_closed(self):
         # Can't determine cover state
         return None
-
 
     async def async_open_cover(self):
         await self.api.open_cover()
