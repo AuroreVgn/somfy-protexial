@@ -56,7 +56,7 @@ Se questa integrazione ti è utile e desideri supportarne lo sviluppo e la manut
 - **Chiusura della memoria:** aggiunto un pulsante per far uscire la centrale dalla pausa.
 - **Importante:** usare questi comandi con l'allarme disinserito. Non è disponibile uno stato reale aperto/chiuso.
 
-### Previous version — 2.2.1
+### Versione precedente — 2.2.1
 
 #### 🆕 Novità della versione 2.2.1
 
@@ -180,7 +180,12 @@ Gli attributi sono visibili nel menu **"Dettagli"**.
 | `button.reresh` |  | 2.0.13 |
 | `button.leggi_data_e_ora_della_centrale` | Legge la data e l’ora attualmente memorizzate nella centrale | 2.1.x |
 | `button.sincronizza_data_e_ora` | Sincronizza data e ora della centrale con data e ora locali di Home Assistant | 2.1.x |
+| `button.memory_open` * | **Apertura della memoria** — Mette la centrale in pausa per 2 minuti per la manutenzione, come la sostituzione delle batterie; permette anche l'abbinamento di nuovi dispositivi. | 2.2.2 |
+| `button.memory_close` * | **Chiusura della memoria** — Termina la modalità memoria/pausa della centrale. | 2.2.2 |
 
+
+
+*Gli ID delle entità sono esempi; Home Assistant può generarne di localizzati. Sono necessarie le credenziali installatore e l'allarme disinserito. La centrale non dispone di un interruttore PAUSA né di uno stato memoria leggibile.
 
 #### ⏸️ Pausa / riattivazione degli elementi (versione 2.1):
 
