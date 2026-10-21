@@ -150,7 +150,7 @@ The alarm panel interface language is independent from the language used by Home
 | `binary_sensor.do_gar_xxx` | Garage door contact - Attributes: battery, panel communication, fault, tamper, open/closed, paused | 2.0.0 |
 | `binary_sensor.dm_image_mvt_xxx` | Motion detector with image capture - Attributes: battery, panel communication, fault, tamper, paused | 2.0.0 |
 | `binary_sensor.dm_mvt_xxx` | Motion detector - Attributes: battery, panel communication, fault, tamper, paused | 2.0.0 |
-| `binary_sensor.tr_tel_xxx` | Alarm control panel - Attributes: battery, panel communication, fault, tamper, paused | 2.0.0 |
+| `binary_sensor.tr_tel_xxx` | Alarm control panel - Attributes: battery, panel communication, fault, tamper | 2.0.0 |
 | `binary_sensor.clavier_clv_xxx` | Keypad - Attributes: battery, panel communication, fault, tamper, paused | 2.0.0 |
 | `binary_sensor.cl_lcd_clv_xxx` | LCD keypad - Attributes: battery, panel communication, fault, tamper, paused | 2.0.0 |
 | `binary_sensor.sir_ext_xxx` | Outdoor siren - Attributes: battery, panel communication, fault, tamper, paused | 2.0.0 |
