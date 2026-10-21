@@ -38,11 +38,9 @@ class ProtexialLight(LightEntity):
         self._changed_by = None
         self._state = False
 
-
     @property
     def is_on(self):
         return self._state
-
 
     async def async_turn_on(self):
         await self.api.turn_light_on()
