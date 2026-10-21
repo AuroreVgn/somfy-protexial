@@ -54,6 +54,7 @@ Als je deze integratie nuttig vindt en de ontwikkeling en het onderhoud ervan wi
 - **PAUZE:** de PAUZE-schakelaar voor de centrale is verwijderd omdat de webinterface deze functie niet aanbiedt; andere compatibele elementen behouden deze functie.
 - **[Geheugen openen (#31)](https://github.com/AuroreVgn/somfy-protexial/issues/31) :** een nieuwe knop zet de centrale gedurende 2 minuten in de pauzestand om onderhoud, zoals het vervangen van batterijen, te vergemakkelijken. Hiermee kunnen ook nieuwe elementen aan het alarmsysteem worden toegevoegd. Het rechtstreeks toevoegen van elementen via de integratie wordt op dit moment niet als een zinvolle functie beschouwd.
 - **[Geheugen sluiten (#31)](https://github.com/AuroreVgn/somfy-protexial/issues/31) :** een nieuwe knop haalt de centrale uit de pauzestand.
+- **Deze twee knoppen zijn alleen beschikbaar als de installateurscode in de integratie is ingesteld.**
 - **Belangrijk:** gebruik deze opdrachten alleen wanneer het alarm uitgeschakeld is. Er is geen werkelijke open-/geslotenstatus beschikbaar.
 
 ### Vorige versie — 2.2.1
