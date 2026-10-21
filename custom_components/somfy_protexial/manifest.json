@@ -20,6 +20,6 @@
   "version": "2.2.2",
   "integration_type": "hub",
   "categories": [
-    "alarm"
+    "security_safety.alarm_systems"
   ]
 }
