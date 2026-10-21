@@ -47,7 +47,9 @@ async def async_setup_entry(
     refresh_elements = data[REFRESH_ELEMENTS]
 
     if not api.installer_username or not api.installer_password:
-        _LOGGER.debug("Installer credentials are not configured; installer switches disabled")
+        _LOGGER.debug(
+            "Installer credentials are not configured; installer switches disabled"
+        )
         return
 
     switches: list[SwitchEntity] = []
@@ -58,7 +60,9 @@ async def async_setup_entry(
         if api.general_setting_supported("kiela"):
             switches.append(
                 SomfyGeneralSettingSwitch(
-                    api, device_info, config_entry.entry_id,
+                    api,
+                    device_info,
+                    config_entry.entry_id,
                     field="kiela",
                     translation_key="ding_dong",
                     icon="mdi:bell-ring-outline",
@@ -68,7 +72,9 @@ async def async_setup_entry(
         if api.general_setting_supported("bipontransmiter"):
             switches.append(
                 SomfyGeneralSettingSwitch(
-                    api, device_info, config_entry.entry_id,
+                    api,
+                    device_info,
+                    config_entry.entry_id,
                     field="bipontransmiter",
                     translation_key="transmitter_beep",
                     icon="mdi:volume-medium",
@@ -102,7 +108,16 @@ class SomfyGeneralSettingSwitch(SwitchEntity):
     _attr_entity_category = EntityCategory.CONFIG
     _attr_should_poll = False
 
-    def __init__(self, api, device_info, entry_id: str, field: str, translation_key: str, icon: str, initial_value: bool) -> None:
+    def __init__(
+        self,
+        api,
+        device_info,
+        entry_id: str,
+        field: str,
+        translation_key: str,
+        icon: str,
+        initial_value: bool,
+    ) -> None:
         self._api = api
         self._field = field
         self._attr_translation_key = translation_key
@@ -113,7 +128,9 @@ class SomfyGeneralSettingSwitch(SwitchEntity):
 
     async def _set_value(self, enabled: bool) -> None:
         # Checked checkboxes are posted as "mode". Unchecked ones are omitted.
-        await self._api.update_general_settings({self._field: "mode" if enabled else None})
+        await self._api.update_general_settings(
+            {self._field: "mode" if enabled else None}
+        )
         self._attr_is_on = enabled
         self.async_write_ha_state()
 
@@ -131,7 +148,9 @@ class SomfyElementActiveSwitch(CoordinatorEntity, SwitchEntity):
     _attr_translation_key = "element_active"
     _attr_entity_category = EntityCategory.DIAGNOSTIC
 
-    def __init__(self, coordinator, api, element: dict, device_info, refresh_elements) -> None:
+    def __init__(
+        self, coordinator, api, element: dict, device_info, refresh_elements
+    ) -> None:
         super().__init__(coordinator)
         self._api = api
         self._refresh_elements = refresh_elements
@@ -165,14 +184,20 @@ class SomfyElementActiveSwitch(CoordinatorEntity, SwitchEntity):
     async def _set_active(self, active: bool) -> None:
         current = self.is_on
         if current is None:
-            raise SomfyException(f"Unable to determine current state for element {self._code}")
+            raise SomfyException(
+                f"Unable to determine current state for element {self._code}"
+            )
         if current == active:
             return
 
         await self._api.set_element_active(self._code, active)
         elements = await self._refresh_elements()
         refreshed = next(
-            (element for element in elements if str(element.get("code") or "").strip() == self._code),
+            (
+                element
+                for element in elements
+                if str(element.get("code") or "").strip() == self._code
+            ),
             None,
         )
         refreshed_state = _pause_state(refreshed or {})
@@ -183,7 +208,9 @@ class SomfyElementActiveSwitch(CoordinatorEntity, SwitchEntity):
         }
         self.coordinator.async_set_updated_data(new_data)
         if refreshed_state != active:
-            raise SomfyException(f"Element {self._code} did not reach the requested state")
+            raise SomfyException(
+                f"Element {self._code} did not reach the requested state"
+            )
 
     async def async_turn_on(self, **kwargs) -> None:
         await self._set_active(True)
