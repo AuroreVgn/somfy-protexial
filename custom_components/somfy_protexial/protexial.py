@@ -10,7 +10,6 @@ from aiohttp import ClientError, ClientSession
 from pyquery import PyQuery as pq
 
 from .const import (
-    ApiType,
     CHALLENGE_REGEX,
     HTTP_TIMEOUT,
     LIST_ELEMENTS,
@@ -18,6 +17,7 @@ from .const import (
     LIST_ELEMENTS_ALT_NOLANG,
     LIST_ELEMENTS_NOLANG,
     LIST_ELEMENTS_PRINT,
+    ApiType,
     Page,
     Selector,
     SomfyError,
