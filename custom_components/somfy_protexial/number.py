@@ -66,7 +66,9 @@ class SomfyRefreshIntervalNumber(NumberEntity):
     _attr_native_unit_of_measurement = UnitOfTime.SECONDS
     _attr_mode = NumberMode.BOX
 
-    def __init__(self, coordinator: DataUpdateCoordinator, entry: ConfigEntry, device_info, store) -> None:
+    def __init__(
+        self, coordinator: DataUpdateCoordinator, entry: ConfigEntry, device_info, store
+    ) -> None:
         self._coordinator = coordinator
         self._entry = entry
         self._store = store
@@ -96,7 +98,9 @@ class SomfyRefreshIntervalNumber(NumberEntity):
         self.async_write_ha_state()
 
     def _apply_interval(self, interval: int) -> None:
-        self._coordinator.update_interval = None if interval == 0 else timedelta(seconds=interval)
+        self._coordinator.update_interval = (
+            None if interval == 0 else timedelta(seconds=interval)
+        )
         if self._coordinator.data is not None:
             self._coordinator.async_set_updated_data(self._coordinator.data)
 
