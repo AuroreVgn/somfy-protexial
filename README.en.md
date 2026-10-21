@@ -123,43 +123,43 @@ The alarm panel interface language is independent from the language used by Home
 
 #### The following entities are supported:
 
-| Entity | Description | Version |
-| ----------------------------------- | ----------------------------------------------------------- |-----------------------------------------------------------|
-| `alarm_control_panel.alarme` | Supports `armed_away`, `armed_home`, `armed_night` modes | 1.2.4 |
-| `cover.volets` | Open, close and stop. Position control is not supported | 1.2.4 |
-| `light.lumieres` | On/Off (state maintained by the integration. It cannot detect whether the lights were switched using another method such as a remote control, wall switch or another integration.) | 1.2.4 |
-| `binary_sensor.batterie` | Aggregated battery status | 1.2.4 |
-| `binary_sensor.boitier` | Control panel status | 1.2.4 |
-| `binary_sensor.communication_radio` | Radio communication status | 1.2.4 |
-| `binary_sensor.communication_gsm` | GSM communication status | 1.2.4 |
-| `binary_sensor.mouvement_detecte` | Motion detection status | 1.2.4 |
-| `binary_sensor.porte_ou_fenetre` | Door or window status | 1.2.4 |
-| `binary_sensor.camera` | Camera connection status | 1.2.4 |
-| `sensor.signal_gsm_5` | GSM signal strength (/5) | 1.2.6 |
-| `sensor.operateur_gsma` | GSM operator | 1.2.6 |
-| `sensor.alarme_derniere_sync` | Last synchronization with the alarm (last value is restored after a restart) | 2.0.7 |
-| `sensor.control_panel_date_and_time` | Last date and time read directly from the control panel (last value restored after a restart) | 2.1.x |
-| `sensor.event_journal` | 10 most recent events from the control panel journal. The state is the latest event and the `events` attribute contains the detailed list | 2.2.0 |
+| Entity | Description | Version | Installer code required |
+| ----------------------------------- | ----------------------------------------------------------- |-----------------------------------------------------------| :---: |
+| `alarm_control_panel.alarme` | Supports `armed_away`, `armed_home`, `armed_night` modes | 1.2.4 | No |
+| `cover.volets` | Open, close and stop. Position control is not supported | 1.2.4 | No |
+| `light.lumieres` | On/Off (state maintained by the integration. It cannot detect whether the lights were switched using another method such as a remote control, wall switch or another integration.) | 1.2.4 | No |
+| `binary_sensor.batterie` | Aggregated battery status | 1.2.4 | No |
+| `binary_sensor.boitier` | Control panel status | 1.2.4 | No |
+| `binary_sensor.communication_radio` | Radio communication status | 1.2.4 | No |
+| `binary_sensor.communication_gsm` | GSM communication status | 1.2.4 | No |
+| `binary_sensor.mouvement_detecte` | Motion detection status | 1.2.4 | No |
+| `binary_sensor.porte_ou_fenetre` | Door or window status | 1.2.4 | No |
+| `binary_sensor.camera` | Camera connection status | 1.2.4 | No |
+| `sensor.signal_gsm_5` | GSM signal strength (/5) | 1.2.6 | No |
+| `sensor.operateur_gsma` | GSM operator | 1.2.6 | No |
+| `sensor.alarme_derniere_sync` | Last synchronization with the alarm (last value is restored after a restart) | 2.0.7 | No |
+| `sensor.control_panel_date_and_time` | Last date and time read directly from the control panel (last value restored after a restart) | 2.1.x | Yes |
+| `sensor.event_journal` | 10 most recent events from the control panel journal. The state is the latest event and the `events` attribute contains the detailed list | 2.2.0 | No |
 
 #### The following binary sensors are created to represent every alarm device and expose their attributes:
 
-| Entity | Description - Attributes | Version |
-| ----------------------------------- | -------------------------------------------------------------------------------------------------------- | --------|
-| `binary_sensor.do_ouvt_xxx` | Door contact - Attributes: battery, panel communication, fault, tamper, open/closed, paused | 2.0.0 |
-| `binary_sensor.do_vitre_ouvt_xxx` | Window contact with glass-break detection - Attributes: battery, panel communication, fault, tamper, open/closed, paused | 2.0.0 |
-| `binary_sensor.do_vitre_ouvt_xxx` | Acoustic glass-break detector - Attributes: battery, panel communication, fault, tamper, open/closed, paused | 2.0.0 |
-| `binary_sensor.do_gar_xxx` | Garage door contact - Attributes: battery, panel communication, fault, tamper, open/closed, paused | 2.0.0 |
-| `binary_sensor.dm_image_mvt_xxx` | Motion detector with image capture - Attributes: battery, panel communication, fault, tamper, paused | 2.0.0 |
-| `binary_sensor.dm_mvt_xxx` | Motion detector - Attributes: battery, panel communication, fault, tamper, paused | 2.0.0 |
-| `binary_sensor.tr_tel_xxx` | Alarm control panel - Attributes: battery, panel communication, fault, tamper | 2.0.0 |
-| `binary_sensor.clavier_clv_xxx` | Keypad - Attributes: battery, panel communication, fault, tamper, paused | 2.0.0 |
-| `binary_sensor.cl_lcd_clv_xxx` | LCD keypad - Attributes: battery, panel communication, fault, tamper, paused | 2.0.0 |
-| `binary_sensor.sir_ext_xxx` | Outdoor siren - Attributes: battery, panel communication, fault, tamper, paused | 2.0.0 |
-| `binary_sensor.sir_int_xxx` | Indoor siren - Attributes: battery, panel communication, fault, tamper, paused | 2.0.0 |
-| `binary_sensor.d_fumee_fumee_xxx` | Smoke detector - Attributes: battery, panel communication, fault, paused | 2.0.0 |
-| `binary_sensor.tc_multi_tlcmd_xxx` | Multi-channel remote control - Attributes: panel communication, paused | 2.0.0 |
-| `binary_sensor.tc_4_tlcmd_xxx` | Multi-zone alarm remote control - Attributes: panel communication, paused | 2.0.0 |
-| `binary_sensor.badge_bdg_axxx` | RFID badge - Attributes: panel communication, paused | 2.0.0 |
+| Entity | Description - Attributes | Version | Installer code required |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------- | --------| :---: |
+| `binary_sensor.do_ouvt_xxx` | Door contact - Attributes: battery, panel communication, fault, tamper, open/closed, paused | 2.0.0 | No |
+| `binary_sensor.do_vitre_ouvt_xxx` | Window contact with glass-break detection - Attributes: battery, panel communication, fault, tamper, open/closed, paused | 2.0.0 | No |
+| `binary_sensor.do_vitre_ouvt_xxx` | Acoustic glass-break detector - Attributes: battery, panel communication, fault, tamper, open/closed, paused | 2.0.0 | No |
+| `binary_sensor.do_gar_xxx` | Garage door contact - Attributes: battery, panel communication, fault, tamper, open/closed, paused | 2.0.0 | No |
+| `binary_sensor.dm_image_mvt_xxx` | Motion detector with image capture - Attributes: battery, panel communication, fault, tamper, paused | 2.0.0 | No |
+| `binary_sensor.dm_mvt_xxx` | Motion detector - Attributes: battery, panel communication, fault, tamper, paused | 2.0.0 | No |
+| `binary_sensor.tr_tel_xxx` | Alarm control panel - Attributes: battery, panel communication, fault, tamper | 2.0.0 | No |
+| `binary_sensor.clavier_clv_xxx` | Keypad - Attributes: battery, panel communication, fault, tamper, paused | 2.0.0 | No |
+| `binary_sensor.cl_lcd_clv_xxx` | LCD keypad - Attributes: battery, panel communication, fault, tamper, paused | 2.0.0 | No |
+| `binary_sensor.sir_ext_xxx` | Outdoor siren - Attributes: battery, panel communication, fault, tamper, paused | 2.0.0 | No |
+| `binary_sensor.sir_int_xxx` | Indoor siren - Attributes: battery, panel communication, fault, tamper, paused | 2.0.0 | No |
+| `binary_sensor.d_fumee_fumee_xxx` | Smoke detector - Attributes: battery, panel communication, fault, paused | 2.0.0 | No |
+| `binary_sensor.tc_multi_tlcmd_xxx` | Multi-channel remote control - Attributes: panel communication, paused | 2.0.0 | No |
+| `binary_sensor.tc_4_tlcmd_xxx` | Multi-zone alarm remote control - Attributes: panel communication, paused | 2.0.0 | No |
+| `binary_sensor.badge_bdg_axxx` | RFID badge - Attributes: panel communication, paused | 2.0.0 | No |
 
 Attributes are available in the **Details** panel.
 
@@ -169,16 +169,16 @@ Attributes are available in the **Details** panel.
 
 #### The following buttons are supported:
 
-| Entity | Description | Version |
-| ----------------------------------- | ----------------------------------------------------------- |-----------------------------------------------------------|
-| `button.reinitialiser_defaut_alarme` | Reset alarm faults (motion, intrusion, tamper) | 2.0.7 |
-| `button.reinitialiser_defaut_liaison_radio` | Reset radio communication faults between the control panel and sensors | 2.0.7 |
-| `button.reinitialiser_defaut_piles` | Reset battery faults | 2.0.7 |
-| `button.refresh` | Reset battery faults | 2.0.7 |
-| `button.read_control_panel_date_and_time` | Reads the date and time currently stored in the control panel | 2.1.x |
-| `button.synchronize_date_and_time` | Synchronizes the control panel date and time with Home Assistant local date and time | 2.1.x |
-| `button.memory_open` * | **Open memory** — Puts the central unit into pause mode for up to 2 minutes for maintenance, including battery replacement; also allows device pairing. | 2.2.2 |
-| `button.memory_close` * | **Close memory** — Ends the central unit's memory/pause mode. | 2.2.2 |
+| Entity | Description | Version | Installer code required |
+| ----------------------------------- | ----------------------------------------------------------- |-----------------------------------------------------------| :---: |
+| `button.reinitialiser_defaut_alarme` | Reset alarm faults (motion, intrusion, tamper) | 2.0.7 | No |
+| `button.reinitialiser_defaut_liaison_radio` | Reset radio communication faults between the control panel and sensors | 2.0.7 | No |
+| `button.reinitialiser_defaut_piles` | Reset battery faults | 2.0.7 | No |
+| `button.refresh` | Reset battery faults | 2.0.7 | No |
+| `button.read_control_panel_date_and_time` | Reads the date and time currently stored in the control panel | 2.1.x | Yes |
+| `button.synchronize_date_and_time` | Synchronizes the control panel date and time with Home Assistant local date and time | 2.1.x | Yes |
+| `button.memory_open` * | **Open memory** — Puts the central unit into pause mode for up to 2 minutes for maintenance, including battery replacement; also allows device pairing. | 2.2.2 | Yes |
+| `button.memory_close` * | **Close memory** — Ends the central unit's memory/pause mode. | 2.2.2 | Yes |
 
 
 
@@ -199,6 +199,10 @@ Icons match those used by the corresponding binary sensors.
 
 > Somfy panels allow only one session at a time. The integration therefore handles the temporary session switch automatically when pausing or reactivating an element.
 
+| Element PAUSE switch | Installer code required |
+| --- | :---: |
+| Compatible elements only | **Yes** |
+
 #### 🔄 Dynamic refresh interval (version 2.1):
 The integration's refresh interval is also available as a `number` entity. Its value can be changed directly from the interface or by an automation to dynamically adapt how often the control panel is queried in order to [reduce its battery consumption](https://github.com/AuroreVgn/somfy-protexial/wiki/Optimisation-de-la-dur%C3%A9e-de-vie-des-piles-de-la-Centrale#avec-un-intervalle-de-rafraichissement-variable).
 
@@ -209,13 +213,13 @@ The selected value is preserved after reloading the integration or restarting Ho
 
 When **Installer** credentials are configured, the integration can also read and modify several general control panel settings from Home Assistant. Entities are created only when the corresponding setting is available on the control panel.
 
-| Entité | Description | Paramètre Somfy |
-| ------ | ----------- | --------------- |
-| `number.entry_delay` | Entry delay, from 1 to 60 seconds | `tempoentree` |
-| `switch.ding_dong_on_indoor_siren` | Enables or disables DING DONG on the indoor siren | `kiela` |
-| `switch.transmitter_beep` | Enables or disables the transmitter beep | `bipontransmiter` |
-| `select.siren_beep_level` | Siren beep level: Low, Medium or High | `biplevel` |
-| `select.siren_ringing_level` | Siren ringing level: Low, Medium or High | `sirenlevel` |
+| Entité | Description | Paramètre Somfy | Installer code required |
+| ------ | ----------- | --------------- | :---: |
+| `number.entry_delay` | Entry delay, from 1 to 60 seconds | `tempoentree` | Yes |
+| `switch.ding_dong_on_indoor_siren` | Enables or disables DING DONG on the indoor siren | `kiela` | Yes |
+| `switch.transmitter_beep` | Enables or disables the transmitter beep | `bipontransmiter` | Yes |
+| `select.siren_beep_level` | Siren beep level: Low, Medium or High | `biplevel` | Yes |
+| `select.siren_ringing_level` | Siren ringing level: Low, Medium or High | `sirenlevel` | Yes |
 
 Changes are made using the **Installer** account. Before each write, the integration reads the current control panel configuration form and changes only the requested setting in order to preserve all other settings.
 
