@@ -13,7 +13,7 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.util import dt as dt_util
 
 from .const import API, COORDINATOR, DEVICE_INFO, DOMAIN, REFRESH_ELEMENTS
-from .element_icons import get_element_icon
+from .element_icons import element_icon_family, get_element_icon
 from .somfy_exception import SomfyException
 
 _LOGGER = logging.getLogger(__name__)
@@ -81,6 +81,9 @@ async def async_setup_entry(
         _LOGGER.warning("Unable to load Somfy installer general settings: %s", ex)
 
     for element in (coordinator.data or {}).get("elements", []):
+        # The central is not a pausable element.
+        if element_icon_family(element) == "central":
+            continue
         if _pause_state(element) is None:
             continue
         switches.append(
