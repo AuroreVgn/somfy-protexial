@@ -151,7 +151,7 @@ La lingua dell'interfaccia web della centrale è indipendente dalla lingua utili
 | `binary_sensor.do_gar_xxx` | Contatto porta garage - Attributi: batteria, comunicazione con la centrale, errore, manomissione, aperto/chiuso, sospeso | 2.0.0 |
 | `binary_sensor.dm_image_mvt_xxx` | Rilevatore di movimento con acquisizione immagini - Attributi: batteria, comunicazione con la centrale, errore, manomissione, sospeso | 2.0.0 |
 | `binary_sensor.dm_mvt_xxx` | Rilevatore di movimento - Attributi: batteria, comunicazione con la centrale, errore, manomissione, sospeso | 2.0.0 |
-| `binary_sensor.tr_tel_xxx` | Centrale di allarme - Attributi: batteria, comunicazione con la centrale, errore, manomissione, sospeso | 2.0.0 |
+| `binary_sensor.tr_tel_xxx` | Centrale di allarme - Attributi: batteria, comunicazione con la centrale, errore, manomissione | 2.0.0 |
 | `binary_sensor.clavier_clv_xxx` | Tastiera - Attributi: batteria, comunicazione con la centrale, errore, manomissione, sospeso | 2.0.0 |
 | `binary_sensor.cl_lcd_clv_xxx` | Tastiera LCD - Attributi: batteria, comunicazione con la centrale, errore, manomissione, sospeso | 2.0.0 |
 | `binary_sensor.sir_ext_xxx` | Sirena esterna - Attributi: batteria, comunicazione con la centrale, errore, manomissione, sospeso | 2.0.0 |
