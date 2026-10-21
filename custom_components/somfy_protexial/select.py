@@ -96,8 +96,6 @@ class SomfySoundLevelSelect(SelectEntity):
     async def async_select_option(self, option: str) -> None:
         if option not in _LEVEL_TO_VALUE:
             raise ValueError(f"Unsupported sound level: {option}")
-        await self._api.update_general_settings(
-            {self._field: _LEVEL_TO_VALUE[option]}
-        )
+        await self._api.update_general_settings({self._field: _LEVEL_TO_VALUE[option]})
         self._attr_current_option = option
         self.async_write_ha_state()
