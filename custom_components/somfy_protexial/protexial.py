@@ -34,10 +34,23 @@ _PRINTABLE_CHARS = set(string.printable)
 
 # Keep the authentication challenge coordinate visible in DEBUG, but never
 # expose the card answer, passwords, alarm codes or session credentials.
-_SENSITIVE_PAYLOAD_FIELDS = frozenset({
-    "password", "passwd", "pass", "pwd", "key", "code", "pin", "arm_code",
-    "alarm_code", "installer_password", "user_code", "secret", "token",
-})
+_SENSITIVE_PAYLOAD_FIELDS = frozenset(
+    {
+        "password",
+        "passwd",
+        "pass",
+        "pwd",
+        "key",
+        "code",
+        "pin",
+        "arm_code",
+        "alarm_code",
+        "installer_password",
+        "user_code",
+        "secret",
+        "token",
+    }
+)
 
 _ACCESS_RIGHTS_MESSAGES = {
     "fr": "Droits d'accès insuffisants",
@@ -238,7 +251,9 @@ class SomfyProtexial:
                     response = await self.session.get(full_path, headers=headers)
                 elif method == "post":
                     safe_data = {
-                        key: "***" if key.lower() in _SENSITIVE_PAYLOAD_FIELDS else value
+                        key: "***"
+                        if key.lower() in _SENSITIVE_PAYLOAD_FIELDS
+                        else value
                         for key, value in data.items()
                     }
                     _LOGGER.debug("With payload: %s", safe_data)
@@ -261,7 +276,9 @@ class SomfyProtexial:
             _LOGGER.debug(
                 "Response headers: %s",
                 {
-                    key: "[REDACTED]" if key.lower() in ("set-cookie", "cookie") else value
+                    key: "[REDACTED]"
+                    if key.lower() in ("set-cookie", "cookie")
+                    else value
                     for key, value in response.headers.items()
                 },
             )
@@ -454,7 +471,9 @@ class SomfyProtexial:
                             marker = legacy_dom(
                                 legacy_api.get_selector(Selector.LOGIN_CHALLENGE)
                             )
-                            if marker and re.search(CHALLENGE_REGEX, marker.text() or ""):
+                            if marker and re.search(
+                                CHALLENGE_REGEX, marker.text() or ""
+                            ):
                                 self.language_prefix = "fr"
                                 self._language_detected = True
                                 _LOGGER.debug(
@@ -484,7 +503,9 @@ class SomfyProtexial:
         self.language_prefix = detected or "fr"
         self._language_detected = True
         self.api.set_language_prefix(self.language_prefix)
-        _LOGGER.info("Somfy web UI language prefix detected: /%s/", self.language_prefix)
+        _LOGGER.info(
+            "Somfy web UI language prefix detected: /%s/", self.language_prefix
+        )
         return self.language_prefix
 
     async def init(self):
@@ -1062,7 +1083,9 @@ class SomfyProtexial:
             form = self.api.get_reset_link_err_payload()
             await self.__erase_default(form)
 
-    def _parse_installer_general_form(self, page_html: str) -> tuple[dict[str, str], set[str]]:
+    def _parse_installer_general_form(
+        self, page_html: str
+    ) -> tuple[dict[str, str], set[str]]:
         """Parse the installer general-settings form using browser submission rules."""
         dom = pq(page_html)
         form_dom = dom('form[name="i_reggen"]')
@@ -1109,7 +1132,9 @@ class SomfyProtexial:
             form[name] = textarea_el.text() or ""
 
         if "btn_save" not in form:
-            raise SomfyException("Installer general settings form is incomplete: btn_save")
+            raise SomfyException(
+                "Installer general settings form is incomplete: btn_save"
+            )
 
         return form, available_fields
 
@@ -1129,7 +1154,9 @@ class SomfyProtexial:
             try:
                 await self.__logout()
             except SomfyException as ex:
-                _LOGGER.debug("User logout before general settings access failed: %s", ex)
+                _LOGGER.debug(
+                    "User logout before general settings access failed: %s", ex
+                )
                 self.cookie = None
 
             await self.__login(
@@ -1158,7 +1185,9 @@ class SomfyProtexial:
 
                     page_html = await response.text(self.api.get_encoding())
                     try:
-                        form, available_fields = self._parse_installer_general_form(page_html)
+                        form, available_fields = self._parse_installer_general_form(
+                            page_html
+                        )
                     except SomfyException as ex:
                         raise SomfyException(f"{ex} on {candidate}") from ex
 
@@ -1216,17 +1245,18 @@ class SomfyProtexial:
                     verify_response = await self.__do_call(
                         "get", candidate, retry=False, login=False
                     )
-                    if getattr(verify_response.real_url, "path", "") == self.api.get_page(
-                        Page.DEFAULT
-                    ):
+                    if getattr(
+                        verify_response.real_url, "path", ""
+                    ) == self.api.get_page(Page.DEFAULT):
                         raise SomfyException(
                             "General settings verification was redirected to the default page"
                         )
 
                     verify_html = await verify_response.text(self.api.get_encoding())
-                    verify_form, verify_available_fields = (
-                        self._parse_installer_general_form(verify_html)
-                    )
+                    (
+                        verify_form,
+                        verify_available_fields,
+                    ) = self._parse_installer_general_form(verify_html)
                     actual_update_time_present = "update_time" in verify_form
 
                     if (
@@ -1253,9 +1283,9 @@ class SomfyProtexial:
                             retry=False,
                             login=False,
                         )
-                        if getattr(restore_response.real_url, "path", "") == self.api.get_page(
-                            Page.DEFAULT
-                        ):
+                        if getattr(
+                            restore_response.real_url, "path", ""
+                        ) == self.api.get_page(Page.DEFAULT):
                             raise SomfyException(
                                 "General settings auto-clock restoration was redirected "
                                 "to the default page"
@@ -1267,9 +1297,10 @@ class SomfyProtexial:
                             "get", candidate, retry=False, login=False
                         )
                         final_html = await final_response.text(self.api.get_encoding())
-                        final_form, final_available_fields = (
-                            self._parse_installer_general_form(final_html)
-                        )
+                        (
+                            final_form,
+                            final_available_fields,
+                        ) = self._parse_installer_general_form(final_html)
                         if (
                             "update_time" in final_available_fields
                             and ("update_time" in final_form)
@@ -1315,7 +1346,9 @@ class SomfyProtexial:
             try:
                 await self.__logout()
             except SomfyException as ex:
-                _LOGGER.debug("Installer logout after general settings access failed: %s", ex)
+                _LOGGER.debug(
+                    "Installer logout after general settings access failed: %s", ex
+                )
                 self.cookie = None
             await self.__login()
 
@@ -1389,7 +1422,11 @@ class SomfyProtexial:
                     self.in_form = True
                     self.action = fields.get("action")
                     self.method = (fields.get("method") or "get").lower()
-                elif tag == "input" and self.in_form and fields.get("type", "").lower() == "submit":
+                elif (
+                    tag == "input"
+                    and self.in_form
+                    and fields.get("type", "").lower() == "submit"
+                ):
                     if fields.get("name"):
                         self.values[fields["name"]] = fields.get("value", "")
 
@@ -1427,20 +1464,27 @@ class SomfyProtexial:
                         page = await self.__do_call(
                             "get", candidate, retry=False, login=False
                         )
-                        if getattr(page.real_url, "path", "") == self.api.get_page(Page.DEFAULT):
+                        if getattr(page.real_url, "path", "") == self.api.get_page(
+                            Page.DEFAULT
+                        ):
                             raise SomfyException("Installer page redirected to login")
                         html = await page.text(self.api.get_encoding())
                     except SomfyException as ex:
                         last_error = ex
-                        if str(ex) == "Http error (404)" and index < len(candidates) - 1:
+                        if (
+                            str(ex) == "Http error (404)"
+                            and index < len(candidates) - 1
+                        ):
                             continue
                         raise
 
                     parser = MemoryFormParser()
                     parser.feed(html)
-                    if (parser.method != "post" or
-                        parser.action != "i_listelmt.htm" or
-                        command not in parser.values):
+                    if (
+                        parser.method != "post"
+                        or parser.action != "i_listelmt.htm"
+                        or command not in parser.values
+                    ):
                         last_error = SomfyException(
                             f"Somfy memory command {command} unavailable on {candidate}"
                         )
@@ -1448,14 +1492,23 @@ class SomfyProtexial:
 
                     # The value is localized; always use the actual HTML input value.
                     response = await self.__do_call(
-                        "post", candidate,
+                        "post",
+                        candidate,
                         data={command: parser.values[command]},
-                        retry=False, login=False,
+                        retry=False,
+                        login=False,
                     )
-                    if getattr(response.real_url, "path", "") == self.api.get_page(Page.DEFAULT):
-                        raise SomfyException("Installer memory command redirected to login")
+                    if getattr(response.real_url, "path", "") == self.api.get_page(
+                        Page.DEFAULT
+                    ):
+                        raise SomfyException(
+                            "Installer memory command redirected to login"
+                        )
                     self._installer_elements_candidate = candidate
-                    _LOGGER.info("Somfy memory %s command submitted", "open" if opening else "close")
+                    _LOGGER.info(
+                        "Somfy memory %s command submitted",
+                        "open" if opening else "close",
+                    )
                     return
 
                 raise last_error or SomfyException("Somfy memory controls unavailable")
@@ -1466,7 +1519,6 @@ class SomfyProtexial:
                     _LOGGER.debug("Installer logout after memory action failed: %s", ex)
                     self.cookie = None
                 await self.__login()
-
 
     async def set_element_active(self, element_id: str, active: bool) -> None:
         """Temporarily use the installer account to toggle an element.
@@ -1618,7 +1670,10 @@ class SomfyProtexial:
                         break
                     except SomfyException as ex:
                         last_exception = ex
-                        if str(ex) != "Http error (404)" or index == len(candidates) - 1:
+                        if (
+                            str(ex) != "Http error (404)"
+                            or index == len(candidates) - 1
+                        ):
                             raise
                         _LOGGER.debug(
                             "Somfy installer elements page %s returned 404; trying %s",
@@ -1661,9 +1716,7 @@ class SomfyProtexial:
                 self.__get_event_journal_with_read_retry, limit
             )
 
-    async def __get_event_journal_with_read_retry(
-        self, limit: int
-    ) -> list[dict]:
+    async def __get_event_journal_with_read_retry(self, limit: int) -> list[dict]:
         """Retry one transient journal read without changing the login session."""
         for attempt in range(2):
             try:
@@ -1679,10 +1732,9 @@ class SomfyProtexial:
                 # A dropped connection may invalidate the Somfy session.
                 # Let the existing outer recovery perform a fresh login rather
                 # than retrying with a potentially invalid session.
-                if (
-                    message.startswith("Event journal response read failed:")
-                    or message.startswith("Error fetching information from")
-                ):
+                if message.startswith(
+                    "Event journal response read failed:"
+                ) or message.startswith("Error fetching information from"):
                     raise
                 if not transient or attempt:
                     raise
@@ -1758,9 +1810,7 @@ class SomfyProtexial:
                     name,
                     len(body),
                 )
-                raise SomfyException(
-                    f"Unable to parse event journal field: {name}"
-                )
+                raise SomfyException(f"Unable to parse event journal field: {name}")
             try:
                 values = json.loads(match.group(1))
             except (json.JSONDecodeError, TypeError) as err:
@@ -1768,9 +1818,7 @@ class SomfyProtexial:
                     f"Unable to decode event journal field: {name}"
                 ) from err
             if not isinstance(values, list):
-                raise SomfyException(
-                    f"Unexpected event journal field type: {name}"
-                )
+                raise SomfyException(f"Unexpected event journal field type: {name}")
             return [str(value) for value in values]
 
         dates = _read_js_array("eventdate")
@@ -1923,7 +1971,9 @@ class SomfyProtexial:
             _LOGGER.warning(
                 "%s/incomplete elements page received (known Somfy "
                 "session bug), keeping the last known door/window states",
-                "Locked elements page returned empty" if self._elements_page_locked else "Empty",
+                "Locked elements page returned empty"
+                if self._elements_page_locked
+                else "Empty",
             )
             return self._last_good_elements
 
