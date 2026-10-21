@@ -57,10 +57,6 @@ Wenn diese Integration für dich nützlich ist und du ihre Entwicklung und Pfleg
 
 ### Vorherige Version — 2.2.1
 
-#### 🆕 Neu in Version 2.2.1
-
-Diese stabile Version vereint die Korrekturen und Verbesserungen aus `2.2.1-beta1`, `2.2.1-beta2` und `2.2.1-beta3`:
-
 - 🌍 **Mehrsprachige Kompatibilität:** Automatische Erkennung der Sprache der Weboberfläche der Alarmzentrale und Unterstützung lokalisierter Pfade (`/fr/`, `/de/`, `/gb/`, `/sp/`, `/it/`, `/nl/`); Pfade ohne Sprachpräfix bleiben für entsprechende Modelle erhalten.
 - 📋 **Ereignisprotokoll:** Erkennung abgeschnittener HTML-Antworten, erneuter Leseversuch und Beibehaltung der zuletzt gültigen Ereignisse bei fehlgeschlagener Aktualisierung.
 - 🔄 **Sitzungswiederherstellung:** Bei Verbindungsfehlern (`ClientConnectionError`) wird die Sitzung wiederhergestellt, statt eine möglicherweise ungültige Sitzung unnötig erneut zu verwenden.
