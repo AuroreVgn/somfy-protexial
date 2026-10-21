@@ -123,43 +123,43 @@ De taal van de webinterface van de centrale staat los van de taal die in Home As
 
 #### Ondersteunde entiteiten
 
-| Entiteit | Beschrijving | Versie |
-| ----------------------------------- | ----------------------------------------------------------- |-----------------------------------------------------------|
-| `alarm_control_panel.alarme` | Ondersteunt de modi `armed_away`, `armed_home` en `armed_night` | 1.2.4 |
-| `cover.volets` | Openen, sluiten en stoppen. Positieregeling wordt niet ondersteund. | 1.2.4 |
-| `light.lumieres` | Aan/uit (de status wordt door de integratie bijgehouden. Er kan niet worden vastgesteld of de verlichting via een afstandsbediening, schakelaar of een andere integratie is bediend). | 1.2.4 |
-| `binary_sensor.batterie` | Gecombineerde batterijstatus | 1.2.4 |
-| `binary_sensor.boitier` | Status van de alarmcentrale | 1.2.4 |
-| `binary_sensor.communication_radio` | Status van de radioverbinding | 1.2.4 |
-| `binary_sensor.communication_gsm` | Status van de GSM-verbinding | 1.2.4 |
-| `binary_sensor.mouvement_detecte` | Status van bewegingsdetectie | 1.2.4 |
-| `binary_sensor.porte_ou_fenetre` | Status van deuren en ramen | 1.2.4 |
-| `binary_sensor.camera` | Status van de cameraverbinding | 1.2.4 |
-| `sensor.signal_gsm_5` | GSM-signaalsterkte (/5) | 1.2.6 |
-| `sensor.operateur_gsma` | GSM-provider | 1.2.6 |
-| `sensor.alarme_derniere_sync` | Laatste synchronisatie met het alarm (de laatste waarde wordt na een herstart hersteld) | 2.0.7 |
-| `sensor.datum_en_tijd_van_de_centrale` | Laatste datum en tijd die rechtstreeks uit de centrale zijn gelezen (laatste waarde wordt na een herstart hersteld) | 2.1.x |
-| `sensor.gebeurtenissenlogboek` | De 10 meest recente gebeurtenissen uit het logboek van de centrale. De status is de laatste gebeurtenis en het attribuut `events` bevat de gedetailleerde lijst | 2.2.0 |
+| Entiteit | Beschrijving | Versie | Installateurscode vereist |
+| ----------------------------------- | ----------------------------------------------------------- |-----------------------------------------------------------| :---: |
+| `alarm_control_panel.alarme` | Ondersteunt de modi `armed_away`, `armed_home` en `armed_night` | 1.2.4 | Nee |
+| `cover.volets` | Openen, sluiten en stoppen. Positieregeling wordt niet ondersteund. | 1.2.4 | Nee |
+| `light.lumieres` | Aan/uit (de status wordt door de integratie bijgehouden. Er kan niet worden vastgesteld of de verlichting via een afstandsbediening, schakelaar of een andere integratie is bediend). | 1.2.4 | Nee |
+| `binary_sensor.batterie` | Gecombineerde batterijstatus | 1.2.4 | Nee |
+| `binary_sensor.boitier` | Status van de alarmcentrale | 1.2.4 | Nee |
+| `binary_sensor.communication_radio` | Status van de radioverbinding | 1.2.4 | Nee |
+| `binary_sensor.communication_gsm` | Status van de GSM-verbinding | 1.2.4 | Nee |
+| `binary_sensor.mouvement_detecte` | Status van bewegingsdetectie | 1.2.4 | Nee |
+| `binary_sensor.porte_ou_fenetre` | Status van deuren en ramen | 1.2.4 | Nee |
+| `binary_sensor.camera` | Status van de cameraverbinding | 1.2.4 | Nee |
+| `sensor.signal_gsm_5` | GSM-signaalsterkte (/5) | 1.2.6 | Nee |
+| `sensor.operateur_gsma` | GSM-provider | 1.2.6 | Nee |
+| `sensor.alarme_derniere_sync` | Laatste synchronisatie met het alarm (de laatste waarde wordt na een herstart hersteld) | 2.0.7 | Nee |
+| `sensor.datum_en_tijd_van_de_centrale` | Laatste datum en tijd die rechtstreeks uit de centrale zijn gelezen (laatste waarde wordt na een herstart hersteld) | 2.1.x | Nee |
+| `sensor.gebeurtenissenlogboek` | De 10 meest recente gebeurtenissen uit het logboek van de centrale. De status is de laatste gebeurtenis en het attribuut `events` bevat de gedetailleerde lijst | 2.2.0 | Nee |
 
 #### Voor elk alarmapparaat worden de volgende binaire sensoren met attributen aangemaakt:
 
-| Entiteit | Beschrijving – Attributen | Versie |
-| ----------------------------------- | -------------------------------------------------------------------------------------------------------- | --------|
-| `binary_sensor.do_ouvt_xxx` | Deurcontact - Attributen: batterij, verbinding met de centrale, fout, sabotage, open/gesloten, gepauzeerd | 2.0.0 |
-| `binary_sensor.do_vitre_ouvt_xxx` | Raamcontact met glasbreukdetectie - Attributen: batterij, verbinding met de centrale, fout, sabotage, open/gesloten, gepauzeerd | 2.0.0 |
-| `binary_sensor.do_vitre_ouvt_xxx` | Akoestische glasbreukdetector - Attributen: batterij, verbinding met de centrale, fout, sabotage, open/gesloten, gepauzeerd | 2.0.0 |
-| `binary_sensor.do_gar_xxx` | Garagedeurcontact - Attributen: batterij, verbinding met de centrale, fout, sabotage, open/gesloten, gepauzeerd | 2.0.0 |
-| `binary_sensor.dm_image_mvt_xxx` | Bewegingsmelder met beeldopname - Attributen: batterij, verbinding met de centrale, fout, sabotage, gepauzeerd | 2.0.0 |
-| `binary_sensor.dm_mvt_xxx` | Bewegingsmelder - Attributen: batterij, verbinding met de centrale, fout, sabotage, gepauzeerd | 2.0.0 |
-| `binary_sensor.tr_tel_xxx` | Alarmcentrale - Attributen: batterij, verbinding met de centrale, fout, sabotage | 2.0.0 |
-| `binary_sensor.clavier_clv_xxx` | Toetsenbord - Attributen: batterij, verbinding met de centrale, fout, sabotage, gepauzeerd | 2.0.0 |
-| `binary_sensor.cl_lcd_clv_xxx` | LCD-toetsenbord - Attributen: batterij, verbinding met de centrale, fout, sabotage, gepauzeerd | 2.0.0 |
-| `binary_sensor.sir_ext_xxx` | Buitensirene - Attributen: batterij, verbinding met de centrale, fout, sabotage, gepauzeerd | 2.0.0 |
-| `binary_sensor.sir_int_xxx` | Binnensirene - Attributen: batterij, verbinding met de centrale, fout, sabotage, gepauzeerd | 2.0.0 |
-| `binary_sensor.d_fumee_fumee_xxx` | Rookmelder - Attributen: batterij, verbinding met de centrale, fout, gepauzeerd | 2.0.0 |
-| `binary_sensor.tc_multi_tlcmd_xxx` | Meerkanaals afstandsbediening - Attributen: verbinding met de centrale, gepauzeerd | 2.0.0 |
-| `binary_sensor.tc_4_tlcmd_xxx` | Afstandsbediening voor meerdere alarmzones - Attributen: verbinding met de centrale, gepauzeerd | 2.0.0 |
-| `binary_sensor.badge_bdg_axxx` | RFID-badge - Attributen: verbinding met de centrale, gepauzeerd | 2.0.0 |
+| Entiteit | Beschrijving – Attributen | Versie | Installateurscode vereist |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------- | --------| :---: |
+| `binary_sensor.do_ouvt_xxx` | Deurcontact - Attributen: batterij, verbinding met de centrale, fout, sabotage, open/gesloten, gepauzeerd | 2.0.0 | Nee |
+| `binary_sensor.do_vitre_ouvt_xxx` | Raamcontact met glasbreukdetectie - Attributen: batterij, verbinding met de centrale, fout, sabotage, open/gesloten, gepauzeerd | 2.0.0 | Nee |
+| `binary_sensor.do_vitre_ouvt_xxx` | Akoestische glasbreukdetector - Attributen: batterij, verbinding met de centrale, fout, sabotage, open/gesloten, gepauzeerd | 2.0.0 | Nee |
+| `binary_sensor.do_gar_xxx` | Garagedeurcontact - Attributen: batterij, verbinding met de centrale, fout, sabotage, open/gesloten, gepauzeerd | 2.0.0 | Nee |
+| `binary_sensor.dm_image_mvt_xxx` | Bewegingsmelder met beeldopname - Attributen: batterij, verbinding met de centrale, fout, sabotage, gepauzeerd | 2.0.0 | Nee |
+| `binary_sensor.dm_mvt_xxx` | Bewegingsmelder - Attributen: batterij, verbinding met de centrale, fout, sabotage, gepauzeerd | 2.0.0 | Nee |
+| `binary_sensor.tr_tel_xxx` | Alarmcentrale - Attributen: batterij, verbinding met de centrale, fout, sabotage | 2.0.0 | Nee |
+| `binary_sensor.clavier_clv_xxx` | Toetsenbord - Attributen: batterij, verbinding met de centrale, fout, sabotage, gepauzeerd | 2.0.0 | Nee |
+| `binary_sensor.cl_lcd_clv_xxx` | LCD-toetsenbord - Attributen: batterij, verbinding met de centrale, fout, sabotage, gepauzeerd | 2.0.0 | Nee |
+| `binary_sensor.sir_ext_xxx` | Buitensirene - Attributen: batterij, verbinding met de centrale, fout, sabotage, gepauzeerd | 2.0.0 | Nee |
+| `binary_sensor.sir_int_xxx` | Binnensirene - Attributen: batterij, verbinding met de centrale, fout, sabotage, gepauzeerd | 2.0.0 | Nee |
+| `binary_sensor.d_fumee_fumee_xxx` | Rookmelder - Attributen: batterij, verbinding met de centrale, fout, gepauzeerd | 2.0.0 | Nee |
+| `binary_sensor.tc_multi_tlcmd_xxx` | Meerkanaals afstandsbediening - Attributen: verbinding met de centrale, gepauzeerd | 2.0.0 | Nee |
+| `binary_sensor.tc_4_tlcmd_xxx` | Afstandsbediening voor meerdere alarmzones - Attributen: verbinding met de centrale, gepauzeerd | 2.0.0 | Nee |
+| `binary_sensor.badge_bdg_axxx` | RFID-badge - Attributen: verbinding met de centrale, gepauzeerd | 2.0.0 | Nee |
 
 De attributen zijn zichtbaar in het menu **"Details"**.
 
@@ -169,16 +169,16 @@ De attributen zijn zichtbaar in het menu **"Details"**.
 
 #### Ondersteunde knoppen
 
-| Entiteit | Beschrijving | Versie |
-| ----------------------------------- | ----------------------------------------------------------- |-----------------------------------------------------------|
-| `button.reinitialiser_defaut_alarme` | Alarmfouten resetten (beweging, opening en sabotage) | 2.0.7 |
-| `button.reinitialiser_defaut_liaison_radio` | Radioverbindingsfouten tussen de centrale en de sensoren resetten | 2.0.7 |
-| `button.reinitialiser_defaut_piles` | Batterijfouten resetten | 2.0.7 |
-| `button.refresh` | | 2.0.13 |
-| `button.datum_en_tijd_van_de_centrale_lezen` | Leest de datum en tijd die momenteel in de centrale zijn opgeslagen | 2.1.x |
-| `button.datum_en_tijd_synchroniseren` | Synchroniseert datum en tijd van de centrale met de lokale datum en tijd van Home Assistant | 2.1.x |
-| `button.memory_open` * | **Geheugen openen** — Zet de centrale 2 minuten in de pauzestand voor onderhoud, zoals het vervangen van batterijen; maakt ook het koppelen van nieuwe apparaten mogelijk. | 2.2.2 |
-| `button.memory_close` * | **Geheugen sluiten** — Beëindigt de geheugen-/pauzestand van de centrale. | 2.2.2 |
+| Entiteit | Beschrijving | Versie | Installateurscode vereist |
+| ----------------------------------- | ----------------------------------------------------------- |-----------------------------------------------------------| :---: |
+| `button.reinitialiser_defaut_alarme` | Alarmfouten resetten (beweging, opening en sabotage) | 2.0.7 | Nee |
+| `button.reinitialiser_defaut_liaison_radio` | Radioverbindingsfouten tussen de centrale en de sensoren resetten | 2.0.7 | Nee |
+| `button.reinitialiser_defaut_piles` | Batterijfouten resetten | 2.0.7 | Nee |
+| `button.refresh` | | 2.0.13 | Nee |
+| `button.datum_en_tijd_van_de_centrale_lezen` | Leest de datum en tijd die momenteel in de centrale zijn opgeslagen | 2.1.x | Nee |
+| `button.datum_en_tijd_synchroniseren` | Synchroniseert datum en tijd van de centrale met de lokale datum en tijd van Home Assistant | 2.1.x | Nee |
+| `button.memory_open` * | **Geheugen openen** — Zet de centrale 2 minuten in de pauzestand voor onderhoud, zoals het vervangen van batterijen; maakt ook het koppelen van nieuwe apparaten mogelijk. | 2.2.2 | Ja |
+| `button.memory_close` * | **Geheugen sluiten** — Beëindigt de geheugen-/pauzestand van de centrale. | 2.2.2 | Ja |
 
 
 
@@ -199,6 +199,10 @@ De pictogrammen komen overeen met die van de bijbehorende binaire sensoren.
 
 > Somfy-centrales staan slechts één sessie tegelijk toe. De integratie beheert daarom automatisch de tijdelijke sessiewissel bij het pauzeren of opnieuw activeren van een element.
 
+| PAUZE-schakelaar voor elementen | Installateurscode vereist |
+| --- | :---: |
+| Alleen compatibele elementen | **Ja** |
+
 #### 🔄 Dynamisch vernieuwingsinterval (versie 2.1):
 Het vernieuwingsinterval van de integratie is ook beschikbaar als een `number`-entiteit. De waarde kan rechtstreeks via de interface of door een automatisering worden gewijzigd om dynamisch aan te passen hoe vaak de centrale wordt uitgelezen en zo het [batterijverbruik te beperken](https://github.com/AuroreVgn/somfy-protexial/wiki/Optimisation-de-la-dur%C3%A9e-de-vie-des-piles-de-la-Centrale#avec-un-intervalle-de-rafraichissement-variable).
 
@@ -209,13 +213,13 @@ De gekozen waarde blijft behouden na het herladen van de integratie of een herst
 
 Wanneer **Installateur**-gegevens zijn ingesteld, kan de integratie ook verschillende algemene instellingen van de centrale vanuit Home Assistant lezen en wijzigen. Entiteiten worden alleen aangemaakt als de bijbehorende instelling op de centrale beschikbaar is.
 
-| Entité | Description | Paramètre Somfy |
-| ------ | ----------- | --------------- |
-| `number.ingangsvertraging` | Ingangsvertraging van 1 tot 60 seconden | `tempoentree` |
-| `switch.ding_dong_op_binnensirene` | Schakelt DING DONG op de binnensirene in of uit | `kiela` |
-| `switch.pieptoon_op_de_zender` | Schakelt de pieptoon op de zender in of uit | `bipontransmiter` |
-| `select.pieptoonniveau_van_de_sirenes` | Pieptoonniveau: Laag, Gemiddeld of Hoog | `biplevel` |
-| `select.geluidsniveau_van_de_sirenes` | Geluidsniveau van de sirenes: Laag, Gemiddeld of Hoog | `sirenlevel` |
+| Entité | Description | Paramètre Somfy | Installateurscode vereist |
+| ------ | ----------- | --------------- | :---: |
+| `number.ingangsvertraging` | Ingangsvertraging van 1 tot 60 seconden | `tempoentree` | Ja |
+| `switch.ding_dong_op_binnensirene` | Schakelt DING DONG op de binnensirene in of uit | `kiela` | Ja |
+| `switch.pieptoon_op_de_zender` | Schakelt de pieptoon op de zender in of uit | `bipontransmiter` | Ja |
+| `select.pieptoonniveau_van_de_sirenes` | Pieptoonniveau: Laag, Gemiddeld of Hoog | `biplevel` | Ja |
+| `select.geluidsniveau_van_de_sirenes` | Geluidsniveau van de sirenes: Laag, Gemiddeld of Hoog | `sirenlevel` | Ja |
 
 Wijzigingen worden uitgevoerd via het **Installateur**-account. Voor elke schrijfactie leest de integratie het actuele configuratieformulier van de centrale opnieuw en wijzigt alleen de gevraagde instelling, zodat alle andere instellingen behouden blijven.
 
