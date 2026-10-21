@@ -3,8 +3,6 @@ import json
 import logging
 import re
 import string
-import html as html_lib
-import unicodedata
 
 from urllib.parse import urlencode
 from xml.etree import ElementTree as ET
