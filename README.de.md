@@ -50,10 +50,10 @@ Wenn diese Integration für dich nützlich ist und du ihre Entwicklung und Pfleg
 
 ## 🆕 Neu in Version 2.2.2
 
-- **Anlern-Speicher:** zwei zustandslose Schaltflächen zum Öffnen und Schließen der Registrierung neuer Geräte.
-- **PAUSE:** Der PAUSE-Schalter der Zentrale entfällt; bei anderen kompatiblen Geräten bleibt er erhalten.
-- **Kompatibilität:** temporäre Anmeldung als Installateur, Wiederherstellung der Benutzersitzung und Erkennung verschiedener Installateur-Seiten.
-- **Wichtig:** nur bei deaktiviertem Alarm verwenden. Der Anlernmodus bleibt normalerweise zwei Minuten aktiv (Verlängerung nach jeder Anmeldung). Ein tatsächlicher Status wird nicht angezeigt. Auf einer Protexial getestet; ältere Protexiom-Modelle noch nicht bestätigt.
+- **PAUSE:** Der PAUSE-Schalter der Zentrale wurde entfernt, da die Weboberfläche diese Funktion nicht anbietet; andere kompatible Elemente behalten sie.
+- **Speicher öffnen:** Eine neue Schaltfläche versetzt die Zentrale für 2 Minuten in den Pausenmodus, um Wartungsarbeiten wie den Batteriewechsel zu erleichtern. Diese Funktion ermöglicht auch das Hinzufügen neuer Elemente zur Alarmanlage. Das direkte Hinzufügen von Elementen über die Integration wurde bisher nicht als sinnvolle Funktion erachtet.
+- **Speicher schließen:** Eine neue Schaltfläche beendet den Pausenmodus der Zentrale.
+- **Wichtig:** Diese Befehle nur bei deaktivierter Alarmanlage verwenden. Ein tatsächlicher Offen-/Geschlossen-Status ist nicht verfügbar.
 
 ### Previous version — 2.2.1
 
