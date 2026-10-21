@@ -57,10 +57,6 @@ Si esta integración te resulta útil y deseas apoyar su desarrollo y mantenimie
 
 ### Versión anterior — 2.2.1
 
-#### 🆕 Novedades de la versión 2.2.1
-
-Esta versión estable reúne las correcciones y mejoras de `2.2.1-beta1`, `2.2.1-beta2` y `2.2.1-beta3`:
-
 - 🌍 **Compatibilidad multilingüe:** detección automática del idioma de la interfaz web de la central y compatibilidad con rutas localizadas (`/fr/`, `/de/`, `/gb/`, `/sp/`, `/it/`, `/nl/`), manteniendo las rutas sin prefijo para los modelos correspondientes.
 - 📋 **Registro de eventos:** detección de respuestas HTML truncadas, nuevo intento de lectura y conservación de los últimos eventos válidos si falla la actualización.
 - 🔄 **Recuperación de sesión:** ante errores de conexión (`ClientConnectionError`), se recupera la sesión sin reutilizar innecesariamente una sesión posiblemente inválida.
