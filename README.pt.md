@@ -152,7 +152,7 @@ O idioma da interface web da central é independente do idioma utilizado no Home
 | `binary_sensor.do_gar_xxx` | Contacto da porta da garagem - Atributos: bateria, comunicação com a central, erro, sabotagem, aberta/fechada, em pausa | 2.0.0 |
 | `binary_sensor.dm_image_mvt_xxx` | Detetor de movimento com captura de imagem - Atributos: bateria, comunicação com a central, erro, sabotagem, em pausa | 2.0.0 |
 | `binary_sensor.dm_mvt_xxx` | Detetor de movimento - Atributos: bateria, comunicação com a central, erro, sabotagem, em pausa | 2.0.0 |
-| `binary_sensor.tr_tel_xxx` | Central de alarme - Atributos: bateria, comunicação com a central, erro, sabotagem, em pausa | 2.0.0 |
+| `binary_sensor.tr_tel_xxx` | Central de alarme - Atributos: bateria, comunicação com a central, erro, sabotagem | 2.0.0 |
 | `binary_sensor.clavier_clv_xxx` | Teclado - Atributos: bateria, comunicação com a central, erro, sabotagem, em pausa | 2.0.0 |
 | `binary_sensor.cl_lcd_clv_xxx` | Teclado LCD - Atributos: bateria, comunicação com a central, erro, sabotagem, em pausa | 2.0.0 |
 | `binary_sensor.sir_ext_xxx` | Sirene exterior - Atributos: bateria, comunicação com a central, erro, sabotagem, em pausa | 2.0.0 |
