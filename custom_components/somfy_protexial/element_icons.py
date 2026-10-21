@@ -17,7 +17,9 @@ def element_icon_family(element: dict) -> str | None:
     label = (element.get("label") or "").strip().lower()
 
     # Opening detectors -- specific variants must precede generic openings.
-    if _matches(label, ("do vitre", "öm glas", "do cristal", "sa fin.", "od raam", "window od")):
+    if _matches(
+        label, ("do vitre", "öm glas", "do cristal", "sa fin.", "od raam", "window od")
+    ):
         return "window"
     if _matches(label, ("do gar", "öm gar", "sa gar.", "od garaged", "garage od")):
         return "garage"
@@ -26,17 +28,44 @@ def element_icon_family(element: dict) -> str | None:
 
     # Motion detectors. Italian SM is deliberately exact/space-delimited so
     # it can never collide with English "Smoke det.".
-    if _matches(label, ("dm image", "imagen dm", "dm", "bm", "sm foto", "bd", "be.m.cam", "md cam.", "md")):
+    if _matches(
+        label,
+        (
+            "dm image",
+            "imagen dm",
+            "dm",
+            "bm",
+            "sm foto",
+            "bd",
+            "be.m.cam",
+            "md cam.",
+            "md",
+        ),
+    ):
         return "motion"
     if label == "sm" or label.startswith("sm "):
         return "motion"
 
     # Smoke detectors.
-    if _matches(label, ("d. fumée", "d. fum", "rauchm", "smoke det.", "rookdet.", "s. fumo", "d. humo")):
+    if _matches(
+        label,
+        (
+            "d. fumée",
+            "d. fum",
+            "rauchm",
+            "smoke det.",
+            "rookdet.",
+            "s. fumo",
+            "d. humo",
+        ),
+    ):
         return "smoke"
 
     # Sirens -- external before internal/general.
-    if _matches(label, ("sir ext", "aussensir", "außensir.", "sir. est.", "buitensir.", "outdoor sir")):
+    if _matches(
+        label,
+        ("sir ext", "aussensir", "außensir.", "sir. est.", "buitensir.", "outdoor sir"),
+    ):
         return "siren_external"
     if _matches(label, ("sir int", "innensir", "indoor sir", "binnensir.")):
         return "siren_internal"
@@ -46,11 +75,39 @@ def element_icon_family(element: dict) -> str | None:
         return "siren_internal"
 
     # Keypads (LCD and non-LCD share the same icon family).
-    if _matches(label, ("cl lcd", "clavier", "lcd-bed", "tastatur", "bedien.", "tecl. lcd", "teclado", "tast. lcd", "tastiera", "lcd-keyp.", "keypad", "lcd keypad")):
+    if _matches(
+        label,
+        (
+            "cl lcd",
+            "clavier",
+            "lcd-bed",
+            "tastatur",
+            "bedien.",
+            "tecl. lcd",
+            "teclado",
+            "tast. lcd",
+            "tastiera",
+            "lcd-keyp.",
+            "keypad",
+            "lcd keypad",
+        ),
+    ):
         return "keypad"
 
     # Remote controls.
-    if _matches(label, ("tc multi", "tc 4", "multi-fb", "fb", "afst. bed. 4", "m. afst. bed", "multi rc", "rc 4")):
+    if _matches(
+        label,
+        (
+            "tc multi",
+            "tc 4",
+            "multi-fb",
+            "fb",
+            "afst. bed. 4",
+            "m. afst. bed",
+            "multi rc",
+            "rc 4",
+        ),
+    ):
         return "remote"
 
     # Badges / keys.
@@ -58,7 +115,9 @@ def element_icon_family(element: dict) -> str | None:
         return "badge"
 
     # Transmitter / dialer / central unit.
-    if _matches(label, ("tr tél", "tr t", "tr. tel.", "übt", "tel. kiezer", "ph dialer")):
+    if _matches(
+        label, ("tr tél", "tr t", "tr. tel.", "übt", "tel. kiezer", "ph dialer")
+    ):
         return "central"
 
     return None
