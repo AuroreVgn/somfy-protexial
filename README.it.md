@@ -86,7 +86,7 @@ Questa integrazione permette di collegare le centrali di allarme Somfy Protexial
 | Protexiom 5000 | `2013 (v10_3)` | :white_check_mark:  |
 | Protexial | `2013 (v10_13)` | :white_check_mark:  |
 | Protexial | `2013 (v10_14)` | :white_check_mark:  |
-| Protexial | `2013 (v10_15)` | :white_check_mark:  |
+| Protexial | `2013 (v10_15)` | :white_check_mark: | :white_check_mark: |
 | Protexial | `2010 (v7_9)` | :white_check_mark:  |
 | Protexial | `2010 (v8_1)` | :white_check_mark:  |
 | Protexial | `2008` | :white_check_mark:  |
@@ -144,23 +144,23 @@ La lingua dell'interfaccia web della centrale è indipendente dalla lingua utili
 
 #### Per ogni dispositivo dell'allarme vengono creati i seguenti sensori binari con i relativi attributi:
 
-| Entità | Descrizione – Attributi | Versione | Codice installatore richiesto |
-| ----------------------------------- | -------------------------------------------------------------------------------------------------------- | --------| :---: |
-| `binary_sensor.do_ouvt_xxx` | Contatto porta - Attributi: batteria, comunicazione con la centrale, errore, manomissione, aperto/chiuso, sospeso | 2.0.0 | No |
-| `binary_sensor.do_vitre_ouvt_xxx` | Contatto finestra con rilevamento rottura vetro - Attributi: batteria, comunicazione con la centrale, errore, manomissione, aperto/chiuso, sospeso | 2.0.0 | No |
-| `binary_sensor.do_vitre_ouvt_xxx` | Sensore acustico di rottura vetri - Attributi: batteria, comunicazione con la centrale, errore, manomissione, aperto/chiuso, sospeso | 2.0.0 | No |
-| `binary_sensor.do_gar_xxx` | Contatto porta garage - Attributi: batteria, comunicazione con la centrale, errore, manomissione, aperto/chiuso, sospeso | 2.0.0 | No |
-| `binary_sensor.dm_image_mvt_xxx` | Rilevatore di movimento con acquisizione immagini - Attributi: batteria, comunicazione con la centrale, errore, manomissione, sospeso | 2.0.0 | No |
-| `binary_sensor.dm_mvt_xxx` | Rilevatore di movimento - Attributi: batteria, comunicazione con la centrale, errore, manomissione, sospeso | 2.0.0 | No |
-| `binary_sensor.tr_tel_xxx` | Centrale di allarme - Attributi: batteria, comunicazione con la centrale, errore, manomissione | 2.0.0 | No |
-| `binary_sensor.clavier_clv_xxx` | Tastiera - Attributi: batteria, comunicazione con la centrale, errore, manomissione, sospeso | 2.0.0 | No |
-| `binary_sensor.cl_lcd_clv_xxx` | Tastiera LCD - Attributi: batteria, comunicazione con la centrale, errore, manomissione, sospeso | 2.0.0 | No |
-| `binary_sensor.sir_ext_xxx` | Sirena esterna - Attributi: batteria, comunicazione con la centrale, errore, manomissione, sospeso | 2.0.0 | No |
-| `binary_sensor.sir_int_xxx` | Sirena interna - Attributi: batteria, comunicazione con la centrale, errore, manomissione, sospeso | 2.0.0 | No |
-| `binary_sensor.d_fumee_fumee_xxx` | Rilevatore di fumo - Attributi: batteria, comunicazione con la centrale, errore, sospeso | 2.0.0 | No |
-| `binary_sensor.tc_multi_tlcmd_xxx` | Telecomando multicanale - Attributi: comunicazione con la centrale, sospeso | 2.0.0 | No |
-| `binary_sensor.tc_4_tlcmd_xxx` | Telecomando allarme multizona - Attributi: comunicazione con la centrale, sospeso | 2.0.0 | No |
-| `binary_sensor.badge_bdg_axxx` | Badge RFID - Attributi: comunicazione con la centrale, sospeso | 2.0.0 | No |
+| Entità | Descrizione – Attributi | Versione | Codice installatore richiesto | Controllo PAUSA (codice installatore) |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------- | --------| :---: | :---: |
+| `binary_sensor.do_ouvt_xxx` | Contatto porta - Attributi: batteria, comunicazione con la centrale, errore, manomissione, aperto/chiuso, sospeso | 2.0.0 | No | Sì, se supportato |
+| `binary_sensor.do_vitre_ouvt_xxx` | Contatto finestra con rilevamento rottura vetro - Attributi: batteria, comunicazione con la centrale, errore, manomissione, aperto/chiuso, sospeso | 2.0.0 | No | Sì, se supportato |
+| `binary_sensor.do_vitre_ouvt_xxx` | Sensore acustico di rottura vetri - Attributi: batteria, comunicazione con la centrale, errore, manomissione, aperto/chiuso, sospeso | 2.0.0 | No | Sì, se supportato |
+| `binary_sensor.do_gar_xxx` | Contatto porta garage - Attributi: batteria, comunicazione con la centrale, errore, manomissione, aperto/chiuso, sospeso | 2.0.0 | No | Sì, se supportato |
+| `binary_sensor.dm_image_mvt_xxx` | Rilevatore di movimento con acquisizione immagini - Attributi: batteria, comunicazione con la centrale, errore, manomissione, sospeso | 2.0.0 | No | Sì, se supportato |
+| `binary_sensor.dm_mvt_xxx` | Rilevatore di movimento - Attributi: batteria, comunicazione con la centrale, errore, manomissione, sospeso | 2.0.0 | No | Sì, se supportato |
+| `binary_sensor.tr_tel_xxx` | Centrale di allarme - Attributi: batteria, comunicazione con la centrale, errore, manomissione | 2.0.0 | No | Non disponibile |
+| `binary_sensor.clavier_clv_xxx` | Tastiera - Attributi: batteria, comunicazione con la centrale, errore, manomissione, sospeso | 2.0.0 | No | Sì, se supportato |
+| `binary_sensor.cl_lcd_clv_xxx` | Tastiera LCD - Attributi: batteria, comunicazione con la centrale, errore, manomissione, sospeso | 2.0.0 | No | Sì, se supportato |
+| `binary_sensor.sir_ext_xxx` | Sirena esterna - Attributi: batteria, comunicazione con la centrale, errore, manomissione, sospeso | 2.0.0 | No | Sì, se supportato |
+| `binary_sensor.sir_int_xxx` | Sirena interna - Attributi: batteria, comunicazione con la centrale, errore, manomissione, sospeso | 2.0.0 | No | Sì, se supportato |
+| `binary_sensor.d_fumee_fumee_xxx` | Rilevatore di fumo - Attributi: batteria, comunicazione con la centrale, errore, sospeso | 2.0.0 | No | Sì, se supportato |
+| `binary_sensor.tc_multi_tlcmd_xxx` | Telecomando multicanale - Attributi: comunicazione con la centrale, sospeso | 2.0.0 | No | Sì, se supportato |
+| `binary_sensor.tc_4_tlcmd_xxx` | Telecomando allarme multizona - Attributi: comunicazione con la centrale, sospeso | 2.0.0 | No | Sì, se supportato |
+| `binary_sensor.badge_bdg_axxx` | Badge RFID - Attributi: comunicazione con la centrale, sospeso | 2.0.0 | No | Sì, se supportato |
 
 Gli attributi sono visibili nel menu **"Dettagli"**.
 
