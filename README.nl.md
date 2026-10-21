@@ -35,7 +35,7 @@ Als je deze integratie nuttig vindt en de ontwikkeling en het onderhoud ervan wi
 ## 📑 Inhoudsopgave
 
 - [ℹ️ Over](#toc-section-1)
-- [🆕 Nieuw in versie 2.2.1](#toc-section-2)
+- [🆕 Nieuw in versie 2.2.2](#toc-section-2)
 - [📦 Installatie](#toc-section-3)
 - [⚙️ Configuratie](#toc-section-4)
 - [⚠️ Opmerkingen](#toc-section-5)
@@ -48,7 +48,16 @@ Als je deze integratie nuttig vindt en de ontwikkeling en het onderhoud ervan wi
 
 <a name="toc-section-2"></a>
 
-## 🆕 Nieuw in versie 2.2.1
+## 🆕 Nieuw in versie 2.2.2
+
+- **Koppelgeheugen:** twee statusloze knoppen om de registratie van nieuwe apparaten te openen en te sluiten.
+- **PAUZE:** de PAUZE-schakelaar van de centrale is verwijderd; andere compatibele apparaten behouden deze.
+- **Compatibiliteit:** tijdelijke installateursessie, herstel van de gebruikerssessie en detectie van verschillende installatiepagina's.
+- **Belangrijk:** alleen gebruiken wanneer het alarm uitgeschakeld is. Het koppelen blijft normaal twee minuten actief (verlengd na elk apparaat). Er is geen werkelijke status beschikbaar. Getest op één Protexial; oudere Protexiom-modellen moeten nog worden getest.
+
+### Previous version — 2.2.1
+
+#### 🆕 Nieuw in versie 2.2.1
 
 Deze stabiele versie bundelt de oplossingen en verbeteringen uit `2.2.1-beta1`, `2.2.1-beta2` en `2.2.1-beta3`:
 
