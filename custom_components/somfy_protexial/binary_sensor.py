@@ -6,15 +6,14 @@ from homeassistant.components.binary_sensor import (
     BinarySensorEntity,
     BinarySensorEntityDescription,
 )
-
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
-from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.helpers.entity import EntityCategory
+from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .element_icons import get_element_icon
 from .const import BINARY_SENSORS, COORDINATOR, DEVICE_INFO, DOMAIN
+from .element_icons import get_element_icon
 
 _LOGGER = logging.getLogger(__name__)
 
