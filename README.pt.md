@@ -125,43 +125,43 @@ O idioma da interface web da central é independente do idioma utilizado no Home
 
 #### Entidades suportadas
 
-| Entidade | Descrição | Versão |
-| ----------------------------------- | ----------------------------------------------------------- |-----------------------------------------------------------|
-| `alarm_control_panel.alarme` | Suporta os modos `armed_away`, `armed_home` e `armed_night` | 1.2.4 |
-| `cover.volets` | Abrir, fechar e parar. O controlo de posição não é suportado. | 1.2.4 |
-| `light.lumieres` | Ligar/desligar (o estado é mantido pela integração. Não é possível saber se as luzes foram ligadas ou desligadas através de um comando, interruptor ou outra integração). | 1.2.4 |
-| `binary_sensor.batterie` | Estado agregado das baterias | 1.2.4 |
-| `binary_sensor.boitier` | Estado da central | 1.2.4 |
-| `binary_sensor.communication_radio` | Estado da comunicação por rádio | 1.2.4 |
-| `binary_sensor.communication_gsm` | Estado da comunicação GSM | 1.2.4 |
-| `binary_sensor.mouvement_detecte` | Estado da deteção de movimento | 1.2.4 |
-| `binary_sensor.porte_ou_fenetre` | Estado de portas e janelas | 1.2.4 |
-| `binary_sensor.camera` | Estado da ligação da câmara | 1.2.4 |
-| `sensor.signal_gsm_5` | Intensidade do sinal GSM (/5) | 1.2.6 |
-| `sensor.operateur_gsma` | Operador GSM | 1.2.6 |
-| `sensor.alarme_derniere_sync` | Última sincronização com o alarme (o último valor é restaurado após um reinício) | 2.0.7 |
-| `sensor.data_e_hora_da_central` | Última data e hora lidas diretamente da central (o último valor é restaurado após um reinício) | 2.1.x |
-| `sensor.registo_de_eventos` | Os 10 eventos mais recentes do registo da central. O estado corresponde ao último evento e o atributo `events` contém a lista detalhada | 2.2.0 |
+| Entidade | Descrição | Versão | Código de instalador necessário |
+| ----------------------------------- | ----------------------------------------------------------- |-----------------------------------------------------------| :---: |
+| `alarm_control_panel.alarme` | Suporta os modos `armed_away`, `armed_home` e `armed_night` | 1.2.4 | Não |
+| `cover.volets` | Abrir, fechar e parar. O controlo de posição não é suportado. | 1.2.4 | Não |
+| `light.lumieres` | Ligar/desligar (o estado é mantido pela integração. Não é possível saber se as luzes foram ligadas ou desligadas através de um comando, interruptor ou outra integração). | 1.2.4 | Não |
+| `binary_sensor.batterie` | Estado agregado das baterias | 1.2.4 | Não |
+| `binary_sensor.boitier` | Estado da central | 1.2.4 | Não |
+| `binary_sensor.communication_radio` | Estado da comunicação por rádio | 1.2.4 | Não |
+| `binary_sensor.communication_gsm` | Estado da comunicação GSM | 1.2.4 | Não |
+| `binary_sensor.mouvement_detecte` | Estado da deteção de movimento | 1.2.4 | Não |
+| `binary_sensor.porte_ou_fenetre` | Estado de portas e janelas | 1.2.4 | Não |
+| `binary_sensor.camera` | Estado da ligação da câmara | 1.2.4 | Não |
+| `sensor.signal_gsm_5` | Intensidade do sinal GSM (/5) | 1.2.6 | Não |
+| `sensor.operateur_gsma` | Operador GSM | 1.2.6 | Não |
+| `sensor.alarme_derniere_sync` | Última sincronização com o alarme (o último valor é restaurado após um reinício) | 2.0.7 | Não |
+| `sensor.data_e_hora_da_central` | Última data e hora lidas diretamente da central (o último valor é restaurado após um reinício) | 2.1.x | Não |
+| `sensor.registo_de_eventos` | Os 10 eventos mais recentes do registo da central. O estado corresponde ao último evento e o atributo `events` contém a lista detalhada | 2.2.0 | Não |
 
 #### São criados os seguintes sensores binários para representar cada dispositivo do sistema de alarme, incluindo os respetivos atributos:
 
-| Entidade | Descrição – Atributos | Versão |
-| ----------------------------------- | -------------------------------------------------------------------------------------------------------- | --------|
-| `binary_sensor.do_ouvt_xxx` | Contacto de porta - Atributos: bateria, comunicação com a central, erro, sabotagem, aberta/fechada, em pausa | 2.0.0 |
-| `binary_sensor.do_vitre_ouvt_xxx` | Contacto de janela com deteção de quebra de vidro - Atributos: bateria, comunicação com a central, erro, sabotagem, aberta/fechada, em pausa | 2.0.0 |
-| `binary_sensor.do_vitre_ouvt_xxx` | Detetor acústico de quebra de vidro - Atributos: bateria, comunicação com a central, erro, sabotagem, aberta/fechada, em pausa | 2.0.0 |
-| `binary_sensor.do_gar_xxx` | Contacto da porta da garagem - Atributos: bateria, comunicação com a central, erro, sabotagem, aberta/fechada, em pausa | 2.0.0 |
-| `binary_sensor.dm_image_mvt_xxx` | Detetor de movimento com captura de imagem - Atributos: bateria, comunicação com a central, erro, sabotagem, em pausa | 2.0.0 |
-| `binary_sensor.dm_mvt_xxx` | Detetor de movimento - Atributos: bateria, comunicação com a central, erro, sabotagem, em pausa | 2.0.0 |
-| `binary_sensor.tr_tel_xxx` | Central de alarme - Atributos: bateria, comunicação com a central, erro, sabotagem | 2.0.0 |
-| `binary_sensor.clavier_clv_xxx` | Teclado - Atributos: bateria, comunicação com a central, erro, sabotagem, em pausa | 2.0.0 |
-| `binary_sensor.cl_lcd_clv_xxx` | Teclado LCD - Atributos: bateria, comunicação com a central, erro, sabotagem, em pausa | 2.0.0 |
-| `binary_sensor.sir_ext_xxx` | Sirene exterior - Atributos: bateria, comunicação com a central, erro, sabotagem, em pausa | 2.0.0 |
-| `binary_sensor.sir_int_xxx` | Sirene interior - Atributos: bateria, comunicação com a central, erro, sabotagem, em pausa | 2.0.0 |
-| `binary_sensor.d_fumee_fumee_xxx` | Detetor de fumo - Atributos: bateria, comunicação com a central, erro, em pausa | 2.0.0 |
-| `binary_sensor.tc_multi_tlcmd_xxx` | Comando multicanal - Atributos: comunicação com a central, em pausa | 2.0.0 |
-| `binary_sensor.tc_4_tlcmd_xxx` | Comando para múltiplas zonas - Atributos: comunicação com a central, em pausa | 2.0.0 |
-| `binary_sensor.badge_bdg_axxx` | Identificador RFID - Atributos: comunicação com a central, em pausa | 2.0.0 |
+| Entidade | Descrição – Atributos | Versão | Código de instalador necessário |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------- | --------| :---: |
+| `binary_sensor.do_ouvt_xxx` | Contacto de porta - Atributos: bateria, comunicação com a central, erro, sabotagem, aberta/fechada, em pausa | 2.0.0 | Não |
+| `binary_sensor.do_vitre_ouvt_xxx` | Contacto de janela com deteção de quebra de vidro - Atributos: bateria, comunicação com a central, erro, sabotagem, aberta/fechada, em pausa | 2.0.0 | Não |
+| `binary_sensor.do_vitre_ouvt_xxx` | Detetor acústico de quebra de vidro - Atributos: bateria, comunicação com a central, erro, sabotagem, aberta/fechada, em pausa | 2.0.0 | Não |
+| `binary_sensor.do_gar_xxx` | Contacto da porta da garagem - Atributos: bateria, comunicação com a central, erro, sabotagem, aberta/fechada, em pausa | 2.0.0 | Não |
+| `binary_sensor.dm_image_mvt_xxx` | Detetor de movimento com captura de imagem - Atributos: bateria, comunicação com a central, erro, sabotagem, em pausa | 2.0.0 | Não |
+| `binary_sensor.dm_mvt_xxx` | Detetor de movimento - Atributos: bateria, comunicação com a central, erro, sabotagem, em pausa | 2.0.0 | Não |
+| `binary_sensor.tr_tel_xxx` | Central de alarme - Atributos: bateria, comunicação com a central, erro, sabotagem | 2.0.0 | Não |
+| `binary_sensor.clavier_clv_xxx` | Teclado - Atributos: bateria, comunicação com a central, erro, sabotagem, em pausa | 2.0.0 | Não |
+| `binary_sensor.cl_lcd_clv_xxx` | Teclado LCD - Atributos: bateria, comunicação com a central, erro, sabotagem, em pausa | 2.0.0 | Não |
+| `binary_sensor.sir_ext_xxx` | Sirene exterior - Atributos: bateria, comunicação com a central, erro, sabotagem, em pausa | 2.0.0 | Não |
+| `binary_sensor.sir_int_xxx` | Sirene interior - Atributos: bateria, comunicação com a central, erro, sabotagem, em pausa | 2.0.0 | Não |
+| `binary_sensor.d_fumee_fumee_xxx` | Detetor de fumo - Atributos: bateria, comunicação com a central, erro, em pausa | 2.0.0 | Não |
+| `binary_sensor.tc_multi_tlcmd_xxx` | Comando multicanal - Atributos: comunicação com a central, em pausa | 2.0.0 | Não |
+| `binary_sensor.tc_4_tlcmd_xxx` | Comando para múltiplas zonas - Atributos: comunicação com a central, em pausa | 2.0.0 | Não |
+| `binary_sensor.badge_bdg_axxx` | Identificador RFID - Atributos: comunicação com a central, em pausa | 2.0.0 | Não |
 
 Os atributos podem ser consultados no menu **"Detalhes"**.
 
@@ -171,16 +171,16 @@ Os atributos podem ser consultados no menu **"Detalhes"**.
 
 #### Botões suportados
 
-| Entidade | Descrição | Versão |
-| ----------------------------------- | ----------------------------------------------------------- |-----------------------------------------------------------|
-| `button.reinitialiser_defaut_alarme` | Repor falhas de alarme (movimento, abertura e sabotagem) | 2.0.7 |
-| `button.reinitialiser_defaut_liaison_radio` | Repor falhas de comunicação por rádio entre a central e os sensores | 2.0.7 |
-| `button.reinitialiser_defaut_piles` | Repor falhas das baterias | 2.0.7 |
-| `button.refresh` | | 2.0.13 |
-| `button.ler_data_e_hora_da_central` | Lê a data e a hora atualmente guardadas na central | 2.1.x |
-| `button.sincronizar_data_e_hora` | Sincroniza a data e a hora da central com a data e hora locais do Home Assistant | 2.1.x |
-| `button.memory_open` * | **Abertura da memória** — Coloca a central em pausa durante 2 minutos para manutenção, como a substituição das pilhas; também permite emparelhar novos dispositivos. | 2.2.2 |
-| `button.memory_close` * | **Fecho da memória** — Termina o modo de memória/pausa da central. | 2.2.2 |
+| Entidade | Descrição | Versão | Código de instalador necessário |
+| ----------------------------------- | ----------------------------------------------------------- |-----------------------------------------------------------| :---: |
+| `button.reinitialiser_defaut_alarme` | Repor falhas de alarme (movimento, abertura e sabotagem) | 2.0.7 | Não |
+| `button.reinitialiser_defaut_liaison_radio` | Repor falhas de comunicação por rádio entre a central e os sensores | 2.0.7 | Não |
+| `button.reinitialiser_defaut_piles` | Repor falhas das baterias | 2.0.7 | Não |
+| `button.refresh` | | 2.0.13 | Não |
+| `button.ler_data_e_hora_da_central` | Lê a data e a hora atualmente guardadas na central | 2.1.x | Não |
+| `button.sincronizar_data_e_hora` | Sincroniza a data e a hora da central com a data e hora locais do Home Assistant | 2.1.x | Não |
+| `button.memory_open` * | **Abertura da memória** — Coloca a central em pausa durante 2 minutos para manutenção, como a substituição das pilhas; também permite emparelhar novos dispositivos. | 2.2.2 | Sim |
+| `button.memory_close` * | **Fecho da memória** — Termina o modo de memória/pausa da central. | 2.2.2 | Sim |
 
 
 
@@ -201,6 +201,10 @@ Os ícones correspondem aos dos respetivos sensores binários.
 
 > As centrais Somfy permitem apenas uma sessão de cada vez. A integração gere automaticamente a troca temporária de sessão ao pausar ou reativar um elemento.
 
+| Interruptor PAUSA do elemento | Código de instalador necessário |
+| --- | :---: |
+| Apenas elementos compatíveis | **Sim** |
+
 #### 🔄 Intervalo de atualização dinâmico (versão 2.1):
 O intervalo de atualização da integração também está disponível como uma entidade `number`. O seu valor pode ser alterado diretamente na interface ou através de uma automatização para adaptar dinamicamente a frequência de consulta da central e assim [reduzir o consumo das pilhas](https://github.com/AuroreVgn/somfy-protexial/wiki/Optimisation-de-la-dur%C3%A9e-de-vie-des-piles-de-la-Centrale#avec-un-intervalle-de-rafraichissement-variable).
 
@@ -211,13 +215,13 @@ O valor selecionado é mantido após recarregar a integração ou reiniciar o Ho
 
 Se as credenciais de **Instalador** estiverem configuradas, a integração também permite ler e alterar várias definições gerais da central através do Home Assistant. As entidades só são criadas se a definição correspondente estiver disponível na central.
 
-| Entité | Description | Paramètre Somfy |
-| ------ | ----------- | --------------- |
-| `number.temporizacao_de_entrada` | Temporização de entrada, de 1 a 60 segundos | `tempoentree` |
-| `switch.ding_dong_na_sirene_interior` | Ativa ou desativa o DING DONG na sirene interior | `kiela` |
-| `switch.bip_do_transmissor` | Ativa ou desativa o bip do transmissor | `bipontransmiter` |
-| `select.nivel_dos_bips_das_sirenes` | Nível dos bips: Baixo, Médio ou Alto | `biplevel` |
-| `select.nivel_sonoro_das_sirenes` | Nível sonoro das sirenes: Baixo, Médio ou Alto | `sirenlevel` |
+| Entité | Description | Paramètre Somfy | Código de instalador necessário |
+| ------ | ----------- | --------------- | :---: |
+| `number.temporizacao_de_entrada` | Temporização de entrada, de 1 a 60 segundos | `tempoentree` | Sim |
+| `switch.ding_dong_na_sirene_interior` | Ativa ou desativa o DING DONG na sirene interior | `kiela` | Sim |
+| `switch.bip_do_transmissor` | Ativa ou desativa o bip do transmissor | `bipontransmiter` | Sim |
+| `select.nivel_dos_bips_das_sirenes` | Nível dos bips: Baixo, Médio ou Alto | `biplevel` | Sim |
+| `select.nivel_sonoro_das_sirenes` | Nível sonoro das sirenes: Baixo, Médio ou Alto | `sirenlevel` | Sim |
 
 As alterações são efetuadas através da conta **Instalador**. Antes de cada escrita, a integração volta a ler o formulário de configuração atual da central e altera apenas a definição solicitada, preservando todas as restantes definições.
 
