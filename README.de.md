@@ -85,7 +85,7 @@ Diese Integration ermöglicht die Anbindung einer Somfy Protexial-, Protexiom- o
 | Protexiom 5000 | `2013 (v10_3)` | :white_check_mark:  |
 | Protexial | `2013 (v10_13)` | :white_check_mark:  |
 | Protexial | `2013 (v10_14)` | :white_check_mark:  |
-| Protexial | `2013 (v10_15)` | :white_check_mark:  |
+| Protexial | `2013 (v10_15)` | :white_check_mark: | :white_check_mark: |
 | Protexial | `2010 (v7_9)` | :white_check_mark:  |
 | Protexial | `2010 (v8_1)` | :white_check_mark:  |
 | Protexial | `2008` | :white_check_mark:  |
@@ -143,23 +143,23 @@ Die Sprache der Weboberfläche der Alarmzentrale ist unabhängig von der in Home
 
 #### Für jedes Alarmgerät werden folgende Binary Sensoren mit Attributen erstellt:
 
-| Entität | Beschreibung – Attribute | Version | Installateurcode erforderlich |
-| ----------------------------------- | -------------------------------------------------------------------------------------------------------- | --------| :---: |
-| `binary_sensor.do_ouvt_xxx` | Türkontakt – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, offen/geschlossen, pausiert | 2.0.0 | Nein |
-| `binary_sensor.do_vitre_ouvt_xxx` | Fensterkontakt mit Glasbrucherkennung – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, offen/geschlossen, pausiert | 2.0.0 | Nein |
-| `binary_sensor.do_vitre_ouvt_xxx` | Akustischer Glasbruchmelder – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, offen/geschlossen, pausiert | 2.0.0 | Nein |
-| `binary_sensor.do_gar_xxx` | Garagentorkontakt – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, offen/geschlossen, pausiert | 2.0.0 | Nein |
-| `binary_sensor.dm_image_mvt_xxx` | Bewegungsmelder mit Bildaufnahme – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 | Nein |
-| `binary_sensor.dm_mvt_xxx` | Bewegungsmelder – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 | Nein |
-| `binary_sensor.tr_tel_xxx` | Alarmzentrale – Batterie, Verbindung zur Zentrale, Fehler, Sabotage | 2.0.0 | Nein |
-| `binary_sensor.clavier_clv_xxx` | Tastatur – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 | Nein |
-| `binary_sensor.cl_lcd_clv_xxx` | LCD-Tastatur – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 | Nein |
-| `binary_sensor.sir_ext_xxx` | Außensirene – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 | Nein |
-| `binary_sensor.sir_int_xxx` | Innensirene – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 | Nein |
-| `binary_sensor.d_fumee_fumee_xxx` | Rauchmelder – Batterie, Verbindung zur Zentrale, Fehler, pausiert | 2.0.0 | Nein |
-| `binary_sensor.tc_multi_tlcmd_xxx` | Mehrkanal-Fernbedienung – Verbindung zur Zentrale, pausiert | 2.0.0 | Nein |
-| `binary_sensor.tc_4_tlcmd_xxx` | Mehrzonen-Fernbedienung – Verbindung zur Zentrale, pausiert | 2.0.0 | Nein |
-| `binary_sensor.badge_bdg_axxx` | RFID-Badge – Verbindung zur Zentrale, pausiert | 2.0.0 | Nein |
+| Entität | Beschreibung – Attribute | Version | Installateurcode erforderlich | PAUSE-Steuerung (Installateurcode) |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------- | --------| :---: | :---: |
+| `binary_sensor.do_ouvt_xxx` | Türkontakt – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, offen/geschlossen, pausiert | 2.0.0 | Nein | Ja, falls unterstützt |
+| `binary_sensor.do_vitre_ouvt_xxx` | Fensterkontakt mit Glasbrucherkennung – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, offen/geschlossen, pausiert | 2.0.0 | Nein | Ja, falls unterstützt |
+| `binary_sensor.do_vitre_ouvt_xxx` | Akustischer Glasbruchmelder – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, offen/geschlossen, pausiert | 2.0.0 | Nein | Ja, falls unterstützt |
+| `binary_sensor.do_gar_xxx` | Garagentorkontakt – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, offen/geschlossen, pausiert | 2.0.0 | Nein | Ja, falls unterstützt |
+| `binary_sensor.dm_image_mvt_xxx` | Bewegungsmelder mit Bildaufnahme – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 | Nein | Ja, falls unterstützt |
+| `binary_sensor.dm_mvt_xxx` | Bewegungsmelder – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 | Nein | Ja, falls unterstützt |
+| `binary_sensor.tr_tel_xxx` | Alarmzentrale – Batterie, Verbindung zur Zentrale, Fehler, Sabotage | 2.0.0 | Nein | Nicht verfügbar |
+| `binary_sensor.clavier_clv_xxx` | Tastatur – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 | Nein | Ja, falls unterstützt |
+| `binary_sensor.cl_lcd_clv_xxx` | LCD-Tastatur – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 | Nein | Ja, falls unterstützt |
+| `binary_sensor.sir_ext_xxx` | Außensirene – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 | Nein | Ja, falls unterstützt |
+| `binary_sensor.sir_int_xxx` | Innensirene – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 | Nein | Ja, falls unterstützt |
+| `binary_sensor.d_fumee_fumee_xxx` | Rauchmelder – Batterie, Verbindung zur Zentrale, Fehler, pausiert | 2.0.0 | Nein | Ja, falls unterstützt |
+| `binary_sensor.tc_multi_tlcmd_xxx` | Mehrkanal-Fernbedienung – Verbindung zur Zentrale, pausiert | 2.0.0 | Nein | Ja, falls unterstützt |
+| `binary_sensor.tc_4_tlcmd_xxx` | Mehrzonen-Fernbedienung – Verbindung zur Zentrale, pausiert | 2.0.0 | Nein | Ja, falls unterstützt |
+| `binary_sensor.badge_bdg_axxx` | RFID-Badge – Verbindung zur Zentrale, pausiert | 2.0.0 | Nein | Ja, falls unterstützt |
 
 Die Attribute sind im Menü **„Details“** sichtbar.
 
