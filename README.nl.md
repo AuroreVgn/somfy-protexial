@@ -85,7 +85,7 @@ Deze integratie maakt verbinding met Somfy Protexial-, Protexiom- en Protexial I
 | Protexiom 5000 | `2013 (v10_3)` | :white_check_mark:  |
 | Protexial | `2013 (v10_13)` | :white_check_mark:  |
 | Protexial | `2013 (v10_14)` | :white_check_mark:  |
-| Protexial | `2013 (v10_15)` | :white_check_mark:  |
+| Protexial | `2013 (v10_15)` | :white_check_mark: | :white_check_mark: |
 | Protexial | `2010 (v7_9)` | :white_check_mark:  |
 | Protexial | `2010 (v8_1)` | :white_check_mark:  |
 | Protexial | `2008` | :white_check_mark:  |
@@ -143,23 +143,23 @@ De taal van de webinterface van de centrale staat los van de taal die in Home As
 
 #### Voor elk alarmapparaat worden de volgende binaire sensoren met attributen aangemaakt:
 
-| Entiteit | Beschrijving – Attributen | Versie | Installateurscode vereist |
-| ----------------------------------- | -------------------------------------------------------------------------------------------------------- | --------| :---: |
-| `binary_sensor.do_ouvt_xxx` | Deurcontact - Attributen: batterij, verbinding met de centrale, fout, sabotage, open/gesloten, gepauzeerd | 2.0.0 | Nee |
-| `binary_sensor.do_vitre_ouvt_xxx` | Raamcontact met glasbreukdetectie - Attributen: batterij, verbinding met de centrale, fout, sabotage, open/gesloten, gepauzeerd | 2.0.0 | Nee |
-| `binary_sensor.do_vitre_ouvt_xxx` | Akoestische glasbreukdetector - Attributen: batterij, verbinding met de centrale, fout, sabotage, open/gesloten, gepauzeerd | 2.0.0 | Nee |
-| `binary_sensor.do_gar_xxx` | Garagedeurcontact - Attributen: batterij, verbinding met de centrale, fout, sabotage, open/gesloten, gepauzeerd | 2.0.0 | Nee |
-| `binary_sensor.dm_image_mvt_xxx` | Bewegingsmelder met beeldopname - Attributen: batterij, verbinding met de centrale, fout, sabotage, gepauzeerd | 2.0.0 | Nee |
-| `binary_sensor.dm_mvt_xxx` | Bewegingsmelder - Attributen: batterij, verbinding met de centrale, fout, sabotage, gepauzeerd | 2.0.0 | Nee |
-| `binary_sensor.tr_tel_xxx` | Alarmcentrale - Attributen: batterij, verbinding met de centrale, fout, sabotage | 2.0.0 | Nee |
-| `binary_sensor.clavier_clv_xxx` | Toetsenbord - Attributen: batterij, verbinding met de centrale, fout, sabotage, gepauzeerd | 2.0.0 | Nee |
-| `binary_sensor.cl_lcd_clv_xxx` | LCD-toetsenbord - Attributen: batterij, verbinding met de centrale, fout, sabotage, gepauzeerd | 2.0.0 | Nee |
-| `binary_sensor.sir_ext_xxx` | Buitensirene - Attributen: batterij, verbinding met de centrale, fout, sabotage, gepauzeerd | 2.0.0 | Nee |
-| `binary_sensor.sir_int_xxx` | Binnensirene - Attributen: batterij, verbinding met de centrale, fout, sabotage, gepauzeerd | 2.0.0 | Nee |
-| `binary_sensor.d_fumee_fumee_xxx` | Rookmelder - Attributen: batterij, verbinding met de centrale, fout, gepauzeerd | 2.0.0 | Nee |
-| `binary_sensor.tc_multi_tlcmd_xxx` | Meerkanaals afstandsbediening - Attributen: verbinding met de centrale, gepauzeerd | 2.0.0 | Nee |
-| `binary_sensor.tc_4_tlcmd_xxx` | Afstandsbediening voor meerdere alarmzones - Attributen: verbinding met de centrale, gepauzeerd | 2.0.0 | Nee |
-| `binary_sensor.badge_bdg_axxx` | RFID-badge - Attributen: verbinding met de centrale, gepauzeerd | 2.0.0 | Nee |
+| Entiteit | Beschrijving – Attributen | Versie | Installateurscode vereist | PAUZE-bediening (installateurscode) |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------- | --------| :---: | :---: |
+| `binary_sensor.do_ouvt_xxx` | Deurcontact - Attributen: batterij, verbinding met de centrale, fout, sabotage, open/gesloten, gepauzeerd | 2.0.0 | Nee | Ja, indien ondersteund |
+| `binary_sensor.do_vitre_ouvt_xxx` | Raamcontact met glasbreukdetectie - Attributen: batterij, verbinding met de centrale, fout, sabotage, open/gesloten, gepauzeerd | 2.0.0 | Nee | Ja, indien ondersteund |
+| `binary_sensor.do_vitre_ouvt_xxx` | Akoestische glasbreukdetector - Attributen: batterij, verbinding met de centrale, fout, sabotage, open/gesloten, gepauzeerd | 2.0.0 | Nee | Ja, indien ondersteund |
+| `binary_sensor.do_gar_xxx` | Garagedeurcontact - Attributen: batterij, verbinding met de centrale, fout, sabotage, open/gesloten, gepauzeerd | 2.0.0 | Nee | Ja, indien ondersteund |
+| `binary_sensor.dm_image_mvt_xxx` | Bewegingsmelder met beeldopname - Attributen: batterij, verbinding met de centrale, fout, sabotage, gepauzeerd | 2.0.0 | Nee | Ja, indien ondersteund |
+| `binary_sensor.dm_mvt_xxx` | Bewegingsmelder - Attributen: batterij, verbinding met de centrale, fout, sabotage, gepauzeerd | 2.0.0 | Nee | Ja, indien ondersteund |
+| `binary_sensor.tr_tel_xxx` | Alarmcentrale - Attributen: batterij, verbinding met de centrale, fout, sabotage | 2.0.0 | Nee | Niet beschikbaar |
+| `binary_sensor.clavier_clv_xxx` | Toetsenbord - Attributen: batterij, verbinding met de centrale, fout, sabotage, gepauzeerd | 2.0.0 | Nee | Ja, indien ondersteund |
+| `binary_sensor.cl_lcd_clv_xxx` | LCD-toetsenbord - Attributen: batterij, verbinding met de centrale, fout, sabotage, gepauzeerd | 2.0.0 | Nee | Ja, indien ondersteund |
+| `binary_sensor.sir_ext_xxx` | Buitensirene - Attributen: batterij, verbinding met de centrale, fout, sabotage, gepauzeerd | 2.0.0 | Nee | Ja, indien ondersteund |
+| `binary_sensor.sir_int_xxx` | Binnensirene - Attributen: batterij, verbinding met de centrale, fout, sabotage, gepauzeerd | 2.0.0 | Nee | Ja, indien ondersteund |
+| `binary_sensor.d_fumee_fumee_xxx` | Rookmelder - Attributen: batterij, verbinding met de centrale, fout, gepauzeerd | 2.0.0 | Nee | Ja, indien ondersteund |
+| `binary_sensor.tc_multi_tlcmd_xxx` | Meerkanaals afstandsbediening - Attributen: verbinding met de centrale, gepauzeerd | 2.0.0 | Nee | Ja, indien ondersteund |
+| `binary_sensor.tc_4_tlcmd_xxx` | Afstandsbediening voor meerdere alarmzones - Attributen: verbinding met de centrale, gepauzeerd | 2.0.0 | Nee | Ja, indien ondersteund |
+| `binary_sensor.badge_bdg_axxx` | RFID-badge - Attributen: verbinding met de centrale, gepauzeerd | 2.0.0 | Nee | Ja, indien ondersteund |
 
 De attributen zijn zichtbaar in het menu **"Details"**.
 
