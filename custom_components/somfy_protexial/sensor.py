@@ -10,11 +10,11 @@ from homeassistant.components.sensor import (
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import EntityCategory
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.dispatcher import async_dispatcher_connect
+from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import API, SENSORS, COORDINATOR, DEVICE_INFO, DOMAIN
+from .const import API, COORDINATOR, DEVICE_INFO, DOMAIN, SENSORS
 
 _LOGGER = logging.getLogger(__name__)
 
