@@ -51,6 +51,7 @@ If you find this integration useful and would like to support its development an
 - **PAUSE:** the PAUSE switch has been removed for the central unit because its web interface does not offer this function; other compatible elements retain it.
 - **[Open memory (#31)](https://github.com/AuroreVgn/somfy-protexial/issues/31) :** adds a button that puts the central unit into pause mode for 2 minutes to facilitate maintenance, such as replacing batteries. This function also allows new elements to be added to the alarm system. At present, adding elements directly through the integration has not been considered a relevant feature.
 - **[Close memory (#31)](https://github.com/AuroreVgn/somfy-protexial/issues/31) :** adds a button to take the central unit out of pause mode.
+- **These two buttons are available only when the installer code is configured in the integration.**
 - **Important:** use these commands only when the alarm is disarmed. No open/closed state is available.
 
 ### Previous release — 2.2.1
