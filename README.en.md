@@ -52,7 +52,7 @@ If you find this integration useful and would like to support its development an
 - **Close memory:** adds a button to take the central unit out of pause mode.
 - **Important:** use these commands only when the alarm is disarmed. No open/closed state is available.
 
-### Previous version — 2.2.1
+### Previous release — 2.2.1
 
 #### 🆕 What's new in version 2.2.1
 
@@ -179,7 +179,12 @@ Attributes are available in the **Details** panel.
 | `button.refresh` | Reset battery faults | 2.0.7 |
 | `button.read_control_panel_date_and_time` | Reads the date and time currently stored in the control panel | 2.1.x |
 | `button.synchronize_date_and_time` | Synchronizes the control panel date and time with Home Assistant local date and time | 2.1.x |
+| `button.memory_open` * | **Open memory** — Puts the central unit into pause mode for up to 2 minutes for maintenance, including battery replacement; also allows device pairing. | 2.2.2 |
+| `button.memory_close` * | **Close memory** — Ends the central unit's memory/pause mode. | 2.2.2 |
 
+
+
+*The displayed entity IDs are examples; Home Assistant may generate localized IDs. These commands require installer credentials and a disarmed alarm. The central unit does not expose a PAUSE switch or a readable memory state.
 
 #### ⏸️ Pausing / reactivating elements (version 2.1):
 
