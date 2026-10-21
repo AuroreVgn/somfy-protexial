@@ -124,43 +124,43 @@ La lingua dell'interfaccia web della centrale è indipendente dalla lingua utili
 
 #### Entità supportate
 
-| Entità | Descrizione | Versione |
-| ----------------------------------- | ----------------------------------------------------------- |-----------------------------------------------------------|
-| `alarm_control_panel.alarme` | Supporta le modalità `armed_away`, `armed_home` e `armed_night` | 1.2.4 |
-| `cover.volets` | Apertura, chiusura e arresto. Il controllo della posizione non è supportato. | 1.2.4 |
-| `light.lumieres` | Accensione/spegnimento (lo stato viene mantenuto dall'integrazione. Non è possibile sapere se le luci sono state controllate tramite telecomando, interruttore o un'altra integrazione). | 1.2.4 |
-| `binary_sensor.batterie` | Stato aggregato delle batterie | 1.2.4 |
-| `binary_sensor.boitier` | Stato della centrale | 1.2.4 |
-| `binary_sensor.communication_radio` | Stato della comunicazione radio | 1.2.4 |
-| `binary_sensor.communication_gsm` | Stato della comunicazione GSM | 1.2.4 |
-| `binary_sensor.mouvement_detecte` | Stato del rilevamento di movimento | 1.2.4 |
-| `binary_sensor.porte_ou_fenetre` | Stato di porte e finestre | 1.2.4 |
-| `binary_sensor.camera` | Stato della connessione della telecamera | 1.2.4 |
-| `sensor.signal_gsm_5` | Intensità del segnale GSM (/5) | 1.2.6 |
-| `sensor.operateur_gsma` | Operatore GSM | 1.2.6 |
-| `sensor.alarme_derniere_sync` | Ultima sincronizzazione con l'allarme (l'ultimo valore viene ripristinato dopo un riavvio) | 2.0.7 |
-| `sensor.data_e_ora_della_centrale` | Ultima data e ora lette direttamente dalla centrale (l’ultimo valore viene ripristinato dopo un riavvio) | 2.1.x |
-| `sensor.registro_eventi` | I 10 eventi più recenti del registro della centrale. Lo stato corrisponde all’ultimo evento e l’attributo `events` contiene l’elenco dettagliato | 2.2.0 |
+| Entità | Descrizione | Versione | Codice installatore richiesto |
+| ----------------------------------- | ----------------------------------------------------------- |-----------------------------------------------------------| :---: |
+| `alarm_control_panel.alarme` | Supporta le modalità `armed_away`, `armed_home` e `armed_night` | 1.2.4 | No |
+| `cover.volets` | Apertura, chiusura e arresto. Il controllo della posizione non è supportato. | 1.2.4 | No |
+| `light.lumieres` | Accensione/spegnimento (lo stato viene mantenuto dall'integrazione. Non è possibile sapere se le luci sono state controllate tramite telecomando, interruttore o un'altra integrazione). | 1.2.4 | No |
+| `binary_sensor.batterie` | Stato aggregato delle batterie | 1.2.4 | No |
+| `binary_sensor.boitier` | Stato della centrale | 1.2.4 | No |
+| `binary_sensor.communication_radio` | Stato della comunicazione radio | 1.2.4 | No |
+| `binary_sensor.communication_gsm` | Stato della comunicazione GSM | 1.2.4 | No |
+| `binary_sensor.mouvement_detecte` | Stato del rilevamento di movimento | 1.2.4 | No |
+| `binary_sensor.porte_ou_fenetre` | Stato di porte e finestre | 1.2.4 | No |
+| `binary_sensor.camera` | Stato della connessione della telecamera | 1.2.4 | No |
+| `sensor.signal_gsm_5` | Intensità del segnale GSM (/5) | 1.2.6 | No |
+| `sensor.operateur_gsma` | Operatore GSM | 1.2.6 | No |
+| `sensor.alarme_derniere_sync` | Ultima sincronizzazione con l'allarme (l'ultimo valore viene ripristinato dopo un riavvio) | 2.0.7 | No |
+| `sensor.data_e_ora_della_centrale` | Ultima data e ora lette direttamente dalla centrale (l’ultimo valore viene ripristinato dopo un riavvio) | 2.1.x | No |
+| `sensor.registro_eventi` | I 10 eventi più recenti del registro della centrale. Lo stato corrisponde all’ultimo evento e l’attributo `events` contiene l’elenco dettagliato | 2.2.0 | No |
 
 #### Per ogni dispositivo dell'allarme vengono creati i seguenti sensori binari con i relativi attributi:
 
-| Entità | Descrizione – Attributi | Versione |
-| ----------------------------------- | -------------------------------------------------------------------------------------------------------- | --------|
-| `binary_sensor.do_ouvt_xxx` | Contatto porta - Attributi: batteria, comunicazione con la centrale, errore, manomissione, aperto/chiuso, sospeso | 2.0.0 |
-| `binary_sensor.do_vitre_ouvt_xxx` | Contatto finestra con rilevamento rottura vetro - Attributi: batteria, comunicazione con la centrale, errore, manomissione, aperto/chiuso, sospeso | 2.0.0 |
-| `binary_sensor.do_vitre_ouvt_xxx` | Sensore acustico di rottura vetri - Attributi: batteria, comunicazione con la centrale, errore, manomissione, aperto/chiuso, sospeso | 2.0.0 |
-| `binary_sensor.do_gar_xxx` | Contatto porta garage - Attributi: batteria, comunicazione con la centrale, errore, manomissione, aperto/chiuso, sospeso | 2.0.0 |
-| `binary_sensor.dm_image_mvt_xxx` | Rilevatore di movimento con acquisizione immagini - Attributi: batteria, comunicazione con la centrale, errore, manomissione, sospeso | 2.0.0 |
-| `binary_sensor.dm_mvt_xxx` | Rilevatore di movimento - Attributi: batteria, comunicazione con la centrale, errore, manomissione, sospeso | 2.0.0 |
-| `binary_sensor.tr_tel_xxx` | Centrale di allarme - Attributi: batteria, comunicazione con la centrale, errore, manomissione | 2.0.0 |
-| `binary_sensor.clavier_clv_xxx` | Tastiera - Attributi: batteria, comunicazione con la centrale, errore, manomissione, sospeso | 2.0.0 |
-| `binary_sensor.cl_lcd_clv_xxx` | Tastiera LCD - Attributi: batteria, comunicazione con la centrale, errore, manomissione, sospeso | 2.0.0 |
-| `binary_sensor.sir_ext_xxx` | Sirena esterna - Attributi: batteria, comunicazione con la centrale, errore, manomissione, sospeso | 2.0.0 |
-| `binary_sensor.sir_int_xxx` | Sirena interna - Attributi: batteria, comunicazione con la centrale, errore, manomissione, sospeso | 2.0.0 |
-| `binary_sensor.d_fumee_fumee_xxx` | Rilevatore di fumo - Attributi: batteria, comunicazione con la centrale, errore, sospeso | 2.0.0 |
-| `binary_sensor.tc_multi_tlcmd_xxx` | Telecomando multicanale - Attributi: comunicazione con la centrale, sospeso | 2.0.0 |
-| `binary_sensor.tc_4_tlcmd_xxx` | Telecomando allarme multizona - Attributi: comunicazione con la centrale, sospeso | 2.0.0 |
-| `binary_sensor.badge_bdg_axxx` | Badge RFID - Attributi: comunicazione con la centrale, sospeso | 2.0.0 |
+| Entità | Descrizione – Attributi | Versione | Codice installatore richiesto |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------- | --------| :---: |
+| `binary_sensor.do_ouvt_xxx` | Contatto porta - Attributi: batteria, comunicazione con la centrale, errore, manomissione, aperto/chiuso, sospeso | 2.0.0 | No |
+| `binary_sensor.do_vitre_ouvt_xxx` | Contatto finestra con rilevamento rottura vetro - Attributi: batteria, comunicazione con la centrale, errore, manomissione, aperto/chiuso, sospeso | 2.0.0 | No |
+| `binary_sensor.do_vitre_ouvt_xxx` | Sensore acustico di rottura vetri - Attributi: batteria, comunicazione con la centrale, errore, manomissione, aperto/chiuso, sospeso | 2.0.0 | No |
+| `binary_sensor.do_gar_xxx` | Contatto porta garage - Attributi: batteria, comunicazione con la centrale, errore, manomissione, aperto/chiuso, sospeso | 2.0.0 | No |
+| `binary_sensor.dm_image_mvt_xxx` | Rilevatore di movimento con acquisizione immagini - Attributi: batteria, comunicazione con la centrale, errore, manomissione, sospeso | 2.0.0 | No |
+| `binary_sensor.dm_mvt_xxx` | Rilevatore di movimento - Attributi: batteria, comunicazione con la centrale, errore, manomissione, sospeso | 2.0.0 | No |
+| `binary_sensor.tr_tel_xxx` | Centrale di allarme - Attributi: batteria, comunicazione con la centrale, errore, manomissione | 2.0.0 | No |
+| `binary_sensor.clavier_clv_xxx` | Tastiera - Attributi: batteria, comunicazione con la centrale, errore, manomissione, sospeso | 2.0.0 | No |
+| `binary_sensor.cl_lcd_clv_xxx` | Tastiera LCD - Attributi: batteria, comunicazione con la centrale, errore, manomissione, sospeso | 2.0.0 | No |
+| `binary_sensor.sir_ext_xxx` | Sirena esterna - Attributi: batteria, comunicazione con la centrale, errore, manomissione, sospeso | 2.0.0 | No |
+| `binary_sensor.sir_int_xxx` | Sirena interna - Attributi: batteria, comunicazione con la centrale, errore, manomissione, sospeso | 2.0.0 | No |
+| `binary_sensor.d_fumee_fumee_xxx` | Rilevatore di fumo - Attributi: batteria, comunicazione con la centrale, errore, sospeso | 2.0.0 | No |
+| `binary_sensor.tc_multi_tlcmd_xxx` | Telecomando multicanale - Attributi: comunicazione con la centrale, sospeso | 2.0.0 | No |
+| `binary_sensor.tc_4_tlcmd_xxx` | Telecomando allarme multizona - Attributi: comunicazione con la centrale, sospeso | 2.0.0 | No |
+| `binary_sensor.badge_bdg_axxx` | Badge RFID - Attributi: comunicazione con la centrale, sospeso | 2.0.0 | No |
 
 Gli attributi sono visibili nel menu **"Dettagli"**.
 
@@ -170,16 +170,16 @@ Gli attributi sono visibili nel menu **"Dettagli"**.
 
 #### Pulsanti supportati
 
-| Entità | Descrizione | Versione |
-| ----------------------------------- | ----------------------------------------------------------- |-----------------------------------------------------------|
-| `button.reinitialiser_defaut_alarme` | Ripristina gli errori di allarme (movimento, apertura e manomissione) | 2.0.7 |
-| `button.reinitialiser_defaut_liaison_radio` | Ripristina gli errori di comunicazione radio tra la centrale e i sensori | 2.0.7 |
-| `button.reinitialiser_defaut_piles` | Ripristina gli errori delle batterie | 2.0.7 |
-| `button.reresh` |  | 2.0.13 |
-| `button.leggi_data_e_ora_della_centrale` | Legge la data e l’ora attualmente memorizzate nella centrale | 2.1.x |
-| `button.sincronizza_data_e_ora` | Sincronizza data e ora della centrale con data e ora locali di Home Assistant | 2.1.x |
-| `button.memory_open` * | **Apertura della memoria** — Mette la centrale in pausa per 2 minuti per la manutenzione, come la sostituzione delle batterie; permette anche l'abbinamento di nuovi dispositivi. | 2.2.2 |
-| `button.memory_close` * | **Chiusura della memoria** — Termina la modalità memoria/pausa della centrale. | 2.2.2 |
+| Entità | Descrizione | Versione | Codice installatore richiesto |
+| ----------------------------------- | ----------------------------------------------------------- |-----------------------------------------------------------| :---: |
+| `button.reinitialiser_defaut_alarme` | Ripristina gli errori di allarme (movimento, apertura e manomissione) | 2.0.7 | No |
+| `button.reinitialiser_defaut_liaison_radio` | Ripristina gli errori di comunicazione radio tra la centrale e i sensori | 2.0.7 | No |
+| `button.reinitialiser_defaut_piles` | Ripristina gli errori delle batterie | 2.0.7 | No |
+| `button.reresh` |  | 2.0.13 | No |
+| `button.leggi_data_e_ora_della_centrale` | Legge la data e l’ora attualmente memorizzate nella centrale | 2.1.x | No |
+| `button.sincronizza_data_e_ora` | Sincronizza data e ora della centrale con data e ora locali di Home Assistant | 2.1.x | No |
+| `button.memory_open` * | **Apertura della memoria** — Mette la centrale in pausa per 2 minuti per la manutenzione, come la sostituzione delle batterie; permette anche l'abbinamento di nuovi dispositivi. | 2.2.2 | Sì |
+| `button.memory_close` * | **Chiusura della memoria** — Termina la modalità memoria/pausa della centrale. | 2.2.2 | Sì |
 
 
 
@@ -200,6 +200,10 @@ Le icone corrispondono a quelle dei relativi sensori binari.
 
 > Le centrali Somfy consentono una sola sessione alla volta. L'integrazione gestisce automaticamente il cambio temporaneo di sessione durante la pausa o la riattivazione di un elemento.
 
+| Interruttore PAUSA dell'elemento | Codice installatore richiesto |
+| --- | :---: |
+| Solo elementi compatibili | **Sì** |
+
 #### 🔄 Intervallo di aggiornamento dinamico (versione 2.1):
 L'intervallo di aggiornamento dell'integrazione è disponibile anche come entità `number`. Il suo valore può essere modificato direttamente dall'interfaccia o tramite un'automazione per adattare dinamicamente la frequenza di interrogazione della centrale e [ridurne il consumo delle batterie](https://github.com/AuroreVgn/somfy-protexial/wiki/Optimisation-de-la-dur%C3%A9e-de-vie-des-piles-de-la-Centrale#avec-un-intervalle-de-rafraichissement-variable).
 
@@ -210,13 +214,13 @@ Il valore selezionato viene conservato dopo il ricaricamento dell’integrazione
 
 Se sono configurate le credenziali **Installatore**, l’integrazione consente anche di leggere e modificare diverse impostazioni generali della centrale da Home Assistant. Le entità vengono create solo se l’impostazione corrispondente è disponibile sulla centrale.
 
-| Entité | Description | Paramètre Somfy |
-| ------ | ----------- | --------------- |
-| `number.ritardo_di_ingresso` | Ritardo di ingresso, da 1 a 60 secondi | `tempoentree` |
-| `switch.ding_dong_sulla_sirena_interna` | Attiva o disattiva DING DONG sulla sirena interna | `kiela` |
-| `switch.segnale_acustico_del_trasmettitore` | Attiva o disattiva il segnale acustico del trasmettitore | `bipontransmiter` |
-| `select.livello_dei_bip_delle_sirene` | Livello dei bip: Basso, Medio o Alto | `biplevel` |
-| `select.livello_sonoro_delle_sirene` | Livello sonoro delle sirene: Basso, Medio o Alto | `sirenlevel` |
+| Entité | Description | Paramètre Somfy | Codice installatore richiesto |
+| ------ | ----------- | --------------- | :---: |
+| `number.ritardo_di_ingresso` | Ritardo di ingresso, da 1 a 60 secondi | `tempoentree` | Sì |
+| `switch.ding_dong_sulla_sirena_interna` | Attiva o disattiva DING DONG sulla sirena interna | `kiela` | Sì |
+| `switch.segnale_acustico_del_trasmettitore` | Attiva o disattiva il segnale acustico del trasmettitore | `bipontransmiter` | Sì |
+| `select.livello_dei_bip_delle_sirene` | Livello dei bip: Basso, Medio o Alto | `biplevel` | Sì |
+| `select.livello_sonoro_delle_sirene` | Livello sonoro delle sirene: Basso, Medio o Alto | `sirenlevel` | Sì |
 
 Le modifiche vengono effettuate tramite l’account **Installatore**. Prima di ogni scrittura, l’integrazione rilegge il modulo di configurazione corrente della centrale e modifica solo l’impostazione richiesta, preservando tutte le altre impostazioni.
 
