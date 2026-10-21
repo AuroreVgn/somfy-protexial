@@ -18,8 +18,5 @@
     "cssselect>=1.4,<1.5"
   ],
   "version": "2.2.2",
-  "integration_type": "hub",
-  "categories": [
-    "security_safety.alarm_systems"
-  ]
+  "integration_type": "hub"
 }
