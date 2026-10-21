@@ -59,9 +59,7 @@ async def async_setup_entry(
             suggested_display_precision=sensor.get("suggested_display_precision"),
         )
         entity_class = (
-            ProtexialLastSyncSensor
-            if sensor["id"] == "last_sync"
-            else ProtexialSensor
+            ProtexialLastSyncSensor if sensor["id"] == "last_sync" else ProtexialSensor
         )
         entities.append(entity_class(device_info, coordinator, description))
 
@@ -193,9 +191,7 @@ class ProtexialLastSyncSensor(CoordinatorEntity, RestoreSensor):
 
         # The coordinator performs its first refresh before entities are
         # created. Prefer that fresh value when available.
-        current_value = (self.coordinator.data or {}).get(
-            self.entity_description.key
-        )
+        current_value = (self.coordinator.data or {}).get(self.entity_description.key)
         if current_value is not None:
             self._native_value = current_value
             return
@@ -211,7 +207,6 @@ class ProtexialLastSyncSensor(CoordinatorEntity, RestoreSensor):
         if value is not None:
             self._native_value = value
         self.async_write_ha_state()
-
 
 
 class ProtexialEventJournalSensor(CoordinatorEntity, SensorEntity):
