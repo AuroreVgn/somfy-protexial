@@ -76,10 +76,10 @@
         "0": "Modalità di inserimento disattivata",
         "1": "A",
         "2": "B",
-        "4": "C",
         "3": "A + B",
-        "6": "B + C",
-        "5": "A + C"
+        "4": "C",
+        "5": "A + C",
+        "6": "B + C"
       }
     }
   },
@@ -124,6 +124,12 @@
       },
       "sync_centrale_datetime": {
         "name": "Sincronizza data e ora della centrale"
+      },
+      "memory_open": {
+        "name": "Apri memoria di abbinamento"
+      },
+      "memory_close": {
+        "name": "Chiudi memoria di abbinamento"
       }
     },
     "binary_sensor": {
