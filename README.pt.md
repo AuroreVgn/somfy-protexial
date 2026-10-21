@@ -55,7 +55,7 @@ Se esta integração lhe for útil e quiser apoiar o seu desenvolvimento e manut
 - **Fecho da memória:** foi adicionado um botão que retira a central do modo de pausa.
 - **Importante:** utilizar estes comandos com o alarme desativado. Não está disponível qualquer estado real de abertura/fecho.
 
-### Previous version — 2.2.1
+### Versão anterior — 2.2.1
 
 #### 🆕 Novidades da versão 2.2.1
 
@@ -181,7 +181,12 @@ Os atributos podem ser consultados no menu **"Detalhes"**.
 | `button.refresh` | | 2.0.13 |
 | `button.ler_data_e_hora_da_central` | Lê a data e a hora atualmente guardadas na central | 2.1.x |
 | `button.sincronizar_data_e_hora` | Sincroniza a data e a hora da central com a data e hora locais do Home Assistant | 2.1.x |
+| `button.memory_open` * | **Abertura da memória** — Coloca a central em pausa durante 2 minutos para manutenção, como a substituição das pilhas; também permite emparelhar novos dispositivos. | 2.2.2 |
+| `button.memory_close` * | **Fecho da memória** — Termina o modo de memória/pausa da central. | 2.2.2 |
 
+
+
+*Os IDs de entidade são exemplos; o Home Assistant pode gerar IDs localizados. São necessárias credenciais de instalador e o alarme desativado. A central não tem interruptor PAUSA nem um estado de memória consultável.
 
 #### ⏸️ Pausa / reativação dos elementos (versão 2.1):
 
