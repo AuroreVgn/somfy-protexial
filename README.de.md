@@ -123,43 +123,43 @@ Die Sprache der Weboberfläche der Alarmzentrale ist unabhängig von der in Home
 
 #### Unterstützte Entitäten
 
-| Entität | Beschreibung | Version |
-| ----------------------------------- | ----------------------------------------------------------- |-----------------------------------------------------------|
-| `alarm_control_panel.alarme` | Unterstützt die Modi `armed_away`, `armed_home` und `armed_night` | 1.2.4 |
-| `cover.volets` | Öffnen, Schließen und Stoppen. Keine Positionssteuerung. | 1.2.4 |
-| `light.lumieres` | Ein/Aus (der Status wird von der Integration verwaltet. Es kann nicht erkannt werden, ob das Licht über eine Fernbedienung, einen Schalter oder eine andere Integration geschaltet wurde.) | 1.2.4 |
-| `binary_sensor.batterie` | Zusammengefasster Batteriestatus | 1.2.4 |
-| `binary_sensor.boitier` | Status der Alarmzentrale | 1.2.4 |
-| `binary_sensor.communication_radio` | Status der Funkverbindung | 1.2.4 |
-| `binary_sensor.communication_gsm` | Status der GSM-Verbindung | 1.2.4 |
-| `binary_sensor.mouvement_detecte` | Status der Bewegungserkennung | 1.2.4 |
-| `binary_sensor.porte_ou_fenetre` | Status von Türen und Fenstern | 1.2.4 |
-| `binary_sensor.camera` | Status der Kameraverbindung | 1.2.4 |
-| `sensor.signal_gsm_5` | GSM-Signalstärke (/5) | 1.2.6 |
-| `sensor.operateur_gsma` | GSM-Netzbetreiber | 1.2.6 |
-| `sensor.alarme_derniere_sync` | Letzte Synchronisierung mit der Alarmanlage (der letzte Wert wird nach einem Neustart wiederhergestellt) | 2.0.7 |
-| `sensor.datum_und_uhrzeit_der_zentrale` | Zuletzt direkt aus der Zentrale gelesene Datums- und Uhrzeitangabe (letzter Wert wird nach einem Neustart wiederhergestellt) | 2.1.x |
-| `sensor.ereignisprotokoll` | Die 10 neuesten Ereignisse aus dem Protokoll der Zentrale. Der Zustand entspricht dem letzten Ereignis und das Attribut `events` enthält die detaillierte Liste | 2.2.0 |
+| Entität | Beschreibung | Version | Installateurcode erforderlich |
+| ----------------------------------- | ----------------------------------------------------------- |-----------------------------------------------------------| :---: |
+| `alarm_control_panel.alarme` | Unterstützt die Modi `armed_away`, `armed_home` und `armed_night` | 1.2.4 | Nein |
+| `cover.volets` | Öffnen, Schließen und Stoppen. Keine Positionssteuerung. | 1.2.4 | Nein |
+| `light.lumieres` | Ein/Aus (der Status wird von der Integration verwaltet. Es kann nicht erkannt werden, ob das Licht über eine Fernbedienung, einen Schalter oder eine andere Integration geschaltet wurde.) | 1.2.4 | Nein |
+| `binary_sensor.batterie` | Zusammengefasster Batteriestatus | 1.2.4 | Nein |
+| `binary_sensor.boitier` | Status der Alarmzentrale | 1.2.4 | Nein |
+| `binary_sensor.communication_radio` | Status der Funkverbindung | 1.2.4 | Nein |
+| `binary_sensor.communication_gsm` | Status der GSM-Verbindung | 1.2.4 | Nein |
+| `binary_sensor.mouvement_detecte` | Status der Bewegungserkennung | 1.2.4 | Nein |
+| `binary_sensor.porte_ou_fenetre` | Status von Türen und Fenstern | 1.2.4 | Nein |
+| `binary_sensor.camera` | Status der Kameraverbindung | 1.2.4 | Nein |
+| `sensor.signal_gsm_5` | GSM-Signalstärke (/5) | 1.2.6 | Nein |
+| `sensor.operateur_gsma` | GSM-Netzbetreiber | 1.2.6 | Nein |
+| `sensor.alarme_derniere_sync` | Letzte Synchronisierung mit der Alarmanlage (der letzte Wert wird nach einem Neustart wiederhergestellt) | 2.0.7 | Nein |
+| `sensor.datum_und_uhrzeit_der_zentrale` | Zuletzt direkt aus der Zentrale gelesene Datums- und Uhrzeitangabe (letzter Wert wird nach einem Neustart wiederhergestellt) | 2.1.x | Nein |
+| `sensor.ereignisprotokoll` | Die 10 neuesten Ereignisse aus dem Protokoll der Zentrale. Der Zustand entspricht dem letzten Ereignis und das Attribut `events` enthält die detaillierte Liste | 2.2.0 | Nein |
 
 #### Für jedes Alarmgerät werden folgende Binary Sensoren mit Attributen erstellt:
 
-| Entität | Beschreibung – Attribute | Version |
-| ----------------------------------- | -------------------------------------------------------------------------------------------------------- | --------|
-| `binary_sensor.do_ouvt_xxx` | Türkontakt – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, offen/geschlossen, pausiert | 2.0.0 |
-| `binary_sensor.do_vitre_ouvt_xxx` | Fensterkontakt mit Glasbrucherkennung – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, offen/geschlossen, pausiert | 2.0.0 |
-| `binary_sensor.do_vitre_ouvt_xxx` | Akustischer Glasbruchmelder – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, offen/geschlossen, pausiert | 2.0.0 |
-| `binary_sensor.do_gar_xxx` | Garagentorkontakt – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, offen/geschlossen, pausiert | 2.0.0 |
-| `binary_sensor.dm_image_mvt_xxx` | Bewegungsmelder mit Bildaufnahme – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 |
-| `binary_sensor.dm_mvt_xxx` | Bewegungsmelder – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 |
-| `binary_sensor.tr_tel_xxx` | Alarmzentrale – Batterie, Verbindung zur Zentrale, Fehler, Sabotage | 2.0.0 |
-| `binary_sensor.clavier_clv_xxx` | Tastatur – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 |
-| `binary_sensor.cl_lcd_clv_xxx` | LCD-Tastatur – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 |
-| `binary_sensor.sir_ext_xxx` | Außensirene – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 |
-| `binary_sensor.sir_int_xxx` | Innensirene – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 |
-| `binary_sensor.d_fumee_fumee_xxx` | Rauchmelder – Batterie, Verbindung zur Zentrale, Fehler, pausiert | 2.0.0 |
-| `binary_sensor.tc_multi_tlcmd_xxx` | Mehrkanal-Fernbedienung – Verbindung zur Zentrale, pausiert | 2.0.0 |
-| `binary_sensor.tc_4_tlcmd_xxx` | Mehrzonen-Fernbedienung – Verbindung zur Zentrale, pausiert | 2.0.0 |
-| `binary_sensor.badge_bdg_axxx` | RFID-Badge – Verbindung zur Zentrale, pausiert | 2.0.0 |
+| Entität | Beschreibung – Attribute | Version | Installateurcode erforderlich |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------- | --------| :---: |
+| `binary_sensor.do_ouvt_xxx` | Türkontakt – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, offen/geschlossen, pausiert | 2.0.0 | Nein |
+| `binary_sensor.do_vitre_ouvt_xxx` | Fensterkontakt mit Glasbrucherkennung – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, offen/geschlossen, pausiert | 2.0.0 | Nein |
+| `binary_sensor.do_vitre_ouvt_xxx` | Akustischer Glasbruchmelder – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, offen/geschlossen, pausiert | 2.0.0 | Nein |
+| `binary_sensor.do_gar_xxx` | Garagentorkontakt – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, offen/geschlossen, pausiert | 2.0.0 | Nein |
+| `binary_sensor.dm_image_mvt_xxx` | Bewegungsmelder mit Bildaufnahme – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 | Nein |
+| `binary_sensor.dm_mvt_xxx` | Bewegungsmelder – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 | Nein |
+| `binary_sensor.tr_tel_xxx` | Alarmzentrale – Batterie, Verbindung zur Zentrale, Fehler, Sabotage | 2.0.0 | Nein |
+| `binary_sensor.clavier_clv_xxx` | Tastatur – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 | Nein |
+| `binary_sensor.cl_lcd_clv_xxx` | LCD-Tastatur – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 | Nein |
+| `binary_sensor.sir_ext_xxx` | Außensirene – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 | Nein |
+| `binary_sensor.sir_int_xxx` | Innensirene – Batterie, Verbindung zur Zentrale, Fehler, Sabotage, pausiert | 2.0.0 | Nein |
+| `binary_sensor.d_fumee_fumee_xxx` | Rauchmelder – Batterie, Verbindung zur Zentrale, Fehler, pausiert | 2.0.0 | Nein |
+| `binary_sensor.tc_multi_tlcmd_xxx` | Mehrkanal-Fernbedienung – Verbindung zur Zentrale, pausiert | 2.0.0 | Nein |
+| `binary_sensor.tc_4_tlcmd_xxx` | Mehrzonen-Fernbedienung – Verbindung zur Zentrale, pausiert | 2.0.0 | Nein |
+| `binary_sensor.badge_bdg_axxx` | RFID-Badge – Verbindung zur Zentrale, pausiert | 2.0.0 | Nein |
 
 Die Attribute sind im Menü **„Details“** sichtbar.
 
@@ -169,16 +169,16 @@ Die Attribute sind im Menü **„Details“** sichtbar.
 
 #### Unterstützte Schaltflächen
 
-| Entität | Beschreibung | Version |
-| ----------------------------------- | ----------------------------------------------------------- |-----------------------------------------------------------|
-| `button.reinitialiser_defaut_alarme` | Alarmstörungen zurücksetzen (Bewegung, Öffnung, Sabotage) | 2.0.7 |
-| `button.reinitialiser_defaut_liaison_radio` | Funkverbindungsfehler zwischen Zentrale und Sensoren zurücksetzen | 2.0.7 |
-| `button.reinitialiser_defaut_piles` | Batteriestörungen zurücksetzen | 2.0.7 |
-| `button.refresh` | Aktualisierung der Daten | 2.0.13 |
-| `button.datum_und_uhrzeit_der_zentrale_lesen` | Liest Datum und Uhrzeit, die aktuell in der Zentrale gespeichert sind | 2.1.x |
-| `button.datum_und_uhrzeit_synchronisieren` | Synchronisiert Datum und Uhrzeit der Zentrale mit der lokalen Zeit von Home Assistant | 2.1.x |
-| `button.memory_open` * | **Speicher öffnen** — Versetzt die Zentrale für 2 Minuten in den Pausenmodus, etwa zum Batteriewechsel; ermöglicht auch das Anlernen neuer Geräte. | 2.2.2 |
-| `button.memory_close` * | **Speicher schließen** — Beendet den Speicher-/Pausenmodus der Zentrale. | 2.2.2 |
+| Entität | Beschreibung | Version | Installateurcode erforderlich |
+| ----------------------------------- | ----------------------------------------------------------- |-----------------------------------------------------------| :---: |
+| `button.reinitialiser_defaut_alarme` | Alarmstörungen zurücksetzen (Bewegung, Öffnung, Sabotage) | 2.0.7 | Nein |
+| `button.reinitialiser_defaut_liaison_radio` | Funkverbindungsfehler zwischen Zentrale und Sensoren zurücksetzen | 2.0.7 | Nein |
+| `button.reinitialiser_defaut_piles` | Batteriestörungen zurücksetzen | 2.0.7 | Nein |
+| `button.refresh` | Aktualisierung der Daten | 2.0.13 | Nein |
+| `button.datum_und_uhrzeit_der_zentrale_lesen` | Liest Datum und Uhrzeit, die aktuell in der Zentrale gespeichert sind | 2.1.x | Nein |
+| `button.datum_und_uhrzeit_synchronisieren` | Synchronisiert Datum und Uhrzeit der Zentrale mit der lokalen Zeit von Home Assistant | 2.1.x | Nein |
+| `button.memory_open` * | **Speicher öffnen** — Versetzt die Zentrale für 2 Minuten in den Pausenmodus, etwa zum Batteriewechsel; ermöglicht auch das Anlernen neuer Geräte. | 2.2.2 | Ja |
+| `button.memory_close` * | **Speicher schließen** — Beendet den Speicher-/Pausenmodus der Zentrale. | 2.2.2 | Ja |
 
 
 
@@ -199,6 +199,10 @@ Die Symbole entsprechen denen der zugehörigen Binärsensoren.
 
 > Somfy-Zentralen erlauben nur eine Sitzung gleichzeitig. Die Integration verwaltet den temporären Sitzungswechsel beim Pausieren oder Reaktivieren eines Elements automatisch.
 
+| PAUSE-Schalter für Elemente | Installateurcode erforderlich |
+| --- | :---: |
+| Nur kompatible Elemente | **Ja** |
+
 #### 🔄 Dynamisches Aktualisierungsintervall (Version 2.1):
 Das Aktualisierungsintervall der Integration ist auch als `number`-Entität verfügbar. Der Wert kann direkt über die Benutzeroberfläche oder durch eine Automatisierung geändert werden, um die Abfragehäufigkeit der Zentrale dynamisch anzupassen und so den [Batterieverbrauch zu reduzieren](https://github.com/AuroreVgn/somfy-protexial/wiki/Optimisation-de-la-dur%C3%A9e-de-vie-des-piles-de-la-Centrale#avec-un-intervalle-de-rafraichissement-variable).
 
@@ -209,13 +213,13 @@ Der gewählte Wert bleibt nach dem Neuladen der Integration oder einem Neustart 
 
 Wenn **Installateur**-Zugangsdaten konfiguriert sind, kann die Integration außerdem mehrere allgemeine Einstellungen der Zentrale über Home Assistant lesen und ändern. Entitäten werden nur erstellt, wenn die entsprechende Einstellung auf der Zentrale vorhanden ist.
 
-| Entité | Description | Paramètre Somfy |
-| ------ | ----------- | --------------- |
-| `number.eingangsverzoegerung` | Eingangsverzögerung von 1 bis 60 Sekunden | `tempoentree` |
-| `switch.ding_dong_auf_innensirene` | Aktiviert oder deaktiviert DING DONG auf der Innensirene | `kiela` |
-| `switch.signalton_am_sender` | Aktiviert oder deaktiviert den Signalton am Sender | `bipontransmiter` |
-| `select.signaltonlautstaerke_der_sirenen` | Signaltonlautstärke: Niedrig, Mittel oder Hoch | `biplevel` |
-| `select.sirenenlautstaerke` | Sirenenlautstärke: Niedrig, Mittel oder Hoch | `sirenlevel` |
+| Entité | Description | Paramètre Somfy | Installateurcode erforderlich |
+| ------ | ----------- | --------------- | :---: |
+| `number.eingangsverzoegerung` | Eingangsverzögerung von 1 bis 60 Sekunden | `tempoentree` | Ja |
+| `switch.ding_dong_auf_innensirene` | Aktiviert oder deaktiviert DING DONG auf der Innensirene | `kiela` | Ja |
+| `switch.signalton_am_sender` | Aktiviert oder deaktiviert den Signalton am Sender | `bipontransmiter` | Ja |
+| `select.signaltonlautstaerke_der_sirenen` | Signaltonlautstärke: Niedrig, Mittel oder Hoch | `biplevel` | Ja |
+| `select.sirenenlautstaerke` | Sirenenlautstärke: Niedrig, Mittel oder Hoch | `sirenlevel` | Ja |
 
 Änderungen erfolgen über das **Installateur**-Konto. Vor jedem Schreibvorgang liest die Integration das aktuelle Konfigurationsformular der Zentrale und ändert nur die angeforderte Einstellung, damit alle anderen Einstellungen erhalten bleiben.
 
