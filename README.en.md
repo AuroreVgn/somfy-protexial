@@ -35,7 +35,7 @@ If you find this integration useful and would like to support its development an
 
 ## 📑 Table of contents
 
-- [🆕 What's new in version 2.2.1](#toc-section-1)
+- [🆕 What's new in version 2.2.2](#toc-section-1)
 - [ℹ️ About](#toc-section-2)
 - [📦 Installation](#toc-section-3)
 - [⚙️ Configuration](#toc-section-4)
@@ -45,7 +45,16 @@ If you find this integration useful and would like to support its development an
 
 <a name="toc-section-1"></a>
 
-## 🆕 What's new in version 2.2.1
+## 🆕 What's new in version 2.2.2
+
+- **Pairing memory:** two stateless buttons, “Open pairing memory” and “Close pairing memory”, control the registration of new devices from Home Assistant.
+- **PAUSE:** the central unit no longer exposes a PAUSE switch; other compatible devices retain theirs.
+- **Compatibility:** temporary installer login, restoration of the normal user session, and detection of installer-page variants.
+- **Important:** use only when the alarm is disarmed. Pairing normally remains enabled for two minutes (renewed after each device). No actual open/closed state is exposed. Tested on one Protexial; older Protexiom models remain unverified.
+
+### Previous version — 2.2.1
+
+#### 🆕 What's new in version 2.2.1
 
 This stable release includes the fixes and improvements from `2.2.1-beta1`, `2.2.1-beta2`, and `2.2.1-beta3`:
 
