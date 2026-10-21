@@ -94,7 +94,6 @@ class ProtexialAlarm(CoordinatorEntity, AlarmControlPanelEntity):
         self.arm_code_required = arm_code_required
         self._changed_by = None
 
-
     @property
     def supported_features(self) -> int:
         """Return the bitmask of supported features."""
