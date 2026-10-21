@@ -31,7 +31,7 @@ Si cette intégration vous est utile et que vous souhaitez soutenir son dévelop
 ## 📑 Sommaire
 
 - [ℹ️ À propos](#toc-section-1)
-- [🆕 Nouveautés de la version 2.2.1](#toc-section-2)
+- [🆕 Nouveautés de la version 2.2.2](#toc-section-2)
 - [✨ Fonctionnalités principales](#toc-section-3)
 - [🛡️ Compatibilité](#toc-section-4)
 - [📦 Installation](#toc-section-5)
@@ -60,7 +60,16 @@ Le projet vise notamment à prolonger la durée de vie de ces centrales et à an
 
 <a name="toc-section-2"></a>
 
-## 🆕 Nouveautés de la version 2.2.1
+## 🆕 Nouveautés de la version 2.2.2
+
+- **Mémoire d'appairage :** deux boutons sans état, « Ouverture mémoire » et « Fermeture mémoire », permettent de commander l'enregistrement des nouveaux éléments depuis Home Assistant.
+- **PAUSE :** suppression du commutateur PAUSE pour la centrale uniquement ; les autres éléments compatibles conservent cette fonction.
+- **Compatibilité :** utilisation temporaire du compte installateur, restauration de la session utilisateur et détection des variantes de la page des éléments.
+- **Important :** utiliser ces commandes lorsque l'alarme est à l'arrêt. L'ouverture dure normalement deux minutes (renouvelées à chaque élément enregistré). Aucun état ouvert/fermé n'est disponible. Fonction testée sur une Protexial ; anciennes Protexiom à confirmer.
+
+### Previous version — 2.2.1
+
+#### 🆕 Nouveautés de la version 2.2.1
 
 Cette version stable regroupe les corrections et améliorations des versions `2.2.1-beta1`, `2.2.1-beta2` et `2.2.1-beta3` :
 
