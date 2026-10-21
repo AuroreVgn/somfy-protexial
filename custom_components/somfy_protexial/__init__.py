@@ -123,7 +123,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
             if status_changed or door_open:
                 if status_changed:
-                    _LOGGER.info("Status changed: %s - old: %s", current_status, last_status)
+                    _LOGGER.info(
+                        "Status changed: %s - old: %s", current_status, last_status
+                    )
                 last_status = current_status
                 await _refresh_elements()
 
