@@ -33,5 +33,4 @@ repos:
             "--profile",
             "black",
             "--check-only",
-            "./custom_components/somfy_protexial",
           ]
