@@ -85,7 +85,7 @@ Tested models:
 | Protexiom 5000 | `2013 (v10_3)` | :white_check_mark:  |
 | Protexial | `2013 (v10_13)` | :white_check_mark:  |
 | Protexial | `2013 (v10_14)` | :white_check_mark:  |
-| Protexial | `2013 (v10_15)` | :white_check_mark:  |
+| Protexial | `2013 (v10_15)` | :white_check_mark: | :white_check_mark: |
 | Protexial | `2010 (v7_9)` | :white_check_mark:  |
 | Protexial | `2010 (v8_1)` | :white_check_mark:  |
 | Protexial | `2008` | :white_check_mark:  |
@@ -143,23 +143,23 @@ The alarm panel interface language is independent from the language used by Home
 
 #### The following binary sensors are created to represent every alarm device and expose their attributes:
 
-| Entity | Description - Attributes | Version | Installer code required |
-| ----------------------------------- | -------------------------------------------------------------------------------------------------------- | --------| :---: |
-| `binary_sensor.do_ouvt_xxx` | Door contact - Attributes: battery, panel communication, fault, tamper, open/closed, paused | 2.0.0 | No |
-| `binary_sensor.do_vitre_ouvt_xxx` | Window contact with glass-break detection - Attributes: battery, panel communication, fault, tamper, open/closed, paused | 2.0.0 | No |
-| `binary_sensor.do_vitre_ouvt_xxx` | Acoustic glass-break detector - Attributes: battery, panel communication, fault, tamper, open/closed, paused | 2.0.0 | No |
-| `binary_sensor.do_gar_xxx` | Garage door contact - Attributes: battery, panel communication, fault, tamper, open/closed, paused | 2.0.0 | No |
-| `binary_sensor.dm_image_mvt_xxx` | Motion detector with image capture - Attributes: battery, panel communication, fault, tamper, paused | 2.0.0 | No |
-| `binary_sensor.dm_mvt_xxx` | Motion detector - Attributes: battery, panel communication, fault, tamper, paused | 2.0.0 | No |
-| `binary_sensor.tr_tel_xxx` | Alarm control panel - Attributes: battery, panel communication, fault, tamper | 2.0.0 | No |
-| `binary_sensor.clavier_clv_xxx` | Keypad - Attributes: battery, panel communication, fault, tamper, paused | 2.0.0 | No |
-| `binary_sensor.cl_lcd_clv_xxx` | LCD keypad - Attributes: battery, panel communication, fault, tamper, paused | 2.0.0 | No |
-| `binary_sensor.sir_ext_xxx` | Outdoor siren - Attributes: battery, panel communication, fault, tamper, paused | 2.0.0 | No |
-| `binary_sensor.sir_int_xxx` | Indoor siren - Attributes: battery, panel communication, fault, tamper, paused | 2.0.0 | No |
-| `binary_sensor.d_fumee_fumee_xxx` | Smoke detector - Attributes: battery, panel communication, fault, paused | 2.0.0 | No |
-| `binary_sensor.tc_multi_tlcmd_xxx` | Multi-channel remote control - Attributes: panel communication, paused | 2.0.0 | No |
-| `binary_sensor.tc_4_tlcmd_xxx` | Multi-zone alarm remote control - Attributes: panel communication, paused | 2.0.0 | No |
-| `binary_sensor.badge_bdg_axxx` | RFID badge - Attributes: panel communication, paused | 2.0.0 | No |
+| Entity | Description - Attributes | Version | Installer code required | PAUSE control (installer code) |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------- | --------| :---: | :---: |
+| `binary_sensor.do_ouvt_xxx` | Door contact - Attributes: battery, panel communication, fault, tamper, open/closed, paused | 2.0.0 | No | Yes, if supported |
+| `binary_sensor.do_vitre_ouvt_xxx` | Window contact with glass-break detection - Attributes: battery, panel communication, fault, tamper, open/closed, paused | 2.0.0 | No | Yes, if supported |
+| `binary_sensor.do_vitre_ouvt_xxx` | Acoustic glass-break detector - Attributes: battery, panel communication, fault, tamper, open/closed, paused | 2.0.0 | No | Yes, if supported |
+| `binary_sensor.do_gar_xxx` | Garage door contact - Attributes: battery, panel communication, fault, tamper, open/closed, paused | 2.0.0 | No | Yes, if supported |
+| `binary_sensor.dm_image_mvt_xxx` | Motion detector with image capture - Attributes: battery, panel communication, fault, tamper, paused | 2.0.0 | No | Yes, if supported |
+| `binary_sensor.dm_mvt_xxx` | Motion detector - Attributes: battery, panel communication, fault, tamper, paused | 2.0.0 | No | Yes, if supported |
+| `binary_sensor.tr_tel_xxx` | Alarm control panel - Attributes: battery, panel communication, fault, tamper | 2.0.0 | No | Not available |
+| `binary_sensor.clavier_clv_xxx` | Keypad - Attributes: battery, panel communication, fault, tamper, paused | 2.0.0 | No | Yes, if supported |
+| `binary_sensor.cl_lcd_clv_xxx` | LCD keypad - Attributes: battery, panel communication, fault, tamper, paused | 2.0.0 | No | Yes, if supported |
+| `binary_sensor.sir_ext_xxx` | Outdoor siren - Attributes: battery, panel communication, fault, tamper, paused | 2.0.0 | No | Yes, if supported |
+| `binary_sensor.sir_int_xxx` | Indoor siren - Attributes: battery, panel communication, fault, tamper, paused | 2.0.0 | No | Yes, if supported |
+| `binary_sensor.d_fumee_fumee_xxx` | Smoke detector - Attributes: battery, panel communication, fault, paused | 2.0.0 | No | Yes, if supported |
+| `binary_sensor.tc_multi_tlcmd_xxx` | Multi-channel remote control - Attributes: panel communication, paused | 2.0.0 | No | Yes, if supported |
+| `binary_sensor.tc_4_tlcmd_xxx` | Multi-zone alarm remote control - Attributes: panel communication, paused | 2.0.0 | No | Yes, if supported |
+| `binary_sensor.badge_bdg_axxx` | RFID badge - Attributes: panel communication, paused | 2.0.0 | No | Yes, if supported |
 
 Attributes are available in the **Details** panel.
 
