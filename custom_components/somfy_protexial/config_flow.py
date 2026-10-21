@@ -192,7 +192,9 @@ class ProtexialConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     async def async_step_config(self, user_input):
         errors = {}
         if user_input is not None:
-            self.installer_username = (user_input.get(CONF_INSTALLER_USERNAME) or "").strip() or None
+            self.installer_username = (
+                user_input.get(CONF_INSTALLER_USERNAME) or ""
+            ).strip() or None
             self.installer_password = user_input.get(CONF_INSTALLER_PASSWORD) or None
             arm_code = (
                 user_input[CONF_ARM_CODE] if CONF_ARM_CODE in user_input else None
@@ -290,8 +292,12 @@ class ProtexialOptionsFlowHandler(config_entries.OptionsFlow):
     ) -> FlowResult:
         errors = {}
         if user_input is not None:
-            installer_username = (user_input.get(CONF_INSTALLER_USERNAME) or "").strip() or None
-            installer_password = user_input.get(CONF_INSTALLER_PASSWORD) or self._config_entry.data.get(CONF_INSTALLER_PASSWORD)
+            installer_username = (
+                user_input.get(CONF_INSTALLER_USERNAME) or ""
+            ).strip() or None
+            installer_password = user_input.get(
+                CONF_INSTALLER_PASSWORD
+            ) or self._config_entry.data.get(CONF_INSTALLER_PASSWORD)
             arm_code = (
                 user_input[CONF_ARM_CODE] if CONF_ARM_CODE in user_input else None
             )
@@ -320,7 +326,9 @@ class ProtexialOptionsFlowHandler(config_entries.OptionsFlow):
                     CONF_ARM_CODE_REQUIRED: user_input[CONF_ARM_CODE_REQUIRED],
                     # Keep the original setup value for backward compatibility.
                     # Runtime changes are managed by the refresh interval entity.
-                    CONF_SCAN_INTERVAL: self._config_entry.data.get(CONF_SCAN_INTERVAL, 60),
+                    CONF_SCAN_INTERVAL: self._config_entry.data.get(
+                        CONF_SCAN_INTERVAL, 60
+                    ),
                     ATTR_SW_VERSION: self._config_entry.data[ATTR_SW_VERSION],
                 }
                 self.hass.config_entries.async_update_entry(
@@ -361,11 +369,14 @@ class ProtexialOptionsFlowHandler(config_entries.OptionsFlow):
                     ),
                     vol.Required(
                         CONF_ARM_CODE_REQUIRED,
-                        default=self._config_entry.data.get(CONF_ARM_CODE_REQUIRED, True),
+                        default=self._config_entry.data.get(
+                            CONF_ARM_CODE_REQUIRED, True
+                        ),
                     ): cv.boolean,
                     vol.Optional(
                         CONF_INSTALLER_USERNAME,
-                        default=self._config_entry.data.get(CONF_INSTALLER_USERNAME) or "i",
+                        default=self._config_entry.data.get(CONF_INSTALLER_USERNAME)
+                        or "i",
                     ): cv.string,
                     vol.Optional(CONF_INSTALLER_PASSWORD): TextSelector(
                         TextSelectorConfig(type=TextSelectorType.PASSWORD)
