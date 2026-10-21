@@ -50,6 +50,7 @@ Wenn diese Integration für dich nützlich ist und du ihre Entwicklung und Pfleg
 
 ## 🆕 Neu in Version 2.2.2
 
+- **Protexiom-2008-Korrektur (aus `2.2.2-beta1`):** Verbesserte Anmeldungserkennung für ältere Protexiom und Protexiom ALT: `/login.htm` und die Authentifizierungskennung werden vor der Suche nach mehrsprachigen Anmeldeseiten geprüft. Bereits erkannte ältere Zentralen überspringen diese Abfragen. **Noch an einer echten Protexiom 2008 zu prüfen.**
 - **PAUSE:** Der PAUSE-Schalter der Zentrale wurde entfernt, da die Weboberfläche diese Funktion nicht anbietet; andere kompatible Elemente behalten sie.
 - **Speicher öffnen:** Eine neue Schaltfläche versetzt die Zentrale für 2 Minuten in den Pausenmodus, um Wartungsarbeiten wie den Batteriewechsel zu erleichtern. Diese Funktion ermöglicht auch das Hinzufügen neuer Elemente zur Alarmanlage. Das direkte Hinzufügen von Elementen über die Integration wurde bisher nicht als sinnvolle Funktion erachtet.
 - **Speicher schließen:** Eine neue Schaltfläche beendet den Pausenmodus der Zentrale.
