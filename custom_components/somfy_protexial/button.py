@@ -40,8 +40,12 @@ async def async_setup_entry(
     if protexial.installer_username and protexial.installer_password:
         entities.extend(
             [
-                ProtexialMemoryButton(device_info, protexial, config_entry.entry_id, True),
-                ProtexialMemoryButton(device_info, protexial, config_entry.entry_id, False),
+                ProtexialMemoryButton(
+                    device_info, protexial, config_entry.entry_id, True
+                ),
+                ProtexialMemoryButton(
+                    device_info, protexial, config_entry.entry_id, False
+                ),
                 ProtexialReadDateTimeButton(
                     device_info=device_info,
                     protexial=protexial,
