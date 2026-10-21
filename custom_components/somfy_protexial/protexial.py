@@ -419,6 +419,13 @@ class SomfyProtexial:
         if self._language_detected:
             return self.language_prefix
 
+        # Legacy Protexiom variants use unprefixed pages exclusively.
+        # Avoid probing localized login pages on their fragile web servers.
+        if self.api_type in (ApiType.PROTEXIOM, ApiType.PROTEXIOM_ALT):
+            self.language_prefix = "fr"
+            self._language_detected = True
+            return self.language_prefix
+
         detected = None
         try:
             async with asyncio.timeout(HTTP_TIMEOUT):
@@ -431,6 +438,33 @@ class SomfyProtexial:
                 detected = match.group(1).lower()
         except (asyncio.TimeoutError, ClientError):
             pass
+
+        if detected is None:
+            # During first-time setup the API type is not known yet. Check the
+            # legacy, unprefixed login page before probing localized URLs.
+            # Only skip language detection if a genuine Protexiom challenge
+            # marker is present; a generic HTTP 200 is not sufficient.
+            try:
+                async with asyncio.timeout(HTTP_TIMEOUT):
+                    legacy_response = await self.session.get(
+                        f"{self.url}/login.htm", headers={}, allow_redirects=False
+                    )
+                    if legacy_response.status == 200:
+                        legacy_html = await legacy_response.text("iso-8859-15")
+                        legacy_dom = pq(legacy_html)
+                        for legacy_api in (ProtexiomApi(), ProtexiomAltApi()):
+                            marker = legacy_dom(
+                                legacy_api.get_selector(Selector.LOGIN_CHALLENGE)
+                            )
+                            if marker and re.search(CHALLENGE_REGEX, marker.text() or ""):
+                                self.language_prefix = "fr"
+                                self._language_detected = True
+                                _LOGGER.debug(
+                                    "Legacy Protexiom login detected; skipping language probes"
+                                )
+                                return self.language_prefix
+            except (asyncio.TimeoutError, ClientError, UnicodeDecodeError):
+                pass
 
         if detected is None:
             # Keep this deliberately small and GET-only. French remains first
