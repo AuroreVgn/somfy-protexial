@@ -35,7 +35,7 @@ Si esta integración te resulta útil y deseas apoyar su desarrollo y mantenimie
 ## 📑 Índice
 
 - [ℹ️ Acerca de](#toc-section-1)
-- [🆕 Novedades de la versión 2.2.1](#toc-section-2)
+- [🆕 Novedades de la versión 2.2.2](#toc-section-2)
 - [📦 Instalación](#toc-section-3)
 - [⚙️ Configuración](#toc-section-4)
 - [⚠️ Información adicional](#toc-section-5)
@@ -48,7 +48,16 @@ Si esta integración te resulta útil y deseas apoyar su desarrollo y mantenimie
 
 <a name="toc-section-2"></a>
 
-## 🆕 Novedades de la versión 2.2.1
+## 🆕 Novedades de la versión 2.2.2
+
+- **Memoria de emparejamiento:** dos botones sin estado para abrir y cerrar el registro de nuevos dispositivos.
+- **PAUSA:** se elimina el interruptor PAUSA de la central; se conserva para los demás dispositivos compatibles.
+- **Compatibilidad:** sesión temporal de instalador, restauración de la sesión de usuario y detección de variantes de la página.
+- **Importante:** usar con la alarma desactivada. La apertura suele durar dos minutos (renovados tras cada registro). No hay estado real disponible. Probado en una Protexial; falta verificar modelos Protexiom antiguos.
+
+### Previous version — 2.2.1
+
+#### 🆕 Novedades de la versión 2.2.1
 
 Esta versión estable reúne las correcciones y mejoras de `2.2.1-beta1`, `2.2.1-beta2` y `2.2.1-beta3`:
 
