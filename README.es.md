@@ -85,7 +85,7 @@ Esta integración proporciona la comunicación con las centrales de alarma Somfy
 | Protexiom 5000 | `2013 (v10_3)` | :white_check_mark:  |
 | Protexial | `2013 (v10_13)` | :white_check_mark:  |
 | Protexial | `2013 (v10_14)` | :white_check_mark:  |
-| Protexial | `2013 (v10_15)` | :white_check_mark:  |
+| Protexial | `2013 (v10_15)` | :white_check_mark: | :white_check_mark: |
 | Protexial | `2010 (v7_9)` | :white_check_mark:  |
 | Protexial | `2010 (v8_1)` | :white_check_mark:  |
 | Protexial | `2008` | :white_check_mark:  |
@@ -143,23 +143,23 @@ El idioma de la interfaz web de la central es independiente del idioma utilizado
 
 #### Se crean los siguientes sensores binarios para representar cada dispositivo de la alarma junto con sus atributos:
 
-| Entidad | Descripción – Atributos | Versión | Código de instalador necesario |
-| ----------------------------------- | -------------------------------------------------------------------------------------------------------- | --------| :---: |
-| `binary_sensor.do_ouvt_xxx` | Contacto de puerta: batería, comunicación con la central, fallo, sabotaje, abierta/cerrada, pausado | 2.0.0 | No |
-| `binary_sensor.do_vitre_ouvt_xxx` | Contacto de ventana con detección de rotura de cristal: batería, comunicación con la central, fallo, sabotaje, abierta/cerrada, pausado | 2.0.0 | No |
-| `binary_sensor.do_vitre_ouvt_xxx` | Detector acústico de rotura de cristales: batería, comunicación con la central, fallo, sabotaje, abierta/cerrada, pausado | 2.0.0 | No |
-| `binary_sensor.do_gar_xxx` | Contacto de puerta de garaje: batería, comunicación con la central, fallo, sabotaje, abierta/cerrada, pausado | 2.0.0 | No |
-| `binary_sensor.dm_image_mvt_xxx` | Detector de movimiento con captura de imágenes: batería, comunicación con la central, fallo, sabotaje, pausado | 2.0.0 | No |
-| `binary_sensor.dm_mvt_xxx` | Detector de movimiento: batería, comunicación con la central, fallo, sabotaje, pausado | 2.0.0 | No |
-| `binary_sensor.tr_tel_xxx` | Central de alarma: batería, comunicación con la central, fallo, sabotaje | 2.0.0 | No |
-| `binary_sensor.clavier_clv_xxx` | Teclado: batería, comunicación con la central, fallo, sabotaje, pausado | 2.0.0 | No |
-| `binary_sensor.cl_lcd_clv_xxx` | Teclado LCD: batería, comunicación con la central, fallo, sabotaje, pausado | 2.0.0 | No |
-| `binary_sensor.sir_ext_xxx` | Sirena exterior: batería, comunicación con la central, fallo, sabotaje, pausado | 2.0.0 | No |
-| `binary_sensor.sir_int_xxx` | Sirena interior: batería, comunicación con la central, fallo, sabotaje, pausado | 2.0.0 | No |
-| `binary_sensor.d_fumee_fumee_xxx` | Detector de humo: batería, comunicación con la central, fallo, pausado | 2.0.0 | No |
-| `binary_sensor.tc_multi_tlcmd_xxx` | Mando a distancia multicanal: comunicación con la central, pausado | 2.0.0 | No |
-| `binary_sensor.tc_4_tlcmd_xxx` | Mando a distancia para varias zonas: comunicación con la central, pausado | 2.0.0 | No |
-| `binary_sensor.badge_bdg_axxx` | Llavero RFID: comunicación con la central, pausado | 2.0.0 | No |
+| Entidad | Descripción – Atributos | Versión | Código de instalador necesario | Control PAUSA (código de instalador) |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------- | --------| :---: | :---: |
+| `binary_sensor.do_ouvt_xxx` | Contacto de puerta: batería, comunicación con la central, fallo, sabotaje, abierta/cerrada, pausado | 2.0.0 | No | Sí, si es compatible |
+| `binary_sensor.do_vitre_ouvt_xxx` | Contacto de ventana con detección de rotura de cristal: batería, comunicación con la central, fallo, sabotaje, abierta/cerrada, pausado | 2.0.0 | No | Sí, si es compatible |
+| `binary_sensor.do_vitre_ouvt_xxx` | Detector acústico de rotura de cristales: batería, comunicación con la central, fallo, sabotaje, abierta/cerrada, pausado | 2.0.0 | No | Sí, si es compatible |
+| `binary_sensor.do_gar_xxx` | Contacto de puerta de garaje: batería, comunicación con la central, fallo, sabotaje, abierta/cerrada, pausado | 2.0.0 | No | Sí, si es compatible |
+| `binary_sensor.dm_image_mvt_xxx` | Detector de movimiento con captura de imágenes: batería, comunicación con la central, fallo, sabotaje, pausado | 2.0.0 | No | Sí, si es compatible |
+| `binary_sensor.dm_mvt_xxx` | Detector de movimiento: batería, comunicación con la central, fallo, sabotaje, pausado | 2.0.0 | No | Sí, si es compatible |
+| `binary_sensor.tr_tel_xxx` | Central de alarma: batería, comunicación con la central, fallo, sabotaje | 2.0.0 | No | No disponible |
+| `binary_sensor.clavier_clv_xxx` | Teclado: batería, comunicación con la central, fallo, sabotaje, pausado | 2.0.0 | No | Sí, si es compatible |
+| `binary_sensor.cl_lcd_clv_xxx` | Teclado LCD: batería, comunicación con la central, fallo, sabotaje, pausado | 2.0.0 | No | Sí, si es compatible |
+| `binary_sensor.sir_ext_xxx` | Sirena exterior: batería, comunicación con la central, fallo, sabotaje, pausado | 2.0.0 | No | Sí, si es compatible |
+| `binary_sensor.sir_int_xxx` | Sirena interior: batería, comunicación con la central, fallo, sabotaje, pausado | 2.0.0 | No | Sí, si es compatible |
+| `binary_sensor.d_fumee_fumee_xxx` | Detector de humo: batería, comunicación con la central, fallo, pausado | 2.0.0 | No | Sí, si es compatible |
+| `binary_sensor.tc_multi_tlcmd_xxx` | Mando a distancia multicanal: comunicación con la central, pausado | 2.0.0 | No | Sí, si es compatible |
+| `binary_sensor.tc_4_tlcmd_xxx` | Mando a distancia para varias zonas: comunicación con la central, pausado | 2.0.0 | No | Sí, si es compatible |
+| `binary_sensor.badge_bdg_axxx` | Llavero RFID: comunicación con la central, pausado | 2.0.0 | No | Sí, si es compatible |
 
 Los atributos pueden consultarse en el menú **"Detalles"**.
 
