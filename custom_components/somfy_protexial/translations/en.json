@@ -76,10 +76,10 @@
         "0": "Arm mode disabled",
         "1": "A",
         "2": "B",
-        "4": "C",
         "3": "A + B",
-        "6": "B + C",
-        "5": "A + C"
+        "4": "C",
+        "5": "A + C",
+        "6": "B + C"
       }
     }
   },
@@ -124,6 +124,12 @@
       },
       "sync_centrale_datetime": {
         "name": "Synchronize control panel date and time"
+      },
+      "memory_open": {
+        "name": "Open pairing memory"
+      },
+      "memory_close": {
+        "name": "Close pairing memory"
       }
     },
     "binary_sensor": {
