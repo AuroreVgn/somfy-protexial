@@ -76,10 +76,10 @@
         "0": "Mode d'armement désactivé",
         "1": "A",
         "2": "B",
-        "4": "C",
         "3": "A + B",
-        "6": "B + C",
-        "5": "A + C"
+        "4": "C",
+        "5": "A + C",
+        "6": "B + C"
       }
     }
   },
@@ -134,6 +134,12 @@
       },
       "sync_centrale_datetime": {
         "name": "Synchroniser la date et l'heure"
+      },
+      "memory_open": {
+        "name": "Ouverture mémoire"
+      },
+      "memory_close": {
+        "name": "Fermeture mémoire"
       }
     },
     "binary_sensor": {
