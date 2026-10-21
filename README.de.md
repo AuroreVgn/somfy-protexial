@@ -55,7 +55,7 @@ Wenn diese Integration für dich nützlich ist und du ihre Entwicklung und Pfleg
 - **Speicher schließen:** Eine neue Schaltfläche beendet den Pausenmodus der Zentrale.
 - **Wichtig:** Diese Befehle nur bei deaktivierter Alarmanlage verwenden. Ein tatsächlicher Offen-/Geschlossen-Status ist nicht verfügbar.
 
-### Previous version — 2.2.1
+### Vorherige Version — 2.2.1
 
 #### 🆕 Neu in Version 2.2.1
 
@@ -179,7 +179,12 @@ Die Attribute sind im Menü **„Details“** sichtbar.
 | `button.refresh` | Aktualisierung der Daten | 2.0.13 |
 | `button.datum_und_uhrzeit_der_zentrale_lesen` | Liest Datum und Uhrzeit, die aktuell in der Zentrale gespeichert sind | 2.1.x |
 | `button.datum_und_uhrzeit_synchronisieren` | Synchronisiert Datum und Uhrzeit der Zentrale mit der lokalen Zeit von Home Assistant | 2.1.x |
+| `button.memory_open` * | **Speicher öffnen** — Versetzt die Zentrale für 2 Minuten in den Pausenmodus, etwa zum Batteriewechsel; ermöglicht auch das Anlernen neuer Geräte. | 2.2.2 |
+| `button.memory_close` * | **Speicher schließen** — Beendet den Speicher-/Pausenmodus der Zentrale. | 2.2.2 |
 
+
+
+*Die angegebenen Entitäts-IDs sind Beispiele; Home Assistant kann lokalisierte IDs vergeben. Installateur-Zugangsdaten und deaktivierter Alarm sind erforderlich. Für die Zentrale gibt es keinen PAUSE-Schalter und keinen auslesbaren Speicherstatus.
 
 #### ⏸️ Elemente pausieren / reaktivieren (Version 2.1):
 
