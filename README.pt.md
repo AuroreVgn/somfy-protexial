@@ -50,6 +50,7 @@ Se esta integração lhe for útil e quiser apoiar o seu desenvolvimento e manut
 
 ## 🆕 Novidades da versão 2.2.2
 
+- **Correção Protexiom 2008 (`2.2.2-beta1`):** melhoria da deteção de início de sessão nas antigas Protexiom e Protexiom ALT. São verificados `/login.htm` e a assinatura de autenticação antes das páginas multilingues. As centrais antigas já identificadas dispensam essas verificações. **Ainda por validar numa Protexiom 2008 real.**
 - **PAUSA:** o interruptor PAUSA da central foi removido porque a interface web não disponibiliza esta função; os restantes elementos compatíveis mantêm-na.
 - **Abertura da memória:** foi adicionado um botão que coloca a central em pausa durante 2 minutos para facilitar a manutenção, como a substituição das pilhas. Esta função também permite adicionar novos elementos ao sistema de alarme. Atualmente, a adição de elementos diretamente pela integração não foi considerada uma funcionalidade pertinente.
 - **Fecho da memória:** foi adicionado um botão que retira a central do modo de pausa.
