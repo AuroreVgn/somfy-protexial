@@ -51,10 +51,10 @@ Se questa integrazione ti è utile e desideri supportarne lo sviluppo e la manut
 
 ## 🆕 Novità della versione 2.2.2
 
-- **Memoria di abbinamento:** due pulsanti senza stato per aprire e chiudere la registrazione di nuovi dispositivi.
-- **PAUSA:** rimosso l'interruttore PAUSA della centrale; rimane per gli altri dispositivi compatibili.
-- **Compatibilità:** accesso temporaneo come installatore, ripristino della sessione utente e rilevamento delle varianti della pagina.
-- **Importante:** usare con l'allarme disinserito. L'apertura dura normalmente due minuti (rinnovati dopo ogni registrazione). Nessuno stato reale disponibile. Testato su una Protexial; vecchi modelli Protexiom da verificare.
+- **PAUSA:** l'interruttore PAUSA della centrale è stato rimosso perché l'interfaccia web non offre questa funzione; gli altri elementi compatibili lo mantengono.
+- **Apertura della memoria:** aggiunto un pulsante che mette la centrale in pausa per 2 minuti per facilitare la manutenzione, ad esempio la sostituzione delle batterie. La funzione consente anche di aggiungere nuovi elementi al sistema di allarme. Al momento, l'aggiunta di elementi direttamente dall'integrazione non è stata ritenuta una funzione pertinente.
+- **Chiusura della memoria:** aggiunto un pulsante per far uscire la centrale dalla pausa.
+- **Importante:** usare questi comandi con l'allarme disinserito. Non è disponibile uno stato reale aperto/chiuso.
 
 ### Previous version — 2.2.1
 
