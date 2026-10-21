@@ -1,0 +1,41 @@
+name: Import official Somfy branding
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/import-somfy-brand.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Copy official Somfy images from Home Assistant Brands
+        run: |
+          set -euo pipefail
+          dir="custom_components/somfy_protexial/brand"
+          mkdir -p "$dir"
+          base="https://raw.githubusercontent.com/home-assistant/brands/master/core_integrations/somfy"
+          curl --fail --location --retry 3 "$base/icon.png" --output "$dir/icon.png"
+          curl --fail --location --retry 3 "$base/icon%402x.png" --output "$dir/icon@2x.png"
+          curl --fail --location --retry 3 "$base/logo.png" --output "$dir/logo.png"
+          curl --fail --location --retry 3 "$base/logo%402x.png" --output "$dir/logo@2x.png"
+          file "$dir"/*.png
+      - name: Commit the original image files
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add custom_components/somfy_protexial/brand
+          if git diff --cached --quiet; then
+            echo "Images already up to date"
+          else
+            git commit -m "fix(brand): use official Somfy images from Home Assistant"
+            git push
+          fi
