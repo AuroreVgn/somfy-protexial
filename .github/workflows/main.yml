@@ -3,28 +3,107 @@ name: Release
 on:
   release:
     types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   release:
-    name: Prepare release
+    name: Build and verify HACS archive
     runs-on: ubuntu-latest
+    permissions:
+      contents: ${{ github.event_name == 'release' && 'write' || 'read' }}
     steps:
-      - uses: actions/checkout@v3
-      - name: "Set version number"
-        run: |
-          sed -i '/  "version": /c\  "version": "${{ github.ref }}",' custom_components/somfy_protexial/manifest.json
-          sed -i 's|heads/tags/||' custom_components/somfy_protexial/manifest.json
-          sed -i 's|refs/tags/||' custom_components/somfy_protexial/manifest.json
-      # Pack the HACS dir as a zip and upload to the release
-      - name: ZIP garbage_collection Dir
-        run: |
-          cd /home/runner/work/somfy-protexial/somfy-protexial/custom_components/somfy_protexial
-          zip somfy_protexial.zip -r ./
-      - name: Upload zip to release
-        uses: svenstaro/upload-release-action@v2
+      - name: Check out the released revision
+        uses: actions/checkout@v4
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: /home/runner/work/somfy-protexial/somfy-protexial/custom_components/somfy_protexial/somfy_protexial.zip
-          asset_name: somfy_protexial.zip
-          tag: ${{ github.ref }}
-          overwrite: true
+          ref: ${{ github.event_name == 'release' && github.event.release.tag_name || github.ref }}
+          persist-credentials: false
+
+      - name: Build and validate integration archive
+        env:
+          RELEASE_TAG: ${{ github.event_name == 'release' && github.event.release.tag_name || '' }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          from zipfile import ZIP_DEFLATED, ZipFile
+
+          source = Path("custom_components/somfy_protexial")
+          manifest_path = source / "manifest.json"
+          if not manifest_path.is_file():
+              raise SystemExit("Missing integration manifest.json")
+
+          manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+          if manifest.get("domain") != "somfy_protexial":
+              raise SystemExit("Unexpected integration domain")
+
+          tag = os.environ["RELEASE_TAG"]
+          if tag:
+              # The manifest bundled with a release must match its tag.
+              version = tag.removeprefix("v")
+              if not version:
+                  raise SystemExit("Empty release version")
+              manifest["version"] = version
+              manifest_path.write_text(
+                  json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+                  encoding="utf-8",
+              )
+
+          required = {
+              "manifest.json",
+              "__init__.py",
+              "config_flow.py",
+              "protexial.py",
+              "translations/fr.json",
+              "translations/en.json",
+          }
+          files = sorted(
+              p for p in source.rglob("*")
+              if p.is_file()
+              and "__pycache__" not in p.parts
+              and p.suffix not in {".pyc", ".pyo"}
+              and p.name != "somfy_protexial.zip"
+          )
+          names = {p.relative_to(source).as_posix() for p in files}
+          missing = required - names
+          if missing:
+              raise SystemExit(f"Missing required files: {sorted(missing)}")
+          for p in files:
+              if p.suffix == ".json":
+                  json.loads(p.read_text(encoding="utf-8"))
+
+          output = Path(os.environ["RUNNER_TEMP"]) / "somfy_protexial.zip"
+          with ZipFile(output, "w", compression=ZIP_DEFLATED) as archive:
+              for p in files:
+                  archive.write(p, p.relative_to(source).as_posix())
+
+          with ZipFile(output) as archive:
+              if archive.testzip() is not None:
+                  raise SystemExit("ZIP integrity check failed")
+              if set(archive.namelist()) != names:
+                  raise SystemExit("ZIP contents differ from source files")
+              bundled_manifest = json.loads(archive.read("manifest.json"))
+              if bundled_manifest["version"] != manifest["version"]:
+                  raise SystemExit("Bundled manifest version mismatch")
+          print(f"Validated {output}: {len(files)} files, version {manifest['version']}")
+          PY
+
+      - name: Preserve verified ZIP as workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: somfy-protexial-hacs
+          path: ${{ runner.temp }}/somfy_protexial.zip
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Attach verified ZIP to GitHub release
+        if: github.event_name == 'release'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          gh release upload "$RELEASE_TAG" "$RUNNER_TEMP/somfy_protexial.zip" --clobber
+          gh release view "$RELEASE_TAG" --json assets --jq '.assets[].name' | grep -Fx 'somfy_protexial.zip'
