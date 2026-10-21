@@ -1334,6 +1334,108 @@ class SomfyProtexial:
         }
         await self.update_general_settings(changes)
 
+    async def set_memory_open(self, opening: bool) -> None:
+        """Submit the actual Somfy memory form through a temporary installer session.
+
+        No state is cached: neither i_listelmt.htm nor status.xml reports it.
+        """
+        from html.parser import HTMLParser
+
+        class MemoryFormParser(HTMLParser):
+            """Collect submit controls only from the i_listelmt_mem form."""
+
+            def __init__(self):
+                super().__init__()
+                self.in_form = False
+                self.values = {}
+                self.action = None
+                self.method = None
+
+            def handle_starttag(self, tag, attrs):
+                fields = dict(attrs)
+                if tag == "form" and fields.get("name") == "i_listelmt_mem":
+                    self.in_form = True
+                    self.action = fields.get("action")
+                    self.method = (fields.get("method") or "get").lower()
+                elif tag == "input" and self.in_form and fields.get("type", "").lower() == "submit":
+                    if fields.get("name"):
+                        self.values[fields["name"]] = fields.get("value", "")
+
+            def handle_endtag(self, tag):
+                if tag == "form" and self.in_form:
+                    self.in_form = False
+
+        if not self.installer_username or not self.installer_password:
+            raise SomfyException("Installer credentials are not configured")
+
+        async with self._session_lock:
+            try:
+                try:
+                    await self.__logout()
+                except SomfyException as ex:
+                    _LOGGER.debug("User logout before memory action failed: %s", ex)
+                    self.cookie = None
+                await self.__login(
+                    username=self.installer_username,
+                    password=self.installer_password,
+                )
+
+                primary = self.api.get_page(Page.INSTALLER_ELEMENTS)
+                localized = self._localized_path("/fr/i_listelmt.htm")
+                alternate = "/i_listelmt.htm" if primary == localized else localized
+                candidates = list(dict.fromkeys((primary, alternate)))
+                if self._installer_elements_candidate in candidates:
+                    candidates.remove(self._installer_elements_candidate)
+                    candidates.insert(0, self._installer_elements_candidate)
+
+                command = "btn_mem_open" if opening else "btn_mem_close"
+                last_error = None
+                for index, candidate in enumerate(candidates):
+                    try:
+                        page = await self.__do_call(
+                            "get", candidate, retry=False, login=False
+                        )
+                        if getattr(page.real_url, "path", "") == self.api.get_page(Page.DEFAULT):
+                            raise SomfyException("Installer page redirected to login")
+                        html = await page.text(self.api.get_encoding())
+                    except SomfyException as ex:
+                        last_error = ex
+                        if str(ex) == "Http error (404)" and index < len(candidates) - 1:
+                            continue
+                        raise
+
+                    parser = MemoryFormParser()
+                    parser.feed(html)
+                    if (parser.method != "post" or
+                        parser.action != "i_listelmt.htm" or
+                        command not in parser.values):
+                        last_error = SomfyException(
+                            f"Somfy memory command {command} unavailable on {candidate}"
+                        )
+                        continue
+
+                    # The value is localized; always use the actual HTML input value.
+                    response = await self.__do_call(
+                        "post", candidate,
+                        data={command: parser.values[command]},
+                        retry=False, login=False,
+                    )
+                    if getattr(response.real_url, "path", "") == self.api.get_page(Page.DEFAULT):
+                        raise SomfyException("Installer memory command redirected to login")
+                    self._installer_elements_candidate = candidate
+                    _LOGGER.info("Somfy memory %s command submitted", "open" if opening else "close")
+                    return
+
+                raise last_error or SomfyException("Somfy memory controls unavailable")
+            finally:
+                try:
+                    await self.__logout()
+                except SomfyException as ex:
+                    _LOGGER.debug("Installer logout after memory action failed: %s", ex)
+                    self.cookie = None
+                await self.__login()
+
+
     async def set_element_active(self, element_id: str, active: bool) -> None:
         """Temporarily use the installer account to toggle an element.
 
