@@ -36,7 +36,7 @@ Se questa integrazione ti è utile e desideri supportarne lo sviluppo e la manut
 ## 📑 Indice
 
 - [ℹ️ Informazioni](#toc-section-1)
-- [🆕 Novità della versione 2.2.1](#toc-section-2)
+- [🆕 Novità della versione 2.2.2](#toc-section-2)
 - [📦 Installazione](#toc-section-3)
 - [⚙️ Configurazione](#toc-section-4)
 - [⚠️ Note](#toc-section-5)
@@ -49,7 +49,16 @@ Se questa integrazione ti è utile e desideri supportarne lo sviluppo e la manut
 
 <a name="toc-section-2"></a>
 
-## 🆕 Novità della versione 2.2.1
+## 🆕 Novità della versione 2.2.2
+
+- **Memoria di abbinamento:** due pulsanti senza stato per aprire e chiudere la registrazione di nuovi dispositivi.
+- **PAUSA:** rimosso l'interruttore PAUSA della centrale; rimane per gli altri dispositivi compatibili.
+- **Compatibilità:** accesso temporaneo come installatore, ripristino della sessione utente e rilevamento delle varianti della pagina.
+- **Importante:** usare con l'allarme disinserito. L'apertura dura normalmente due minuti (rinnovati dopo ogni registrazione). Nessuno stato reale disponibile. Testato su una Protexial; vecchi modelli Protexiom da verificare.
+
+### Previous version — 2.2.1
+
+#### 🆕 Novità della versione 2.2.1
 
 Questa versione stabile include le correzioni e i miglioramenti di `2.2.1-beta1`, `2.2.1-beta2` e `2.2.1-beta3`:
 
