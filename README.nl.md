@@ -13,7 +13,7 @@
 > 📚 De uitgebreide projectdocumentatie is beschikbaar in de [Wiki](https://github.com/AuroreVgn/somfy-protexial/wiki), die momenteel in het Frans wordt onderhouden.
 
 ## 🏠 My Home Assistant Projects
- 
+
 Discover all my Home Assistant integrations and projects on my dedicated page: [**🏠 Discover my Home Assistant Projects**](https://erra.me)
 
 ## ☕️ Steun het project
