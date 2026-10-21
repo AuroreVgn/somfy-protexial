@@ -31,7 +31,7 @@ Wenn diese Integration für dich nützlich ist und du ihre Entwicklung und Pfleg
 ## 📑 Inhaltsverzeichnis
 
 - [ℹ️ Über diese Integration](#toc-section-1)
-- [🆕 Neu in Version 2.2.1](#toc-section-2)
+- [🆕 Neu in Version 2.2.2](#toc-section-2)
 - [📦 Installation](#toc-section-3)
 - [⚙️ Konfiguration](#toc-section-4)
 - [⚠️ Hinweise](#toc-section-5)
@@ -48,7 +48,16 @@ Wenn diese Integration für dich nützlich ist und du ihre Entwicklung und Pfleg
 
 <a name="toc-section-2"></a>
 
-## 🆕 Neu in Version 2.2.1
+## 🆕 Neu in Version 2.2.2
+
+- **Anlern-Speicher:** zwei zustandslose Schaltflächen zum Öffnen und Schließen der Registrierung neuer Geräte.
+- **PAUSE:** Der PAUSE-Schalter der Zentrale entfällt; bei anderen kompatiblen Geräten bleibt er erhalten.
+- **Kompatibilität:** temporäre Anmeldung als Installateur, Wiederherstellung der Benutzersitzung und Erkennung verschiedener Installateur-Seiten.
+- **Wichtig:** nur bei deaktiviertem Alarm verwenden. Der Anlernmodus bleibt normalerweise zwei Minuten aktiv (Verlängerung nach jeder Anmeldung). Ein tatsächlicher Status wird nicht angezeigt. Auf einer Protexial getestet; ältere Protexiom-Modelle noch nicht bestätigt.
+
+### Previous version — 2.2.1
+
+#### 🆕 Neu in Version 2.2.1
 
 Diese stabile Version vereint die Korrekturen und Verbesserungen aus `2.2.1-beta1`, `2.2.1-beta2` und `2.2.1-beta3`:
 
