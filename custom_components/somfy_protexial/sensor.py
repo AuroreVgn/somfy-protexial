@@ -1,6 +1,6 @@
 # Sensors (GSM + zones from elements)
 import logging
-from typing import Any, Iterable
+from typing import Iterable
 
 from homeassistant.components.sensor import (
     RestoreSensor,
@@ -66,7 +66,7 @@ async def async_setup_entry(
         entities.append(entity_class(device_info, coordinator, description))
 
     # 2) Per-element zone sensors (ENUM) from u_plistelmt.htm (kept commented by design)
-    elements = (coordinator.data or {}).get("elements", [])
+    # The optional per-element zone sensors remain disabled.
 
     # for el in elements:
     #     # Create a unique 'zone' sensor per element
