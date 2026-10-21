@@ -55,7 +55,7 @@ Als je deze integratie nuttig vindt en de ontwikkeling en het onderhoud ervan wi
 - **Geheugen sluiten:** een nieuwe knop haalt de centrale uit de pauzestand.
 - **Belangrijk:** gebruik deze opdrachten alleen wanneer het alarm uitgeschakeld is. Er is geen werkelijke open-/geslotenstatus beschikbaar.
 
-### Previous version — 2.2.1
+### Vorige versie — 2.2.1
 
 #### 🆕 Nieuw in versie 2.2.1
 
@@ -179,7 +179,12 @@ De attributen zijn zichtbaar in het menu **"Details"**.
 | `button.refresh` | | 2.0.13 |
 | `button.datum_en_tijd_van_de_centrale_lezen` | Leest de datum en tijd die momenteel in de centrale zijn opgeslagen | 2.1.x |
 | `button.datum_en_tijd_synchroniseren` | Synchroniseert datum en tijd van de centrale met de lokale datum en tijd van Home Assistant | 2.1.x |
+| `button.memory_open` * | **Geheugen openen** — Zet de centrale 2 minuten in de pauzestand voor onderhoud, zoals het vervangen van batterijen; maakt ook het koppelen van nieuwe apparaten mogelijk. | 2.2.2 |
+| `button.memory_close` * | **Geheugen sluiten** — Beëindigt de geheugen-/pauzestand van de centrale. | 2.2.2 |
 
+
+
+*De entiteits-ID's zijn voorbeelden; Home Assistant kan gelokaliseerde ID's maken. Installateursgegevens en een uitgeschakeld alarm zijn vereist. De centrale heeft geen PAUZE-schakelaar en geen uitleesbare geheugenstatus.
 
 #### ⏸️ Elementen pauzeren / opnieuw activeren (versie 2.1):
 
