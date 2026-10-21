@@ -47,6 +47,7 @@ If you find this integration useful and would like to support its development an
 
 ## 🆕 What's new in version 2.2.2
 
+- **Protexiom 2008 fix (from `2.2.2-beta1`):** improved legacy Protexiom and Protexiom ALT login detection: check `/login.htm` and its authentication challenge signature before probing localized login pages. Already identified legacy panels skip these probes. **Still requires validation on a real Protexiom 2008.**
 - **PAUSE:** the PAUSE switch has been removed for the central unit because its web interface does not offer this function; other compatible elements retain it.
 - **Open memory:** adds a button that puts the central unit into pause mode for 2 minutes to facilitate maintenance, such as replacing batteries. This function also allows new elements to be added to the alarm system. At present, adding elements directly through the integration has not been considered a relevant feature.
 - **Close memory:** adds a button to take the central unit out of pause mode.
