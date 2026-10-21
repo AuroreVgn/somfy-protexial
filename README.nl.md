@@ -50,10 +50,10 @@ Als je deze integratie nuttig vindt en de ontwikkeling en het onderhoud ervan wi
 
 ## 🆕 Nieuw in versie 2.2.2
 
-- **Koppelgeheugen:** twee statusloze knoppen om de registratie van nieuwe apparaten te openen en te sluiten.
-- **PAUZE:** de PAUZE-schakelaar van de centrale is verwijderd; andere compatibele apparaten behouden deze.
-- **Compatibiliteit:** tijdelijke installateursessie, herstel van de gebruikerssessie en detectie van verschillende installatiepagina's.
-- **Belangrijk:** alleen gebruiken wanneer het alarm uitgeschakeld is. Het koppelen blijft normaal twee minuten actief (verlengd na elk apparaat). Er is geen werkelijke status beschikbaar. Getest op één Protexial; oudere Protexiom-modellen moeten nog worden getest.
+- **PAUZE:** de PAUZE-schakelaar voor de centrale is verwijderd omdat de webinterface deze functie niet aanbiedt; andere compatibele elementen behouden deze functie.
+- **Geheugen openen:** een nieuwe knop zet de centrale gedurende 2 minuten in de pauzestand om onderhoud, zoals het vervangen van batterijen, te vergemakkelijken. Hiermee kunnen ook nieuwe elementen aan het alarmsysteem worden toegevoegd. Het rechtstreeks toevoegen van elementen via de integratie wordt op dit moment niet als een zinvolle functie beschouwd.
+- **Geheugen sluiten:** een nieuwe knop haalt de centrale uit de pauzestand.
+- **Belangrijk:** gebruik deze opdrachten alleen wanneer het alarm uitgeschakeld is. Er is geen werkelijke open-/geslotenstatus beschikbaar.
 
 ### Previous version — 2.2.1
 
