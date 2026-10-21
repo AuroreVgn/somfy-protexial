@@ -58,10 +58,6 @@ Se questa integrazione ti è utile e desideri supportarne lo sviluppo e la manut
 
 ### Versione precedente — 2.2.1
 
-#### 🆕 Novità della versione 2.2.1
-
-Questa versione stabile include le correzioni e i miglioramenti di `2.2.1-beta1`, `2.2.1-beta2` e `2.2.1-beta3`:
-
 - 🌍 **Compatibilità multilingue:** rilevamento automatico della lingua dell'interfaccia web della centrale e supporto dei percorsi localizzati (`/fr/`, `/de/`, `/gb/`, `/sp/`, `/it/`, `/nl/`), mantenendo i percorsi senza prefisso per i modelli interessati.
 - 📋 **Registro eventi:** rilevamento delle risposte HTML troncate, nuovo tentativo di lettura e conservazione degli ultimi eventi validi in caso di aggiornamento non riuscito.
 - 🔄 **Ripristino della sessione:** in caso di errori di connessione (`ClientConnectionError`), viene avviato il ripristino della sessione senza riutilizzare inutilmente una sessione potenzialmente non valida.
