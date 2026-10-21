@@ -5,7 +5,6 @@ from typing import Any, Iterable
 from homeassistant.components.sensor import (
     RestoreSensor,
     SensorEntity,
-    SensorDeviceClass,
     SensorEntityDescription,
 )
 from homeassistant.config_entries import ConfigEntry
@@ -68,7 +67,6 @@ async def async_setup_entry(
 
     # 2) Per-element zone sensors (ENUM) from u_plistelmt.htm (kept commented by design)
     elements = (coordinator.data or {}).get("elements", [])
-    zone_options = _collect_zone_options(elements)
 
     # for el in elements:
     #     # Create a unique 'zone' sensor per element
