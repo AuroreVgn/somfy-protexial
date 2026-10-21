@@ -54,10 +54,6 @@ If you find this integration useful and would like to support its development an
 
 ### Previous release — 2.2.1
 
-#### 🆕 What's new in version 2.2.1
-
-This stable release includes the fixes and improvements from `2.2.1-beta1`, `2.2.1-beta2`, and `2.2.1-beta3`:
-
 - 🌍 **Multilingual compatibility:** automatic detection of the control panel web interface language and support for localized paths (`/fr/`, `/de/`, `/gb/`, `/sp/`, `/it/`, `/nl/`), while retaining non-prefixed paths for compatible models.
 - 📋 **Event journal:** detection of truncated HTML responses, retrying reads, and preserving the last valid events if a refresh fails.
 - 🔄 **Session recovery:** on connection errors (`ClientConnectionError`), recover the session without unnecessarily retrying a potentially invalid session.
