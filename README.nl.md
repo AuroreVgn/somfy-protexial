@@ -57,10 +57,6 @@ Als je deze integratie nuttig vindt en de ontwikkeling en het onderhoud ervan wi
 
 ### Vorige versie — 2.2.1
 
-#### 🆕 Nieuw in versie 2.2.1
-
-Deze stabiele versie bundelt de oplossingen en verbeteringen uit `2.2.1-beta1`, `2.2.1-beta2` en `2.2.1-beta3`:
-
 - 🌍 **Meertalige compatibiliteit:** automatische detectie van de taal van de webinterface van de alarmcentrale en ondersteuning voor gelokaliseerde paden (`/fr/`, `/de/`, `/gb/`, `/sp/`, `/it/`, `/nl/`), met behoud van paden zonder taalprefix voor de betreffende modellen.
 - 📋 **Gebeurtenislogboek:** detectie van afgebroken HTML-antwoorden, opnieuw proberen te lezen en behoud van de laatst geldige gebeurtenissen als verversen mislukt.
 - 🔄 **Sessieherstel:** bij verbindingsfouten (`ClientConnectionError`) wordt sessieherstel gestart zonder een mogelijk ongeldige sessie onnodig opnieuw te gebruiken.
