@@ -2,9 +2,9 @@
 Somfy Protexial
 """
 
+from datetime import timedelta
 import logging
 import time
-from datetime import timedelta
 
 from homeassistant.components.alarm_control_panel import AlarmControlPanelEntityFeature
 from homeassistant.config_entries import ConfigEntry
@@ -31,7 +31,6 @@ from homeassistant.util import dt as dt_util
 
 from .const import (
     API,
-    ApiType,
     CONF_API_TYPE,
     CONF_CODES,
     CONF_HOME_ZONES,
@@ -44,6 +43,7 @@ from .const import (
     DOMAIN,
     REFRESH_ELEMENTS,
     REFRESH_INTERVAL_STORE,
+    ApiType,
     Zone,
 )
 from .protexial import SomfyProtexial
