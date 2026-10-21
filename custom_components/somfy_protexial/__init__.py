@@ -2,9 +2,9 @@
 Somfy Protexial
 """
 
-from datetime import timedelta
 import logging
 import time
+from datetime import timedelta
 
 from homeassistant.components.alarm_control_panel import AlarmControlPanelEntityFeature
 from homeassistant.config_entries import ConfigEntry
@@ -17,17 +17,17 @@ from homeassistant.const import (
     Platform,
 )
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers import config_validation as cv
-from homeassistant.helpers import aiohttp_client, device_registry as dr
+from homeassistant.helpers import aiohttp_client, config_validation as cv, device_registry as dr
 from homeassistant.helpers.device_registry import CONNECTION_NETWORK_MAC
 from homeassistant.helpers.entity import DeviceInfo
-from homeassistant.helpers.typing import ConfigType
 from homeassistant.helpers.storage import Store
+from homeassistant.helpers.typing import ConfigType
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from homeassistant.util import dt as dt_util
 
 from .const import (
     API,
+    ApiType,
     CONF_API_TYPE,
     CONF_CODES,
     CONF_HOME_ZONES,
@@ -37,10 +37,9 @@ from .const import (
     CONF_NIGHT_ZONES,
     COORDINATOR,
     DEVICE_INFO,
+    DOMAIN,
     REFRESH_ELEMENTS,
     REFRESH_INTERVAL_STORE,
-    DOMAIN,
-    ApiType,
     Zone,
 )
 from .protexial import SomfyProtexial
