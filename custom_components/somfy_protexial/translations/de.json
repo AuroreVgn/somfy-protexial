@@ -41,6 +41,13 @@
           "installer_password": "Installateur-Passwort (optional)",
           "arm_code_required": "Code zum Scharfschalten erforderlich (Unscharfschalten bleibt geschützt)"
         }
+      },
+      "reauth_confirm": {
+        "title": "Reauthentication",
+        "description": "Enter the new password for your Somfy control panel.",
+        "data": {
+          "password": "Neues Passwort"
+        }
       }
     },
     "error": {
