@@ -41,6 +41,13 @@
           "installer_password": "Wachtwoord installateur (optioneel)",
           "arm_code_required": "Code vereisen voor inschakelen (uitschakelen blijft beveiligd)"
         }
+      },
+      "reauth_confirm": {
+        "title": "Reauthentication",
+        "description": "Enter the new password for your Somfy control panel.",
+        "data": {
+          "password": "Nieuw wachtwoord"
+        }
       }
     },
     "error": {
