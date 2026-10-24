@@ -41,6 +41,13 @@
           "installer_password": "Password installatore (opzionale)",
           "arm_code_required": "Richiedi il codice per l’inserimento (il disinserimento resta protetto)"
         }
+      },
+      "reauth_confirm": {
+        "title": "Reauthentication",
+        "description": "Enter the new password for your Somfy control panel.",
+        "data": {
+          "password": "Nuova password"
+        }
       }
     },
     "error": {
