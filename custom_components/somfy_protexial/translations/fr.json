@@ -41,6 +41,13 @@
           "installer_password": "Mot de passe Installateur (optionnel)",
           "arm_code_required": "Code requis pour l’armement (le désarmement reste protégé)"
         }
+      },
+      "reauth_confirm": {
+        "title": "Réauthentification",
+        "description": "Saisissez le nouveau mot de passe de la centrale Somfy.",
+        "data": {
+          "password": "Nouveau mot de passe"
+        }
       }
     },
     "error": {
