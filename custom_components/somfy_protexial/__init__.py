@@ -17,6 +17,7 @@ from homeassistant.const import (
     Platform,
 )
 from homeassistant.core import HomeAssistant
+from homeassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from homeassistant.helpers import (
     aiohttp_client,
     config_validation as cv,
@@ -47,6 +48,7 @@ from .const import (
     Zone,
 )
 from .protexial import SomfyProtexial
+from .somfy_exception import SomfyAuthError, SomfyException
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -88,7 +90,12 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         installer_password=entry.data.get(CONF_INSTALLER_PASSWORD),
     )
 
-    await protexial.init()
+    try:
+        await protexial.init()
+    except SomfyAuthError as err:
+        raise ConfigEntryAuthFailed("Somfy authentication failed") from err
+    except (SomfyException, OSError) as err:
+        raise ConfigEntryNotReady("Somfy control panel unavailable") from err
 
     last_status = None
     last_elements = []
@@ -156,6 +163,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
                 "last_sync": dt_util.utcnow(),
             }
             return status_dict
+        except SomfyAuthError as err:
+            raise ConfigEntryAuthFailed("Somfy authentication failed") from err
         except Exception as err:
             raise UpdateFailed(f"Error communicating with API: {err}")
 

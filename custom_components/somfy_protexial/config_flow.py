@@ -42,6 +42,7 @@ from .const import (
     Zone,
 )
 from .protexial import SomfyProtexial
+from .somfy_exception import SomfyAuthError, SomfyException
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -133,7 +134,7 @@ class ProtexialConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
             try:
                 self.protexial.set_credentials(self.username, self.password, self.codes)
-                self.protexial.init()
+                await self.protexial.init()
                 return await self.async_step_config(None)
             except Exception as e:
                 _LOGGER.error(e)
@@ -269,6 +270,60 @@ class ProtexialConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     ),
                 }
             ),
+        )
+
+    async def async_step_reauth(self, entry_data: dict[str, Any]) -> FlowResult:
+        """Start reauthentication without discarding the existing configuration."""
+        self._reauth_entry = self.hass.config_entries.async_get_entry(
+            self.context["entry_id"]
+        )
+        return await self.async_step_reauth_confirm()
+
+    async def async_step_reauth_confirm(
+        self, user_input: dict[str, Any] | None = None
+    ) -> FlowResult:
+        """Validate a replacement password before updating the entry."""
+        errors: dict[str, str] = {}
+        entry = self._reauth_entry
+        if user_input is not None:
+            new_password = user_input[CONF_PASSWORD]
+            session = aiohttp_client.async_create_clientsession(self.hass)
+            client = SomfyProtexial(
+                session=session,
+                url=entry.data[CONF_URL],
+                api_type=entry.data[CONF_API_TYPE],
+                username=entry.data[CONF_USERNAME],
+                password=new_password,
+                codes=entry.data[CONF_CODES],
+                installer_username=entry.data.get(CONF_INSTALLER_USERNAME),
+                installer_password=entry.data.get(CONF_INSTALLER_PASSWORD),
+            )
+            try:
+                await client.init()
+            except SomfyAuthError:
+                errors["base"] = "auth"
+            except (SomfyException, OSError):
+                errors["base"] = "connection"
+            else:
+                try:
+                    await client.logout()
+                except SomfyException:
+                    _LOGGER.debug("Logout after successful reauthentication failed")
+                return self.async_update_reload_and_abort(
+                    entry,
+                    data_updates={CONF_PASSWORD: new_password},
+                )
+
+        return self.async_show_form(
+            step_id="reauth_confirm",
+            data_schema=vol.Schema(
+                {
+                    vol.Required(CONF_PASSWORD): TextSelector(
+                        TextSelectorConfig(type=TextSelectorType.PASSWORD)
+                    )
+                }
+            ),
+            errors=errors,
         )
 
     @staticmethod

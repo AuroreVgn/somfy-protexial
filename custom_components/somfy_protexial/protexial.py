@@ -26,7 +26,7 @@ from .protexial_api import ProtexialApi
 from .protexial_io_api import ProtexialIOApi
 from .protexiom_alt_api import ProtexiomAltApi
 from .protexiom_api import ProtexiomApi
-from .somfy_exception import SomfyException
+from .somfy_exception import SomfyAuthError, SomfyException
 
 _LOGGER: logging.Logger = logging.getLogger(__name__)
 _PRINTABLE_CHARS = set(string.printable)
@@ -369,9 +369,9 @@ class SomfyProtexial:
                     SomfyError.WRONG_CREDENTIALS_ALT,
                     SomfyError.WRONG_CREDENTIALS_2_ALT,
                 ):
-                    raise SomfyException("Login failed: Wrong credentials")
+                    raise SomfyAuthError("Login failed: Wrong credentials")
                 if code == SomfyError.MAX_LOGIN_ATTEMPTS:
-                    raise SomfyException("Login failed: Max attempt count reached")
+                    raise SomfyAuthError("Login failed: Max attempt count reached")
                 if code == SomfyError.INCORRECT_ACCESS_RIGHTS:
                     _LOGGER.error(
                         "Somfy login refused: incorrect access rights (0x0811)"
@@ -383,7 +383,7 @@ class SomfyProtexial:
                     SomfyError.WRONG_CODE,
                     SomfyError.WRONG_CODE_ALT,
                 ):
-                    raise SomfyException("Login failed: Wrong code")
+                    raise SomfyAuthError("Login failed: Wrong code")
                 if code in (
                     SomfyError.UNKNOWN_PARAMETER,
                     SomfyError.UNKNOWN_PARAMETER_ALT,
@@ -847,6 +847,9 @@ class SomfyProtexial:
         """
         try:
             return await func(*args, **kwargs)
+        except SomfyAuthError:
+            # Never try a second login with known-invalid credentials.
+            raise
         except SomfyException as ex:
             _LOGGER.warning(
                 "Request failed (%s); forcing a fresh login and retrying "
