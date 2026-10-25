@@ -31,7 +31,6 @@ Si cette intégration vous est utile et que vous souhaitez soutenir son dévelop
 ## 📑 Sommaire
 
 - [ℹ️ À propos](#toc-section-1)
-- [🆕 Nouveautés de la version 2.2.2](#toc-section-2)
 - [✨ Fonctionnalités principales](#toc-section-3)
 - [🛡️ Compatibilité](#toc-section-4)
 - [📦 Installation](#toc-section-5)
@@ -59,24 +58,6 @@ Le projet vise notamment à prolonger la durée de vie de ces centrales et à an
 > 📚 La documentation détaillée, les guides, automatisations et solutions de dépannage sont regroupés dans le **[Wiki du projet](https://github.com/AuroreVgn/somfy-protexial/wiki)**.
 
 <a name="toc-section-2"></a>
-
-## 🆕 Nouveautés de la version 2.2.2
-
-- **[Correction Protexiom 2008 (#30)](https://github.com/AuroreVgn/somfy-protexial/issues/30) :** amélioration de la détection de connexion des anciennes Protexiom et Protexiom ALT : priorité à `/login.htm` et vérification de la signature d'authentification avant toute recherche de pages multilingues. Les centrales déjà identifiées évitent ces sondages. **Correctif encore à valider sur une véritable Protexiom 2008.**
-- **PAUSE :** suppression du commutateur PAUSE pour la centrale car la page web ne propose pas cette fonction ; les autres éléments compatibles conservent cette fonction.
-- **[Ouverture de la mémoire (#31)](https://github.com/AuroreVgn/somfy-protexial/issues/31) :** ajout de ce bouton qui permet de mettre en pause la centrale pendant 2 min pour faciliter sa maintenance, notamment le remplacement des piles. Cette fonction permet aussi d'ajouter de nouveaux éléments au système d'alarme. À ce jour, l'ajout d'éléments depuis l'intégration n'a pas été jugé pertinent.
-- **[Fermeture de la mémoire (#31)](https://github.com/AuroreVgn/somfy-protexial/issues/31) :** ajout de ce bouton qui permet de sortir la centrale de pause.
-- **Important :** utiliser ces commandes lorsque l'alarme est à l'arrêt. Aucun état ouvert/fermé n'est disponible.
-
-### Version précédente — 2.2.1
-
-- 🌍 **Compatibilité multilingue :** détection de la langue de l'interface Web des centrales et prise en charge des chemins localisés (`/fr/`, `/de/`, `/gb/`, `/sp/`, `/it/`, `/nl/`), avec conservation des chemins sans préfixe pour les modèles concernés.
-- 📋 **Journal des événements :** détection des réponses HTML tronquées, nouvelle tentative de lecture et conservation des derniers événements valides si l'actualisation échoue.
-- 🔄 **Récupération de session :** en cas d'erreur de connexion (`ClientConnectionError`), déclenchement de la récupération de session sans réutiliser inutilement une session potentiellement invalide.
-- 🔐 **Erreur `0x0903` :** meilleure reconnaissance des droits d'accès insuffisants, notamment du message allemand `Unzureichende Zugriffsrechte`, sans journaliser toute la page HTML d'erreur.
-- 🔒 **Confidentialité des logs DEBUG :** masquage des mots de passe, codes d'authentification, données sensibles des requêtes POST et cookies de session ; le challenge reste lisible pour le diagnostic.
-
-Merci à @benztown711 pour ses tests et retours sur une centrale Protexial ©2010 `v7_9` en allemand.
 
 <a name="toc-section-3"></a>
 
