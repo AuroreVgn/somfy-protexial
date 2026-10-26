@@ -13,9 +13,9 @@
 > [!NOTE]
 > 📚 La documentazione dettagliata del progetto è disponibile nella [Wiki](https://github.com/AuroreVgn/somfy-protexial/wiki), attualmente mantenuta in francese.
 
-## 🏠 My Home Assistant Projects
+## 🏠 I miei progetti Home Assistant
 
-Discover all my Home Assistant integrations and projects on my dedicated page: [**🏠 Discover my Home Assistant Projects**](https://erra.me)
+Scopri tutte le mie integrazioni e i miei progetti Home Assistant nella pagina dedicata: [**🏠 Scopri i miei progetti Home Assistant**](https://erra.me)
 
 ## ☕️ Sostieni il progetto
 
@@ -31,7 +31,7 @@ Se questa integrazione ti è utile e desideri supportarne lo sviluppo e la manut
 
 ## 🌍 Altre lingue
 
-[English](README.en.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Italiano](README.it.md) | [Nederlands](README.nl.md) | [Português](README.pt.md)
+[Français](README.md) | [English](README.en.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Italiano](README.it.md) | [Nederlands](README.nl.md) | [Português](README.pt.md)
 
 ## 📑 Indice
 
