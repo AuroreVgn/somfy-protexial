@@ -45,25 +45,6 @@ If you find this integration useful and would like to support its development an
 
 <a name="toc-section-1"></a>
 
-## 🆕 What's new in version 2.2.2
-
-- **[Protexiom 2008 fix (#30)](https://github.com/AuroreVgn/somfy-protexial/issues/30) :** improved legacy Protexiom and Protexiom ALT login detection: check `/login.htm` and its authentication challenge signature before probing localized login pages. Already identified legacy panels skip these probes. **Still requires validation on a real Protexiom 2008.**
-- **PAUSE:** the PAUSE switch has been removed for the central unit because its web interface does not offer this function; other compatible elements retain it.
-- **[Open memory (#31)](https://github.com/AuroreVgn/somfy-protexial/issues/31) :** adds a button that puts the central unit into pause mode for 2 minutes to facilitate maintenance, such as replacing batteries. This function also allows new elements to be added to the alarm system. At present, adding elements directly through the integration has not been considered a relevant feature.
-- **[Close memory (#31)](https://github.com/AuroreVgn/somfy-protexial/issues/31) :** adds a button to take the central unit out of pause mode.
-- **These two buttons are available only when the installer code is configured in the integration.**
-- **Important:** use these commands only when the alarm is disarmed. No open/closed state is available.
-
-### Previous release — 2.2.1
-
-- 🌍 **Multilingual compatibility:** automatic detection of the control panel web interface language and support for localized paths (`/fr/`, `/de/`, `/gb/`, `/sp/`, `/it/`, `/nl/`), while retaining non-prefixed paths for compatible models.
-- 📋 **Event journal:** detection of truncated HTML responses, retrying reads, and preserving the last valid events if a refresh fails.
-- 🔄 **Session recovery:** on connection errors (`ClientConnectionError`), recover the session without unnecessarily retrying a potentially invalid session.
-- 🔐 **`0x0903` error:** improved recognition of insufficient access rights, including the German message `Unzureichende Zugriffsrechte`, without logging the entire HTML error page.
-- 🔒 **DEBUG log privacy:** masking of passwords, authentication codes, sensitive POST payload data, and session cookies; the challenge remains visible for diagnostics.
-
-Thanks to @benztown711 for testing and feedback on a German-language Protexial ©2010 `v7_9` control panel.
-
 <a name="toc-section-2"></a>
 
 ## ℹ️ About
