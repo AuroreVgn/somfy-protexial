@@ -48,26 +48,6 @@ Si esta integración te resulta útil y deseas apoyar su desarrollo y mantenimie
 
 <a name="toc-section-2"></a>
 
-## 🆕 Novedades de la versión 2.2.2
-
-- **[Corrección Protexiom 2008 (#30)](https://github.com/AuroreVgn/somfy-protexial/issues/30) :** mejorada la detección del inicio de sesión en Protexiom y Protexiom ALT antiguos. Se comprueban `/login.htm` y la firma de autenticación antes de buscar páginas multilingües. Las centrales antiguas ya identificadas omiten estas comprobaciones. **Pendiente de validación en una Protexiom 2008 real.**
-- **PAUSA:** se elimina el interruptor PAUSA de la central porque la interfaz web no ofrece esta función; los demás elementos compatibles la conservan.
-- **[Apertura de memoria (#31)](https://github.com/AuroreVgn/somfy-protexial/issues/31) :** se añade un botón que pone la central en pausa durante 2 minutos para facilitar el mantenimiento, como el cambio de pilas. Esta función también permite añadir nuevos elementos al sistema de alarma. Por ahora, no se ha considerado pertinente añadir elementos directamente desde la integración.
-- **[Cierre de memoria (#31)](https://github.com/AuroreVgn/somfy-protexial/issues/31) :** se añade un botón para sacar la central del modo de pausa.
-- **Estos dos botones solo están disponibles si el código de instalador está configurado en la integración.**
-- **Importante:** utilizar estos comandos con la alarma desactivada. No se dispone de un estado real de apertura/cierre.
-
-### Versión anterior — 2.2.1
-
-- 🌍 **Compatibilidad multilingüe:** detección automática del idioma de la interfaz web de la central y compatibilidad con rutas localizadas (`/fr/`, `/de/`, `/gb/`, `/sp/`, `/it/`, `/nl/`), manteniendo las rutas sin prefijo para los modelos correspondientes.
-- 📋 **Registro de eventos:** detección de respuestas HTML truncadas, nuevo intento de lectura y conservación de los últimos eventos válidos si falla la actualización.
-- 🔄 **Recuperación de sesión:** ante errores de conexión (`ClientConnectionError`), se recupera la sesión sin reutilizar innecesariamente una sesión posiblemente inválida.
-- 🔐 **Error `0x0903`:** mejor reconocimiento de los permisos de acceso insuficientes, incluido el mensaje alemán `Unzureichende Zugriffsrechte`, sin registrar toda la página HTML de error.
-- 🔒 **Privacidad de los registros DEBUG:** se ocultan contraseñas, códigos de autenticación, datos sensibles de las solicitudes POST y cookies de sesión; el desafío de autenticación permanece visible para el diagnóstico.
-
-Gracias a @benztown711 por las pruebas y comentarios sobre una central Protexial ©2010 `v7_9` en alemán.
-
-
 🔀 Esta versión 2.2.x es un **fork actualizado** de la integración original de [the8tre](https://github.com/the8tre).
 
 Los principales objetivos de esta integración son anticiparse a:
