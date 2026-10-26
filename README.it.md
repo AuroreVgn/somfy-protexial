@@ -36,7 +36,6 @@ Se questa integrazione ti è utile e desideri supportarne lo sviluppo e la manut
 ## 📑 Indice
 
 - [ℹ️ Informazioni](#toc-section-1)
-- [🆕 Novità della versione 2.2.2](#toc-section-2)
 - [📦 Installazione](#toc-section-3)
 - [⚙️ Configurazione](#toc-section-4)
 - [⚠️ Note](#toc-section-5)
