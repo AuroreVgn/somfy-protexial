@@ -106,7 +106,7 @@ Les interfaces Somfy actuellement prises en charge sont :
 La langue de l'interface de la centrale est indépendante de la langue utilisée dans Home Assistant.
 
 
-➡️ **[Consulter les modèles et versions testés](https://github.com/AuroreVgn/somfy-protexial/wiki/Compatibilit%C3%A9-des-centrales)**
+➡️ **[Consulter les modèles et versions testés](https://github.com/AuroreVgn/somfy-protexial/wiki/Compatibilite-des-centrales)**
 
 <a name="toc-section-5"></a>
 
