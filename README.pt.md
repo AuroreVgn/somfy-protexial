@@ -48,26 +48,6 @@ Se esta integração lhe for útil e quiser apoiar o seu desenvolvimento e manut
 
 <a name="toc-section-2"></a>
 
-## 🆕 Novidades da versão 2.2.2
-
-- **[Correção Protexiom 2008 (#30)](https://github.com/AuroreVgn/somfy-protexial/issues/30) :** melhoria da deteção de início de sessão nas antigas Protexiom e Protexiom ALT. São verificados `/login.htm` e a assinatura de autenticação antes das páginas multilingues. As centrais antigas já identificadas dispensam essas verificações. **Ainda por validar numa Protexiom 2008 real.**
-- **PAUSA:** o interruptor PAUSA da central foi removido porque a interface web não disponibiliza esta função; os restantes elementos compatíveis mantêm-na.
-- **[Abertura da memória (#31)](https://github.com/AuroreVgn/somfy-protexial/issues/31) :** foi adicionado um botão que coloca a central em pausa durante 2 minutos para facilitar a manutenção, como a substituição das pilhas. Esta função também permite adicionar novos elementos ao sistema de alarme. Atualmente, a adição de elementos diretamente pela integração não foi considerada uma funcionalidade pertinente.
-- **[Fecho da memória (#31)](https://github.com/AuroreVgn/somfy-protexial/issues/31) :** foi adicionado um botão que retira a central do modo de pausa.
-- **Estes dois botões só estão disponíveis se o código de instalador estiver configurado na integração.**
-- **Importante:** utilizar estes comandos com o alarme desativado. Não está disponível qualquer estado real de abertura/fecho.
-
-### Versão anterior — 2.2.1
-
-- 🌍 **Compatibilidade multilingue:** deteção automática do idioma da interface web da central e suporte de caminhos localizados (`/fr/`, `/de/`, `/gb/`, `/sp/`, `/it/`, `/nl/`), mantendo os caminhos sem prefixo para os modelos aplicáveis.
-- 📋 **Registo de eventos:** deteção de respostas HTML truncadas, nova tentativa de leitura e preservação dos últimos eventos válidos caso a atualização falhe.
-- 🔄 **Recuperação de sessão:** em caso de erros de ligação (`ClientConnectionError`), a sessão é recuperada sem reutilizar desnecessariamente uma sessão potencialmente inválida.
-- 🔐 **Erro `0x0903`:** melhor reconhecimento de direitos de acesso insuficientes, incluindo a mensagem alemã `Unzureichende Zugriffsrechte`, sem registar toda a página HTML de erro.
-- 🔒 **Privacidade dos registos DEBUG:** palavras-passe, códigos de autenticação, dados sensíveis dos pedidos POST e cookies de sessão são ocultados; o desafio de autenticação permanece visível para diagnóstico.
-
-Obrigado a @benztown711 pelos testes e comentários sobre uma central Protexial ©2010 `v7_9` em alemão.
-
-
 🔀 Esta versão 2.2.x é um **fork atualizado** da integração original de [the8tre](https://github.com/the8tre).
 
 Os principais objetivos desta integração são antecipar:
@@ -83,6 +63,7 @@ Esta integração permite ligar centrais de alarme Somfy Protexial, Protexiom e 
 | -------------- | --------------- | ------------------ | ------------------ |
 | Protexial IO | `2013 (v10_13)` | :white_check_mark: | :white_check_mark: |
 | Protexiom 5000 | `2013 (v10_3)` | :white_check_mark:  |
+| Protexiom 600 | `2008` | ✅ | ✅ |
 | Protexial | `2013 (v10_13)` | :white_check_mark:  |
 | Protexial | `2013 (v10_14)` | :white_check_mark:  |
 | Protexial | `2013 (v10_15)` | :white_check_mark: | :white_check_mark: |
