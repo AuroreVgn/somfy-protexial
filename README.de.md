@@ -31,7 +31,6 @@ Wenn diese Integration für dich nützlich ist und du ihre Entwicklung und Pfleg
 ## 📑 Inhaltsverzeichnis
 
 - [ℹ️ Über diese Integration](#toc-section-1)
-- [🆕 Neu in Version 2.2.2](#toc-section-2)
 - [📦 Installation](#toc-section-3)
 - [⚙️ Konfiguration](#toc-section-4)
 - [⚠️ Hinweise](#toc-section-5)
@@ -43,8 +42,6 @@ Wenn diese Integration für dich nützlich ist und du ihre Entwicklung und Pfleg
 [English](README.en.md) | [Deutsch](README.de.md) | [Español](README.es.md) | [Italiano](README.it.md) | [Nederlands](README.nl.md) | [Português](README.pt.md)
 
 <a name="toc-section-1"></a>
-
-## ℹ️ Über diese Integration
 
 <a name="toc-section-2"></a>
 
