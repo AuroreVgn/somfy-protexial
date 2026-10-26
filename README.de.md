@@ -48,26 +48,6 @@ Wenn diese Integration für dich nützlich ist und du ihre Entwicklung und Pfleg
 
 <a name="toc-section-2"></a>
 
-## 🆕 Neu in Version 2.2.2
-
-- **[Protexiom-2008-Korrektur (#30)](https://github.com/AuroreVgn/somfy-protexial/issues/30) :** Verbesserte Anmeldungserkennung für ältere Protexiom und Protexiom ALT: `/login.htm` und die Authentifizierungskennung werden vor der Suche nach mehrsprachigen Anmeldeseiten geprüft. Bereits erkannte ältere Zentralen überspringen diese Abfragen. **Noch an einer echten Protexiom 2008 zu prüfen.**
-- **PAUSE:** Der PAUSE-Schalter der Zentrale wurde entfernt, da die Weboberfläche diese Funktion nicht anbietet; andere kompatible Elemente behalten sie.
-- **[Speicher öffnen (#31)](https://github.com/AuroreVgn/somfy-protexial/issues/31) :** Eine neue Schaltfläche versetzt die Zentrale für 2 Minuten in den Pausenmodus, um Wartungsarbeiten wie den Batteriewechsel zu erleichtern. Diese Funktion ermöglicht auch das Hinzufügen neuer Elemente zur Alarmanlage. Das direkte Hinzufügen von Elementen über die Integration wurde bisher nicht als sinnvolle Funktion erachtet.
-- **[Speicher schließen (#31)](https://github.com/AuroreVgn/somfy-protexial/issues/31) :** Eine neue Schaltfläche beendet den Pausenmodus der Zentrale.
-- **Diese beiden Schaltflächen sind nur verfügbar, wenn der Installateurcode in der Integration konfiguriert ist.**
-- **Wichtig:** Diese Befehle nur bei deaktivierter Alarmanlage verwenden. Ein tatsächlicher Offen-/Geschlossen-Status ist nicht verfügbar.
-
-### Vorherige Version — 2.2.1
-
-- 🌍 **Mehrsprachige Kompatibilität:** Automatische Erkennung der Sprache der Weboberfläche der Alarmzentrale und Unterstützung lokalisierter Pfade (`/fr/`, `/de/`, `/gb/`, `/sp/`, `/it/`, `/nl/`); Pfade ohne Sprachpräfix bleiben für entsprechende Modelle erhalten.
-- 📋 **Ereignisprotokoll:** Erkennung abgeschnittener HTML-Antworten, erneuter Leseversuch und Beibehaltung der zuletzt gültigen Ereignisse bei fehlgeschlagener Aktualisierung.
-- 🔄 **Sitzungswiederherstellung:** Bei Verbindungsfehlern (`ClientConnectionError`) wird die Sitzung wiederhergestellt, statt eine möglicherweise ungültige Sitzung unnötig erneut zu verwenden.
-- 🔐 **Fehler `0x0903`:** Verbesserte Erkennung unzureichender Zugriffsrechte, einschließlich der deutschen Meldung `Unzureichende Zugriffsrechte`, ohne die gesamte HTML-Fehlerseite zu protokollieren.
-- 🔒 **Datenschutz in DEBUG-Protokollen:** Passwörter, Authentifizierungscodes, sensible POST-Daten und Sitzungscookies werden maskiert; die Challenge bleibt für Diagnosezwecke sichtbar.
-
-Vielen Dank an @benztown711 für Tests und Rückmeldungen mit einer deutschsprachigen Protexial ©2010 `v7_9`.
-
-
 🔀 Diese Version 2.2.x ist ein **aktualisierter Fork** der ursprünglichen Integration von [the8tre](https://github.com/the8tre).
 
 Die Hauptziele dieser Integration sind:
