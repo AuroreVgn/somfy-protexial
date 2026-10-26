@@ -35,7 +35,6 @@ If you find this integration useful and would like to support its development an
 
 ## 📑 Table of contents
 
-- [🆕 What's new in version 2.2.2](#toc-section-1)
 - [ℹ️ About](#toc-section-2)
 - [📦 Installation](#toc-section-3)
 - [⚙️ Configuration](#toc-section-4)
