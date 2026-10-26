@@ -35,7 +35,6 @@ Als je deze integratie nuttig vindt en de ontwikkeling en het onderhoud ervan wi
 ## 📑 Inhoudsopgave
 
 - [ℹ️ Over](#toc-section-1)
-- [🆕 Nieuw in versie 2.2.2](#toc-section-2)
 - [📦 Installatie](#toc-section-3)
 - [⚙️ Configuratie](#toc-section-4)
 - [⚠️ Opmerkingen](#toc-section-5)
