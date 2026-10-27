@@ -14,6 +14,7 @@ from homeassistant.const import (
     CONF_SCAN_INTERVAL,
     CONF_URL,
     CONF_USERNAME,
+    EVENT_HOMEASSISTANT_STOP,
     Platform,
 )
 from homeassistant.core import HomeAssistant
@@ -226,6 +227,21 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     await coordinator.async_config_entry_first_refresh()
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+
+    async def _logout_on_ha_stop(event):
+        """Release the Somfy web session before Home Assistant shuts down."""
+        try:
+            await protexial.logout()
+        except (SomfyException, OSError) as err:
+            # Shutdown must not be blocked by an unreachable control panel.
+            _LOGGER.warning("Unable to log out from Somfy during HA shutdown: %s", err)
+
+    # Unlike disabling/reloading the config entry, a full HA shutdown does
+    # not necessarily call async_unload_entry. Release the session explicitly.
+    # Remove the listener automatically if this config entry is unloaded.
+    entry.async_on_unload(
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, _logout_on_ha_stop)
+    )
 
     return True
 
