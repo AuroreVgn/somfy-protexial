@@ -1133,9 +1133,12 @@ class SomfyProtexial:
             available_fields.add(name)
             form[name] = textarea_el.text() or ""
 
-        if "btn_save" not in form:
+        # Older Protexiom (e.g. 600 / 2008) uses a submit button named
+        # "action" with value "Sauvegarder" instead of "btn_save".
+        # Keep the original submit field in the payload for both variants.
+        if "btn_save" not in form and form.get("action") != "Sauvegarder":
             raise SomfyException(
-                "Installer general settings form is incomplete: btn_save"
+                "Installer general settings form is incomplete: save button missing"
             )
 
         return form, available_fields
