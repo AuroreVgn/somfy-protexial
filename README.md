@@ -114,10 +114,6 @@ La langue de l'interface de la centrale est indépendante de la langue utilisée
 
 > [!NOTE]
 > **Marketplace / HACS (Home Assistant 2026.11+)** — À partir de Home Assistant 2026.11, ouvrez **Paramètres → Marketplace** : HACS est désormais intégré à Home Assistant, sans installation séparée. Recherchez ce projet dans le catalogue ou ajoutez son URL GitHub comme **dépôt personnalisé** s'il n'est pas encore référencé. Sur Home Assistant 2026.10 et versions antérieures, continuez à utiliser **HACS**. Les liens et badges `hacs_repository` ci-dessous restent compatibles avec Marketplace. Après installation, configurez l'intégration depuis **Paramètres → Appareils et services** ; redémarrez uniquement si Home Assistant le demande. Les extensions restent communautaires et ne sont pas des intégrations officielles.
->
-> **EN:** Starting with Home Assistant 2026.11, use the built-in **Settings → Marketplace** (no separate HACS installation). Search for this project or add its GitHub URL as a **custom repository** if it is not listed yet. On Home Assistant 2026.10 or earlier, keep using **HACS**. Existing `hacs_repository` links remain compatible. Community extensions are not official Home Assistant integrations.
-
-
 
 ### Option A — HACS (recommandé)
 
