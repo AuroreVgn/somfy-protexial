@@ -235,6 +235,10 @@ Het logboek wordt alleen-lezen uitgelezen met het **Gebruiker**-account, zonder 
 
 ## 📦 Installatie
 
+> [!NOTE]
+> **Marketplace / HACS:** Vanaf **Home Assistant 2026.11** opent u **Instellingen → Marketplace**. HACS is ingebouwd en hoeft niet apart geïnstalleerd te worden. Zoek deze integratie of voeg `https://github.com/AuroreVgn/somfy-protexial` toe als **aangepaste repository** als deze nog niet in de catalogus staat. Gebruik op **2026.10 en ouder** HACS zoals hieronder beschreven. De bestaande `hacs_repository`-links werken in beide versies. Configureer de integratie daarna via **Instellingen → Apparaten en diensten**. Dit blijft een community-integratie, geen officiële Home Assistant-integratie.
+
+
 ### Optie A: Installatie via HACS (aanbevolen)
 
 1. Voeg deze GitHub-repository toe aan HACS.
