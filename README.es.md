@@ -217,6 +217,10 @@ El registro se lee con la cuenta **Usuario**, en modo de solo lectura, sin utili
 
 ## 📦 Instalación
 
+> [!NOTE]
+> **Marketplace / HACS:** A partir de **Home Assistant 2026.11**, abra **Ajustes → Marketplace**. HACS está integrado y no necesita instalarse por separado. Busque esta integración o añada `https://github.com/AuroreVgn/somfy-protexial` como **repositorio personalizado** si todavía no aparece en el catálogo. En **2026.10 y versiones anteriores**, siga usando HACS según las instrucciones siguientes. Los enlaces `hacs_repository` existentes funcionan en ambas versiones. Después de instalarla, configure la integración en **Ajustes → Dispositivos y servicios**. Sigue siendo una integración comunitaria, no oficial de Home Assistant.
+
+
 ### Opción A: Instalación mediante HACS (recomendada)
 
 1. Añada este repositorio de GitHub a HACS.
