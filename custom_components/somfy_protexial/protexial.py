@@ -3,6 +3,7 @@ import json
 import logging
 import re
 import string
+import time
 from urllib.parse import urlencode
 from xml.etree import ElementTree as ET
 
@@ -177,6 +178,10 @@ class SomfyProtexial:
         self.installer_username = installer_username
         self.installer_password = installer_password
         self._session_lock = asyncio.Lock()
+        # Avoid repeated logins against fragile legacy IP modules when a
+        # background read keeps failing. Alarm commands are never throttled.
+        self._last_read_recovery_attempt = 0.0
+        self._read_recovery_cooldown = 120.0
         self.session = session
         self.cookie = None
         self.api = self.load_api(self.api_type)
@@ -362,7 +367,7 @@ class SomfyProtexial:
                             login=login,
                             authenticated=authenticated,
                         )
-                    raise SomfyException("Too many login retries")
+                    raise SomfyException("Somfy session already open (0x0902)")
 
                 if code in (
                     SomfyError.WRONG_CREDENTIALS,
@@ -514,18 +519,16 @@ class SomfyProtexial:
             await self.__login()
             return
         except SomfyException as err:
-            # Some Somfy firmwares can sporadically reject a valid login with
-            # error 0x0811 ("Connexion impossible, droit d'accès incorrect").
-            # A later manual reload succeeds without any credential change.
-            # Treat only this specific startup error as transient: acknowledge
-            # the error page when possible, wait briefly, then request a fresh
-            # challenge and retry exactly once.
-            if "(0x0811)" not in str(err):
+            # A legacy central may report an already-open session (0x0902),
+            # or transiently reject a valid login (0x0811). Acknowledge the
+            # error page and retry only once; never loop on startup.
+            if not any(code in str(err) for code in ("0x0811", "0x0902")):
                 raise
 
             _LOGGER.warning(
-                "Initial Somfy login refused with 0x0811; "
-                "resetting the error page and retrying once in 5 seconds"
+                "Initial Somfy login refused (%s); acknowledging the error "
+                "page and retrying once in 5 seconds",
+                err,
             )
 
             self.cookie = None
@@ -845,12 +848,28 @@ class SomfyProtexial:
         the wrapped call, force a fresh login and retry the whole operation
         exactly once before giving up.
         """
+        is_background_read = func.__name__ in ("__get_status", "__get_elements")
         try:
-            return await func(*args, **kwargs)
+            result = await func(*args, **kwargs)
+            if is_background_read:
+                self._last_read_recovery_attempt = 0.0
+            return result
         except SomfyAuthError:
             # Never try a second login with known-invalid credentials.
             raise
         except SomfyException as ex:
+            # Background polling must not attempt a new login every cycle
+            # when the central is already struggling. Do not apply this
+            # cooldown to explicit arm/disarm or other control commands.
+            if is_background_read:
+                now = time.monotonic()
+                if (
+                    self._last_read_recovery_attempt
+                    and now - self._last_read_recovery_attempt
+                    < self._read_recovery_cooldown
+                ):
+                    raise
+                self._last_read_recovery_attempt = now
             _LOGGER.warning(
                 "Request failed (%s); forcing a fresh login and retrying "
                 "once (Jeedom-style session recovery)",
@@ -862,7 +881,10 @@ class SomfyProtexial:
                 _LOGGER.debug("Logout before retry failed (ignored): %s", logout_ex)
             self.cookie = None
             await self.__login()
-            return await func(*args, **kwargs)
+            result = await func(*args, **kwargs)
+            if is_background_read:
+                self._last_read_recovery_attempt = 0.0
+            return result
 
     async def __get_status(
         self, page_is_authenticated: bool, _retry_on_empty: bool = True
