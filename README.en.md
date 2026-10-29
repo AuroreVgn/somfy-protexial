@@ -217,6 +217,10 @@ The journal is read with the **User** account, read-only, without using the Inst
 
 ## 📦 Installation
 
+> [!NOTE]
+> **Marketplace / HACS:** Starting with **Home Assistant 2026.11**, open **Settings → Marketplace**; HACS is built in and no separate installation is required. Search for this integration or add `https://github.com/AuroreVgn/somfy-protexial` as a **custom repository** if it is not listed. On **2026.10 and earlier**, use HACS as described below. Existing `hacs_repository` buttons still work with both versions. After installing, configure the integration under **Settings → Devices & services**. This remains a community integration, not an official Home Assistant integration.
+
+
 ### Option A: Install via HACS (Recommended)
 
 1. Add this GitHub repository to HACS
