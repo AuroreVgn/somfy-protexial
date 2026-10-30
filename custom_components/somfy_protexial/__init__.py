@@ -229,12 +229,15 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
     async def _logout_on_ha_stop(event):
-        """Release the Somfy web session before Home Assistant shuts down."""
+        """Release the Somfy session while HA's event loop is still running."""
+        _LOGGER.debug("HA stopping: requesting Somfy session logout")
         try:
             await protexial.logout()
-        except (SomfyException, OSError) as err:
-            # Shutdown must not be blocked by an unreachable control panel.
-            _LOGGER.warning("Unable to log out from Somfy during HA shutdown: %s", err)
+        except Exception:
+            # A failed logout must never prevent Home Assistant from stopping.
+            _LOGGER.exception("Somfy logout failed during HA shutdown")
+        else:
+            _LOGGER.info("Somfy logout completed during HA shutdown")
 
     # Unlike disabling/reloading the config entry, a full HA shutdown does
     # not necessarily call async_unload_entry. Release the session explicitly.
@@ -247,15 +250,31 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    api = hass.data[DOMAIN][entry.entry_id][API]
-    await api.logout()
+    """Stop entity consumers before releasing the Somfy HTTP session."""
+    data = hass.data[DOMAIN][entry.entry_id]
+    api = data[API]
+    coordinator = data[COORDINATOR]
 
+    # Prevent new scheduled refreshes during teardown. Platform unloading
+    # removes entity listeners; the API lock serializes any in-flight request
+    # with the final logout.
+    coordinator.update_interval = None
     unload_ok = await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
+    if not unload_ok:
+        _LOGGER.warning("Somfy platform unload failed; keeping config entry loaded")
+        return False
 
-    if unload_ok:
-        hass.data[DOMAIN].pop(entry.entry_id)
+    try:
+        await api.logout()
+    except Exception:
+        # Do not claim a successful unload while the remote session may remain
+        # occupied. The log distinguishes a failed HTTP logout from cleanup.
+        _LOGGER.exception("Somfy logout failed while unloading config entry")
+        return False
 
-    return unload_ok
+    _LOGGER.debug("Somfy logout completed during config entry unload")
+    hass.data[DOMAIN].pop(entry.entry_id)
+    return True
 
 
 async def async_migrate_entry(hass: HomeAssistant, config_entry: ConfigEntry):
