@@ -786,9 +786,24 @@ class SomfyProtexial:
         self.codes = codes
 
     async def __logout(self):
-        """Logout without taking the operation lock (internal use only)."""
+        """Send the logout request, then discard the local session cookie.
+
+        Clearing the local cookie does not prove the remote session was freed.
+        Keep HTTP failures visible so a failed logout can be diagnosed.
+        """
         try:
             await self.__do_call("get", Page.LOGOUT, retry=False, login=False)
+        except Exception:
+            _LOGGER.warning(
+                "Somfy HTTP logout request failed; remote session may remain open",
+                exc_info=True,
+            )
+            raise
+        else:
+            _LOGGER.debug(
+                "Somfy HTTP logout request completed (remote session release "
+                "not independently verified)"
+            )
         finally:
             self.cookie = None
 
