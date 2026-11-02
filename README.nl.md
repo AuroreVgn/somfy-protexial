@@ -235,30 +235,38 @@ Het logboek wordt alleen-lezen uitgelezen met het **Gebruiker**-account, zonder 
 
 ## 📦 Installatie
 
-> [!NOTE]
-> **Marketplace / HACS:** Vanaf **Home Assistant 2026.11** opent u **Instellingen → Marketplace**. HACS is ingebouwd en hoeft niet apart geïnstalleerd te worden. Zoek deze integratie of voeg `https://github.com/AuroreVgn/somfy-protexial` toe als **aangepaste repository** als deze nog niet in de catalogus staat. Gebruik op **2026.10 en ouder** HACS zoals hieronder beschreven. De bestaande `hacs_repository`-links werken in beide versies. Configureer de integratie daarna via **Instellingen → Apparaten en diensten**. Dit blijft een community-integratie, geen officiële Home Assistant-integratie.
+### Optie A — Home Assistant Marketplace (HACS Default) — aanbevolen
 
+Somfy Protexial staat nu in de officiële HACS Default-catalogus. In Home Assistant-versies met de Marketplace:
 
-### Optie A: Installatie via HACS (aanbevolen)
+1. Open **Instellingen → Marketplace**.
+2. Zoek naar **Somfy Protexial**.
+3. Open de integratiepagina en kies **Installeren**.
+4. Volg de instructies van Home Assistant.
+5. Voeg de integratie toe via **Instellingen → Apparaten en diensten → Integratie toevoegen → Somfy Protexial**.
 
-1. Voeg deze GitHub-repository toe aan HACS.
-   - Automatisch: [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?category=integration&repository=somfy-protexial&owner=AuroreVgn) <br />
-   - Handmatig:
-      - HACS → Integraties → Menu "..." → Aangepaste repositories
-      - Repository: `https://github.com/AuroreVgn/somfy-protexial`
-      - Categorie: `Integratie`
-3. Download de integratie.
-   - HACS → Integraties → Somfy Protexial → Downloaden
-4. Herstart Home Assistant.
+### Optie B — Klassieke HACS
 
-### Optie B: Handmatige installatie
+Gebruikt u nog de klassieke HACS-interface, installeer de integratie dan met deze knop:
 
-1. Download het archief van de nieuwste beschikbare versie: [somfy_protexial.zip](https://github.com/AuroreVgn/somfy-protexial/archive/refs/tags/2.2.0.zip)
-2. Zoek de map waarin het bestand `configuration.yaml` van uw Home Assistant-installatie zich bevindt.
-3. Maak de map `custom_components` aan als deze nog niet bestaat.
-4. Maak binnen `custom_components` een map `somfy_protexial` aan.
-5. Pak de inhoud van `somfy_protexial.zip` uit in de map `somfy_protexial`.
-6. Herstart Home Assistant.
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?category=integration&repository=somfy-protexial&owner=AuroreVgn)
+
+U kunt de integratie ook handmatig toevoegen in HACS:
+
+1. Open **HACS → Integraties → ⋮ → Aangepaste repositories**.
+2. Voeg `https://github.com/AuroreVgn/somfy-protexial` toe.
+3. Kies de categorie **Integratie**.
+4. Download **Somfy Protexial**.
+5. Herstart Home Assistant indien nodig en voeg de integratie daarna toe via **Instellingen → Apparaten en diensten**.
+
+### Optie C — Handmatige installatie
+
+1. Download het archief van de [nieuwste release](https://github.com/AuroreVgn/somfy-protexial/releases/latest).
+2. Maak indien nodig de map `custom_components` aan in de map met `configuration.yaml`.
+3. Maak daarin `custom_components/somfy_protexial` aan.
+4. Kopieer de inhoud van de component `somfy_protexial` naar die map.
+5. Herstart Home Assistant en voeg de integratie daarna toe via **Instellingen → Apparaten en diensten**.
+
 
 <a name="toc-section-4"></a>
 
