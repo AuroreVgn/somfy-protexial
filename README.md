@@ -112,7 +112,7 @@ La langue de l'interface de la centrale est indépendante de la langue utilisée
 
 ## 📦 Installation
 
-### Option A — Marketplace (anciennement HCAS ; Home Assistant >= 2026.11)
+### Option A — Marketplace (anciennement HACS ; Home Assistant >= 2026.11)
 
 1. Ouvrez **Paramètres → Marketplace**.
 2. Recherchez **Somfy Protexial**.
