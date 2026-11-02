@@ -112,22 +112,13 @@ La langue de l'interface de la centrale est indépendante de la langue utilisée
 
 ## 📦 Installation
 
-> [!TIP]
-> **Installation recommandée — catalogue HACS Default**
->
-> Somfy Protexial est désormais référencée dans le catalogue officiel **HACS Default**. Sur les versions de Home Assistant qui proposent HACS dans le **Marketplace intégré**, recherchez simplement **Somfy Protexial** dans **Paramètres → Marketplace**, puis lancez l'installation.
->
-> Si vous utilisez encore l'interface HACS classique, vous pouvez continuer à installer l'intégration avec l'option ci-dessous. L'installation manuelle reste également possible.
-
-### Option A — Marketplace Home Assistant (HACS Default)
+### Option A — Marketplace (anciennement HCAS ; Home Assistant >= 2026.11)
 
 1. Ouvrez **Paramètres → Marketplace**.
 2. Recherchez **Somfy Protexial**.
 3. Ouvrez la fiche de l'intégration et choisissez **Installer**.
 4. Suivez les indications affichées par Home Assistant. Redémarrez uniquement si cela vous est demandé.
 5. Ajoutez ensuite l'intégration depuis **Paramètres → Appareils et services → Ajouter une intégration → Somfy Protexial**.
-
-Si l'intégration n'apparaît pas encore, vérifiez que votre version de Home Assistant prend en charge le Marketplace intégré et que le catalogue est à jour.
 
 ### Option B — HACS classique
 
