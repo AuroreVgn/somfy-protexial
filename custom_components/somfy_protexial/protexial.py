@@ -655,9 +655,7 @@ class SomfyProtexial:
                                 _LOGGER.debug(
                                     "Skipping PROTEXIOM_ALT detection: "
                                     "classic PROTEXIOM challenge marker found "
-                                    "(challenge=%s, raw='%s')",
-                                    classic_match.group(0),
-                                    classic_challenge_text,
+                                    "challenge marker present",
                                 )
                                 continue
 
@@ -670,9 +668,8 @@ class SomfyProtexial:
 
                         match = re.search(CHALLENGE_REGEX, challenge_text)
                         _LOGGER.debug(
-                            "API %s raw challenge='%s'",
+                            "API %s login challenge received",
                             api_type,
-                            challenge_text,
                         )
                         if match:
                             challenge = match.group(0)
@@ -688,9 +685,8 @@ class SomfyProtexial:
 
                         else:
                             _LOGGER.debug(
-                                "Challenge not recognized for %s: %s",
+                                "Challenge not recognized for %s",
                                 api_type,
-                                challenge_text,
                             )
         raise SomfyException("Couldn't detect the centrale type")
 
@@ -994,13 +990,7 @@ class SomfyProtexial:
             await self.__login()
             page_is_authenticated = self.api.is_page_authenticated(Page.STATUS)
             return await self.__get_status(page_is_authenticated, _retry_on_empty=False)
-        _LOGGER.debug(
-            "STATUS OBJECT: battery=%s zoneA=%s zoneB=%s gsm=%s",
-            status.battery,
-            status.zoneA,
-            status.zoneB,
-            status.gsm,
-        )
+        _LOGGER.debug("Status XML fields parsed successfully")
         _LOGGER.debug("Status parsing complete")
         return status
 
