@@ -315,7 +315,7 @@ class SomfyProtexial:
                 dom = pq(preview)
                 error_el = dom(self.api.get_selector(Selector.ERROR_CODE))
                 if not error_el:
-                    _LOGGER.error(preview)
+                    _LOGGER.error("Somfy error page without a recognizable error code")
                     raise SomfyException("Unknown error")
                 code = error_el.text()
 
@@ -407,7 +407,7 @@ class SomfyProtexial:
 
                 if code == SomfyError.UNEXPECTED_ERROR:
                     raise SomfyException("Unexpected centrale error")
-                _LOGGER.error(preview)
+                _LOGGER.error("Somfy error page returned unrecognized code: %s", code)
 
                 raise SomfyException(f"Command failed: Unknown errorCode: {code}")
 
