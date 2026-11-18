@@ -704,14 +704,12 @@ class SomfyProtexial:
                 )
 
                 _LOGGER.debug("Guess response status: %s", response.status)
-                _LOGGER.debug("Guess response headers: %s", response.headers)
+                _LOGGER.debug("Guess response headers omitted (may contain cookies)")
                 _LOGGER.debug("Guess response URL: %s", response.real_url)
 
             if response.status == 200:
                 response_body = await response.text(self.api.get_encoding())
-                _LOGGER.debug(
-                    f"Guess response: {await response.text(self.api.get_encoding())}"
-                )
+                _LOGGER.debug("Guess response body omitted (may contain authentication data)")
                 return response_body
             elif response.status == 302:
                 raise SomfyException("Unavailable, please retry later")
@@ -753,11 +751,11 @@ class SomfyProtexial:
         # contains additional text such as "Code d'authentification E5".
         match = re.search(CHALLENGE_REGEX, raw_challenge)
 
-        _LOGGER.debug("Raw login challenge: %s", raw_challenge)
+        _LOGGER.debug("Login challenge received")
 
         if match:
             challenge = match.group(0)
-            _LOGGER.debug("Challenge detected: %s (raw='%s')", challenge, raw_challenge)
+            _LOGGER.debug("Challenge coordinate detected: %s", challenge)
             return challenge
         return raw_challenge
 
@@ -942,18 +940,14 @@ class SomfyProtexial:
             authenticated=page_is_authenticated,
         )
         content = await status_response.text(self.api.get_encoding())
-        _LOGGER.debug("STATUS XML RECEIVED:\n%s", content)
+        _LOGGER.debug("Status XML received (%d characters)", len(content))
         response = ET.fromstring(content)
         _LOGGER.debug("XML PARSED OK")
         status = Status()
-        _LOGGER.debug("STATUS OBJECT CREATED: %s", status.__dict__)
+        _LOGGER.debug("Status object created")
         for child in response:
             filteredChildText = self.filter_ascii(child.text)
-            _LOGGER.debug(
-                "XML FIELD: %s=%s",
-                child.tag,
-                filteredChildText,
-            )
+            _LOGGER.debug("Status XML field parsed: %s", child.tag)
             match child.tag:
                 case "defaut0":
                     status.battery = filteredChildText
@@ -1007,7 +1001,7 @@ class SomfyProtexial:
             status.zoneB,
             status.gsm,
         )
-        _LOGGER.debug("STATUS BEFORE RETURN: %s", status.__dict__)
+        _LOGGER.debug("Status parsing complete")
         return status
 
     def filter_ascii(self, value) -> str:
@@ -1015,7 +1009,7 @@ class SomfyProtexial:
         if value is None:
             return value
         filtered = "".join(filter(lambda x: x in _PRINTABLE_CHARS, value))
-        _LOGGER.debug("Filtered status: '%s'", filtered.lower())
+        # Do not log individual status values or raw response fields.
         return filtered.lower()
 
     async def get_challenge_card(self, username, password, code):
@@ -1091,7 +1085,7 @@ class SomfyProtexial:
     async def __close_cover(self):
         form = self.api.get_close_cover_payload()
         response = await self.__do_call("post", Page.PILOTAGE, data=form)
-        _LOGGER.debug(await response.text(self.api.get_encoding()))
+        _LOGGER.debug("Cover command response received")
 
     async def stop_cover(self):
         """Stop cover movement (wrapped with the session-retry safety net)."""
@@ -2063,7 +2057,7 @@ class SomfyProtexial:
                 "house": elt_maison[i] if i < len(elt_maison) else "",
                 "pause": item_pause[i] if i < len(item_pause) else "",
             }
-            _LOGGER.debug("EXIT get_elements(): %s", elements)
+            # Element names and identifiers are intentionally not logged.
             elements.append(el)
 
         # _LOGGER.debug("Extracted elements (count=%d): %s", len(elements), elements[:3])
