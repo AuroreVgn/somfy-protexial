@@ -338,6 +338,10 @@ class SomfyProtexial:
                     )
 
                 if code == SomfyError.SESSION_ALREADY_OPEN:
+                    if self.api_type in (ApiType.PROTEXIOM, ApiType.PROTEXIOM_ALT):
+                        # Legacy IP modules can remain busy for several minutes.
+                        # Never reset an occupied session from a background poll.
+                        raise SomfyException("Somfy session already open (0x0902)")
                     if retry:
                         form = self.api.get_reset_session_payload()
                         await self.__do_call(
@@ -864,6 +868,13 @@ class SomfyProtexial:
         exactly once before giving up.
         """
         is_background_read = func.__name__ in ("__get_status", "__get_elements")
+        if is_background_read and self.api_type in (
+            ApiType.PROTEXIOM,
+            ApiType.PROTEXIOM_ALT,
+        ):
+            # Legacy modules must not be forced through logout/login after a
+            # transient HTTP/session error. Let the next poll retry normally.
+            return await func(*args, **kwargs)
         try:
             result = await func(*args, **kwargs)
             if is_background_read:
@@ -958,6 +969,13 @@ class SomfyProtexial:
                     status.opegsm = filteredChildText
                 case "camera":
                     status.camera = filteredChildText
+
+        if not status.alarm and self.api_type in (
+            ApiType.PROTEXIOM,
+            ApiType.PROTEXIOM_ALT,
+        ):
+            # Never publish a fabricated healthy state or force a reconnect.
+            raise SomfyException("Empty status.xml from legacy Somfy panel")
 
         if _retry_on_empty and not status.alarm:
             _LOGGER.warning(
