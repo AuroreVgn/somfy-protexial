@@ -286,7 +286,9 @@ class SomfyProtexial:
                     for key, value in response.headers.items()
                 },
             )
-            _LOGGER.debug("Response body (first 500 chars): %s", preview[:500])
+            # Never log HTTP response bodies: login and challenge-card pages
+            # can contain authentication secrets, including on redirects.
+            _LOGGER.debug("Response body logging disabled to protect credentials")
 
             if response.status != 200:
                 raise SomfyException(f"Http error ({response.status})")
