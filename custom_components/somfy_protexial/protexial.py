@@ -254,17 +254,9 @@ class SomfyProtexial:
                 if method == "get":
                     response = await self.session.get(full_path, headers=headers)
                 elif method == "post":
-                    safe_data = {
-                        key: "***"
-                        if key.lower() in _SENSITIVE_PAYLOAD_FIELDS
-                        else value
-                        for key, value in data.items()
-                    }
-                    _LOGGER.debug("With payload: %s", safe_data)
-                    _LOGGER.debug(
-                        "With payload (encoded): %s",
-                        urlencode(safe_data, encoding=self.api.get_encoding()),
-                    )
+                    # Only log field names: unknown firmware-specific fields may
+                    # contain passwords or alarm/card codes.
+                    _LOGGER.debug("POST form field names: %s", sorted(data))
                     response = await self.session.post(
                         full_path, data=payload, headers=headers
                     )
@@ -654,8 +646,7 @@ class SomfyProtexial:
                             if classic_match:
                                 _LOGGER.debug(
                                     "Skipping PROTEXIOM_ALT detection: "
-                                    "classic PROTEXIOM challenge marker found "
-                                    "challenge marker present",
+                                    "classic PROTEXIOM challenge marker found",
                                 )
                                 continue
 
