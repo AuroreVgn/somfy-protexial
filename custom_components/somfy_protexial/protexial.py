@@ -338,9 +338,11 @@ class SomfyProtexial:
                     )
 
                 if code == SomfyError.SESSION_ALREADY_OPEN:
-                    if self.api_type in (ApiType.PROTEXIOM, ApiType.PROTEXIOM_ALT):
-                        # Legacy IP modules can remain busy for several minutes.
-                        # Never reset an occupied session from a background poll.
+                    if (
+                        self.api_type in (ApiType.PROTEXIOM, ApiType.PROTEXIOM_ALT)
+                        and getattr(self, "_legacy_background_read", False)
+                    ):
+                        # Do not reset a busy session during legacy polling.
                         raise SomfyException("Somfy session already open (0x0902)")
                     if retry:
                         form = self.api.get_reset_session_payload()
@@ -874,7 +876,13 @@ class SomfyProtexial:
         ):
             # Legacy modules must not be forced through logout/login after a
             # transient HTTP/session error. Let the next poll retry normally.
-            return await func(*args, **kwargs)
+            # This flag is scoped to the serialized read and never applies to
+            # arm/disarm commands.
+            self._legacy_background_read = True
+            try:
+                return await func(*args, **kwargs)
+            finally:
+                self._legacy_background_read = False
         try:
             result = await func(*args, **kwargs)
             if is_background_read:
