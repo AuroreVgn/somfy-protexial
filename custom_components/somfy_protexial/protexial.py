@@ -332,12 +332,6 @@ class SomfyProtexial:
                     )
 
                 if code == SomfyError.SESSION_ALREADY_OPEN:
-                    if (
-                        self.api_type in (ApiType.PROTEXIOM, ApiType.PROTEXIOM_ALT)
-                        and getattr(self, "_legacy_background_read", False)
-                    ):
-                        # Do not reset a busy session during legacy polling.
-                        raise SomfyException("Somfy session already open (0x0902)")
                     if retry:
                         form = self.api.get_reset_session_payload()
                         await self.__do_call(
@@ -397,6 +391,10 @@ class SomfyProtexial:
                 if code == SomfyError.BAD_PARAMETER:
                     raise SomfyException("Command failed: Bad parameter (0x0800)")
 
+                if code == SomfyError.SESSION_TIMEOUT:
+                    # Let the existing bounded session recovery handle the
+                    # panel's explicit timeout response.
+                    raise SomfyException("Somfy session timeout (0x0603)")
                 if code == SomfyError.UNEXPECTED_ERROR:
                     raise SomfyException("Unexpected centrale error")
                 _LOGGER.error("Somfy error page returned unrecognized code: %s", code)
@@ -857,19 +855,6 @@ class SomfyProtexial:
         exactly once before giving up.
         """
         is_background_read = func.__name__ in ("__get_status", "__get_elements")
-        if is_background_read and self.api_type in (
-            ApiType.PROTEXIOM,
-            ApiType.PROTEXIOM_ALT,
-        ):
-            # Legacy modules must not be forced through logout/login after a
-            # transient HTTP/session error. Let the next poll retry normally.
-            # This flag is scoped to the serialized read and never applies to
-            # arm/disarm commands.
-            self._legacy_background_read = True
-            try:
-                return await func(*args, **kwargs)
-            finally:
-                self._legacy_background_read = False
         try:
             result = await func(*args, **kwargs)
             if is_background_read:
@@ -960,13 +945,6 @@ class SomfyProtexial:
                     status.opegsm = filteredChildText
                 case "camera":
                     status.camera = filteredChildText
-
-        if not status.alarm and self.api_type in (
-            ApiType.PROTEXIOM,
-            ApiType.PROTEXIOM_ALT,
-        ):
-            # Never publish a fabricated healthy state or force a reconnect.
-            raise SomfyException("Empty status.xml from legacy Somfy panel")
 
         if _retry_on_empty and not status.alarm:
             _LOGGER.warning(
