@@ -254,17 +254,9 @@ class SomfyProtexial:
                 if method == "get":
                     response = await self.session.get(full_path, headers=headers)
                 elif method == "post":
-                    safe_data = {
-                        key: "***"
-                        if key.lower() in _SENSITIVE_PAYLOAD_FIELDS
-                        else value
-                        for key, value in data.items()
-                    }
-                    _LOGGER.debug("With payload: %s", safe_data)
-                    _LOGGER.debug(
-                        "With payload (encoded): %s",
-                        urlencode(safe_data, encoding=self.api.get_encoding()),
-                    )
+                    # Only log field names: unknown firmware-specific fields may
+                    # contain passwords or alarm/card codes.
+                    _LOGGER.debug("POST form field names: %s", sorted(data))
                     response = await self.session.post(
                         full_path, data=payload, headers=headers
                     )
@@ -286,7 +278,9 @@ class SomfyProtexial:
                     for key, value in response.headers.items()
                 },
             )
-            _LOGGER.debug("Response body (first 500 chars): %s", preview[:500])
+            # Never log HTTP response bodies: login and challenge-card pages
+            # can contain authentication secrets, including on redirects.
+            _LOGGER.debug("Response body logging disabled to protect credentials")
 
             if response.status != 200:
                 raise SomfyException(f"Http error ({response.status})")
@@ -313,7 +307,7 @@ class SomfyProtexial:
                 dom = pq(preview)
                 error_el = dom(self.api.get_selector(Selector.ERROR_CODE))
                 if not error_el:
-                    _LOGGER.error(preview)
+                    _LOGGER.error("Somfy error page without a recognizable error code")
                     raise SomfyException("Unknown error")
                 code = error_el.text()
 
@@ -397,9 +391,13 @@ class SomfyProtexial:
                 if code == SomfyError.BAD_PARAMETER:
                     raise SomfyException("Command failed: Bad parameter (0x0800)")
 
+                if code == SomfyError.SESSION_TIMEOUT:
+                    # Let the existing bounded session recovery handle the
+                    # panel's explicit timeout response.
+                    raise SomfyException("Somfy session timeout (0x0603)")
                 if code == SomfyError.UNEXPECTED_ERROR:
                     raise SomfyException("Unexpected centrale error")
-                _LOGGER.error(preview)
+                _LOGGER.error("Somfy error page returned unrecognized code: %s", code)
 
                 raise SomfyException(f"Command failed: Unknown errorCode: {code}")
 
@@ -646,10 +644,7 @@ class SomfyProtexial:
                             if classic_match:
                                 _LOGGER.debug(
                                     "Skipping PROTEXIOM_ALT detection: "
-                                    "classic PROTEXIOM challenge marker found "
-                                    "(challenge=%s, raw='%s')",
-                                    classic_match.group(0),
-                                    classic_challenge_text,
+                                    "classic PROTEXIOM challenge marker found",
                                 )
                                 continue
 
@@ -662,9 +657,8 @@ class SomfyProtexial:
 
                         match = re.search(CHALLENGE_REGEX, challenge_text)
                         _LOGGER.debug(
-                            "API %s raw challenge='%s'",
+                            "API %s login challenge received",
                             api_type,
-                            challenge_text,
                         )
                         if match:
                             challenge = match.group(0)
@@ -680,9 +674,8 @@ class SomfyProtexial:
 
                         else:
                             _LOGGER.debug(
-                                "Challenge not recognized for %s: %s",
+                                "Challenge not recognized for %s",
                                 api_type,
-                                challenge_text,
                             )
         raise SomfyException("Couldn't detect the centrale type")
 
@@ -696,14 +689,12 @@ class SomfyProtexial:
                 )
 
                 _LOGGER.debug("Guess response status: %s", response.status)
-                _LOGGER.debug("Guess response headers: %s", response.headers)
+                _LOGGER.debug("Guess response headers omitted (may contain cookies)")
                 _LOGGER.debug("Guess response URL: %s", response.real_url)
 
             if response.status == 200:
                 response_body = await response.text(self.api.get_encoding())
-                _LOGGER.debug(
-                    f"Guess response: {await response.text(self.api.get_encoding())}"
-                )
+                _LOGGER.debug("Guess response body omitted (may contain authentication data)")
                 return response_body
             elif response.status == 302:
                 raise SomfyException("Unavailable, please retry later")
@@ -745,11 +736,11 @@ class SomfyProtexial:
         # contains additional text such as "Code d'authentification E5".
         match = re.search(CHALLENGE_REGEX, raw_challenge)
 
-        _LOGGER.debug("Raw login challenge: %s", raw_challenge)
+        _LOGGER.debug("Login challenge received")
 
         if match:
             challenge = match.group(0)
-            _LOGGER.debug("Challenge detected: %s (raw='%s')", challenge, raw_challenge)
+            _LOGGER.debug("Challenge coordinate detected: %s", challenge)
             return challenge
         return raw_challenge
 
@@ -786,9 +777,24 @@ class SomfyProtexial:
         self.codes = codes
 
     async def __logout(self):
-        """Logout without taking the operation lock (internal use only)."""
+        """Send the logout request, then discard the local session cookie.
+
+        Clearing the local cookie does not prove the remote session was freed.
+        Keep HTTP failures visible so a failed logout can be diagnosed.
+        """
         try:
             await self.__do_call("get", Page.LOGOUT, retry=False, login=False)
+        except Exception:
+            _LOGGER.warning(
+                "Somfy HTTP logout request failed; remote session may remain open",
+                exc_info=True,
+            )
+            raise
+        else:
+            _LOGGER.debug(
+                "Somfy HTTP logout request completed (remote session release "
+                "not independently verified)"
+            )
         finally:
             self.cookie = None
 
@@ -906,18 +912,14 @@ class SomfyProtexial:
             authenticated=page_is_authenticated,
         )
         content = await status_response.text(self.api.get_encoding())
-        _LOGGER.debug("STATUS XML RECEIVED:\n%s", content)
+        _LOGGER.debug("Status XML received (%d characters)", len(content))
         response = ET.fromstring(content)
         _LOGGER.debug("XML PARSED OK")
         status = Status()
-        _LOGGER.debug("STATUS OBJECT CREATED: %s", status.__dict__)
+        _LOGGER.debug("Status object created")
         for child in response:
             filteredChildText = self.filter_ascii(child.text)
-            _LOGGER.debug(
-                "XML FIELD: %s=%s",
-                child.tag,
-                filteredChildText,
-            )
+            _LOGGER.debug("Status XML field parsed: %s", child.tag)
             match child.tag:
                 case "defaut0":
                     status.battery = filteredChildText
@@ -957,14 +959,8 @@ class SomfyProtexial:
             await self.__login()
             page_is_authenticated = self.api.is_page_authenticated(Page.STATUS)
             return await self.__get_status(page_is_authenticated, _retry_on_empty=False)
-        _LOGGER.debug(
-            "STATUS OBJECT: battery=%s zoneA=%s zoneB=%s gsm=%s",
-            status.battery,
-            status.zoneA,
-            status.zoneB,
-            status.gsm,
-        )
-        _LOGGER.debug("STATUS BEFORE RETURN: %s", status.__dict__)
+        _LOGGER.debug("Status XML fields parsed successfully")
+        _LOGGER.debug("Status parsing complete")
         return status
 
     def filter_ascii(self, value) -> str:
@@ -972,7 +968,7 @@ class SomfyProtexial:
         if value is None:
             return value
         filtered = "".join(filter(lambda x: x in _PRINTABLE_CHARS, value))
-        _LOGGER.debug("Filtered status: '%s'", filtered.lower())
+        # Do not log individual status values or raw response fields.
         return filtered.lower()
 
     async def get_challenge_card(self, username, password, code):
@@ -1048,7 +1044,7 @@ class SomfyProtexial:
     async def __close_cover(self):
         form = self.api.get_close_cover_payload()
         response = await self.__do_call("post", Page.PILOTAGE, data=form)
-        _LOGGER.debug(await response.text(self.api.get_encoding()))
+        _LOGGER.debug("Cover command response received")
 
     async def stop_cover(self):
         """Stop cover movement (wrapped with the session-retry safety net)."""
@@ -2020,7 +2016,7 @@ class SomfyProtexial:
                 "house": elt_maison[i] if i < len(elt_maison) else "",
                 "pause": item_pause[i] if i < len(item_pause) else "",
             }
-            _LOGGER.debug("EXIT get_elements(): %s", elements)
+            # Element names and identifiers are intentionally not logged.
             elements.append(el)
 
         # _LOGGER.debug("Extracted elements (count=%d): %s", len(elements), elements[:3])
